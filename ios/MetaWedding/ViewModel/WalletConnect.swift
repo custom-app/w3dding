@@ -20,7 +20,8 @@ class LocalWalletConnect {
     }
 
     func connect() -> String {
-        /* bridges:
+        /*
+         bridges:
          https://safe-walletconnect.gnosis.io/
          https://bridge.walletconnect.org
         */
@@ -31,11 +32,8 @@ class LocalWalletConnect {
                                             description: "MetaWedding App",
                                             icons: [],
                                             url: URL(string: "https://customapp.tech")!)
-        let dAppInfo = Session.DAppInfo(peerId: UUID().uuidString, peerMeta: clientMeta)
+        let dAppInfo = Session.DAppInfo(peerId: UUID().uuidString, peerMeta: clientMeta, chainId: 137)
         client = Client(delegate: self, dAppInfo: dAppInfo)
-
-        print("WalletConnect URL: \(wcUrl.absoluteString)")
-        print("WalletConnect URL2: \(wcUrl.fullyPercentEncodedStr)")
 
         try! client.connect(to: wcUrl)
         return wcUrl.fullyPercentEncodedStr

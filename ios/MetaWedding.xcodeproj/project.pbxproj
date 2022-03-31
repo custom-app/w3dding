@@ -28,6 +28,7 @@
 		115A658B27F22D93001CBCD2 /* WalletConnect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletConnect.swift; sourceTree = "<group>"; };
 		115A658D27F22E2E001CBCD2 /* WalletConnectSwift */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = WalletConnectSwift; path = ../../WalletConnectSwift; sourceTree = "<group>"; };
 		115A659727F253E8001CBCD2 /* GlobalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalViewModel.swift; sourceTree = "<group>"; };
+		115A659927F3CD1B001CBCD2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +64,7 @@
 		115A657627F218EE001CBCD2 /* MetaWedding */ = {
 			isa = PBXGroup;
 			children = (
+				115A659927F3CD1B001CBCD2 /* Info.plist */,
 				115A658A27F22D12001CBCD2 /* ViewModel */,
 				115A658927F22CFF001CBCD2 /* View */,
 				115A657727F218EE001CBCD2 /* MetaWeddingApp.swift */,
@@ -325,6 +327,7 @@
 				DEVELOPMENT_TEAM = Y4QJ3U33YW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MetaWedding/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -356,6 +359,7 @@
 				DEVELOPMENT_TEAM = Y4QJ3U33YW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MetaWedding/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

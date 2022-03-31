@@ -39,9 +39,8 @@ class GlobalViewModel: ObservableObject {
 //        tpoutside:
 //        https://www.mathwallet.org
 //        https://aw.app
+//        https://unstoppable.money
         let deepLinkUrl = "https://metamask.app.link/wc?uri=\(connectionUrl)"
-        print("full deep link: \(deepLinkUrl)")
-//        deepLinkUrl = "https://link.trustwallet.com/wc?uri=wc:2698CFD9-3EFF-4725-A223-A8C84DA5982E@1?bridge=https%3A%2F%2Fbridge.walletconnect.org%2F&key=291ea4e6e8e8e83a29b12f9d9e9b82fbf19f404290f85e4d6e69783217896958"
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             if let url = URL(string: deepLinkUrl), UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
@@ -87,6 +86,8 @@ class GlobalViewModel: ObservableObject {
     func disconnect() {
         guard let session = session, let walletConnect = walletConnect else { return }
         try? walletConnect.client?.disconnect(from: session)
+        self.session = nil
+        UserDefaults.standard.removeObject(forKey: "sessionKey")
     }
     
     private func handleReponse(_ response: Response, expecting: String) {
@@ -132,7 +133,8 @@ extension GlobalViewModel: WalletConnectDelegate {
     func didDisconnect() {
         print("did disconnect")
         onMainThread { [unowned self] in
-            
+            session = nil
+            isConnected = false
 //            UIAlertController.showDisconnected(from: self)
         }
     }
@@ -144,17 +146,18 @@ fileprivate enum Stub {
     static let TRUST_ADDRESS = "0x89e7d8Fe0140523EcfD1DDc4F511849429ecB1c2"
     static let METAMASK_ADDRESS = ""
     static let TP_ADDRESS = ""
-    static let SAFEPAL_ADDRESS = ""
+    static let SAFEPAL_ADDRESS = "0xeCd6120eDfC912736a9865689DeD058C00C15685"
     static let ALPHA_ADDRESS = "0x8D2aC318B8173ca3103Ed6099879215E7080c878"
+    static let UNSTOPPABLE_ADDRESS = "0x553234087D6F0BB859c712558183a3B88179c4bD"
     
     /// https://docs.walletconnect.org/json-rpc-api-methods/ethereum#example-parameters-1
     static func tx(from address: String) -> Client.Transaction {
         return Client.Transaction(from: address,
                                   to: TRUST_ADDRESS,
                                   data: "",
-                                  gas: nil,
-                                  gasPrice: nil,
-                                  value: "0x14DF48080E30000",
+                                  gas: nil, //"0x5208"
+                                  gasPrice: nil, //"0x826299E00"
+                                  value: "0x13FBE85EDC90000", //"0x13FBE85EDC90000"
                                   nonce: nil,
                                   type: nil,
                                   accessList: nil,
