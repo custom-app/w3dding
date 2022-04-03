@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		11481B4B27FA4DF900439106 /* web3swift in Frameworks */ = {isa = PBXBuildFile; productRef = 11481B4A27FA4DF900439106 /* web3swift */; };
+		11481B4D27FA4E9A00439106 /* Web3Worker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11481B4C27FA4E9A00439106 /* Web3Worker.swift */; };
 		115A657827F218EE001CBCD2 /* MetaWeddingApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115A657727F218EE001CBCD2 /* MetaWeddingApp.swift */; };
 		115A657A27F218EE001CBCD2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115A657927F218EE001CBCD2 /* ContentView.swift */; };
 		115A657C27F218F0001CBCD2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 115A657B27F218F0001CBCD2 /* Assets.xcassets */; };
@@ -22,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		11481B4C27FA4E9A00439106 /* Web3Worker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Web3Worker.swift; sourceTree = "<group>"; };
 		115A657427F218EE001CBCD2 /* MetaWedding.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MetaWedding.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		115A657727F218EE001CBCD2 /* MetaWeddingApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaWeddingApp.swift; sourceTree = "<group>"; };
 		115A657927F218EE001CBCD2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -45,6 +48,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				115A659027F23101001CBCD2 /* WalletConnectSwift in Frameworks */,
+				11481B4B27FA4DF900439106 /* web3swift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -116,6 +120,7 @@
 			children = (
 				115A658B27F22D93001CBCD2 /* WalletConnect.swift */,
 				115A659727F253E8001CBCD2 /* GlobalViewModel.swift */,
+				11481B4C27FA4E9A00439106 /* Web3Worker.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -154,6 +159,7 @@
 			name = MetaWedding;
 			packageProductDependencies = (
 				115A658F27F23101001CBCD2 /* WalletConnectSwift */,
+				11481B4A27FA4DF900439106 /* web3swift */,
 			);
 			productName = MetaWedding;
 			productReference = 115A657427F218EE001CBCD2 /* MetaWedding.app */;
@@ -183,6 +189,9 @@
 				Base,
 			);
 			mainGroup = 115A656B27F218EE001CBCD2;
+			packageReferences = (
+				11481B4927FA4DF900439106 /* XCRemoteSwiftPackageReference "web3swift" */,
+			);
 			productRefGroup = 115A657527F218EE001CBCD2 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -211,6 +220,7 @@
 			files = (
 				118A952227F935E000798141 /* WeddingScreen.swift in Sources */,
 				118A952427F935F600798141 /* MainContainer.swift in Sources */,
+				11481B4D27FA4E9A00439106 /* Web3Worker.swift in Sources */,
 				115A658827F22C3D001CBCD2 /* AuthScreen.swift in Sources */,
 				115A658C27F22D93001CBCD2 /* WalletConnect.swift in Sources */,
 				115A657A27F218EE001CBCD2 /* ContentView.swift in Sources */,
@@ -427,7 +437,23 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		11481B4927FA4DF900439106 /* XCRemoteSwiftPackageReference "web3swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/skywinder/web3swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
+		11481B4A27FA4DF900439106 /* web3swift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 11481B4927FA4DF900439106 /* XCRemoteSwiftPackageReference "web3swift" */;
+			productName = web3swift;
+		};
 		115A658F27F23101001CBCD2 /* WalletConnectSwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = WalletConnectSwift;

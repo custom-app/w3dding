@@ -18,4 +18,9 @@ struct Constants {
         static let Wc = "https://bridge.walletconnect.org"
     }
     
+    struct PolygonEndpoints {
+        static let Mainnet = "https://polygon-rpc.com"
+        static let Testnet = "https://rpc-mumbai.matic.today"
+    }
+    
 }

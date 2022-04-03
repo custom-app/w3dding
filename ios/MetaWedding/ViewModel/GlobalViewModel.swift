@@ -8,6 +8,7 @@
 import SwiftUI
 import Foundation
 import WalletConnectSwift
+import web3swift
 
 class GlobalViewModel: ObservableObject {
     
@@ -24,6 +25,9 @@ class GlobalViewModel: ObservableObject {
     var walletConnect: LocalWalletConnect?
     
     var pendingDeepLink: String?
+    
+    @Published
+    var web3 = Web3Worker(endpoint: Constants.PolygonEndpoints.Mainnet)
     
     @Published
     var selectedTab = 1
