@@ -27,9 +27,11 @@ struct AuthScreen: View {
                                 Text("Connected to \(session.walletInfo?.peerMeta.name ?? "???")")
                                     .padding(.bottom, 10)
                                 
-                                Text("Account: \n\(session.walletInfo?.accounts[0] ?? "???")")
+                                Text("Address:")
+                                    .font(.system(size: 15))
+                                Text("\(session.walletInfo?.accounts[0] ?? "???")")
                                     .multilineTextAlignment(.center)
-                                    .font(.system(size: 16))
+                                    .font(.system(size: 15))
                                     .padding(.bottom, 20)
 
                                 Button {
@@ -39,6 +41,12 @@ struct AuthScreen: View {
                                         .padding(16)
                                         .background(Color.white)
                                         .cornerRadius(8)
+                                }
+                                if globalViewModel.isWrongChain {
+                                    Text("Connected to wrong chain. Please disconnect and connect to Polygon")
+                                        .padding(.horizontal, 20)
+                                        .padding(.top, 30)
+                                        .multilineTextAlignment(.center)
                                 }
                             } else {
                                 Text("Connect to:")
@@ -57,6 +65,8 @@ struct AuthScreen: View {
                                         }
                                     }
                                 }
+                                Text("Make sure you are connecting to Polygon chain")
+                                    .padding(.bottom, 30)
                             }
                         }
                     }

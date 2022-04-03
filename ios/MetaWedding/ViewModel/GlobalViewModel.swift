@@ -28,6 +28,15 @@ class GlobalViewModel: ObservableObject {
     @Published
     var selectedTab = 1
     
+    var isWrongChain: Bool {
+        if let session = session,
+           let chainId = session.walletInfo?.chainId,
+           chainId != Constants.PolygonChainId {
+            return true
+        }
+        return false
+    }
+    
     func initWalletConnect() {
         print("init wallet connect: \(walletConnect == nil)")
         if walletConnect == nil {

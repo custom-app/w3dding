@@ -20,24 +20,30 @@ struct WeddingScreen: View {
                     .scaleEffect(1.2)
             } else {
                 if globalViewModel.session != nil {
-                    VStack(spacing: 30) {
-                        
-                        Button {
-                            globalViewModel.personalSign()
-                        } label: {
-                            Text("Personal Sign")
-                                .padding(16)
-                                .background(Color.white)
-                                .cornerRadius(8)
-                        }
-                        
-                        Button {
-                            globalViewModel.sendTx()
-                        } label: {
-                            Text("Send tx")
-                                .padding(16)
-                                .background(Color.white)
-                                .cornerRadius(8)
+                    if globalViewModel.isWrongChain {
+                        Text("Connected to wrong chain. Please disconnect and connect to Polygon")
+                            .padding(.horizontal, 20)
+                            .multilineTextAlignment(.center)
+                    } else {
+                        VStack(spacing: 30) {
+                            
+                            Button {
+                                globalViewModel.personalSign()
+                            } label: {
+                                Text("Personal Sign")
+                                    .padding(16)
+                                    .background(Color.white)
+                                    .cornerRadius(8)
+                            }
+                            
+                            Button {
+                                globalViewModel.sendTx()
+                            } label: {
+                                Text("Send tx")
+                                    .padding(16)
+                                    .background(Color.white)
+                                    .cornerRadius(8)
+                            }
                         }
                     }
                 } else {
