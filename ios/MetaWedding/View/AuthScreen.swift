@@ -32,7 +32,12 @@ struct AuthScreen: View {
                                 Text("\(session.walletInfo?.accounts[0] ?? "???")")
                                     .multilineTextAlignment(.center)
                                     .font(.system(size: 15))
-                                    .padding(.bottom, 20)
+                                
+                                if let balance = globalViewModel.balance {
+                                    Text("Balance: \(balance) MATIC")
+                                        .font(.system(size: 17))
+                                        .padding(.top, 20)
+                                }
 
                                 Button {
                                     globalViewModel.disconnect()
@@ -42,6 +47,7 @@ struct AuthScreen: View {
                                         .background(Color.white)
                                         .cornerRadius(8)
                                 }
+                                .padding(.top, 20)
                                 if globalViewModel.isWrongChain {
                                     Text("Connected to wrong chain. Please disconnect and connect to Polygon")
                                         .padding(.horizontal, 20)

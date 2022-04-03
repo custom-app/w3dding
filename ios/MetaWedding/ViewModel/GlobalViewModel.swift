@@ -30,6 +30,9 @@ class GlobalViewModel: ObservableObject {
     var web3 = Web3Worker(endpoint: Constants.PolygonEndpoints.Mainnet)
     
     @Published
+    var balance: Double? = nil
+    
+    @Published
     var selectedTab = 1
     
     var isWrongChain: Bool {
@@ -132,6 +135,18 @@ class GlobalViewModel: ObservableObject {
         }
     }
     
+    func requestBalance() {
+        if let address = walletAccount  {
+            web3.getBalance(address: address) { [weak self] balance, error in
+                if let error = error {
+                    //handle error
+                } else {
+                    self?.balance = balance
+                }
+            }
+        }
+    }
+    
 }
 
 extension GlobalViewModel: WalletConnectDelegate {
@@ -153,6 +168,7 @@ extension GlobalViewModel: WalletConnectDelegate {
                 isConnecting = false
                 isReconnecting = false
                 session = walletConnect?.session
+                requestBalance()
             }
         }
     }

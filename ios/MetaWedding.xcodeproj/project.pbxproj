@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		11481B4B27FA4DF900439106 /* web3swift in Frameworks */ = {isa = PBXBuildFile; productRef = 11481B4A27FA4DF900439106 /* web3swift */; };
 		11481B4D27FA4E9A00439106 /* Web3Worker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11481B4C27FA4E9A00439106 /* Web3Worker.swift */; };
+		11481B4F27FA5BA600439106 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11481B4E27FA5BA600439106 /* Errors.swift */; };
 		115A657827F218EE001CBCD2 /* MetaWeddingApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115A657727F218EE001CBCD2 /* MetaWeddingApp.swift */; };
 		115A657A27F218EE001CBCD2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115A657927F218EE001CBCD2 /* ContentView.swift */; };
 		115A657C27F218F0001CBCD2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 115A657B27F218F0001CBCD2 /* Assets.xcassets */; };
@@ -25,6 +26,7 @@
 
 /* Begin PBXFileReference section */
 		11481B4C27FA4E9A00439106 /* Web3Worker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Web3Worker.swift; sourceTree = "<group>"; };
+		11481B4E27FA5BA600439106 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		115A657427F218EE001CBCD2 /* MetaWedding.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MetaWedding.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		115A657727F218EE001CBCD2 /* MetaWeddingApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaWeddingApp.swift; sourceTree = "<group>"; };
 		115A657927F218EE001CBCD2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -137,6 +139,7 @@
 			children = (
 				118A951927F925AE00798141 /* Constants.swift */,
 				118A951B27F9281E00798141 /* Wallets.swift */,
+				11481B4E27FA5BA600439106 /* Errors.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -225,6 +228,7 @@
 				115A658C27F22D93001CBCD2 /* WalletConnect.swift in Sources */,
 				115A657A27F218EE001CBCD2 /* ContentView.swift in Sources */,
 				115A657827F218EE001CBCD2 /* MetaWeddingApp.swift in Sources */,
+				11481B4F27FA5BA600439106 /* Errors.swift in Sources */,
 				115A659827F253E8001CBCD2 /* GlobalViewModel.swift in Sources */,
 				118A951C27F9281E00798141 /* Wallets.swift in Sources */,
 				118A951A27F925AE00798141 /* Constants.swift in Sources */,
