@@ -33,10 +33,10 @@ class GlobalViewModel: ObservableObject {
         }
     }
     
-    func connect() {
+    func connect(wallet: Wallet) {
         guard let walletConnect = walletConnect else { return  }
         let connectionUrl = walletConnect.connect()
-        pendingDeepLink = Wallets.Metamask.formWcDeepLink(connectionUrl: connectionUrl)
+        pendingDeepLink = wallet.formWcDeepLink(connectionUrl: connectionUrl)
     }
     
     func triggerPendingDeepLink() {

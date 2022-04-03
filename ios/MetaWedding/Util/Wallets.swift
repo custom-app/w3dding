@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Wallet {
+struct Wallet: Hashable {
     let appStoreLink: String
     let deepLinkScheme: String
     let name: String
