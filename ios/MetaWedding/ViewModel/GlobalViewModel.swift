@@ -22,6 +22,9 @@ class GlobalViewModel: ObservableObject {
     
     var pendingDeepLink: String?
     
+    @Published
+    var selectedTab = 1
+    
     func initWalletConnect() {
         print("init wallet connect: \(walletConnect == nil)")
         if walletConnect == nil {
