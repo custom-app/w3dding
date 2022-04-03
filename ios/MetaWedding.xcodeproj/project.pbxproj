@@ -15,6 +15,8 @@
 		115A658C27F22D93001CBCD2 /* WalletConnect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115A658B27F22D93001CBCD2 /* WalletConnect.swift */; };
 		115A659027F23101001CBCD2 /* WalletConnectSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 115A658F27F23101001CBCD2 /* WalletConnectSwift */; };
 		115A659827F253E8001CBCD2 /* GlobalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115A659727F253E8001CBCD2 /* GlobalViewModel.swift */; };
+		118A951A27F925AE00798141 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118A951927F925AE00798141 /* Constants.swift */; };
+		118A951C27F9281E00798141 /* Wallets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118A951B27F9281E00798141 /* Wallets.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +31,8 @@
 		115A658D27F22E2E001CBCD2 /* WalletConnectSwift */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = WalletConnectSwift; path = ../../WalletConnectSwift; sourceTree = "<group>"; };
 		115A659727F253E8001CBCD2 /* GlobalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalViewModel.swift; sourceTree = "<group>"; };
 		115A659927F3CD1B001CBCD2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		118A951927F925AE00798141 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		118A951B27F9281E00798141 /* Wallets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wallets.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +68,7 @@
 		115A657627F218EE001CBCD2 /* MetaWedding */ = {
 			isa = PBXGroup;
 			children = (
+				118A951827F925A000798141 /* Util */,
 				115A659927F3CD1B001CBCD2 /* Info.plist */,
 				115A658A27F22D12001CBCD2 /* ViewModel */,
 				115A658927F22CFF001CBCD2 /* View */,
@@ -114,6 +119,15 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		118A951827F925A000798141 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				118A951927F925AE00798141 /* Constants.swift */,
+				118A951B27F9281E00798141 /* Wallets.swift */,
+			);
+			path = Util;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -194,6 +208,8 @@
 				115A657A27F218EE001CBCD2 /* ContentView.swift in Sources */,
 				115A657827F218EE001CBCD2 /* MetaWeddingApp.swift in Sources */,
 				115A659827F253E8001CBCD2 /* GlobalViewModel.swift in Sources */,
+				118A951C27F9281E00798141 /* Wallets.swift in Sources */,
+				118A951A27F925AE00798141 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

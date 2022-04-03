@@ -13,8 +13,6 @@ class LocalWalletConnect {
     var session: Session!
     var delegate: WalletConnectDelegate
     var globalViewModel: GlobalViewModel
-     
-    let sessionKey = "sessionKey"
  
     init(delegate: WalletConnectDelegate, globalViewModel: GlobalViewModel) {
         self.delegate = delegate
@@ -22,19 +20,16 @@ class LocalWalletConnect {
     }
 
     func connect() -> String {
-        /*
-         bridges:
-         https://safe-walletconnect.gnosis.io/
-         https://bridge.walletconnect.org
-        */
         let wcUrl =  WCURL(topic: UUID().uuidString,
-                           bridgeURL: URL(string: "https://safe-walletconnect.gnosis.io/")!,
+                           bridgeURL: URL(string: Constants.Bridges.Gnosis)!,
                            key: try! randomKey())
         let clientMeta = Session.ClientMeta(name: "MetaWedding",
                                             description: "MetaWedding App",
                                             icons: [],
                                             url: URL(string: "https://customapp.tech")!)
-        let dAppInfo = Session.DAppInfo(peerId: UUID().uuidString, peerMeta: clientMeta, chainId: 137)
+        let dAppInfo = Session.DAppInfo(peerId: UUID().uuidString,
+                                        peerMeta: clientMeta,
+                                        chainId: Constants.PolygonChainId)
         client = Client(delegate: self, dAppInfo: dAppInfo)
 
         try! client.connect(to: wcUrl)
@@ -42,7 +37,7 @@ class LocalWalletConnect {
     }
 
     func reconnectIfNeeded() {
-        if let oldSessionObject = UserDefaults.standard.object(forKey: sessionKey) as? Data,
+        if let oldSessionObject = UserDefaults.standard.object(forKey: Constants.sessionKey) as? Data,
             let session = try? JSONDecoder().decode(Session.self, from: oldSessionObject) {
             client = Client(delegate: self, dAppInfo: session.dAppInfo)
             try? client.reconnect(to: session)
@@ -87,12 +82,12 @@ extension LocalWalletConnect: ClientDelegate {
         print("did connect")
         self.session = session
         let sessionData = try! JSONEncoder().encode(session)
-        UserDefaults.standard.set(sessionData, forKey: sessionKey)
+        UserDefaults.standard.set(sessionData, forKey: Constants.sessionKey)
         delegate.didConnect()
     }
 
     func client(_ client: Client, didDisconnect session: Session) {
-        UserDefaults.standard.removeObject(forKey: sessionKey)
+        UserDefaults.standard.removeObject(forKey: Constants.sessionKey)
         delegate.didDisconnect()
     }
 

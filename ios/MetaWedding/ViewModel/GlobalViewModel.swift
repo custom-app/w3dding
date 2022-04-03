@@ -32,18 +32,8 @@ class GlobalViewModel: ObservableObject {
     
     func connect() {
         guard let walletConnect = walletConnect else { return  }
-         
         let connectionUrl = walletConnect.connect()
-        
-//        https://metamask.app.link
-//        https://link.safepal.io
-//        https://link.trustwallet.com
-//        tpoutside:
-//        https://www.mathwallet.org
-//        https://aw.app
-//        https://unstoppable.money
-        
-        pendingDeepLink = "https://metamask.app.link/wc?uri=\(connectionUrl)"
+        pendingDeepLink = Wallets.Metamask.formWcDeepLink(connectionUrl: connectionUrl)
     }
     
     func triggerPendingDeepLink() {
@@ -94,7 +84,7 @@ class GlobalViewModel: ObservableObject {
         guard let session = session, let walletConnect = walletConnect else { return }
         try? walletConnect.client?.disconnect(from: session)
         self.session = nil
-        UserDefaults.standard.removeObject(forKey: "sessionKey")
+        UserDefaults.standard.removeObject(forKey: Constants.sessionKey)
     }
     
     private func handleReponse(_ response: Response, expecting: String) {
