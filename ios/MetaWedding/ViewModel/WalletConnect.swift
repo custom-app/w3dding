@@ -12,11 +12,13 @@ class LocalWalletConnect {
     var client: Client!
     var session: Session!
     var delegate: WalletConnectDelegate
-
+    var globalViewModel: GlobalViewModel
+     
     let sessionKey = "sessionKey"
-
-    init(delegate: WalletConnectDelegate) {
+ 
+    init(delegate: WalletConnectDelegate, globalViewModel: GlobalViewModel) {
         self.delegate = delegate
+        self.globalViewModel = globalViewModel
     }
 
     func connect() -> String {
@@ -74,6 +76,11 @@ extension LocalWalletConnect: ClientDelegate {
 
     func client(_ client: Client, didConnect url: WCURL) {
         print("did connect")
+    }
+    
+    func client(_ client: Client, didSubscribe url: WCURL) {
+        print("did subscribe after new connection")
+        globalViewModel.triggerPendingDeepLink()
     }
 
     func client(_ client: Client, didConnect session: Session) {

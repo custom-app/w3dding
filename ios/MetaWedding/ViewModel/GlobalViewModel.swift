@@ -20,19 +20,21 @@ class GlobalViewModel: ObservableObject {
     @Published
     var walletConnect: LocalWalletConnect?
     
+    var pendingDeepLink: String?
+    
     func initWalletConnect() {
         print("init wallet connect: \(walletConnect == nil)")
         if walletConnect == nil {
-            walletConnect = LocalWalletConnect(delegate: self)
+            walletConnect = LocalWalletConnect(delegate: self, globalViewModel: self)
             walletConnect?.reconnectIfNeeded()
         }
     }
     
     func connect() {
         guard let walletConnect = walletConnect else { return  }
-
+         
         let connectionUrl = walletConnect.connect()
-
+        
 //        https://metamask.app.link
 //        https://link.safepal.io
 //        https://link.trustwallet.com
@@ -40,15 +42,20 @@ class GlobalViewModel: ObservableObject {
 //        https://www.mathwallet.org
 //        https://aw.app
 //        https://unstoppable.money
-        let deepLinkUrl = "https://metamask.app.link/wc?uri=\(connectionUrl)"
+        
+        pendingDeepLink = "https://metamask.app.link/wc?uri=\(connectionUrl)"
+    }
+    
+    func triggerPendingDeepLink() {
+        guard let deepLink = pendingDeepLink else { return }
+        pendingDeepLink = nil
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            if let url = URL(string: deepLinkUrl), UIApplication.shared.canOpenURL(url) {
+            if let url = URL(string: deepLink), UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             } else {
                 //TODO: deeplink into app in store
             }
         }
-        
     }
 
     func onMainThread(_ closure: @escaping () -> Void) {
