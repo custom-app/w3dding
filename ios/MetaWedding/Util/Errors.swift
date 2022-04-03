@@ -9,4 +9,5 @@ import Foundation
 
 enum InnerError: Error {
     case balanceParseError
+    case invalidAddress
 }

@@ -169,6 +169,9 @@ extension GlobalViewModel: WalletConnectDelegate {
                 isReconnecting = false
                 session = walletConnect?.session
                 requestBalance()
+                web3.getGasPrice { gasPrice, error in
+                    
+                }
             }
         }
     }
