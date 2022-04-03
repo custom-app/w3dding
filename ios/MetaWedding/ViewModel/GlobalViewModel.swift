@@ -15,7 +15,10 @@ class GlobalViewModel: ObservableObject {
     var session: Session?
     
     @Published
-    var isConnected: Bool = false
+    var isConnecting: Bool = false
+    
+    @Published
+    var isReconnecting: Bool = false
     
     @Published
     var walletConnect: LocalWalletConnect?
@@ -29,7 +32,12 @@ class GlobalViewModel: ObservableObject {
         print("init wallet connect: \(walletConnect == nil)")
         if walletConnect == nil {
             walletConnect = LocalWalletConnect(delegate: self, globalViewModel: self)
-            walletConnect?.reconnectIfNeeded()
+            if walletConnect!.haveOldSession() {
+                withAnimation {
+                    isConnecting = true
+                }
+                walletConnect!.reconnectIfNeeded()
+            }
         }
     }
     
@@ -117,7 +125,10 @@ extension GlobalViewModel: WalletConnectDelegate {
     func failedToConnect() {
         print("failed to connect")
         onMainThread { [unowned self] in
-            isConnected = false
+            withAnimation {
+                isConnecting = false
+                isReconnecting = false
+            }
 //            UIAlertController.showFailedToConnect(from: self)
         }
     }
@@ -125,17 +136,29 @@ extension GlobalViewModel: WalletConnectDelegate {
     func didConnect() {
         print("did connect")
         onMainThread { [unowned self] in
-            session = walletConnect?.session
-            isConnected = true
+            withAnimation {
+                isConnecting = false
+                isReconnecting = false
+                session = walletConnect?.session
+            }
         }
     }
 
-    func didDisconnect() {
-        print("did disconnect")
+    func didDisconnect(isReconnecting: Bool) {
+        print("did disconnect, is reconnecting: \(isReconnecting)")
+        if !isReconnecting {
+            onMainThread { [unowned self] in
+                withAnimation {
+                    isConnecting = false
+                    session = nil
+                }
+    //            UIAlertController.showDisconnected(from: self)
+            }
+        }
         onMainThread { [unowned self] in
-            session = nil
-            isConnected = false
-//            UIAlertController.showDisconnected(from: self)
+            withAnimation {
+                self.isReconnecting = isReconnecting
+            }
         }
     }
 }

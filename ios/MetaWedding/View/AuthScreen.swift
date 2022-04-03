@@ -15,38 +15,46 @@ struct AuthScreen: View {
     var body: some View {
         GeometryReader { geometry in
             ScrollView {
-                VStack {
-                    if let session = globalViewModel.session {
-
-                        Text("Connected to \(session.walletInfo?.peerMeta.name ?? "???")")
-                            .padding(.bottom, 10)
-                        
-                        Text("Account: \n\(session.walletInfo?.accounts[0] ?? "???")")
-                            .multilineTextAlignment(.center)
-                            .font(.system(size: 16))
-                            .padding(.bottom, 20)
-
-                        Button {
-                            globalViewModel.disconnect()
-                        } label: {
-                            Text("Disconnect")
-                                .padding(16)
-                                .background(Color.white)
-                                .cornerRadius(8)
-                        }
+                ZStack {
+                    if globalViewModel.isConnecting || globalViewModel.isReconnecting {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle())
+                            .scaleEffect(1.2)
                     } else {
-                        Text("Connect to:")
-                            .padding(.bottom, 10)
-                            .padding(.top, 20)
-                        List {
-                            ForEach(Wallets.All, id: \.self) { wallet in
+                        VStack {
+                            if let session = globalViewModel.session {
+
+                                Text("Connected to \(session.walletInfo?.peerMeta.name ?? "???")")
+                                    .padding(.bottom, 10)
+                                
+                                Text("Account: \n\(session.walletInfo?.accounts[0] ?? "???")")
+                                    .multilineTextAlignment(.center)
+                                    .font(.system(size: 16))
+                                    .padding(.bottom, 20)
+
                                 Button {
-                                    globalViewModel.connect(wallet: wallet)
+                                    globalViewModel.disconnect()
                                 } label: {
-                                    HStack {
-                                        Spacer()
-                                        Text(wallet.name)
-                                        Spacer()
+                                    Text("Disconnect")
+                                        .padding(16)
+                                        .background(Color.white)
+                                        .cornerRadius(8)
+                                }
+                            } else {
+                                Text("Connect to:")
+                                    .padding(.bottom, 10)
+                                    .padding(.top, 20)
+                                List {
+                                    ForEach(Wallets.All, id: \.self) { wallet in
+                                        Button {
+                                            globalViewModel.connect(wallet: wallet)
+                                        } label: {
+                                            HStack {
+                                                Spacer()
+                                                Text(wallet.name)
+                                                Spacer()
+                                            }
+                                        }
                                     }
                                 }
                             }

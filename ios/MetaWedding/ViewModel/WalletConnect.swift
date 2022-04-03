@@ -37,11 +37,19 @@ class LocalWalletConnect {
     }
 
     func reconnectIfNeeded() {
-        if let oldSessionObject = UserDefaults.standard.object(forKey: Constants.sessionKey) as? Data,
-            let session = try? JSONDecoder().decode(Session.self, from: oldSessionObject) {
+        if let sessionObject = UserDefaults.standard.object(forKey: Constants.sessionKey) as? Data,
+            let session = try? JSONDecoder().decode(Session.self, from: sessionObject) {
             client = Client(delegate: self, dAppInfo: session.dAppInfo)
             try? client.reconnect(to: session)
         }
+    }
+    
+    func haveOldSession() -> Bool {
+        if let sessionObject = UserDefaults.standard.object(forKey: Constants.sessionKey) as? Data,
+           let _ = try? JSONDecoder().decode(Session.self, from: sessionObject) {
+            return true
+        }
+        return false
     }
 
     private func randomKey() throws -> String {
@@ -61,7 +69,7 @@ class LocalWalletConnect {
 protocol WalletConnectDelegate {
     func failedToConnect()
     func didConnect()
-    func didDisconnect()
+    func didDisconnect(isReconnecting: Bool)
 }
 
 extension LocalWalletConnect: ClientDelegate {
@@ -86,9 +94,9 @@ extension LocalWalletConnect: ClientDelegate {
         delegate.didConnect()
     }
 
-    func client(_ client: Client, didDisconnect session: Session) {
+    func client(_ client: Client, didDisconnect session: Session, isReconnecting: Bool) {
         UserDefaults.standard.removeObject(forKey: Constants.sessionKey)
-        delegate.didDisconnect()
+        delegate.didDisconnect(isReconnecting: isReconnecting)
     }
 
     func client(_ client: Client, didUpdate session: Session) {

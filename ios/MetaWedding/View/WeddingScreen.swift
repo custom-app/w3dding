@@ -14,29 +14,35 @@ struct WeddingScreen: View {
     
     var body: some View {
         VStack {
-            if globalViewModel.session != nil {
-                VStack(spacing: 30) {
-                    
-                    Button {
-                        globalViewModel.personalSign()
-                    } label: {
-                        Text("Personal Sign")
-                            .padding(16)
-                            .background(Color.white)
-                            .cornerRadius(8)
-                    }
-                    
-                    Button {
-                        globalViewModel.sendTx()
-                    } label: {
-                        Text("Send tx")
-                            .padding(16)
-                            .background(Color.white)
-                            .cornerRadius(8)
-                    }
-                }
+            if globalViewModel.isConnecting || globalViewModel.isReconnecting {
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle())
+                    .scaleEffect(1.2)
             } else {
-                Text("Not connected")
+                if globalViewModel.session != nil {
+                    VStack(spacing: 30) {
+                        
+                        Button {
+                            globalViewModel.personalSign()
+                        } label: {
+                            Text("Personal Sign")
+                                .padding(16)
+                                .background(Color.white)
+                                .cornerRadius(8)
+                        }
+                        
+                        Button {
+                            globalViewModel.sendTx()
+                        } label: {
+                            Text("Send tx")
+                                .padding(16)
+                                .background(Color.white)
+                                .cornerRadius(8)
+                        }
+                    }
+                } else {
+                    Text("Not connected")
+                }
             }
         }
         .navigationTitle("")
