@@ -175,6 +175,32 @@ extension GlobalViewModel: WalletConnectDelegate {
             }
         }
     }
+    
+    func didUpdate(session: Session) {
+        var needToRequestBalance = false
+        if let curSession = self.session,
+           let curInfo = curSession.walletInfo,
+           let info = session.walletInfo,
+           let curAddress = curInfo.accounts.first,
+           let address = info.accounts.first,
+           curAddress != address || curInfo.chainId != info.chainId {
+            needToRequestBalance = true
+            do {
+                let sessionData = try JSONEncoder().encode(session)
+                UserDefaults.standard.set(sessionData, forKey: Constants.sessionKey)
+            } catch {
+                print("Error saving session in update: \(error)")
+            }
+        }
+        onMainThread { [unowned self] in
+            withAnimation {
+                self.session = session
+            }
+            if needToRequestBalance {
+                requestBalance()
+            }
+        }
+    }
 
     func didDisconnect(isReconnecting: Bool) {
         print("did disconnect, is reconnecting: \(isReconnecting)")

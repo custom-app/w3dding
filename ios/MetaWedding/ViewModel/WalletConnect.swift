@@ -69,6 +69,7 @@ class LocalWalletConnect {
 protocol WalletConnectDelegate {
     func failedToConnect()
     func didConnect()
+    func didUpdate(session: Session)
     func didDisconnect(isReconnecting: Bool)
 }
 
@@ -101,6 +102,7 @@ extension LocalWalletConnect: ClientDelegate {
 
     func client(_ client: Client, didUpdate session: Session) {
         print("did update")
+        delegate.didUpdate(session: session)
     }
 }
 
