@@ -44,6 +44,12 @@ struct WeddingScreen: View {
                                     .background(Color.white)
                                     .cornerRadius(8)
                             }
+                            
+                            if globalViewModel.sendTxPending {
+                                Text("Please check wallet app for verification. If there is no verification popup try to send transaction again")
+                                    .padding(.horizontal, 20)
+                                    .multilineTextAlignment(.center)
+                            }
                         }
                     }
                 } else {

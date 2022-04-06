@@ -43,6 +43,9 @@ class GlobalViewModel: ObservableObject {
     @Published
     var selectedTab = 1
     
+    @Published
+    var sendTxPending = false
+    
     var isWrongChain: Bool {
         if let session = session,
            let chainId = session.walletInfo?.chainId,
@@ -122,6 +125,9 @@ class GlobalViewModel: ObservableObject {
                                                    transaction: tx) { [weak self] response in
                         self?.handleReponse(response, expecting: "Send tx response")
                     }
+                    self.onMainThread {
+                        self.sendTxPending = true
+                    }
                 } catch {
                     print("error sending tx: \(error)")
                 }
@@ -132,6 +138,11 @@ class GlobalViewModel: ObservableObject {
                 try client.eth_sendTransaction(url: session.url,
                                                transaction: tx) { [weak self] response in
                     self?.handleReponse(response, expecting: "Send tx response")
+                }
+                onMainThread {
+                    withAnimation {
+                        self.sendTxPending = false
+                    }
                 }
             } catch {
                 print("error sending tx: \(error)")
@@ -147,7 +158,14 @@ class GlobalViewModel: ObservableObject {
     }
     
     private func handleReponse(_ response: Response, expecting: String) {
-        print("hadling response")
+        print("hadling response:\(expecting)")
+        if expecting == "Send tx response" { //TODO: Change to const
+            onMainThread {
+                withAnimation {
+                    self.sendTxPending = false
+                }
+            }
+        }
         DispatchQueue.main.async {
             if let error = response.error {
                 print("got error: \(error)")
@@ -267,7 +285,7 @@ fileprivate enum Stub {
                                   data: "",
                                   gas: gas, //"0x5208"
                                   gasPrice: gasPrice, //"0x826299E00"
-                                  value: "0x2C68AF0BB140000", //"0x13FBE85EDC90000"
+                                  value: "0x13FBE85EDC90000", //"0x13FBE85EDC90000"
                                   nonce: nil,
                                   type: nil,
                                   accessList: nil,
