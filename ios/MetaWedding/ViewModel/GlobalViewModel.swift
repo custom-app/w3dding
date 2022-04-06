@@ -9,11 +9,19 @@ import SwiftUI
 import Foundation
 import WalletConnectSwift
 import web3swift
+import BigInt
 
 class GlobalViewModel: ObservableObject {
     
+    let gasSafeAddition: BigUInt = 3000000000
+    
+    let defaultGasAmount = "0x5208"
+    
     @Published
     var session: Session?
+    
+    @Published
+    var currentWallet: Wallet?
     
     @Published
     var isConnecting: Bool = false
@@ -61,6 +69,7 @@ class GlobalViewModel: ObservableObject {
         guard let walletConnect = walletConnect else { return  }
         let connectionUrl = walletConnect.connect()
         pendingDeepLink = wallet.formWcDeepLink(connectionUrl: connectionUrl)
+        currentWallet = wallet
     }
     
     func triggerPendingDeepLink() {
@@ -99,11 +108,34 @@ class GlobalViewModel: ObservableObject {
     
     func sendTx() {
         guard let session = session,
-                let client = walletConnect?.client,
-                let account = self.walletAccount else { return }
-        let transaction = Stub.tx(from: account)
-        try? client.eth_sendTransaction(url: session.url, transaction: transaction) { [weak self] response in
-            self?.handleReponse(response, expecting: "Send tx response")
+              let client = walletConnect?.client,
+              let account = walletAccount else { return }
+        
+        if let wallet = currentWallet, wallet.gasPriceRequired {
+            web3.getGasPrice { gasPrice, error in
+                let safeGasPrice = gasPrice + self.gasSafeAddition
+                let tx = Stub.tx(from: account,
+                                 gas: self.defaultGasAmount,
+                                 gasPrice: safeGasPrice.toHexString())
+                do {
+                    try client.eth_sendTransaction(url: session.url,
+                                                   transaction: tx) { [weak self] response in
+                        self?.handleReponse(response, expecting: "Send tx response")
+                    }
+                } catch {
+                    print("error sending tx: \(error)")
+                }
+            }
+        } else {
+            let tx = Stub.tx(from: account)
+            do {
+                try client.eth_sendTransaction(url: session.url,
+                                               transaction: tx) { [weak self] response in
+                    self?.handleReponse(response, expecting: "Send tx response")
+                }
+            } catch {
+                print("error sending tx: \(error)")
+            }
         }
     }
     
@@ -169,9 +201,6 @@ extension GlobalViewModel: WalletConnectDelegate {
                 isReconnecting = false
                 session = walletConnect?.session
                 requestBalance()
-                web3.getGasPrice { gasPrice, error in
-                    
-                }
             }
         }
     }
@@ -232,13 +261,13 @@ fileprivate enum Stub {
     static let UNSTOPPABLE_ADDRESS = "0x553234087D6F0BB859c712558183a3B88179c4bD"
     
     /// https://docs.walletconnect.org/json-rpc-api-methods/ethereum#example-parameters-1
-    static func tx(from address: String) -> Client.Transaction {
+    static func tx(from address: String, gas: String? = nil, gasPrice: String? = nil) -> Client.Transaction {
         return Client.Transaction(from: address,
                                   to: TRUST_ADDRESS,
                                   data: "",
-                                  gas: nil, //"0x5208"
-                                  gasPrice: nil, //"0x826299E00"
-                                  value: "0x13FBE85EDC90000", //"0x13FBE85EDC90000"
+                                  gas: gas, //"0x5208"
+                                  gasPrice: gasPrice, //"0x826299E00"
+                                  value: "0x2C68AF0BB140000", //"0x13FBE85EDC90000"
                                   nonce: nil,
                                   type: nil,
                                   accessList: nil,

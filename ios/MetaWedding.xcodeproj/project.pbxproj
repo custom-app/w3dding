@@ -22,6 +22,7 @@
 		118A951C27F9281E00798141 /* Wallets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118A951B27F9281E00798141 /* Wallets.swift */; };
 		118A952227F935E000798141 /* WeddingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118A952127F935E000798141 /* WeddingScreen.swift */; };
 		118A952427F935F600798141 /* MainContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118A952327F935F600798141 /* MainContainer.swift */; };
+		11AA278027FE372500BC8BCA /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AA277F27FE372500BC8BCA /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		118A951B27F9281E00798141 /* Wallets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wallets.swift; sourceTree = "<group>"; };
 		118A952127F935E000798141 /* WeddingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeddingScreen.swift; sourceTree = "<group>"; };
 		118A952327F935F600798141 /* MainContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContainer.swift; sourceTree = "<group>"; };
+		11AA277F27FE372500BC8BCA /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +142,7 @@
 				118A951927F925AE00798141 /* Constants.swift */,
 				118A951B27F9281E00798141 /* Wallets.swift */,
 				11481B4E27FA5BA600439106 /* Errors.swift */,
+				11AA277F27FE372500BC8BCA /* Extensions.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -228,6 +231,7 @@
 				115A658C27F22D93001CBCD2 /* WalletConnect.swift in Sources */,
 				115A657A27F218EE001CBCD2 /* ContentView.swift in Sources */,
 				115A657827F218EE001CBCD2 /* MetaWeddingApp.swift in Sources */,
+				11AA278027FE372500BC8BCA /* Extensions.swift in Sources */,
 				11481B4F27FA5BA600439106 /* Errors.swift in Sources */,
 				115A659827F253E8001CBCD2 /* GlobalViewModel.swift in Sources */,
 				118A951C27F9281E00798141 /* Wallets.swift in Sources */,
