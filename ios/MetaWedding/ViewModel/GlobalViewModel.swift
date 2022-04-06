@@ -10,6 +10,7 @@ import Foundation
 import WalletConnectSwift
 import web3swift
 import BigInt
+import UIKit
 
 class GlobalViewModel: ObservableObject {
     
@@ -45,6 +46,8 @@ class GlobalViewModel: ObservableObject {
     
     @Published
     var sendTxPending = false
+    
+    var backgroundTaskID: UIBackgroundTaskIdentifier?
     
     var isWrongChain: Bool {
         if let session = session,
@@ -84,6 +87,9 @@ class GlobalViewModel: ObservableObject {
             } else {
                 //TODO: deeplink into app in store
             }
+        }
+        self.backgroundTaskID = UIApplication.shared.beginBackgroundTask (withName: "Finish Network Tasks") { [weak self] in
+            self?.finishBackgroundTask()
         }
     }
 
@@ -126,7 +132,9 @@ class GlobalViewModel: ObservableObject {
                         self?.handleReponse(response, expecting: "Send tx response")
                     }
                     self.onMainThread {
-                        self.sendTxPending = true
+                        withAnimation {
+                            self.sendTxPending = true
+                        }
                     }
                 } catch {
                     print("error sending tx: \(error)")
@@ -141,7 +149,7 @@ class GlobalViewModel: ObservableObject {
                 }
                 onMainThread {
                     withAnimation {
-                        self.sendTxPending = false
+                        self.sendTxPending = true
                     }
                 }
             } catch {
@@ -197,11 +205,19 @@ class GlobalViewModel: ObservableObject {
         }
     }
     
+    func finishBackgroundTask() {
+        if let taskId = self.backgroundTaskID {
+            UIApplication.shared.endBackgroundTask(taskId)
+            self.backgroundTaskID = nil
+        }
+    }
+    
 }
 
 extension GlobalViewModel: WalletConnectDelegate {
     func failedToConnect() {
         print("failed to connect")
+        finishBackgroundTask()
         onMainThread { [unowned self] in
             withAnimation {
                 isConnecting = false
@@ -213,6 +229,7 @@ extension GlobalViewModel: WalletConnectDelegate {
 
     func didConnect() {
         print("did connect")
+        finishBackgroundTask()
         onMainThread { [unowned self] in
             withAnimation {
                 isConnecting = false
@@ -252,6 +269,7 @@ extension GlobalViewModel: WalletConnectDelegate {
     func didDisconnect(isReconnecting: Bool) {
         print("did disconnect, is reconnecting: \(isReconnecting)")
         if !isReconnecting {
+            finishBackgroundTask()
             onMainThread { [unowned self] in
                 withAnimation {
                     isConnecting = false
@@ -285,7 +303,7 @@ fileprivate enum Stub {
                                   data: "",
                                   gas: gas, //"0x5208"
                                   gasPrice: gasPrice, //"0x826299E00"
-                                  value: "0x13FBE85EDC90000", //"0x13FBE85EDC90000"
+                                  value: "0x2C68AF0BB140000", //"0x13FBE85EDC90000"
                                   nonce: nil,
                                   type: nil,
                                   accessList: nil,

@@ -8,5 +8,7 @@
 		<string>pillarwallet</string>
 		<string>exodus</string>
 	</array>
+	<key>UIBackgroundModes</key>
+	<array/>
 </dict>
 </plist>
