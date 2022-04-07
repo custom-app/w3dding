@@ -24,9 +24,70 @@ struct WeddingScreen: View {
                         Text("Connected to wrong chain. Please disconnect and connect to Polygon")
                             .padding(.horizontal, 20)
                             .multilineTextAlignment(.center)
-                    } else {
+                    } else if let address = globalViewModel.walletAccount {
+                        Text("Your address")
+                            .font(.system(size: 15))
+                            .padding(.horizontal, 20)
+                            .multilineTextAlignment(.center)
+                        
+                        TextField("Your address", text: .constant(address))
+                            .foregroundColor(.white)
+                            .font(.system(size: 15))
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 6)
+                            .background(Color.gray.opacity(0.2))
+                            .cornerRadius(6)
+                            .disabled(true)
+                            .padding(.horizontal, 20)
+                        
+                        Text("Partner address")
+                            .font(.system(size: 15))
+                            .padding(.horizontal, 20)
+                            .multilineTextAlignment(.center)
+                        
+                        TextField("Partner address", text: $globalViewModel.partnerAddress)
+                            .foregroundColor(.white)
+                            .font(.system(size: 16))
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 6)
+                            .background(Color.gray.opacity(0.3))
+                            .cornerRadius(6)
+                            .disabled(false)
+                            .padding(.horizontal, 20)
+                        
+                        Text("Your name")
+                            .font(.system(size: 15))
+                            .padding(.horizontal, 20)
+                            .multilineTextAlignment(.center)
+                        
+                        TextField("Your name", text: $globalViewModel.name)
+                            .foregroundColor(.white)
+                            .font(.system(size: 16))
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 6)
+                            .background(Color.gray.opacity(0.3))
+                            .cornerRadius(6)
+                            .disabled(false)
+                            .padding(.horizontal, 20)
+                        
+                        Text("Partner name")
+                            .font(.system(size: 15))
+                            .padding(.horizontal, 20)
+                            .multilineTextAlignment(.center)
+                        
+                        TextField("Partner name", text: $globalViewModel.partnerName)
+                            .foregroundColor(.white)
+                            .font(.system(size: 16))
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 6)
+                            .background(Color.gray.opacity(0.3))
+                            .cornerRadius(6)
+                            .disabled(false)
+                            .padding(.horizontal, 20)
+                        
+                        
+                        
                         VStack(spacing: 30) {
-                            
                             Button {
                                 globalViewModel.personalSign()
                             } label: {
@@ -51,6 +112,7 @@ struct WeddingScreen: View {
                                     .multilineTextAlignment(.center)
                             }
                         }
+                        .padding(.top, 20)
                     }
                 } else {
                     Text("Not connected")

@@ -52,6 +52,15 @@ class GlobalViewModel: ObservableObject {
     @Published
     var alert: IdentifiableAlert?
     
+    @Published
+    var partnerAddress: String = ""
+    
+    @Published
+    var name: String = ""
+    
+    @Published
+    var partnerName: String = ""
+    
     var isWrongChain: Bool {
         if let session = session,
            let chainId = session.walletInfo?.chainId,
