@@ -9,6 +9,8 @@
 		<string>exodus</string>
 	</array>
 	<key>UIBackgroundModes</key>
-	<array/>
+	<array>
+		<string>fetch</string>
+	</array>
 </dict>
 </plist>

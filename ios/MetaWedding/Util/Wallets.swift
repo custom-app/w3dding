@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct Wallet: Hashable {
     let appStoreLink: String
@@ -78,4 +79,15 @@ struct Wallets {
     )
     
     static let All = [TrustWallet, Metamask, Safepal, TokenPocket, UnstoppableWallet, AlphaWallet, MathWallet]
+    
+    static func available() -> [Wallet] {
+        var res: [Wallet] = []
+        for wallet in All {
+            let deepLink = wallet.formWcDeepLink(connectionUrl: "")
+            if let url = URL(string: deepLink), UIApplication.shared.canOpenURL(url) {
+                res.append(wallet)
+            }
+        }
+        return res
+    }
 }

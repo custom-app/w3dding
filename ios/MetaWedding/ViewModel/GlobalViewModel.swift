@@ -81,14 +81,14 @@ class GlobalViewModel: ObservableObject {
     func triggerPendingDeepLink() {
         guard let deepLink = pendingDeepLink else { return }
         pendingDeepLink = nil
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             if let url = URL(string: deepLink), UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             } else {
                 //TODO: deeplink into app in store
             }
         }
-        self.backgroundTaskID = UIApplication.shared.beginBackgroundTask (withName: "Finish Network Tasks") { [weak self] in
+        self.backgroundTaskID = UIApplication.shared.beginBackgroundTask (withName: "Connect to wallet connect") { [weak self] in
             self?.finishBackgroundTask()
         }
     }
