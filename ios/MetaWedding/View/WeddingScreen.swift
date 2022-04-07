@@ -46,7 +46,7 @@ struct WeddingScreen: View {
                             }
                             
                             if globalViewModel.sendTxPending {
-                                Text("Please check wallet app for verification. If there is no verification popup try to send transaction again")
+                                Text("Please check wallet app for verification. If there is no verification popup try to click button again")
                                     .padding(.horizontal, 20)
                                     .multilineTextAlignment(.center)
                             }

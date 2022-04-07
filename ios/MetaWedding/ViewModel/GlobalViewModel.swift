@@ -14,9 +14,9 @@ import UIKit
 
 class GlobalViewModel: ObservableObject {
     
-    let gasSafeAddition: BigUInt = 3000000000
-    
-    let defaultGasAmount = "0x5208"
+    private let gasSafeAddition: BigUInt = 3000000000
+    private let defaultGasAmount = "0x5208"
+    private let sendTxRequestId = "send_tx"
     
     @Published
     var session: Session?
@@ -48,6 +48,9 @@ class GlobalViewModel: ObservableObject {
     var sendTxPending = false
     
     var backgroundTaskID: UIBackgroundTaskIdentifier?
+    
+    @Published
+    var alert: IdentifiableAlert?
     
     var isWrongChain: Bool {
         if let session = session,
@@ -109,7 +112,7 @@ class GlobalViewModel: ObservableObject {
     
     func personalSign() {
         guard let session = session, let client = walletConnect?.client else { return }
-        try? client.personal_sign(url: session.url, message: "Hi there!", account: session.walletInfo!.accounts[0]) {
+        try? client.personal_sign(url: session.url, message: "Hi there!", account: walletAccount!) {
             [weak self] response in
             self?.handleReponse(response, expecting: "Signature")
         }
@@ -122,22 +125,32 @@ class GlobalViewModel: ObservableObject {
         
         if let wallet = currentWallet, wallet.gasPriceRequired {
             web3.getGasPrice { gasPrice, error in
-                let safeGasPrice = gasPrice + self.gasSafeAddition
-                let tx = Stub.tx(from: account,
-                                 gas: self.defaultGasAmount,
-                                 gasPrice: safeGasPrice.toHexString())
-                do {
-                    try client.eth_sendTransaction(url: session.url,
-                                                   transaction: tx) { [weak self] response in
-                        self?.handleReponse(response, expecting: "Send tx response")
-                    }
+                if let error = error {
+                    print("error getting gas price: \(error)")
                     self.onMainThread {
-                        withAnimation {
-                            self.sendTxPending = true
+                        self.alert = IdentifiableAlert.forError(error: Errors.getGasPrice)
+                    }
+                } else {
+                    let safeGasPrice = gasPrice + self.gasSafeAddition
+                    let tx = Stub.tx(from: account,
+                                     gas: self.defaultGasAmount,
+                                     gasPrice: safeGasPrice.toHexString())
+                    do {
+                        try client.eth_sendTransaction(url: session.url,
+                                                       transaction: tx) { [weak self] response in
+                            self?.handleReponse(response, expecting: self?.sendTxRequestId ?? "")
+                        }
+                        self.onMainThread {
+                            withAnimation {
+                                self.sendTxPending = true
+                            }
+                        }
+                    } catch {
+                        print("error sending tx: \(error)")
+                        self.onMainThread {
+                            self.alert = IdentifiableAlert.forError(error: error.localizedDescription)
                         }
                     }
-                } catch {
-                    print("error sending tx: \(error)")
                 }
             }
         } else {
@@ -145,7 +158,7 @@ class GlobalViewModel: ObservableObject {
             do {
                 try client.eth_sendTransaction(url: session.url,
                                                transaction: tx) { [weak self] response in
-                    self?.handleReponse(response, expecting: "Send tx response")
+                    self?.handleReponse(response, expecting: self?.sendTxRequestId ?? "")
                 }
                 onMainThread {
                     withAnimation {
@@ -154,6 +167,9 @@ class GlobalViewModel: ObservableObject {
                 }
             } catch {
                 print("error sending tx: \(error)")
+                self.onMainThread {
+                    self.alert = IdentifiableAlert.forError(error: error.localizedDescription)
+                }
             }
         }
     }
@@ -167,28 +183,25 @@ class GlobalViewModel: ObservableObject {
     
     private func handleReponse(_ response: Response, expecting: String) {
         print("hadling response:\(expecting)")
-        if expecting == "Send tx response" { //TODO: Change to const
+        if expecting == self.sendTxRequestId {
             onMainThread {
                 withAnimation {
                     self.sendTxPending = false
                 }
             }
         }
-        DispatchQueue.main.async {
+        self.onMainThread {
             if let error = response.error {
-                print("got error: \(error)")
-//                self.show(UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert))
+                print("got error on response: \(error)")
+                self.alert = IdentifiableAlert.forError(error: error.localizedDescription)
                 return
             }
             do {
                 let result = try response.result(as: String.self)
-                print("got response result")
-//                self.show(UIAlertController(title: expecting, message: result, preferredStyle: .alert))
+                print("got response result: \(result)")
             } catch {
                 print("Unexpected response type error: \(error)")
-//                self.show(UIAlertController(title: "Error",
-//                                       message: "Unexpected response type error: \(error)",
-//                                       preferredStyle: .alert))
+                self.alert = IdentifiableAlert.forError(error: Errors.unknownError)
             }
         }
     }
@@ -197,7 +210,7 @@ class GlobalViewModel: ObservableObject {
         if let address = walletAccount  {
             web3.getBalance(address: address) { [weak self] balance, error in
                 if let error = error {
-                    //handle error
+                    // handle error?
                 } else {
                     self?.balance = balance
                 }
@@ -223,7 +236,9 @@ extension GlobalViewModel: WalletConnectDelegate {
                 isConnecting = false
                 isReconnecting = false
             }
-//            UIAlertController.showFailedToConnect(from: self)
+            self.onMainThread {
+                self.alert = IdentifiableAlert.forError(error: Errors.failedToConnect)
+            }
         }
     }
 
@@ -278,7 +293,6 @@ extension GlobalViewModel: WalletConnectDelegate {
                     isConnecting = false
                     session = nil
                 }
-    //            UIAlertController.showDisconnected(from: self)
             }
         }
         onMainThread { [unowned self] in

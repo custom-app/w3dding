@@ -40,6 +40,9 @@ struct MainContainer: View {
 //                .accentColor(Color.white)
             }
         }
+        .alert(item: $globalViewModel.alert) { alert in
+            alert.alert()
+        }
     }
 }
 

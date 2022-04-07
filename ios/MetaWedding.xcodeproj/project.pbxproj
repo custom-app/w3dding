@@ -23,6 +23,7 @@
 		118A952227F935E000798141 /* WeddingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118A952127F935E000798141 /* WeddingScreen.swift */; };
 		118A952427F935F600798141 /* MainContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118A952327F935F600798141 /* MainContainer.swift */; };
 		11AA278027FE372500BC8BCA /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AA277F27FE372500BC8BCA /* Extensions.swift */; };
+		11C356CD27FF82D1007A0E69 /* IdentifiableAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C356CC27FF82D1007A0E69 /* IdentifiableAlert.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,12 +39,13 @@
 		115A658B27F22D93001CBCD2 /* WalletConnect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletConnect.swift; sourceTree = "<group>"; };
 		115A658D27F22E2E001CBCD2 /* WalletConnectSwift */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = WalletConnectSwift; path = ../../WalletConnectSwift; sourceTree = "<group>"; };
 		115A659727F253E8001CBCD2 /* GlobalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalViewModel.swift; sourceTree = "<group>"; };
-		115A659927F3CD1B001CBCD2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		115A659927F3CD1B001CBCD2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		118A951927F925AE00798141 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		118A951B27F9281E00798141 /* Wallets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wallets.swift; sourceTree = "<group>"; };
 		118A952127F935E000798141 /* WeddingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeddingScreen.swift; sourceTree = "<group>"; };
 		118A952327F935F600798141 /* MainContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContainer.swift; sourceTree = "<group>"; };
 		11AA277F27FE372500BC8BCA /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		11C356CC27FF82D1007A0E69 /* IdentifiableAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifiableAlert.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,8 +82,9 @@
 		115A657627F218EE001CBCD2 /* MetaWedding */ = {
 			isa = PBXGroup;
 			children = (
-				118A951827F925A000798141 /* Util */,
 				115A659927F3CD1B001CBCD2 /* Info.plist */,
+				118A951827F925A000798141 /* Util */,
+				11C356CE27FF84E8007A0E69 /* Model */,
 				115A658A27F22D12001CBCD2 /* ViewModel */,
 				115A658927F22CFF001CBCD2 /* View */,
 				115A657727F218EE001CBCD2 /* MetaWeddingApp.swift */,
@@ -112,6 +115,7 @@
 		115A658927F22CFF001CBCD2 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				11C356CB27FF82BB007A0E69 /* Components */,
 				115A658727F22C3D001CBCD2 /* AuthScreen.swift */,
 				118A952127F935E000798141 /* WeddingScreen.swift */,
 				118A952327F935F600798141 /* MainContainer.swift */,
@@ -140,11 +144,26 @@
 			isa = PBXGroup;
 			children = (
 				118A951927F925AE00798141 /* Constants.swift */,
-				118A951B27F9281E00798141 /* Wallets.swift */,
 				11481B4E27FA5BA600439106 /* Errors.swift */,
 				11AA277F27FE372500BC8BCA /* Extensions.swift */,
 			);
 			path = Util;
+			sourceTree = "<group>";
+		};
+		11C356CB27FF82BB007A0E69 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				11C356CC27FF82D1007A0E69 /* IdentifiableAlert.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		11C356CE27FF84E8007A0E69 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				118A951B27F9281E00798141 /* Wallets.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -225,6 +244,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				118A952227F935E000798141 /* WeddingScreen.swift in Sources */,
+				11C356CD27FF82D1007A0E69 /* IdentifiableAlert.swift in Sources */,
 				118A952427F935F600798141 /* MainContainer.swift in Sources */,
 				11481B4D27FA4E9A00439106 /* Web3Worker.swift in Sources */,
 				115A658827F22C3D001CBCD2 /* AuthScreen.swift in Sources */,
