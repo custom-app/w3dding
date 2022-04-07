@@ -235,6 +235,9 @@ extension GlobalViewModel: WalletConnectDelegate {
                 isConnecting = false
                 isReconnecting = false
                 session = walletConnect?.session
+                if currentWallet == nil {
+                    currentWallet = Wallets.bySession(session: session)
+                }
                 requestBalance()
             }
         }

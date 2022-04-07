@@ -7,11 +7,13 @@
 
 import Foundation
 import UIKit
+import WalletConnectSwift
 
 struct Wallet: Hashable {
+    let name: String
+    let mainUrl: String
     let appStoreLink: String
     let deepLinkScheme: String
-    let name: String
     let gasPriceRequired: Bool
     
     var isUniversal: Bool {
@@ -28,53 +30,60 @@ struct Wallet: Hashable {
 }
 
 struct Wallets {
-    
+
     static let TrustWallet = Wallet(
+        name: "Trust Wallet",
+        mainUrl: "https://trustwallet.com",
         appStoreLink: "https://apps.apple.com/app/apple-store/id1288339409",
         deepLinkScheme: "https://link.trustwallet.com",
-        name: "Trust Wallet",
         gasPriceRequired: false
     )
-    
+
     static let Metamask = Wallet(
+        name: "MetaMask",
+        mainUrl: "https://metamask.io",
         appStoreLink: "https://apps.apple.com/app/metamask/id1438144202",
         deepLinkScheme: "https://metamask.app.link",
-        name: "Metamask",
         gasPriceRequired: false
     )
-    
+
     static let Safepal = Wallet(
+        name: "SafePal Wallet",
+        mainUrl: "https://safepal.io",
         appStoreLink: "https://apps.apple.com/app/safepal-wallet/id1548297139",
         deepLinkScheme: "https://link.safepal.io",
-        name: "Safepal",
         gasPriceRequired: true
     )
-    
+
     static let TokenPocket = Wallet(
+        name: "TokenPocket",
+        mainUrl: "https://www.tokenpocket.pro",
         appStoreLink: "https://apps.apple.com/app/tokenpocket-trusted-wallet/id1436028697",
         deepLinkScheme: "tpoutside",
-        name: "Token Pocket",
         gasPriceRequired: false
     )
-    
+
     static let UnstoppableWallet = Wallet(
+        name: "Unstoppable Wallet",
+        mainUrl: "https://unstoppable.money",
         appStoreLink: "https://apps.apple.com/app/bank-bitcoin-wallet/id1447619907",
         deepLinkScheme: "https://unstoppable.money",
-        name: "Unstoppable Wallet",
         gasPriceRequired: false
     )
-    
+
     static let AlphaWallet = Wallet(
+        name: "AlphaWallet",
+        mainUrl: "https://alphawallet.com/",
         appStoreLink: "https://apps.apple.com/app/alphawallet-eth-wallet/id1358230430",
         deepLinkScheme: "https://aw.app",
-        name: "Alpha Wallet",
         gasPriceRequired: false
     )
-    
+
     static let MathWallet = Wallet(
+        name: "MathWallet",
+        mainUrl: "https://www.mathwallet.org",
         appStoreLink: "https://apps.apple.com/app/mathwallet5/id1582612388",
         deepLinkScheme: "https://www.mathwallet.org",
-        name: "Math Wallet",
         gasPriceRequired: false
     )
     
@@ -89,5 +98,18 @@ struct Wallets {
             }
         }
         return res
+    }
+    
+    static func bySession(session: Session?) -> Wallet? {
+        guard let session = session else { return nil }
+        let name = session.walletInfo?.peerMeta.name
+        let url = session.walletInfo?.peerMeta.url
+        if let name = name, let wallet = All.first(where: { $0.name == name }) {
+            return wallet
+        }
+        if let url = url?.absoluteString, let wallet = All.first(where: { $0.mainUrl == url } ) {
+            return wallet
+        }
+        return nil
     }
 }
