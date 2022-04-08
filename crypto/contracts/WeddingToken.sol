@@ -17,8 +17,10 @@ contract WeddingToken is ERC1155Upgradeable, AccessControlUpgradeable {
         bool receiverAccepted;      // are conditions accepted by receiver of proposition
     }
 
+    /// @dev State of divorce
     enum DivorceState {NotRequested, RequestedByAuthor, RequestedByReceiver}
 
+    /// @dev Marriage - data of marriage
     struct Marriage {
         address author;                        // author of original proposition
         address receiver;                      // receiver of original proposition
@@ -206,6 +208,9 @@ contract WeddingToken is ERC1155Upgradeable, AccessControlUpgradeable {
         } else {
             marriage.divorceState = DivorceState.RequestedByReceiver;
         }
+
+        emit DivorceRequested(marriage.author, marriage.receiver, marriage.divorceRequestTimestamp,
+            marriage.divorceTimeout, _msgSender() == marriage.author);
     }
 
     /**
@@ -229,11 +234,15 @@ contract WeddingToken is ERC1155Upgradeable, AccessControlUpgradeable {
         require(_msgSender() == needConfirm ||
             block.timestamp > marriage.divorceRequestTimestamp + marriage.divorceTimeout,
             "WeddingToken: divorce confirmation not allowed");
+        (address author, address receiver) = (marriage.author, marriage.receiver);
         delete currentMarriages[marriage.author];
         delete currentMarriages[marriage.receiver];
         delete marriages[id];
-        _burn(_msgSender(), id, 1);
-        _burn(needConfirm, id, 1);
+
+        _burn(author, id, 1);
+        _burn(receiver, id, 1);
+
+        emit Divorce(author, receiver);
     }
 
     /**
