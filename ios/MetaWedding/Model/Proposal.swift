@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Proposal: ObservableObject {
+class Proposal: ObservableObject, Identifiable {
     let receiverAddress: String
     let metaUrl: String
     let conditions: String

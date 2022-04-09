@@ -61,6 +61,25 @@ class GlobalViewModel: ObservableObject {
     @Published
     var partnerName: String = ""
     
+    @Published
+    var isMarriageLoaded = true
+    
+    @Published
+    var marriage: Marriage?
+    
+    @Published
+    var isReceivedProposalsLoaded = false
+    
+    @Published
+    var receivedProposals: [Proposal] = []
+    
+    @Published
+    var isAuthoredProposalsLoaded = false
+    
+    @Published
+    var authoredProposals: [Proposal] = []
+    
+    
     var isWrongChain: Bool {
         if let session = session,
            let chainId = session.walletInfo?.chainId,

@@ -28,7 +28,7 @@ struct MainContainer: View {
                         })
                         .tag(MainContainer.AUTH_TAB_TAG)
 
-                    WeddingScreen()
+                    WeddingContainer()
                         .navigationTitle("")
                         .navigationBarHidden(true)
                         .tabItem({

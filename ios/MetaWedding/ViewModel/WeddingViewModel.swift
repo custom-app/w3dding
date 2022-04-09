@@ -9,4 +9,7 @@ import Foundation
 
 class WeddingViewModel: ObservableObject {
     
+    @Published
+    var selectedMyProposals: Bool = true
+    
 }
