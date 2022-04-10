@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Marriage: ObservableObject {
+struct Marriage {
     let authorAddress: String
     let receiverAddress: String
     let divorceState: DivorceState
@@ -30,5 +30,19 @@ class Marriage: ObservableObject {
         self.divorceTimeout = divorceTimeout
         self.metaUrl = metaUrl
         self.conditions = conditions
+    }
+    
+    init() {
+        self.authorAddress = ""
+        self.receiverAddress = ""
+        self.divorceState = .notRequested
+        self.divorceRequestTimestamp = 0
+        self.divorceTimeout = 0
+        self.metaUrl = ""
+        self.conditions = ""
+    }
+    
+    func isEmpty() -> Bool {
+        authorAddress.isEmpty
     }
 }

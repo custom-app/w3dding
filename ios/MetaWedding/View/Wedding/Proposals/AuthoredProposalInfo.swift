@@ -8,13 +8,16 @@
 import SwiftUI
 
 struct AuthoredProposalInfo: View {
+    
+    var proposal: Proposal
+    
     var body: some View {
-        Text("AuthoredProposalSheet")
-    }
-}
-
-struct AuthoredProposalSheet_Previews: PreviewProvider {
-    static var previews: some View {
-        AuthoredProposalInfo()
+        VStack {
+            Text("Proposal to:")
+            Text(proposal.address)
+                .font(.system(size: 13))
+                .padding(.top, 10)
+                .padding(.horizontal, 20)
+        }
     }
 }

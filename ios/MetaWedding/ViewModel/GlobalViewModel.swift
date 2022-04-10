@@ -62,7 +62,7 @@ class GlobalViewModel: ObservableObject {
     var partnerName: String = ""
     
     @Published
-    var isMarriageLoaded = true
+    var isMarriageLoaded = false
     
     @Published
     var marriage: Marriage?
@@ -246,6 +246,58 @@ class GlobalViewModel: ObservableObject {
         }
     }
     
+    func requestCurrentMarriage() {
+        if let address = walletAccount  {
+            web3.getCurrentMarriage(address: address) { [weak self] marriage, error in
+                if let error = error {
+                    //TODO: handle error
+                } else {
+                    if marriage.isEmpty() {
+                        self?.requestOutgoingProposals()
+                        self?.requestIncomingProposals()
+                    } else {
+                        withAnimation {
+                            self?.marriage = marriage
+                        }
+                    }
+                    withAnimation {
+                        self?.isMarriageLoaded = true
+                    }
+                }
+            }
+        }
+    }
+    
+    func requestIncomingProposals() {
+        if let address = walletAccount  {
+            web3.getIncomingPropositions(address: address) { [weak self] incomingProposals, error in
+                if let error = error {
+                    //TODO: handle error
+                } else {
+                    withAnimation {
+                        self?.receivedProposals = incomingProposals
+                        self?.isReceivedProposalsLoaded = true
+                    }
+                }
+            }
+        }
+    }
+    
+    func requestOutgoingProposals() {
+        if let address = walletAccount  {
+            web3.getOutgoingPropositions(address: address) { [weak self] outgoingProposals, error in
+                if let error = error {
+                    //TODO: handle error
+                } else {
+                    withAnimation {
+                        self?.authoredProposals = outgoingProposals
+                        self?.isAuthoredProposalsLoaded = true
+                    }
+                }
+            }
+        }
+    }
+    
     func finishBackgroundTask() {
         if let taskId = self.backgroundTaskID {
             UIApplication.shared.endBackgroundTask(taskId)
@@ -282,6 +334,7 @@ extension GlobalViewModel: WalletConnectDelegate {
                     currentWallet = Wallets.bySession(session: session)
                 }
                 requestBalance()
+                requestCurrentMarriage()
             }
         }
     }

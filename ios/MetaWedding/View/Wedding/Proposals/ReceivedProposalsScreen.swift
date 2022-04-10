@@ -21,22 +21,26 @@ struct ReceivedProposalsScreen: View {
                 if globalViewModel.receivedProposals.isEmpty {
                     Text("There is no proposals for you")
                 } else if globalViewModel.receivedProposals.count == 1 {
-                    ReceivedProposalInfo()
+                    ReceivedProposalInfo(proposal: globalViewModel.receivedProposals[0])
                 } else {
-                    Text("List of proposals here")
-                        .onTapGesture {
-                            // show proposal info sheet
+                    List {
+                        ForEach(globalViewModel.receivedProposals) { proposal in
+                            Button {
+                                selectedProposal = proposal
+                            } label: {
+                                HStack {
+                                    Text(proposal.address)
+                                }
+                                .padding(.vertical, 4)
+                            }
                         }
-                        .sheet(item: $selectedProposal,
-                               onDismiss: { selectedProposal = nil }) { proposal in
-                            AuthoredProposalInfo()
-                        }
+                    }
                 }
             }
         }
         .sheet(item: $selectedProposal,
                onDismiss: { selectedProposal = nil}) { proposal in
-            ReceivedProposalInfo()
+            ReceivedProposalInfo(proposal: proposal)
         }
     }
 }

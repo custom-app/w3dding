@@ -32,19 +32,30 @@ struct AuthoredProposalsScreen: View {
                             .background(Color.white)
                             .cornerRadius(8)
                     }
+                    .padding(.top, 50)
+                    .padding(.bottom, 20)
                     .sheet(isPresented: $showConstructor,
                           onDismiss: { showConstructor = false }) {
                        ProposalConstructor()
                     }
                     
-                    Text("List of proposals here")
-                        .onTapGesture {
-                            // show proposal info sheet
+                    
+                    List {
+                        ForEach(globalViewModel.authoredProposals) { proposal in
+                            Button {
+                                selectedProposal = proposal
+                            } label: {
+                                HStack {
+                                    Text(proposal.address)
+                                }
+                                .padding(.vertical, 4)
+                            }
                         }
-                        .sheet(item: $selectedProposal,
-                               onDismiss: { selectedProposal = nil }) { proposal in
-                            AuthoredProposalInfo()
-                        }
+                    }
+                    .sheet(item: $selectedProposal,
+                           onDismiss: { selectedProposal = nil }) { proposal in
+                        AuthoredProposalInfo(proposal: proposal)
+                    }
                 }
             }
         }
