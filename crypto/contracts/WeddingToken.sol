@@ -13,6 +13,7 @@ contract WeddingToken is ERC1155Upgradeable, AccessControlUpgradeable {
         string metaUri;             // uri to NFT metadata
         string conditionsData;      // JSON with conditions or uri to file with them
         uint256 divorceTimeout;     // divorce timeout
+        uint256 timestamp;          // created at (unix timestamp in seconds)
         bool authorAccepted;        // are conditions accepted by author of proposition
         bool receiverAccepted;      // are conditions accepted by receiver of proposition
     }
@@ -28,6 +29,7 @@ contract WeddingToken is ERC1155Upgradeable, AccessControlUpgradeable {
         DivorceState divorceState;             // state of divorce
         uint256 divorceRequestTimestamp;       // timestamp at which divorce was requested
         uint256 divorceTimeout;                // timeout after which divorce can be confirmed unilaterally
+        uint256 timestamp;                     // created at (unix timestamp in seconds)
 
         string metaUri;                        // uri to NFT metadata
         string conditionsData;                 // JSON with conditions or uri to file with them
@@ -114,7 +116,8 @@ contract WeddingToken is ERC1155Upgradeable, AccessControlUpgradeable {
         require(!_from[_msgSender()].contains(to) && !_to[_msgSender()].contains(to),
             "WeddingToken: proposition exists");
 
-        propositions[_msgSender()][to] = PropositionData(metaUri, condData, defaultDivorceTimeout, true, false);
+        propositions[_msgSender()][to] = PropositionData(metaUri, condData,
+            defaultDivorceTimeout, block.timestamp, true, false);
         _from[_msgSender()].add(to);
         _to[to].add(_msgSender());
 
@@ -170,13 +173,13 @@ contract WeddingToken is ERC1155Upgradeable, AccessControlUpgradeable {
         count++;
         if (isAuthor) {
             marriages[id] = Marriage(_msgSender(), to, DivorceState.NotRequested,
-                0, prop.divorceTimeout, prop.metaUri, prop.conditionsData);
+                0, prop.divorceTimeout, block.timestamp, prop.metaUri, prop.conditionsData);
             delete propositions[_msgSender()][to];
             _from[_msgSender()].remove(to);
             _to[to].remove(_msgSender());
         } else {
             marriages[id] = Marriage(to, _msgSender(), DivorceState.NotRequested,
-                0, prop.divorceTimeout, prop.metaUri, prop.conditionsData);
+                0, prop.divorceTimeout, block.timestamp, prop.metaUri, prop.conditionsData);
             delete propositions[to][_msgSender()];
             _from[to].remove(_msgSender());
             _to[_msgSender()].remove(to);

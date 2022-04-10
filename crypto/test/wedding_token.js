@@ -299,9 +299,9 @@ contract("WeddingToken", function (accounts) {
     const instance = await WeddingToken.deployed();
     await instance.acceptProposition.sendTransaction(accounts[0], "0x" + sha256("some link"),
       "0x" + sha256("some data"), {from: accounts[2]});
-    await instance.requestDivorce({from: accounts[0]});
+    await instance.requestDivorce({from: accounts[2]});
     await sleep(5000);
-    const tx = await instance.confirmDivorce.sendTransaction({from: accounts[0]});
+    const tx = await instance.confirmDivorce.sendTransaction({from: accounts[2], gas: 5000000});
     await truffleAssert.eventEmitted(tx, "Divorce", (ev) => {
       return ev.author.toLowerCase() === accounts[0].toLowerCase() &&
         ev.receiver.toLowerCase() === accounts[2].toLowerCase();
