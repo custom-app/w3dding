@@ -33,8 +33,8 @@ contract WeddingToken is ERC1155Upgradeable, AccessControlUpgradeable {
         string conditionsData;                 // JSON with conditions or uri to file with them
     }
 
-    uint256 private defaultDivorceTimeout;                                         // default divorce timeout
-    uint256 public count = 1;                                                      // nft id sequencer
+    uint256 public defaultDivorceTimeout;                                          // default divorce timeout
+    uint256 public count;                                                          // nft id sequencer
     mapping(address => uint256) public currentMarriages;                           // id of current marriage NFT
     mapping(uint256 => Marriage) public marriages;                                 // marriage details for each nft
 
@@ -53,7 +53,7 @@ contract WeddingToken is ERC1155Upgradeable, AccessControlUpgradeable {
      * @dev Emitted when divorce is requested. At `timestamp` + `timeout` initiator of divorce will be able
      * to confirm divorce unilaterally. `byAuthor` indicates if request came from author of original proposition
      */
-    event DivorceRequested(address indexed author, address indexed receiver,
+    event DivorceRequest(address indexed author, address indexed receiver,
         uint256 timestamp, uint256 timeout, bool byAuthor);
 
     /// @dev Emitted when divorce is accepted.
@@ -79,6 +79,7 @@ contract WeddingToken is ERC1155Upgradeable, AccessControlUpgradeable {
         __AccessControl_init();
         _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
         defaultDivorceTimeout = _defaultDivorceTimeout;
+        count = 1;
     }
 
     /// @dev supports interface for inheritance conflict resolving.
@@ -109,7 +110,7 @@ contract WeddingToken is ERC1155Upgradeable, AccessControlUpgradeable {
      * - caller must not be in marriage
     */
     function propose(address to, string memory metaUri, string memory condData) external onlyNotInMarriage {
-        require(currentMarriages[_msgSender()] == 0, "WeddingToken: already in marriage");
+        require(_msgSender() != to, "WeddingToken: cannot mary yourself");
         require(!_from[_msgSender()].contains(to) && !_to[_msgSender()].contains(to),
             "WeddingToken: proposition exists");
 
@@ -131,7 +132,6 @@ contract WeddingToken is ERC1155Upgradeable, AccessControlUpgradeable {
      * - caller must not be in marriage
     */
     function updateProposition(address to, string memory metaUri, string memory condData) external onlyNotInMarriage {
-        require(currentMarriages[_msgSender()] == 0, "WeddingToken: already in marriage");
         require(_from[_msgSender()].contains(to) || _to[_msgSender()].contains(to),
             "WeddingToken: proposition doesn't exist");
         (PropositionData storage prop, bool isAuthor) = _findProposition(to);
@@ -161,14 +161,13 @@ contract WeddingToken is ERC1155Upgradeable, AccessControlUpgradeable {
             "WeddingToken: proposition doesn't exist");
         (PropositionData storage prop, bool isAuthor) = _findProposition(to);
         require(currentMarriages[to] == 0, "WeddingToken: partner already in marriage");
+        require((isAuthor && prop.receiverAccepted) || (!isAuthor && prop.authorAccepted),
+            "WeddingToken: accept from partner required");
         require(sha256(bytes(prop.metaUri)) == metaHash, "WeddingToken: img hash did not match");
         require(sha256(bytes(prop.conditionsData)) == condHash, "WeddingToken: conditions hash did not match");
 
         uint256 id = count;
         count++;
-
-        currentMarriages[to] = id;
-        currentMarriages[_msgSender()] = id;
         if (isAuthor) {
             marriages[id] = Marriage(_msgSender(), to, DivorceState.NotRequested,
                 0, prop.divorceTimeout, prop.metaUri, prop.conditionsData);
@@ -183,6 +182,8 @@ contract WeddingToken is ERC1155Upgradeable, AccessControlUpgradeable {
             _to[_msgSender()].remove(to);
         }
 
+        currentMarriages[to] = id;
+        currentMarriages[_msgSender()] = id;
         _mint(_msgSender(), id, 1, bytes(""));
         _mint(to, id, 1, bytes(""));
 
@@ -209,12 +210,12 @@ contract WeddingToken is ERC1155Upgradeable, AccessControlUpgradeable {
             marriage.divorceState = DivorceState.RequestedByReceiver;
         }
 
-        emit DivorceRequested(marriage.author, marriage.receiver, marriage.divorceRequestTimestamp,
+        emit DivorceRequest(marriage.author, marriage.receiver, marriage.divorceRequestTimestamp,
             marriage.divorceTimeout, _msgSender() == marriage.author);
     }
 
     /**
-     * @dev Request divorce. Emits a {Divorce} event.
+     * @dev Confirm divorce. Emits a {Divorce} event.
      *
      * Requirements:
      * - caller must be in marriage
