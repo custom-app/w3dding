@@ -8,7 +8,7 @@ module.exports = async function (deployer, network) {
     case "mainnet":
       timeout = 3600*24*3;
       break;
-    case "testnet":
+    case "mumbai":
       timeout = 60*5;
       break;
     default:
