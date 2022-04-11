@@ -27,7 +27,7 @@ struct MarriageScreen: View {
                     .font(.system(size: 14))
                 
                 Button {
-                    globalViewModel.sendTx()
+                    globalViewModel.requestDivorce()
                 } label: {
                     Text("Divorce")
                         .padding(16)

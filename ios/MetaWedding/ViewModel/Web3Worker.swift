@@ -165,38 +165,38 @@ class Web3Worker:  ObservableObject {
         }
     }
     
-    func proposeData(to: String, metaUrl: String, condData: String) -> Data? {
+    func proposeData(to: String, metaUrl: String, condData: String) -> String? {
         let address = EthereumAddress(to)!
         return encodeFunctionData(method: "propose",
                                   parameters: [address as AnyObject,
                                                metaUrl as AnyObject,
-                                               condData as AnyObject])
+                                               condData as AnyObject])?.toHexString()
     }
     
-    func updatePropositionData(to: String, metaUrl: String, condData: String) -> Data? {
+    func updatePropositionData(to: String, metaUrl: String, condData: String) -> String? {
         let address = EthereumAddress(to)!
         return encodeFunctionData(method: "updateProposition",
                                   parameters: [address as AnyObject,
                                                metaUrl as AnyObject,
-                                               condData as AnyObject])
+                                               condData as AnyObject])?.toHexString()
     }
     
-    func acceptPropositionData(to: String, metaUrl: String, condData: String) -> Data? {
+    func acceptPropositionData(to: String, metaUrl: String, condData: String) -> String? {
         let address = EthereumAddress(to)!
         let metaUrlHash = Tools.sha256(data: metaUrl.data(using: .utf8)!)
         let condDataHash = Tools.sha256(data: condData.data(using: .utf8)!)
         return encodeFunctionData(method: "acceptProposition",
                                   parameters: [address as AnyObject,
                                                metaUrlHash as AnyObject,
-                                               condDataHash as AnyObject])
+                                               condDataHash as AnyObject])?.toHexString()
     }
     
-    func requestDivorceData() -> Data? {
-        return encodeFunctionData(method: "requestDivorce")
+    func requestDivorceData() -> String? {
+        return encodeFunctionData(method: "requestDivorce")?.toHexString()
     }
     
-    func confirmDivorceData() -> Data? {
-        return encodeFunctionData(method: "confirmDivorce")
+    func confirmDivorceData() -> String? {
+        return encodeFunctionData(method: "confirmDivorce")?.toHexString()
     }
     
     func encodeFunctionData(method: String, parameters: [AnyObject] = [AnyObject]()) -> Data? {

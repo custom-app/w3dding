@@ -22,7 +22,7 @@ struct ReceivedProposalInfo: View {
                 .padding(.top, 10)
                 .padding(.horizontal, 20)
             Button {
-                globalViewModel.sendTx()
+                globalViewModel.acceptProposition(to: proposal.address, metaUrl: proposal.metaUrl)
             } label: {
                 Text("Accept")
                     .padding(16)

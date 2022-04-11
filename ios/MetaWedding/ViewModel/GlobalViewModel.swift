@@ -16,7 +16,11 @@ class GlobalViewModel: ObservableObject {
     
     private let gasSafeAddition: BigUInt = 3000000000
     private let defaultGasAmount = "0x5208"
-    private let sendTxRequestId = "send_tx"
+    private let proposeId = "propose"
+    private let acceptProposalId = "accept_proposal"
+    private let updateProposalId = "update_proposal"
+    private let requestDivorceId = "request_divorce"
+    private let confirmDivorceId = "confirm_divorce"
     
     @Published
     var session: Session?
@@ -85,7 +89,7 @@ class GlobalViewModel: ObservableObject {
     var isWrongChain: Bool {
         if let session = session,
            let chainId = session.walletInfo?.chainId,
-           chainId != Constants.PolygonChainId {
+           chainId != Constants.ChainId.Polygon {
             return true
         }
         return false
@@ -144,14 +148,46 @@ class GlobalViewModel: ObservableObject {
         guard let session = session, let client = walletConnect?.client else { return }
         try? client.personal_sign(url: session.url, message: "Hi there!", account: walletAccount!) {
             [weak self] response in
-            self?.handleReponse(response, expecting: "Signature")
+            self?.handleReponse(response, label: "Signature")
         }
     }
     
-    func sendTx() {
+    func propose(to: String, metaUrl: String, condData: String = "") {
+        guard let data = web3.proposeData(to: to, metaUrl: metaUrl, condData: condData) else { return } // TODO: return error
+        guard let selfAddress = walletAccount else { return } //TODO: return error
+        sendTx(from: selfAddress, data: data, label: proposeId)
+    }
+    
+    func updateProposition(to: String, metaUrl: String, condData: String = "") {
+        guard let data = web3.updatePropositionData(to: to,
+                                                    metaUrl: metaUrl,
+                                                    condData: condData) else { return } // TODO: return error
+        guard let selfAddress = walletAccount else { return } //TODO: return error
+        sendTx(from: selfAddress, data: data, label: updateProposalId)
+    }
+    
+    func acceptProposition(to: String, metaUrl: String, condData: String = "") {
+        guard let data = web3.acceptPropositionData(to: to, metaUrl: metaUrl, condData: condData) else { return } // TODO: return error
+        guard let selfAddress = walletAccount else { return } //TODO: return error
+        sendTx(from: selfAddress, data: data, label: acceptProposalId)
+    }
+    
+    func requestDivorce() {
+        guard let data = web3.requestDivorceData() else { return } // TODO: return error
+        guard let selfAddress = walletAccount else { return } //TODO: return error
+        sendTx(from: selfAddress, data: data, label: requestDivorceId)
+    }
+    
+    func confirmDivorce() {
+        guard let data = web3.confirmDivorceData() else { return } // TODO: return error
+        guard let selfAddress = walletAccount else { return } //TODO: return error
+        sendTx(from: selfAddress, data: data, label: confirmDivorceId)
+    }
+    
+    func sendTx(from: String, data: String = "", label: String) {
         guard let session = session,
               let client = walletConnect?.client,
-              let account = walletAccount else { return }
+              let account = walletAccount else { return } //TODO: return error
         
         if let wallet = currentWallet, wallet.gasPriceRequired {
             web3.getGasPrice { gasPrice, error in
@@ -162,13 +198,14 @@ class GlobalViewModel: ObservableObject {
                     }
                 } else {
                     let safeGasPrice = gasPrice + self.gasSafeAddition
-                    let tx = Stub.tx(from: account,
-                                     gas: self.defaultGasAmount,
-                                     gasPrice: safeGasPrice.toHexString())
+                    let tx = TxWorker.construct(from: account,
+                                                data: data,
+                                                gas: self.defaultGasAmount,
+                                                gasPrice: safeGasPrice.toHexString())
                     do {
                         try client.eth_sendTransaction(url: session.url,
                                                        transaction: tx) { [weak self] response in
-                            self?.handleReponse(response, expecting: self?.sendTxRequestId ?? "")
+                            self?.handleReponse(response, label: label)
                         }
                         self.onMainThread {
                             self.sendTxBackgroundTaskID =
@@ -188,11 +225,11 @@ class GlobalViewModel: ObservableObject {
                 }
             }
         } else {
-            let tx = Stub.tx(from: account)
+            let tx = TxWorker.construct(from: from, data: data)
             do {
                 try client.eth_sendTransaction(url: session.url,
                                                transaction: tx) { [weak self] response in
-                    self?.handleReponse(response, expecting: self?.sendTxRequestId ?? "")
+                    self?.handleReponse(response, label: label)
                 }
                 onMainThread {
                     self.sendTxBackgroundTaskID =
@@ -219,9 +256,9 @@ class GlobalViewModel: ObservableObject {
         UserDefaults.standard.removeObject(forKey: Constants.sessionKey)
     }
     
-    private func handleReponse(_ response: Response, expecting: String) {
-        print("hadling response:\(expecting)")
-        if expecting == self.sendTxRequestId {
+    private func handleReponse(_ response: Response, label: String) {
+        print("hadling response:\(label)")
+        if isSendRequestLabel(label: label) {
             onMainThread {
                 self.finishBackgroundTask(taskId: self.sendTxBackgroundTaskID)
                 withAnimation {
@@ -243,6 +280,14 @@ class GlobalViewModel: ObservableObject {
                 self.alert = IdentifiableAlert.forError(error: Errors.unknownError)
             }
         }
+    }
+    
+    private func isSendRequestLabel(label: String) -> Bool {
+        return label == proposeId ||
+               label == updateProposalId ||
+               label == acceptProposalId ||
+               label == requestDivorceId ||
+               label == confirmDivorceId
     }
     
     func requestBalance() {
@@ -404,20 +449,4 @@ fileprivate enum Stub {
     static let SAFEPAL_ADDRESS = "0xeCd6120eDfC912736a9865689DeD058C00C15685"
     static let ALPHA_ADDRESS = "0x8D2aC318B8173ca3103Ed6099879215E7080c878"
     static let UNSTOPPABLE_ADDRESS = "0x553234087D6F0BB859c712558183a3B88179c4bD"
-    
-    /// https://docs.walletconnect.org/json-rpc-api-methods/ethereum#example-parameters-1
-    static func tx(from address: String, gas: String? = nil, gasPrice: String? = nil) -> Client.Transaction {
-        return Client.Transaction(from: address,
-                                  to: TRUST_ADDRESS,
-                                  data: "",
-                                  gas: gas, //"0x5208"
-                                  gasPrice: gasPrice, //"0x826299E00"
-                                  value: "0x2C68AF0BB140000", //"0x13FBE85EDC90000"
-                                  nonce: nil,
-                                  type: nil,
-                                  accessList: nil,
-                                  chainId: nil,
-                                  maxPriorityFeePerGas: nil,
-                                  maxFeePerGas: nil)
-    }
 }

@@ -88,9 +88,9 @@ struct ProposalConstructor: View {
                     }
                     
                     Button {
-                        globalViewModel.sendTx()
+                        globalViewModel.propose(to: globalViewModel.partnerAddress, metaUrl: "ipfs://somelink.roflan")
                     } label: {
-                        Text("Send tx")
+                        Text("Propose")
                             .padding(16)
                             .background(Color.white)
                             .cornerRadius(8)
