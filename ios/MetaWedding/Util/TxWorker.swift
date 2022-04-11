@@ -12,7 +12,7 @@ class TxWorker {
     
     static func construct(from: String,
                           data: String = "",
-                          value: String = "0x00",
+                          value: String = "0x0",
                           gas: String? = nil,
                           gasPrice: String? = nil) -> Client.Transaction {
         let contractAddress = Constants.TESTING ? Constants.ContractAddress.Testnet :

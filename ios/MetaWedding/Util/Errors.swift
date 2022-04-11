@@ -14,13 +14,14 @@ enum InnerError: Error {
 
 class Errors {
     static let userCanceled = "User canceled"
-    static let unknownError = "Unknown error happened. Pleasy check your internet connection and try again"
+    static let userRejected = "User rejected the transaction"
+    static let unknownError = "Unknown error happened. Please check your internet connection and try again"
     static let failedToConnect = "Failed to connect to wallet app. Please try again"
     static let getGasPrice = "Get gas price failed. Please try again"
     
     static func messageFor(err: String) -> String {
         switch err {
-        case userCanceled:
+        case userCanceled, userRejected:
             return "Request was denied"
         case failedToConnect:
             return failedToConnect

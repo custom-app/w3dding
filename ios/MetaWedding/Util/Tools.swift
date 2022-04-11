@@ -20,7 +20,7 @@ class Tools {
 }
 
 extension Data {
-    func toHexString() -> String {
-        return self.map { String(format: "%02hhx", $0) }.joined()
+    func toHexString(withPrefix: Bool = false) -> String {
+        return (withPrefix ? "0x" : "") + self.map { String(format: "%02hhx", $0) }.joined()
     }
 }

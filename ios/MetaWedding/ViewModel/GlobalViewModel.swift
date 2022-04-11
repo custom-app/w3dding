@@ -40,7 +40,8 @@ class GlobalViewModel: ObservableObject {
     var pendingDeepLink: String?
     
     @Published
-    var web3 = Web3Worker(endpoint: Constants.PolygonEndpoints.Mainnet)
+    var web3 = Web3Worker(endpoint: Constants.TESTING ?
+                          Constants.PolygonEndpoints.Testnet : Constants.PolygonEndpoints.Mainnet)
     
     @Published
     var balance: Double? = nil
@@ -127,7 +128,7 @@ class GlobalViewModel: ObservableObject {
             }
         }
         self.connectBackgroundTaskID = UIApplication.shared.beginBackgroundTask (withName: "Connect to wallet connect") { [weak self] in
-            self?.finishBackgroundTask(taskId: self?.connectBackgroundTaskID)
+            self?.finishConnectBackgroundTask()
         }
     }
 
@@ -206,7 +207,7 @@ class GlobalViewModel: ObservableObject {
                         self.onMainThread {
                             self.sendTxBackgroundTaskID =
                             UIApplication.shared.beginBackgroundTask (withName: "Send tx") { [weak self] in
-                                self?.finishBackgroundTask(taskId: self?.sendTxBackgroundTaskID)
+                                self?.finishSendTxBackgroundTask()
                             }
                             withAnimation {
                                 self.sendTxPending = true
@@ -231,7 +232,7 @@ class GlobalViewModel: ObservableObject {
                 onMainThread {
                     self.sendTxBackgroundTaskID =
                     UIApplication.shared.beginBackgroundTask (withName: "Send tx") { [weak self] in
-                        self?.finishBackgroundTask(taskId: self?.sendTxBackgroundTaskID)
+                        self?.finishSendTxBackgroundTask()
                     }
                     withAnimation {
                         self.sendTxPending = true
@@ -257,7 +258,7 @@ class GlobalViewModel: ObservableObject {
         print("hadling response:\(label)")
         if isSendRequestLabel(label: label) {
             onMainThread {
-                self.finishBackgroundTask(taskId: self.sendTxBackgroundTaskID)
+                self.finishSendTxBackgroundTask()
                 withAnimation {
                     self.sendTxPending = false
                 }
@@ -351,10 +352,17 @@ class GlobalViewModel: ObservableObject {
         }
     }
     
-    func finishBackgroundTask(taskId: UIBackgroundTaskIdentifier?) {
-        if let taskId = taskId {
+    func finishConnectBackgroundTask() {
+        if let taskId = connectBackgroundTaskID {
             UIApplication.shared.endBackgroundTask(taskId)
             self.connectBackgroundTaskID = nil
+        }
+    }
+    
+    func finishSendTxBackgroundTask() {
+        if let taskId = sendTxBackgroundTaskID {
+            UIApplication.shared.endBackgroundTask(taskId)
+            self.sendTxBackgroundTaskID = nil
         }
     }
     
@@ -363,7 +371,7 @@ class GlobalViewModel: ObservableObject {
 extension GlobalViewModel: WalletConnectDelegate {
     func failedToConnect() {
         print("failed to connect")
-        finishBackgroundTask(taskId: connectBackgroundTaskID)
+        finishConnectBackgroundTask()
         onMainThread { [unowned self] in
             withAnimation {
                 isConnecting = false
@@ -377,7 +385,7 @@ extension GlobalViewModel: WalletConnectDelegate {
 
     func didConnect() {
         print("did connect")
-        finishBackgroundTask(taskId: connectBackgroundTaskID)
+        finishConnectBackgroundTask()
         onMainThread { [unowned self] in
             withAnimation {
                 isConnecting = false
@@ -421,7 +429,7 @@ extension GlobalViewModel: WalletConnectDelegate {
     func didDisconnect(isReconnecting: Bool) {
         print("did disconnect, is reconnecting: \(isReconnecting)")
         if !isReconnecting {
-            finishBackgroundTask(taskId: connectBackgroundTaskID)
+            finishConnectBackgroundTask()
             onMainThread { [unowned self] in
                 withAnimation {
                     isConnecting = false

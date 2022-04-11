@@ -9,7 +9,7 @@ import Foundation
 import web3swift
 import BigInt
 
-class Web3Worker:  ObservableObject {
+class Web3Worker: ObservableObject {
     
     private let web3: web3
     private let contract: EthereumContract
@@ -83,8 +83,8 @@ class Web3Worker:  ObservableObject {
                                              divorceTimeout: 60*60,
                                              authorAccepted: true,
                                              receiverAccepted: false)
-                    mockedIncomingProposals.append(proposal1)
-                    mockedIncomingProposals.append(proposal2)
+//                    mockedIncomingProposals.append(proposal1)
+//                    mockedIncomingProposals.append(proposal2)
                     DispatchQueue.main.async {
                         onResult(mockedIncomingProposals, nil)
                     }
@@ -120,8 +120,8 @@ class Web3Worker:  ObservableObject {
                                              divorceTimeout: 60*60,
                                              authorAccepted: true,
                                              receiverAccepted: false)
-                    mockedIncomingProposals.append(proposal1)
-                    mockedIncomingProposals.append(proposal2)
+//                    mockedIncomingProposals.append(proposal1)
+//                    mockedIncomingProposals.append(proposal2)
                     DispatchQueue.main.async {
                         onResult(mockedIncomingProposals, nil)
                     }
@@ -170,7 +170,7 @@ class Web3Worker:  ObservableObject {
         return encodeFunctionData(method: "propose",
                                   parameters: [address as AnyObject,
                                                metaUrl as AnyObject,
-                                               condData as AnyObject])?.toHexString()
+                                               condData as AnyObject])?.toHexString(withPrefix: true)
     }
     
     func updatePropositionData(to: String, metaUrl: String, condData: String) -> String? {
@@ -178,7 +178,7 @@ class Web3Worker:  ObservableObject {
         return encodeFunctionData(method: "updateProposition",
                                   parameters: [address as AnyObject,
                                                metaUrl as AnyObject,
-                                               condData as AnyObject])?.toHexString()
+                                               condData as AnyObject])?.toHexString(withPrefix: true)
     }
     
     func acceptPropositionData(to: String, metaUrl: String, condData: String) -> String? {
@@ -188,15 +188,15 @@ class Web3Worker:  ObservableObject {
         return encodeFunctionData(method: "acceptProposition",
                                   parameters: [address as AnyObject,
                                                metaUrlHash as AnyObject,
-                                               condDataHash as AnyObject])?.toHexString()
+                                               condDataHash as AnyObject])?.toHexString(withPrefix: true)
     }
     
     func requestDivorceData() -> String? {
-        return encodeFunctionData(method: "requestDivorce")?.toHexString()
+        return encodeFunctionData(method: "requestDivorce")?.toHexString(withPrefix: true)
     }
     
     func confirmDivorceData() -> String? {
-        return encodeFunctionData(method: "confirmDivorce")?.toHexString()
+        return encodeFunctionData(method: "confirmDivorce")?.toHexString(withPrefix: true)
     }
     
     func encodeFunctionData(method: String, parameters: [AnyObject] = [AnyObject]()) -> Data? {
