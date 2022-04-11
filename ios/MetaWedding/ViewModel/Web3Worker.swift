@@ -12,9 +12,13 @@ import BigInt
 class Web3Worker:  ObservableObject {
     
     private let web3: web3
+    private let contract: EthereumContract
     
     init(endpoint: String) {
         web3 = web3swift.web3(provider: Web3HttpProvider(URL(string: endpoint)!)!)
+        let path = Bundle.main.path(forResource: "abi", ofType: "json")!
+        let abiString = try! String(contentsOfFile: path)
+        contract = EthereumContract(abiString)!
     }
     
     func getBalance(address: String, onResult: @escaping (Double, Error?) -> ()) {
@@ -159,5 +163,48 @@ class Web3Worker:  ObservableObject {
         } else {
             onResult(Marriage(), InnerError.invalidAddress)
         }
+    }
+    
+    func proposeData(to: String, metaUrl: String, condData: String) -> Data? {
+        let address = EthereumAddress(to)!
+        return encodeFunctionData(method: "propose",
+                                  parameters: [address as AnyObject,
+                                               metaUrl as AnyObject,
+                                               condData as AnyObject])
+    }
+    
+    func updatePropositionData(to: String, metaUrl: String, condData: String) -> Data? {
+        let address = EthereumAddress(to)!
+        return encodeFunctionData(method: "updateProposition",
+                                  parameters: [address as AnyObject,
+                                               metaUrl as AnyObject,
+                                               condData as AnyObject])
+    }
+    
+    func acceptPropositionData(to: String, metaUrl: String, condData: String) -> Data? {
+        let address = EthereumAddress(to)!
+        let metaUrlHash = Tools.sha256(data: metaUrl.data(using: .utf8)!)
+        let condDataHash = Tools.sha256(data: condData.data(using: .utf8)!)
+        return encodeFunctionData(method: "acceptProposition",
+                                  parameters: [address as AnyObject,
+                                               metaUrlHash as AnyObject,
+                                               condDataHash as AnyObject])
+    }
+    
+    func requestDivorceData() -> Data? {
+        return encodeFunctionData(method: "requestDivorce")
+    }
+    
+    func confirmDivorceData() -> Data? {
+        return encodeFunctionData(method: "confirmDivorce")
+    }
+    
+    func encodeFunctionData(method: String, parameters: [AnyObject] = [AnyObject]()) -> Data? {
+        let foundMethod = contract.methods.filter { (key, value) -> Bool in
+            return key == method
+        }
+        guard foundMethod.count == 1 else {return nil}
+        let abiMethod = foundMethod[method]
+        return abiMethod?.encodeParameters(parameters)
     }
 }

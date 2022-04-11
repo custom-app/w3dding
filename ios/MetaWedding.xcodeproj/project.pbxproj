@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		113977DE28049A5A00D6FD57 /* abi.json in Resources */ = {isa = PBXBuildFile; fileRef = 113977DD28049A5A00D6FD57 /* abi.json */; };
 		11481B4B27FA4DF900439106 /* web3swift in Frameworks */ = {isa = PBXBuildFile; productRef = 11481B4A27FA4DF900439106 /* web3swift */; };
 		11481B4D27FA4E9A00439106 /* Web3Worker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11481B4C27FA4E9A00439106 /* Web3Worker.swift */; };
 		11481B4F27FA5BA600439106 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11481B4E27FA5BA600439106 /* Errors.swift */; };
@@ -23,6 +24,7 @@
 		118A952227F935E000798141 /* WeddingContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118A952127F935E000798141 /* WeddingContainer.swift */; };
 		118A952427F935F600798141 /* MainContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118A952327F935F600798141 /* MainContainer.swift */; };
 		11AA278027FE372500BC8BCA /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AA277F27FE372500BC8BCA /* Extensions.swift */; };
+		11B6336D2804B4BD00745730 /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B6336C2804B4BD00745730 /* Tools.swift */; };
 		11C356CD27FF82D1007A0E69 /* IdentifiableAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C356CC27FF82D1007A0E69 /* IdentifiableAlert.swift */; };
 		11CE717028038ABC004782E5 /* CertificateWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CE716F28038ABC004782E5 /* CertificateWorker.swift */; };
 		11E32C882802208200A540EE /* WeddingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E32C872802208200A540EE /* WeddingViewModel.swift */; };
@@ -39,6 +41,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		113977DD28049A5A00D6FD57 /* abi.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = abi.json; sourceTree = "<group>"; };
 		11481B4C27FA4E9A00439106 /* Web3Worker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Web3Worker.swift; sourceTree = "<group>"; };
 		11481B4E27FA5BA600439106 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		115A657427F218EE001CBCD2 /* MetaWedding.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MetaWedding.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -57,6 +60,7 @@
 		118A952127F935E000798141 /* WeddingContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeddingContainer.swift; sourceTree = "<group>"; };
 		118A952327F935F600798141 /* MainContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContainer.swift; sourceTree = "<group>"; };
 		11AA277F27FE372500BC8BCA /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		11B6336C2804B4BD00745730 /* Tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tools.swift; sourceTree = "<group>"; };
 		11C356CC27FF82D1007A0E69 /* IdentifiableAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifiableAlert.swift; sourceTree = "<group>"; };
 		11CE716F28038ABC004782E5 /* CertificateWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificateWorker.swift; sourceTree = "<group>"; };
 		11E32C872802208200A540EE /* WeddingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeddingViewModel.swift; sourceTree = "<group>"; };
@@ -106,6 +110,7 @@
 		115A657627F218EE001CBCD2 /* MetaWedding */ = {
 			isa = PBXGroup;
 			children = (
+				113977DD28049A5A00D6FD57 /* abi.json */,
 				115A659927F3CD1B001CBCD2 /* Info.plist */,
 				118A951827F925A000798141 /* Util */,
 				11C356CE27FF84E8007A0E69 /* Model */,
@@ -172,6 +177,7 @@
 				11481B4E27FA5BA600439106 /* Errors.swift */,
 				11AA277F27FE372500BC8BCA /* Extensions.swift */,
 				11CE716F28038ABC004782E5 /* CertificateWorker.swift */,
+				11B6336C2804B4BD00745730 /* Tools.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -291,6 +297,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				113977DE28049A5A00D6FD57 /* abi.json in Resources */,
 				115A657F27F218F0001CBCD2 /* Preview Assets.xcassets in Resources */,
 				115A657C27F218F0001CBCD2 /* Assets.xcassets in Resources */,
 			);
@@ -316,6 +323,7 @@
 				11481B4D27FA4E9A00439106 /* Web3Worker.swift in Sources */,
 				11E32C9F280236A000A540EE /* ProposalConstructor.swift in Sources */,
 				115A658827F22C3D001CBCD2 /* AuthScreen.swift in Sources */,
+				11B6336D2804B4BD00745730 /* Tools.swift in Sources */,
 				115A658C27F22D93001CBCD2 /* WalletConnect.swift in Sources */,
 				115A657A27F218EE001CBCD2 /* ContentView.swift in Sources */,
 				115A657827F218EE001CBCD2 /* MetaWeddingApp.swift in Sources */,

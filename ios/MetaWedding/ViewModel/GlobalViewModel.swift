@@ -47,7 +47,9 @@ class GlobalViewModel: ObservableObject {
     @Published
     var sendTxPending = false
     
-    var backgroundTaskID: UIBackgroundTaskIdentifier?
+    var connectBackgroundTaskID: UIBackgroundTaskIdentifier?
+    
+    var sendTxBackgroundTaskID: UIBackgroundTaskIdentifier?
     
     @Published
     var alert: IdentifiableAlert?
@@ -119,8 +121,8 @@ class GlobalViewModel: ObservableObject {
                 //TODO: deeplink into app in store
             }
         }
-        self.backgroundTaskID = UIApplication.shared.beginBackgroundTask (withName: "Connect to wallet connect") { [weak self] in
-            self?.finishBackgroundTask()
+        self.connectBackgroundTaskID = UIApplication.shared.beginBackgroundTask (withName: "Connect to wallet connect") { [weak self] in
+            self?.finishBackgroundTask(taskId: self?.connectBackgroundTaskID)
         }
     }
 
@@ -169,6 +171,10 @@ class GlobalViewModel: ObservableObject {
                             self?.handleReponse(response, expecting: self?.sendTxRequestId ?? "")
                         }
                         self.onMainThread {
+                            self.sendTxBackgroundTaskID =
+                            UIApplication.shared.beginBackgroundTask (withName: "Send tx") { [weak self] in
+                                self?.finishBackgroundTask(taskId: self?.sendTxBackgroundTaskID)
+                            }
                             withAnimation {
                                 self.sendTxPending = true
                             }
@@ -189,6 +195,10 @@ class GlobalViewModel: ObservableObject {
                     self?.handleReponse(response, expecting: self?.sendTxRequestId ?? "")
                 }
                 onMainThread {
+                    self.sendTxBackgroundTaskID =
+                    UIApplication.shared.beginBackgroundTask (withName: "Send tx") { [weak self] in
+                        self?.finishBackgroundTask(taskId: self?.sendTxBackgroundTaskID)
+                    }
                     withAnimation {
                         self.sendTxPending = true
                     }
@@ -213,6 +223,7 @@ class GlobalViewModel: ObservableObject {
         print("hadling response:\(expecting)")
         if expecting == self.sendTxRequestId {
             onMainThread {
+                self.finishBackgroundTask(taskId: self.sendTxBackgroundTaskID)
                 withAnimation {
                     self.sendTxPending = false
                 }
@@ -298,10 +309,10 @@ class GlobalViewModel: ObservableObject {
         }
     }
     
-    func finishBackgroundTask() {
-        if let taskId = self.backgroundTaskID {
+    func finishBackgroundTask(taskId: UIBackgroundTaskIdentifier?) {
+        if let taskId = taskId {
             UIApplication.shared.endBackgroundTask(taskId)
-            self.backgroundTaskID = nil
+            self.connectBackgroundTaskID = nil
         }
     }
     
@@ -310,7 +321,7 @@ class GlobalViewModel: ObservableObject {
 extension GlobalViewModel: WalletConnectDelegate {
     func failedToConnect() {
         print("failed to connect")
-        finishBackgroundTask()
+        finishBackgroundTask(taskId: connectBackgroundTaskID)
         onMainThread { [unowned self] in
             withAnimation {
                 isConnecting = false
@@ -324,7 +335,7 @@ extension GlobalViewModel: WalletConnectDelegate {
 
     func didConnect() {
         print("did connect")
-        finishBackgroundTask()
+        finishBackgroundTask(taskId: connectBackgroundTaskID)
         onMainThread { [unowned self] in
             withAnimation {
                 isConnecting = false
@@ -368,7 +379,7 @@ extension GlobalViewModel: WalletConnectDelegate {
     func didDisconnect(isReconnecting: Bool) {
         print("did disconnect, is reconnecting: \(isReconnecting)")
         if !isReconnecting {
-            finishBackgroundTask()
+            finishBackgroundTask(taskId: connectBackgroundTaskID)
             onMainThread { [unowned self] in
                 withAnimation {
                     isConnecting = false
