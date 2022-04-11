@@ -87,9 +87,10 @@ class GlobalViewModel: ObservableObject {
     
     
     var isWrongChain: Bool {
+        let requiredChainId = Constants.TESTING ? Constants.ChainId.PolygonTestnet : Constants.ChainId.Polygon
         if let session = session,
            let chainId = session.walletInfo?.chainId,
-           chainId != Constants.ChainId.Polygon {
+           chainId != requiredChainId {
             return true
         }
         return false
@@ -154,41 +155,35 @@ class GlobalViewModel: ObservableObject {
     
     func propose(to: String, metaUrl: String, condData: String = "") {
         guard let data = web3.proposeData(to: to, metaUrl: metaUrl, condData: condData) else { return } // TODO: return error
-        guard let selfAddress = walletAccount else { return } //TODO: return error
-        sendTx(from: selfAddress, data: data, label: proposeId)
+        sendTx(data: data, label: proposeId)
     }
     
     func updateProposition(to: String, metaUrl: String, condData: String = "") {
         guard let data = web3.updatePropositionData(to: to,
                                                     metaUrl: metaUrl,
                                                     condData: condData) else { return } // TODO: return error
-        guard let selfAddress = walletAccount else { return } //TODO: return error
-        sendTx(from: selfAddress, data: data, label: updateProposalId)
+        sendTx(data: data, label: updateProposalId)
     }
     
     func acceptProposition(to: String, metaUrl: String, condData: String = "") {
         guard let data = web3.acceptPropositionData(to: to, metaUrl: metaUrl, condData: condData) else { return } // TODO: return error
-        guard let selfAddress = walletAccount else { return } //TODO: return error
-        sendTx(from: selfAddress, data: data, label: acceptProposalId)
+        sendTx(data: data, label: acceptProposalId)
     }
     
     func requestDivorce() {
         guard let data = web3.requestDivorceData() else { return } // TODO: return error
-        guard let selfAddress = walletAccount else { return } //TODO: return error
-        sendTx(from: selfAddress, data: data, label: requestDivorceId)
+        sendTx(data: data, label: requestDivorceId)
     }
     
     func confirmDivorce() {
         guard let data = web3.confirmDivorceData() else { return } // TODO: return error
-        guard let selfAddress = walletAccount else { return } //TODO: return error
-        sendTx(from: selfAddress, data: data, label: confirmDivorceId)
+        sendTx(data: data, label: confirmDivorceId)
     }
     
-    func sendTx(from: String, data: String = "", label: String) {
+    func sendTx(data: String = "", label: String) {
         guard let session = session,
               let client = walletConnect?.client,
-              let account = walletAccount else { return } //TODO: return error
-        
+              let from = walletAccount else { return } //TODO: return error
         if let wallet = currentWallet, wallet.gasPriceRequired {
             web3.getGasPrice { gasPrice, error in
                 if let error = error {
@@ -198,7 +193,7 @@ class GlobalViewModel: ObservableObject {
                     }
                 } else {
                     let safeGasPrice = gasPrice + self.gasSafeAddition
-                    let tx = TxWorker.construct(from: account,
+                    let tx = TxWorker.construct(from: from,
                                                 data: data,
                                                 gas: self.defaultGasAmount,
                                                 gasPrice: safeGasPrice.toHexString())
@@ -207,6 +202,7 @@ class GlobalViewModel: ObservableObject {
                                                        transaction: tx) { [weak self] response in
                             self?.handleReponse(response, label: label)
                         }
+                        print("sending tx: \(label)")
                         self.onMainThread {
                             self.sendTxBackgroundTaskID =
                             UIApplication.shared.beginBackgroundTask (withName: "Send tx") { [weak self] in
@@ -231,6 +227,7 @@ class GlobalViewModel: ObservableObject {
                                                transaction: tx) { [weak self] response in
                     self?.handleReponse(response, label: label)
                 }
+                print("sending tx: \(label)")
                 onMainThread {
                     self.sendTxBackgroundTaskID =
                     UIApplication.shared.beginBackgroundTask (withName: "Send tx") { [weak self] in

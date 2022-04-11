@@ -29,7 +29,8 @@ class LocalWalletConnect {
                                             url: URL(string: "https://customapp.tech")!)
         let dAppInfo = Session.DAppInfo(peerId: UUID().uuidString,
                                         peerMeta: clientMeta,
-                                        chainId: Constants.ChainId.Polygon)
+                                        chainId: Constants.TESTING ? Constants.ChainId.PolygonTestnet :
+                                            Constants.ChainId.Polygon)
         client = Client(delegate: self, dAppInfo: dAppInfo)
 
         try! client.connect(to: wcUrl)

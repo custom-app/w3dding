@@ -9,6 +9,8 @@ import Foundation
 
 struct Constants {
     
+    static let TESTING = true
+    
     static let sessionKey = "sessionKey"
     
     static let testnetAddress1 = "0x5f28ba977324e28594E975f8a9453FF77792a6Ed"
