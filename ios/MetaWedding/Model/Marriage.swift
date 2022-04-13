@@ -6,21 +6,24 @@
 //
 
 import Foundation
+import BigInt
 
 struct Marriage {
     let authorAddress: String
     let receiverAddress: String
     let divorceState: DivorceState
-    let divorceRequestTimestamp: Int64
-    let divorceTimeout: Int64
+    let divorceRequestTimestamp: BigUInt
+    let divorceTimeout: BigUInt
+    let timestamp: BigUInt
     let metaUrl: String
     let conditions: String
     
     init(authorAddress: String,
          receiverAddress: String,
          divorceState: DivorceState,
-         divorceRequestTimestamp: Int64,
-         divorceTimeout: Int64,
+         divorceRequestTimestamp: BigUInt,
+         divorceTimeout: BigUInt,
+         timestamp: BigUInt,
          metaUrl: String,
          conditions: String) {
         self.authorAddress = authorAddress
@@ -28,6 +31,7 @@ struct Marriage {
         self.divorceState = divorceState
         self.divorceRequestTimestamp = divorceRequestTimestamp
         self.divorceTimeout = divorceTimeout
+        self.timestamp = timestamp
         self.metaUrl = metaUrl
         self.conditions = conditions
     }
@@ -38,6 +42,7 @@ struct Marriage {
         self.divorceState = .notRequested
         self.divorceRequestTimestamp = 0
         self.divorceTimeout = 0
+        self.timestamp = 0
         self.metaUrl = ""
         self.conditions = ""
     }

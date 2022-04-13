@@ -303,7 +303,9 @@ class GlobalViewModel: ObservableObject {
     func requestCurrentMarriage() {
         if let address = walletAccount  {
             web3.getCurrentMarriage(address: address) { [weak self] marriage, error in
+                print("got marriage result")
                 if let error = error {
+                    print("got marriage error \(error)")
                     //TODO: handle error
                 } else {
                     if marriage.isEmpty() {
