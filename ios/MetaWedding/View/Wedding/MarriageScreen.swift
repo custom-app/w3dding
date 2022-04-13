@@ -26,15 +26,50 @@ struct MarriageScreen: View {
                 Text(marriage.receiverAddress)
                     .font(.system(size: 14))
                 
-                Button {
-                    globalViewModel.requestDivorce()
-                } label: {
-                    Text("Divorce")
-                        .padding(16)
-                        .background(Color.white)
-                        .cornerRadius(8)
+                if let address = globalViewModel.walletAccount {
+                    let isAuthor = address == marriage.authorAddress
+                    if marriage.divorceState == .notRequested {
+                        Button {
+                            globalViewModel.requestDivorce()
+                        } label: {
+                            Text("Divorce")
+                                .padding(16)
+                                .background(Color.white)
+                                .cornerRadius(8)
+                        }
+                        .padding(.top, 40)
+                    } else {
+                        if (isAuthor && marriage.divorceState == .requestedByReceiver) ||
+                            (!isAuthor && marriage.divorceState == .requestedByAuthor) {
+                            Button {
+                                globalViewModel.confirmDivorce()
+                            } label: {
+                                Text("Confirm divorce")
+                                    .padding(16)
+                                    .background(Color.white)
+                                    .cornerRadius(8)
+                            }
+                            .padding(.top, 40)
+                        } else if (isAuthor && marriage.divorceState == .requestedByAuthor) ||
+                                    (!isAuthor && marriage.divorceState == .requestedByReceiver) {
+                            let curTime = Int64((Date().timeIntervalSince1970).rounded())
+                            if curTime > marriage.divorceRequestTimestamp + marriage.divorceTimeout {
+                                Button {
+                                    globalViewModel.confirmDivorce()
+                                } label: {
+                                    Text("Divorce 1-way")
+                                        .padding(16)
+                                        .background(Color.white)
+                                        .cornerRadius(8)
+                                }
+                                .padding(.top, 40)
+                            } else {
+                                Text("Divorce in progress")
+                                    .padding(.top, 50)
+                            }
+                        }
+                    }
                 }
-                .padding(.top, 40)
             }
         }
     }
