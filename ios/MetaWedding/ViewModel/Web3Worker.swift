@@ -13,12 +13,15 @@ class Web3Worker: ObservableObject {
     
     private let web3: web3
     private let contract: EthereumContract
+    private let contractWeb3: web3.web3contract
     
     init(endpoint: String) {
         web3 = web3swift.web3(provider: Web3HttpProvider(URL(string: endpoint)!)!)
         let path = Bundle.main.path(forResource: "abi", ofType: "json")!
         let abiString = try! String(contentsOfFile: path)
         contract = EthereumContract(abiString)!
+        let address = Constants.TESTING ? Constants.ContractAddress.Testnet : Constants.ContractAddress.Mainnet
+        contractWeb3 = web3.contract(abiString, at: EthereumAddress(address)!, abiVersion: 2)!
     }
     
     func getBalance(address: String, onResult: @escaping (Double, Error?) -> ()) {
@@ -42,7 +45,7 @@ class Web3Worker: ObservableObject {
                 }
             }
         } else {
-            onResult(0, InnerError.invalidAddress)
+            onResult(0, InnerError.invalidAddress(address: address))
         }
     }
     
@@ -62,31 +65,37 @@ class Web3Worker: ObservableObject {
         }
     }
     
+    private func parseProposals(addresses: [EthereumAddress], proposals: [[AnyObject]]) throws -> [Proposal] {
+        var res: [Proposal] = []
+        for (i, elem) in proposals.enumerated() {
+            guard let metaUrl = elem[0] as? String,
+                  let condData = elem[1] as? String,
+                  let divorceTimeout = elem[2] as? BigUInt,
+                  let timestamp = elem[3] as? BigUInt,
+                  let authorAccepted = elem[4] as? Int,
+                  let receiverAccepted = elem[5] as? Int else {
+                      throw InnerError.structParseError(description: "Error proposal parse: \(elem)")
+            }
+            let proposal = Proposal(address: addresses[i].address,
+                                metaUrl: metaUrl,
+                                condData: condData,
+                                divorceTimeout: divorceTimeout,
+                                timestamp: timestamp,
+                                authorAccepted: authorAccepted == 1,
+                                receiverAccepted: receiverAccepted == 1)
+            res.append(proposal)
+        }
+        return res
+    }
+    
     func getIncomingPropositions(address: String, onResult: @escaping ([Proposal], Error?) -> ()) {
         if let walletAddress = EthereumAddress(address) {
             DispatchQueue.global(qos: .userInitiated).async { [self] in
                 do {
-                    let balanceResult = try web3.eth.getBalance(address: walletAddress)
-                    let _ = Web3.Utils.formatToEthereumUnits(balanceResult, toUnits: .eth, decimals: 6)!
-                    print("Got incoming propositions")
-                    
-                    var mockedIncomingProposals: [Proposal] = []
-                    let proposal1 = Proposal(address: "0xA4AC36f269d3F524a6A77DabDAe4D55BA9998a05",
-                                             metaUrl: "https://google.com",
-                                             conditions: "",
-                                             divorceTimeout: 60*60,
-                                             authorAccepted: true,
-                                             receiverAccepted: false)
-                    let proposal2 = Proposal(address: "0xeCd6120eDfC912736a9865689DeD058C00C15685",
-                                             metaUrl: "https://google.com",
-                                             conditions: "",
-                                             divorceTimeout: 60*60,
-                                             authorAccepted: true,
-                                             receiverAccepted: false)
-//                    mockedIncomingProposals.append(proposal1)
-//                    mockedIncomingProposals.append(proposal2)
+                    let (proposals, error) = try requestPropositions(address: walletAddress,
+                                                                     method: "getIncomingPropositions")
                     DispatchQueue.main.async {
-                        onResult(mockedIncomingProposals, nil)
+                        onResult(proposals, error)
                     }
                 } catch {
                     DispatchQueue.main.async {
@@ -95,7 +104,7 @@ class Web3Worker: ObservableObject {
                 }
             }
         } else {
-            onResult([], InnerError.invalidAddress)
+            onResult([], InnerError.invalidAddress(address: address))
         }
     }
     
@@ -103,27 +112,10 @@ class Web3Worker: ObservableObject {
         if let walletAddress = EthereumAddress(address) {
             DispatchQueue.global(qos: .userInitiated).async { [self] in
                 do {
-                    let balanceResult = try web3.eth.getBalance(address: walletAddress)
-                    let _ = Web3.Utils.formatToEthereumUnits(balanceResult, toUnits: .eth, decimals: 6)!
-                    print("Got outgoin propositions")
-                    
-                    var mockedIncomingProposals: [Proposal] = []
-                    let proposal1 = Proposal(address: "0xA4AC36f269d3F524a6A77DabDAe4D55BA9998a05",
-                                             metaUrl: "https://google.com",
-                                             conditions: "",
-                                             divorceTimeout: 60*60,
-                                             authorAccepted: true,
-                                             receiverAccepted: false)
-                    let proposal2 = Proposal(address: "0xeCd6120eDfC912736a9865689DeD058C00C15685",
-                                             metaUrl: "https://google.com",
-                                             conditions: "",
-                                             divorceTimeout: 60*60,
-                                             authorAccepted: true,
-                                             receiverAccepted: false)
-//                    mockedIncomingProposals.append(proposal1)
-//                    mockedIncomingProposals.append(proposal2)
+                    let (proposals, error) = try requestPropositions(address: walletAddress,
+                                                                     method: "getOutgoingPropositions")
                     DispatchQueue.main.async {
-                        onResult(mockedIncomingProposals, nil)
+                        onResult(proposals, error)
                     }
                 } catch {
                     DispatchQueue.main.async {
@@ -132,7 +124,29 @@ class Web3Worker: ObservableObject {
                 }
             }
         } else {
-            onResult([], InnerError.invalidAddress)
+            onResult([], InnerError.invalidAddress(address: address))
+        }
+    }
+    
+    private func requestPropositions(address: EthereumAddress, method: String) throws -> ([Proposal], Error?) {
+        var options = TransactionOptions.defaultOptions
+        options.from = address
+        options.gasPrice = .automatic
+        options.gasLimit = .automatic
+        let tx = contractWeb3.read(
+            method,
+            extraData: Data(),
+            transactionOptions: options)!
+        let result = try! tx.call()
+        
+        print("Got reponse for \(method)")
+        if let success = result["_success"] as? Bool, !success {
+            return ([Proposal](), InnerError.unsuccessfullСontractRead(description: "\(result)"))
+        } else {
+            let addresses = result["0"] as! [EthereumAddress]
+            let proposals = result["1"] as! [[AnyObject]]
+            let res = try parseProposals(addresses: addresses, proposals: proposals)
+            return (res, nil)
         }
     }
     
@@ -161,7 +175,7 @@ class Web3Worker: ObservableObject {
                 }
             }
         } else {
-            onResult(Marriage(), InnerError.invalidAddress)
+            onResult(Marriage(), InnerError.invalidAddress(address: address))
         }
     }
     
@@ -199,11 +213,11 @@ class Web3Worker: ObservableObject {
         return encodeFunctionData(method: "confirmDivorce")?.toHexString(withPrefix: true)
     }
     
-    func encodeFunctionData(method: String, parameters: [AnyObject] = [AnyObject]()) -> Data? {
+    private func encodeFunctionData(method: String, parameters: [AnyObject] = [AnyObject]()) -> Data? {
         let foundMethod = contract.methods.filter { (key, value) -> Bool in
             return key == method
         }
-        guard foundMethod.count == 1 else {return nil}
+        guard foundMethod.count == 1 else { return nil }
         let abiMethod = foundMethod[method]
         return abiMethod?.encodeParameters(parameters)
     }

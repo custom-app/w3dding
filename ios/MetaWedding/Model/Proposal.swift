@@ -6,13 +6,31 @@
 //
 
 import Foundation
+import BigInt
 
-struct Proposal: Identifiable, Hashable {
-    var id: String { address+metaUrl }
+class Proposal: Identifiable {
     let address: String
     let metaUrl: String
     let conditions: String
-    let divorceTimeout: Int64
+    let divorceTimeout: BigUInt
+    let timestamp: BigUInt
     let authorAccepted: Bool
     let receiverAccepted: Bool
+    
+    init(address: String, metaUrl: String, condData: String, divorceTimeout: BigUInt, timestamp: BigUInt, authorAccepted: Bool, receiverAccepted: Bool) {
+        self.address = address
+        self.metaUrl = metaUrl
+        self.conditions = condData
+        self.divorceTimeout = divorceTimeout
+        self.timestamp = timestamp
+        self.authorAccepted = authorAccepted
+        self.receiverAccepted = receiverAccepted
+        print("address: \(address)")
+        print("metaUrl: \(metaUrl)")
+        print("condData: \(condData)")
+        print("divorceTimeout: \(divorceTimeout)")
+        print("timestamp: \(timestamp)")
+        print("authorAccepted: \(authorAccepted)")
+        print("receiverAccepted: \(receiverAccepted)")
+    }
 }

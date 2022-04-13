@@ -9,7 +9,9 @@ import Foundation
 
 enum InnerError: Error {
     case balanceParseError
-    case invalidAddress
+    case invalidAddress(address: String)
+    case structParseError(description: String)
+    case unsuccessfullСontractRead(description: String)
 }
 
 class Errors {
