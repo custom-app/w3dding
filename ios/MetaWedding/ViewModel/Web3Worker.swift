@@ -116,7 +116,7 @@ class Web3Worker: ObservableObject {
             method,
             extraData: Data(),
             transactionOptions: options)!
-        let result = try! tx.call()
+        let result = try tx.call()
         
         print("Got reponse for \(method)")
         if let success = result["_success"] as? Bool, !success {
@@ -164,7 +164,7 @@ class Web3Worker: ObservableObject {
                         "getCurrentMarriage",
                         extraData: Data(),
                         transactionOptions: options)!
-                    let result = try! tx.call()
+                    let result = try tx.call()
                     
                     print("Got current marriage response:\n\(result)")
                     if let success = result["_success"] as? Bool, !success {

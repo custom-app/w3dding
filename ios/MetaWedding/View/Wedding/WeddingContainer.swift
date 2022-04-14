@@ -16,30 +16,35 @@ struct WeddingContainer: View {
     var weddingViewModel = WeddingViewModel()
     
     var body: some View {
-        VStack {
-            if globalViewModel.isConnecting || globalViewModel.isReconnecting {
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle())
-                    .scaleEffect(1.2)
-            } else {
-                if globalViewModel.session != nil {
-                    if globalViewModel.isWrongChain {
-                        Text("Connected to wrong chain. Please disconnect and connect to Polygon")
-                            .padding(.horizontal, 20)
-                            .multilineTextAlignment(.center)
-                    } else if globalViewModel.isMarriageLoaded {
-                        if globalViewModel.marriage != nil {
-                            MarriageScreen()
+        ScrollView(.vertical) {
+            PullToRefreshView(bg: .black, fg: .white) {
+                globalViewModel.refresh()
+            }
+            VStack {
+                if globalViewModel.isConnecting || globalViewModel.isReconnecting {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle())
+                        .scaleEffect(1.2)
+                } else {
+                    if globalViewModel.session != nil {
+                        if globalViewModel.isWrongChain {
+                            Text("Connected to wrong chain. Please disconnect and connect to Polygon")
+                                .padding(.horizontal, 20)
+                                .multilineTextAlignment(.center)
+                        } else if globalViewModel.isMarriageLoaded {
+                            if globalViewModel.marriage != nil {
+                                MarriageScreen()
+                            } else {
+                                ProposalsScreen()
+                            }
                         } else {
-                            ProposalsScreen()
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle())
+                                .scaleEffect(1.2)
                         }
                     } else {
-                        ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle())
-                            .scaleEffect(1.2)
+                        Text("Not connected")
                     }
-                } else {
-                    Text("Not connected")
                 }
             }
         }

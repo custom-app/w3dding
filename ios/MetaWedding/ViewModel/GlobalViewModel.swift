@@ -86,6 +86,9 @@ class GlobalViewModel: ObservableObject {
     @Published
     var authoredProposals: [Proposal] = []
     
+    @Published
+    var isRefreshing = false
+    
     
     var isWrongChain: Bool {
         let requiredChainId = Constants.TESTING ? Constants.ChainId.PolygonTestnet : Constants.ChainId.Polygon
@@ -328,6 +331,7 @@ class GlobalViewModel: ObservableObject {
         if let address = walletAccount  {
             web3.getIncomingPropositions(address: address) { [weak self] incomingProposals, error in
                 if let error = error {
+                    print("got incoming proposals error \(error)")
                     //TODO: handle error
                 } else {
                     withAnimation {
@@ -343,6 +347,7 @@ class GlobalViewModel: ObservableObject {
         if let address = walletAccount  {
             web3.getOutgoingPropositions(address: address) { [weak self] outgoingProposals, error in
                 if let error = error {
+                    print("got outgoing proposals error \(error)")
                     //TODO: handle error
                 } else {
                     withAnimation {
@@ -352,6 +357,19 @@ class GlobalViewModel: ObservableObject {
                 }
             }
         }
+    }
+    
+    func requestAllInfo() {
+        requestIncomingProposals()
+        requestOutgoingProposals()
+        requestCurrentMarriage()
+    }
+    
+    func refresh() {
+        isAuthoredProposalsLoaded = false
+        isReceivedProposalsLoaded = false
+        isMarriageLoaded = false
+        requestAllInfo()
     }
     
     func finishConnectBackgroundTask() {
