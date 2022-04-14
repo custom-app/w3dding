@@ -28,15 +28,30 @@ struct WeddingContainer: View {
                 } else {
                     if globalViewModel.session != nil {
                         if globalViewModel.isWrongChain {
-                            Text("Connected to wrong chain. Please disconnect and connect to Polygon")
+                            Text("Error occured while loading data")
                                 .padding(.horizontal, 20)
                                 .multilineTextAlignment(.center)
-                        } else if globalViewModel.isMarriageLoaded {
+                        } else if globalViewModel.allLoaded {
                             if globalViewModel.marriage != nil {
                                 MarriageScreen()
                             } else {
                                 ProposalsScreen()
                             }
+                        } else if globalViewModel.isErrorLoading {
+                            Text("Connected to wrong chain. Please disconnect and connect to Polygon")
+                                .padding(.horizontal, 20)
+                                .padding(.top, 50)
+                                .multilineTextAlignment(.center)
+                            
+                            Button {
+                                globalViewModel.refresh()
+                            } label: {
+                                Text("Retry")
+                                    .padding(16)
+                                    .background(Color.white)
+                                    .cornerRadius(8)
+                            }
+                            .padding(.top, 20)
                         } else {
                             ProgressView()
                                 .progressViewStyle(CircularProgressViewStyle())

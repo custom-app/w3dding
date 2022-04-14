@@ -8,42 +8,6 @@
 import Foundation
 import SwiftUI
 
-struct SwipeRefresh: View {
-    
-    var coordinateSpaceName: String
-    
-    @Binding
-    var needRefresh: Bool
-    
-    var onRefresh: () -> Void
-    
-    var body: some View {
-        GeometryReader { geo in
-            if (geo.frame(in: .named(coordinateSpaceName)).midY > 50) {
-                Spacer()
-                    .onAppear {
-                        needRefresh = true
-                    }
-            } else if (geo.frame(in: .named(coordinateSpaceName)).maxY < 10) {
-                Spacer()
-                    .onAppear {
-                        if needRefresh {
-                            needRefresh = false
-                            onRefresh()
-                        }
-                    }
-            }
-            HStack {
-                Spacer()
-                if needRefresh {
-                    ProgressView()
-                }
-                Spacer()
-            }
-        }.padding(.top, -50)
-    }
-}
-
 struct PullToRefreshView: View {
     private static let minRefreshTimeInterval = TimeInterval(0.2)
     private static let triggerHeight = CGFloat(100)

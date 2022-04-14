@@ -35,6 +35,9 @@ class GlobalViewModel: ObservableObject {
     var isReconnecting: Bool = false
     
     @Published
+    var isErrorLoading: Bool = false
+    
+    @Published
     var walletConnect: LocalWalletConnect?
     
     var pendingDeepLink: String?
@@ -85,10 +88,6 @@ class GlobalViewModel: ObservableObject {
     
     @Published
     var authoredProposals: [Proposal] = []
-    
-    @Published
-    var isRefreshing = false
-    
     
     var isWrongChain: Bool {
         let requiredChainId = Constants.TESTING ? Constants.ChainId.PolygonTestnet : Constants.ChainId.Polygon
@@ -309,12 +308,9 @@ class GlobalViewModel: ObservableObject {
                 print("got marriage result")
                 if let error = error {
                     print("got marriage error \(error)")
-                    //TODO: handle error
+                    self?.isErrorLoading = true
                 } else {
-                    if marriage.isEmpty() {
-                        self?.requestOutgoingProposals()
-                        self?.requestIncomingProposals()
-                    } else {
+                    if !marriage.isEmpty() {
                         withAnimation {
                             self?.marriage = marriage
                         }
@@ -322,6 +318,7 @@ class GlobalViewModel: ObservableObject {
                     withAnimation {
                         self?.isMarriageLoaded = true
                     }
+                    self?.checkAllLoaded()
                 }
             }
         }
@@ -333,10 +330,12 @@ class GlobalViewModel: ObservableObject {
                 if let error = error {
                     print("got incoming proposals error \(error)")
                     //TODO: handle error
+                    self?.isErrorLoading = true
                 } else {
                     withAnimation {
                         self?.receivedProposals = incomingProposals
                         self?.isReceivedProposalsLoaded = true
+                        self?.checkAllLoaded()
                     }
                 }
             }
@@ -349,10 +348,12 @@ class GlobalViewModel: ObservableObject {
                 if let error = error {
                     print("got outgoing proposals error \(error)")
                     //TODO: handle error
+                    self?.isErrorLoading = true
                 } else {
                     withAnimation {
                         self?.authoredProposals = outgoingProposals
                         self?.isAuthoredProposalsLoaded = true
+                        self?.checkAllLoaded()
                     }
                 }
             }
@@ -369,7 +370,18 @@ class GlobalViewModel: ObservableObject {
         isAuthoredProposalsLoaded = false
         isReceivedProposalsLoaded = false
         isMarriageLoaded = false
+        isErrorLoading = false
         requestAllInfo()
+    }
+    
+    func checkAllLoaded() {
+        if allLoaded {
+            isErrorLoading = false
+        }
+    }
+    
+    var allLoaded: Bool {
+        return isAuthoredProposalsLoaded && isReceivedProposalsLoaded && isMarriageLoaded
     }
     
     func finishConnectBackgroundTask() {
@@ -415,7 +427,7 @@ extension GlobalViewModel: WalletConnectDelegate {
                     currentWallet = Wallets.bySession(session: session)
                 }
                 requestBalance()
-                requestCurrentMarriage()
+                requestAllInfo()
             }
         }
     }
