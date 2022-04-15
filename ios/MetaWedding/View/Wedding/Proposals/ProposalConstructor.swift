@@ -88,6 +88,7 @@ struct ProposalConstructor: View {
                     }
                     
                     Button {
+                        globalViewModel.uploadCertificateToNftStorage()
                         globalViewModel.propose(to: globalViewModel.partnerAddress, metaUrl: "ipfs://somelink.roflan")
                     } label: {
                         Text("Propose")
@@ -100,6 +101,12 @@ struct ProposalConstructor: View {
                         Text("Please check wallet app for verification. If there is no verification popup try to click button again")
                             .padding(.horizontal, 20)
                             .multilineTextAlignment(.center)
+                    }
+                    
+                    if let certificate = globalViewModel.certificate {
+                        Image(uiImage: certificate)
+                            .padding(.horizontal, 30)
+                            .padding(.top, 10)
                     }
                 }
                 .padding(.top, 20)

@@ -63,13 +63,13 @@ class GlobalViewModel: ObservableObject {
     var alert: IdentifiableAlert?
     
     @Published
-    var partnerAddress: String = ""
+    var partnerAddress: String = "0x5f28ba977324e28594E975f8a9453FF77792a6Ed"
     
     @Published
-    var name: String = ""
+    var name: String = "Name1"
     
     @Published
-    var partnerName: String = ""
+    var partnerName: String = "Name2"
     
     @Published
     var isMarriageLoaded = false
@@ -88,6 +88,9 @@ class GlobalViewModel: ObservableObject {
     
     @Published
     var authoredProposals: [Proposal] = []
+    
+    @Published
+    var certificate: UIImage?
     
     var isWrongChain: Bool {
         let requiredChainId = Constants.TESTING ? Constants.ChainId.PolygonTestnet : Constants.ChainId.Polygon
@@ -384,6 +387,38 @@ class GlobalViewModel: ObservableObject {
         return isAuthoredProposalsLoaded && isReceivedProposalsLoaded && isMarriageLoaded
     }
     
+    func uploadCertificateToNftStorage() {
+        do {
+            let image = try CertificateWorker.generateCertificate( //TODO: move to background thread somehow
+                name: name,
+                partnerName: partnerName,
+                address: walletAccount!,
+                partnerAddress: partnerAddress)
+            withAnimation {
+                self.certificate = image
+            }
+        } catch {
+            print("error generating certificate: \(error)")
+        }
+        DispatchQueue.global(qos: .userInitiated).async { [self] in
+            guard let data = self.certificate?.jpegData(compressionQuality: 1.0) else {
+                print("error getting jpeg data")
+                return
+            }
+            HttpRequester.shared.uploadPictureToNftStorage(data: data) { response, error in
+                if let error = error {
+                    print("Error uploading certificate: \(error)")
+                    return
+                }
+                if let response = response {
+                    if response.ok {
+                        
+                    }
+                }
+            }
+        }
+    }
+    
     func finishConnectBackgroundTask() {
         if let taskId = connectBackgroundTaskID {
             UIApplication.shared.endBackgroundTask(taskId)
@@ -433,14 +468,14 @@ extension GlobalViewModel: WalletConnectDelegate {
     }
     
     func didUpdate(session: Session) {
-        var needToRequestBalance = false
+        var needToRequestData = false
         if let curSession = self.session,
            let curInfo = curSession.walletInfo,
            let info = session.walletInfo,
            let curAddress = curInfo.accounts.first,
            let address = info.accounts.first,
            curAddress != address || curInfo.chainId != info.chainId {
-            needToRequestBalance = true
+            needToRequestData = true
             do {
                 let sessionData = try JSONEncoder().encode(session)
                 UserDefaults.standard.set(sessionData, forKey: Constants.sessionKey)
@@ -452,8 +487,9 @@ extension GlobalViewModel: WalletConnectDelegate {
             withAnimation {
                 self.session = session
             }
-            if needToRequestBalance {
+            if needToRequestData {
                 requestBalance()
+                refresh()
             }
         }
     }

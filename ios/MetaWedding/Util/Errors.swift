@@ -12,6 +12,9 @@ enum InnerError: Error {
     case invalidAddress(address: String)
     case structParseError(description: String)
     case unsuccessfullСontractRead(description: String)
+    case storeUploadParseError(description: String)
+    case nilDataError
+    case httpError(body: String)
 }
 
 class Errors {
