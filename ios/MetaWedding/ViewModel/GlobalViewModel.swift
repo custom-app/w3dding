@@ -462,7 +462,9 @@ extension GlobalViewModel: WalletConnectDelegate {
                     currentWallet = Wallets.bySession(session: session)
                 }
                 requestBalance()
-                requestAllInfo()
+                if !isWrongChain {
+                    requestAllInfo()
+                }
             }
         }
     }

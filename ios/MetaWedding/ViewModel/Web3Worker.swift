@@ -118,7 +118,7 @@ class Web3Worker: ObservableObject {
             transactionOptions: options)!
         let result = try tx.call()
         
-        print("Got reponse for \(method)")
+        print("Got response for \(method)")
         if let success = result["_success"] as? Bool, !success {
             return ([Proposal](), InnerError.unsuccessfullСontractRead(description: "\(result)"))
         } else {

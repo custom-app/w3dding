@@ -31,6 +31,16 @@ struct WeddingContainer: View {
                             Text("Error occured while loading data")
                                 .padding(.horizontal, 20)
                                 .multilineTextAlignment(.center)
+                            
+                            Button {
+                                globalViewModel.refresh()
+                            } label: {
+                                Text("Retry")
+                                    .padding(16)
+                                    .background(Color.white)
+                                    .cornerRadius(8)
+                            }
+                            .padding(.top, 20)
                         } else if globalViewModel.allLoaded {
                             if globalViewModel.marriage != nil {
                                 MarriageScreen()
@@ -42,16 +52,6 @@ struct WeddingContainer: View {
                                 .padding(.horizontal, 20)
                                 .padding(.top, 50)
                                 .multilineTextAlignment(.center)
-                            
-                            Button {
-                                globalViewModel.refresh()
-                            } label: {
-                                Text("Retry")
-                                    .padding(16)
-                                    .background(Color.white)
-                                    .cornerRadius(8)
-                            }
-                            .padding(.top, 20)
                         } else {
                             ProgressView()
                                 .progressViewStyle(CircularProgressViewStyle())

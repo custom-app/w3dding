@@ -32,7 +32,7 @@ struct MarriageScreen: View {
                         Button {
                             globalViewModel.requestDivorce()
                         } label: {
-                            Text("Divorce")
+                            Text("Request Divorce")
                                 .padding(16)
                                 .background(Color.white)
                                 .cornerRadius(8)
