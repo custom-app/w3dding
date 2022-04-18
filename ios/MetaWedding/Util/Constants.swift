@@ -24,7 +24,7 @@ struct Constants {
     
     struct PolygonEndpoints {
         static let Mainnet = "https://polygon-rpc.com"
-        static let Testnet = "https://matic-mumbai.chainstacklabs.com"
+        static let Testnet = "https://rpc-mumbai.matic.today"
     }
     
     struct ChainId {

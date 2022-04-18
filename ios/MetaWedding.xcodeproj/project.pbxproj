@@ -19,6 +19,7 @@
 		115A658C27F22D93001CBCD2 /* WalletConnect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115A658B27F22D93001CBCD2 /* WalletConnect.swift */; };
 		115A659027F23101001CBCD2 /* WalletConnectSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 115A658F27F23101001CBCD2 /* WalletConnectSwift */; };
 		115A659827F253E8001CBCD2 /* GlobalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115A659727F253E8001CBCD2 /* GlobalViewModel.swift */; };
+		117173E8280CE18800C36A44 /* CertificateMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117173E7280CE18800C36A44 /* CertificateMeta.swift */; };
 		118A951A27F925AE00798141 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118A951927F925AE00798141 /* Constants.swift */; };
 		118A951C27F9281E00798141 /* Wallets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118A951B27F9281E00798141 /* Wallets.swift */; };
 		118A952227F935E000798141 /* WeddingContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118A952127F935E000798141 /* WeddingContainer.swift */; };
@@ -59,6 +60,7 @@
 		115A658D27F22E2E001CBCD2 /* WalletConnectSwift */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = WalletConnectSwift; path = ../../WalletConnectSwift; sourceTree = "<group>"; };
 		115A659727F253E8001CBCD2 /* GlobalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalViewModel.swift; sourceTree = "<group>"; };
 		115A659927F3CD1B001CBCD2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		117173E7280CE18800C36A44 /* CertificateMeta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificateMeta.swift; sourceTree = "<group>"; };
 		118A951927F925AE00798141 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		118A951B27F9281E00798141 /* Wallets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wallets.swift; sourceTree = "<group>"; };
 		118A952127F935E000798141 /* WeddingContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeddingContainer.swift; sourceTree = "<group>"; };
@@ -167,7 +169,6 @@
 				115A659727F253E8001CBCD2 /* GlobalViewModel.swift */,
 				11481B4C27FA4E9A00439106 /* Web3Worker.swift */,
 				11E32C872802208200A540EE /* WeddingViewModel.swift */,
-				11B4C77028090DEA0058A319 /* NftStorage.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -206,9 +207,11 @@
 			isa = PBXGroup;
 			children = (
 				118A951B27F9281E00798141 /* Wallets.swift */,
+				11B4C77028090DEA0058A319 /* NftStorage.swift */,
 				11E32C892802220B00A540EE /* Proposal.swift */,
 				11E32C8B2802243200A540EE /* Marriage.swift */,
 				11E32C8D280224D800A540EE /* DivorceState.swift */,
+				117173E7280CE18800C36A44 /* CertificateMeta.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -328,6 +331,7 @@
 				11E32C9828022C5300A540EE /* ReceivedProposalsScreen.swift in Sources */,
 				11B4C76D2808CD300058A319 /* SwipeRefresh.swift in Sources */,
 				11CE717028038ABC004782E5 /* CertificateWorker.swift in Sources */,
+				117173E8280CE18800C36A44 /* CertificateMeta.swift in Sources */,
 				11B4C77128090DEA0058A319 /* NftStorage.swift in Sources */,
 				11C356CD27FF82D1007A0E69 /* IdentifiableAlert.swift in Sources */,
 				118A952427F935F600798141 /* MainContainer.swift in Sources */,

@@ -89,7 +89,6 @@ struct ProposalConstructor: View {
                     
                     Button {
                         globalViewModel.uploadCertificateToNftStorage()
-                        globalViewModel.propose(to: globalViewModel.partnerAddress, metaUrl: "ipfs://somelink.roflan")
                     } label: {
                         Text("Propose")
                             .padding(16)

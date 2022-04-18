@@ -412,7 +412,37 @@ class GlobalViewModel: ObservableObject {
                 }
                 if let response = response {
                     if response.ok {
-                        
+                        print("certificate successfully uploaded")
+                        self.uploadMetaToNftStorage(cid: response.value.cid)
+                    } else {
+                        print("certificate upload not ok")
+                    }
+                }
+            }
+        }
+    }
+    
+    func uploadMetaToNftStorage(cid: String) {
+        let properties = CertificateProperties(firstPersonAddress: walletAccount!,
+                                               secondPersonAddress: partnerAddress,
+                                               firstPersonName: name,
+                                               secondPersonName: partnerName)
+        let meta = CertificateMeta(name: "W3dding certificate",
+                                   description: "Marriage certificate info",
+                                   image: "ipfs://\(cid)",
+                                   properties: properties)
+        DispatchQueue.global(qos: .userInitiated).async { [self] in
+            HttpRequester.shared.uploadMetaToNftStorage(meta: meta) { response, error in
+                if let error = error {
+                    print("Error uploading certificate meta: \(error)")
+                    return
+                }
+                if let response = response {
+                    if response.ok {
+                        print("certificate meta successfully uploaded, url: \(response.value.url)")
+                        self.propose(to: self.partnerAddress, metaUrl: response.value.url)
+                    } else {
+                        print("certificate meta upload not ok")
                     }
                 }
             }

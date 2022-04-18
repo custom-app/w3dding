@@ -39,17 +39,14 @@ struct AuthoredProposalsScreen: View {
                        ProposalConstructor()
                     }
                     
-                    
-                    List {
-                        ForEach(globalViewModel.authoredProposals) { proposal in
-                            Button {
-                                selectedProposal = proposal
-                            } label: {
-                                HStack {
-                                    Text(proposal.address)
-                                }
-                                .padding(.vertical, 4)
+                    ForEach(globalViewModel.authoredProposals) { proposal in
+                        Button {
+                            selectedProposal = proposal
+                        } label: {
+                            HStack {
+                                Text(proposal.address)
                             }
+                            .padding(.vertical, 4)
                         }
                     }
                     .sheet(item: $selectedProposal,
