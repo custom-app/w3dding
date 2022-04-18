@@ -22,7 +22,7 @@ class Web3Worker: ObservableObject {
         let path = Bundle.main.path(forResource: "abi", ofType: "json")!
         let abiString = try! String(contentsOfFile: path)
         contract = EthereumContract(abiString)!
-        let address = Constants.TESTING ? Constants.ContractAddress.Testnet : Constants.ContractAddress.Mainnet
+        let address = Config.TESTING ? Constants.ContractAddress.Testnet : Constants.ContractAddress.Mainnet
         contractWeb3 = web3.contract(abiString, at: EthereumAddress(address)!, abiVersion: 2)!
     }
     

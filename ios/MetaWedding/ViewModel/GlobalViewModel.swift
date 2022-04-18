@@ -43,8 +43,8 @@ class GlobalViewModel: ObservableObject {
     var pendingDeepLink: String?
     
     @Published
-    var web3 = Web3Worker(endpoint: Constants.TESTING ?
-                          Constants.PolygonEndpoints.Testnet : Constants.PolygonEndpoints.Mainnet)
+    var web3 = Web3Worker(endpoint: Config.TESTING ?
+                          Config.PolygonEndpoints.Testnet : Config.PolygonEndpoints.Mainnet)
     
     @Published
     var balance: Double? = nil
@@ -93,7 +93,7 @@ class GlobalViewModel: ObservableObject {
     var certificate: UIImage?
     
     var isWrongChain: Bool {
-        let requiredChainId = Constants.TESTING ? Constants.ChainId.PolygonTestnet : Constants.ChainId.Polygon
+        let requiredChainId = Config.TESTING ? Constants.ChainId.PolygonTestnet : Constants.ChainId.Polygon
         if let session = session,
            let chainId = session.walletInfo?.chainId,
            chainId != requiredChainId {
@@ -364,6 +364,7 @@ class GlobalViewModel: ObservableObject {
     }
     
     func requestAllInfo() {
+        print("requesting all info")
         requestIncomingProposals()
         requestOutgoingProposals()
         requestCurrentMarriage()
@@ -412,7 +413,7 @@ class GlobalViewModel: ObservableObject {
                 }
                 if let response = response {
                     if response.ok {
-                        print("certificate successfully uploaded")
+                        print("certificate successfully uploaded: \(response.value.cid)")
                         self.uploadMetaToNftStorage(cid: response.value.cid)
                     } else {
                         print("certificate upload not ok")

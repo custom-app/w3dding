@@ -18,9 +18,6 @@ class HttpRequester {
     
     private let boundary: String = UUID().uuidString
     
-    //TODO: generate new and store in gitignored config
-    private let nftStorageKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweGI1N0NjMzQ4ZjE1RDQ4NUVEMjJkNWRBYWRiMmQ2RTg0NDhERjM2MDAiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY0OTk4MzYwMTAyNywibmFtZSI6InRlc3Rfa2V5In0.HTaOuxPjCtPdGMtOGQ6DHjp-OBDtSWvkpFqvGEIxYes"
-    
     func uploadPictureToNftStorage(data: Data, onResult: @escaping (ImageUploadResponse?, Error?) -> ()) {
         print("uploading picture")
         var request = URLRequest(
@@ -31,7 +28,7 @@ class HttpRequester {
         request.addValue(HttpRequester.IMAGE_MIME_TYPE,
                          forHTTPHeaderField: HttpRequester.HEADER_CONTENT_TYPE)
         
-        request.addValue("Bearer \(nftStorageKey)",
+        request.addValue("Bearer \(Config.nftStorageKey)",
                          forHTTPHeaderField: HttpRequester.HEADER_AUTHORIZATION)
         request.httpBody = data
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) -> Void in
@@ -98,7 +95,7 @@ class HttpRequester {
         request.httpMethod = "POST"
         request.addValue("multipart/form-data; boundary=\(boundary)",
                          forHTTPHeaderField: HttpRequester.HEADER_CONTENT_TYPE)
-        request.addValue("Bearer \(nftStorageKey)", forHTTPHeaderField: HttpRequester.HEADER_AUTHORIZATION)
+        request.addValue("Bearer \(Config.nftStorageKey)", forHTTPHeaderField: HttpRequester.HEADER_AUTHORIZATION)
         
         var data = Data()
         data.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)

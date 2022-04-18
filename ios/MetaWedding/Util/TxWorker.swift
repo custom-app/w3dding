@@ -15,7 +15,7 @@ class TxWorker {
                           value: String = "0x0",
                           gas: String? = nil,
                           gasPrice: String? = nil) -> Client.Transaction {
-        let contractAddress = Constants.TESTING ? Constants.ContractAddress.Testnet :
+        let contractAddress = Config.TESTING ? Constants.ContractAddress.Testnet :
                                                   Constants.ContractAddress.Mainnet
         return Client.Transaction(from: from,
                                   to: contractAddress,
