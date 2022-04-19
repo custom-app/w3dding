@@ -24,6 +24,7 @@
 		118A951C27F9281E00798141 /* Wallets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118A951B27F9281E00798141 /* Wallets.swift */; };
 		118A952227F935E000798141 /* WeddingContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118A952127F935E000798141 /* WeddingContainer.swift */; };
 		118A952427F935F600798141 /* MainContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118A952327F935F600798141 /* MainContainer.swift */; };
+		11A484C9280F804600DE5C24 /* BackgroundTasksManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A484C8280F804600DE5C24 /* BackgroundTasksManager.swift */; };
 		11AA278027FE372500BC8BCA /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AA277F27FE372500BC8BCA /* Extensions.swift */; };
 		11B4C76D2808CD300058A319 /* SwipeRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B4C76C2808CD300058A319 /* SwipeRefresh.swift */; };
 		11B4C76F2808F2C10058A319 /* HttpRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B4C76E2808F2C10058A319 /* HttpRequester.swift */; };
@@ -67,6 +68,7 @@
 		118A951B27F9281E00798141 /* Wallets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wallets.swift; sourceTree = "<group>"; };
 		118A952127F935E000798141 /* WeddingContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeddingContainer.swift; sourceTree = "<group>"; };
 		118A952327F935F600798141 /* MainContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContainer.swift; sourceTree = "<group>"; };
+		11A484C8280F804600DE5C24 /* BackgroundTasksManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundTasksManager.swift; sourceTree = "<group>"; };
 		11AA277F27FE372500BC8BCA /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		11B4C76C2808CD300058A319 /* SwipeRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeRefresh.swift; sourceTree = "<group>"; };
 		11B4C76E2808F2C10058A319 /* HttpRequester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpRequester.swift; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 				11B6336E2804CCDA00745730 /* TxWorker.swift */,
 				11B4C76E2808F2C10058A319 /* HttpRequester.swift */,
 				11B8CE58280DD38C00B25974 /* Config.swift */,
+				11A484C8280F804600DE5C24 /* BackgroundTasksManager.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -339,6 +342,7 @@
 				11CE717028038ABC004782E5 /* CertificateWorker.swift in Sources */,
 				117173E8280CE18800C36A44 /* CertificateMeta.swift in Sources */,
 				11B4C77128090DEA0058A319 /* NftStorage.swift in Sources */,
+				11A484C9280F804600DE5C24 /* BackgroundTasksManager.swift in Sources */,
 				11C356CD27FF82D1007A0E69 /* IdentifiableAlert.swift in Sources */,
 				118A952427F935F600798141 /* MainContainer.swift in Sources */,
 				11E32C8E280224D800A540EE /* DivorceState.swift in Sources */,

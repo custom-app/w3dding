@@ -24,13 +24,11 @@ class GlobalViewModel: ObservableObject {
     
     @Published
     var session: Session?
-    
     @Published
     var currentWallet: Wallet?
     
     @Published
     var isConnecting: Bool = false
-    
     @Published
     var isReconnecting: Bool = false
     
@@ -38,13 +36,12 @@ class GlobalViewModel: ObservableObject {
     var isErrorLoading: Bool = false
     
     @Published
-    var walletConnect: LocalWalletConnect?
-    
-    var pendingDeepLink: String?
-    
+    var walletConnect: WalletConnect?
     @Published
     var web3 = Web3Worker(endpoint: Config.TESTING ?
                           Config.PolygonEndpoints.Testnet : Config.PolygonEndpoints.Mainnet)
+    
+    var pendingDeepLink: String?
     
     @Published
     var balance: Double? = nil
@@ -52,40 +49,31 @@ class GlobalViewModel: ObservableObject {
     @Published
     var selectedTab = 1
     
+    var backgroundManager = BackgroundTasksManager()
+    
     @Published
     var sendTxPending = false
-    
-    var connectBackgroundTaskID: UIBackgroundTaskIdentifier?
-    
-    var sendTxBackgroundTaskID: UIBackgroundTaskIdentifier?
     
     @Published
     var alert: IdentifiableAlert?
     
     @Published
     var partnerAddress: String = "0x5f28ba977324e28594E975f8a9453FF77792a6Ed"
-    
     @Published
-    var name: String = "Name1"
-    
+    var name: String = "Name0"
     @Published
-    var partnerName: String = "Name2"
+    var partnerName: String = "Name1"
     
     @Published
     var isMarriageLoaded = false
-    
     @Published
     var marriage: Marriage?
-    
     @Published
     var isReceivedProposalsLoaded = false
-    
     @Published
     var receivedProposals: [Proposal] = []
-    
     @Published
     var isAuthoredProposalsLoaded = false
-    
     @Published
     var authoredProposals: [Proposal] = []
     
@@ -108,7 +96,7 @@ class GlobalViewModel: ObservableObject {
     func initWalletConnect() {
         print("init wallet connect: \(walletConnect == nil)")
         if walletConnect == nil {
-            walletConnect = LocalWalletConnect(delegate: self, globalViewModel: self)
+            walletConnect = WalletConnect(delegate: self, globalViewModel: self)
             if walletConnect!.haveOldSession() {
                 withAnimation {
                     isConnecting = true
@@ -135,9 +123,7 @@ class GlobalViewModel: ObservableObject {
                 //TODO: deeplink into app in store
             }
         }
-        self.connectBackgroundTaskID = UIApplication.shared.beginBackgroundTask (withName: "Connect to wallet connect") { [weak self] in
-            self?.finishConnectBackgroundTask()
-        }
+        backgroundManager.createConnectBackgroundTask()
     }
 
     func onMainThread(_ closure: @escaping () -> Void) {
@@ -213,10 +199,7 @@ class GlobalViewModel: ObservableObject {
                         }
                         print("sending tx: \(label)")
                         self.onMainThread {
-                            self.sendTxBackgroundTaskID =
-                            UIApplication.shared.beginBackgroundTask (withName: "Send tx") { [weak self] in
-                                self?.finishSendTxBackgroundTask()
-                            }
+                            self.backgroundManager.createSendTxBackgroundTask()
                             withAnimation {
                                 self.sendTxPending = true
                             }
@@ -239,10 +222,7 @@ class GlobalViewModel: ObservableObject {
                 }
                 print("sending tx: \(label)")
                 onMainThread {
-                    self.sendTxBackgroundTaskID =
-                    UIApplication.shared.beginBackgroundTask (withName: "Send tx") { [weak self] in
-                        self?.finishSendTxBackgroundTask()
-                    }
+                    self.backgroundManager.createSendTxBackgroundTask()
                     withAnimation {
                         self.sendTxPending = true
                     }
@@ -277,7 +257,7 @@ class GlobalViewModel: ObservableObject {
         print("hadling response:\(label)")
         if isSendRequestLabel(label: label) {
             onMainThread {
-                self.finishSendTxBackgroundTask()
+                self.backgroundManager.finishSendTxBackgroundTask()
                 withAnimation {
                     self.sendTxPending = false
                 }
@@ -414,19 +394,23 @@ class GlobalViewModel: ObservableObject {
         }
     
     func uploadCertificateToNftStorage(formatter: UIViewPrintFormatter) {
+        backgroundManager.createCertificateBackgroundTask()
         do {
             guard let pdfUrl = try CertificateWorker.generateCertificatePdf(formatter: formatter) else {
+                backgroundManager.finishCertificateBackgroundTask()
                 return
             }
             DispatchQueue.global(qos: .userInitiated).async { [self] in
                 let image = CertificateWorker.imageFromPdf(url: pdfUrl)
                 guard let data = image?.jpegData(compressionQuality: 1.0) else {
                     print("error getting jpeg data")
+                    backgroundManager.finishCertificateBackgroundTask()
                     return
                 }
                 HttpRequester.shared.uploadPictureToNftStorage(data: data) { response, error in
                     if let error = error {
                         print("Error uploading certificate: \(error)")
+                        self.backgroundManager.finishCertificateBackgroundTask()
                         return
                     }
                     if let response = response {
@@ -435,12 +419,14 @@ class GlobalViewModel: ObservableObject {
                             self.uploadMetaToNftStorage(cid: response.value.cid)
                         } else {
                             print("certificate upload not ok")
+                            self.backgroundManager.finishCertificateBackgroundTask()
                         }
                     }
                 }
             }
         } catch {
             print("error generating certificate: \(error)")
+            backgroundManager.finishCertificateBackgroundTask()
         }
     }
     
@@ -457,11 +443,14 @@ class GlobalViewModel: ObservableObject {
             HttpRequester.shared.uploadMetaToNftStorage(meta: meta) { response, error in
                 if let error = error {
                     print("Error uploading certificate meta: \(error)")
+                    self.backgroundManager.finishCertificateBackgroundTask()
                     return
                 }
                 if let response = response {
+                    self.backgroundManager.finishCertificateBackgroundTask()
                     if response.ok {
                         print("certificate meta successfully uploaded, url: \(response.value.url)")
+                        self.backgroundManager.createCertificateBackgroundTask()
                         self.propose(to: self.partnerAddress, metaUrl: response.value.url)
                     } else {
                         print("certificate meta upload not ok")
@@ -470,26 +459,12 @@ class GlobalViewModel: ObservableObject {
             }
         }
     }
-    
-    func finishConnectBackgroundTask() {
-        if let taskId = connectBackgroundTaskID {
-            UIApplication.shared.endBackgroundTask(taskId)
-            self.connectBackgroundTaskID = nil
-        }
-    }
-    
-    func finishSendTxBackgroundTask() {
-        if let taskId = sendTxBackgroundTaskID {
-            UIApplication.shared.endBackgroundTask(taskId)
-            self.sendTxBackgroundTaskID = nil
-        }
-    }
 }
 
 extension GlobalViewModel: WalletConnectDelegate {
     func failedToConnect() {
         print("failed to connect")
-        finishConnectBackgroundTask()
+        backgroundManager.finishConnectBackgroundTask()
         onMainThread { [unowned self] in
             withAnimation {
                 isConnecting = false
@@ -503,7 +478,7 @@ extension GlobalViewModel: WalletConnectDelegate {
 
     func didConnect() {
         print("did connect")
-        finishConnectBackgroundTask()
+        backgroundManager.finishConnectBackgroundTask()
         onMainThread { [unowned self] in
             withAnimation {
                 isConnecting = false
@@ -550,7 +525,7 @@ extension GlobalViewModel: WalletConnectDelegate {
     func didDisconnect(isReconnecting: Bool) {
         print("did disconnect, is reconnecting: \(isReconnecting)")
         if !isReconnecting {
-            finishConnectBackgroundTask()
+            backgroundManager.finishConnectBackgroundTask()
             onMainThread { [unowned self] in
                 withAnimation {
                     isConnecting = false

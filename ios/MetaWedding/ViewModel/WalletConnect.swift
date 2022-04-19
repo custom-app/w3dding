@@ -8,7 +8,7 @@
 import Foundation
 import WalletConnectSwift
 
-class LocalWalletConnect {
+class WalletConnect {
     var client: Client!
     var session: Session!
     var delegate: WalletConnectDelegate
@@ -74,7 +74,7 @@ protocol WalletConnectDelegate {
     func didDisconnect(isReconnecting: Bool)
 }
 
-extension LocalWalletConnect: ClientDelegate {
+extension WalletConnect: ClientDelegate {
     func client(_ client: Client, didFailToConnect url: WCURL) {
         delegate.failedToConnect()
     }
