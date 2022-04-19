@@ -12,7 +12,7 @@ class CertificateWorker {
     
     private static let pdfName = "certificate"
     
-    public static let htmlTemplate2 = """
+    public static let htmlTemplate = """
 <h1 style="text-align: center;">MARRIAGE CERTIFICATE</h1>
 <h2 style="text-align: center;">&nbsp;</h2>
 <h2 style="text-align: center;"><span style="background-color: #000000; color: #ffffff;"><em><strong>&nbsp;name1&nbsp;</strong></em></span></h2>

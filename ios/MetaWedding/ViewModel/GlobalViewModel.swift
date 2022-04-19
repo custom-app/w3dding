@@ -220,6 +220,7 @@ class GlobalViewModel: ObservableObject {
                             withAnimation {
                                 self.sendTxPending = true
                             }
+                            self.openWallet()
                         }
                     } catch {
                         print("error sending tx: \(error)")
@@ -245,12 +246,22 @@ class GlobalViewModel: ObservableObject {
                     withAnimation {
                         self.sendTxPending = true
                     }
+                    self.openWallet()
                 }
             } catch {
                 print("error sending tx: \(error)")
                 self.onMainThread {
                     self.alert = IdentifiableAlert.forError(error: error.localizedDescription)
                 }
+            }
+        }
+    }
+    
+    func openWallet() {
+        if let wallet = self.currentWallet {
+            if let url = URL(string: wallet.formEmptyDeepLink()),
+               UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
         }
     }
@@ -393,7 +404,7 @@ class GlobalViewModel: ObservableObject {
     
     func buildCertificateWebView() {
             if let address = walletAccount {
-                certificateHtml = CertificateWorker.htmlTemplate2
+                certificateHtml = CertificateWorker.htmlTemplate
                     .replacingOccurrences(of: CertificateWorker.nameKey, with: name)
                     .replacingOccurrences(of: CertificateWorker.partnerNameKey, with: partnerName)
                     .replacingOccurrences(of: CertificateWorker.addressKey, with: address)

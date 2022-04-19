@@ -21,10 +21,14 @@ struct Wallet: Hashable {
     }
     
     func formWcDeepLink(connectionUrl: String) -> String {
+        formEmptyDeepLink() + "wc?uri=\(connectionUrl)"
+    }
+    
+    func formEmptyDeepLink() -> String {
         if isUniversal {
-            return "\(deepLinkScheme)/wc?uri=\(connectionUrl)"
+            return "\(deepLinkScheme)/"
         } else {
-            return "\(deepLinkScheme)://wc?uri=\(connectionUrl)"
+            return "\(deepLinkScheme)://"
         }
     }
 }
