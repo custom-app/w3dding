@@ -90,7 +90,10 @@ class GlobalViewModel: ObservableObject {
     var authoredProposals: [Proposal] = []
     
     @Published
-    var certificate: UIImage?
+    var showWebView: Bool = false
+ 
+    @Published
+    var certificateHtml: String = ""
     
     var isWrongChain: Bool {
         let requiredChainId = Config.TESTING ? Constants.ChainId.PolygonTestnet : Constants.ChainId.Polygon
@@ -388,38 +391,45 @@ class GlobalViewModel: ObservableObject {
         return isAuthoredProposalsLoaded && isReceivedProposalsLoaded && isMarriageLoaded
     }
     
-    func uploadCertificateToNftStorage() {
-        do {
-            let image = try CertificateWorker.generateCertificate( //TODO: move to background thread somehow
-                name: name,
-                partnerName: partnerName,
-                address: walletAccount!,
-                partnerAddress: partnerAddress)
-            withAnimation {
-                self.certificate = image
+    func buildCertificateWebView() {
+            if let address = walletAccount {
+                certificateHtml = CertificateWorker.htmlTemplate2
+                    .replacingOccurrences(of: CertificateWorker.nameKey, with: name)
+                    .replacingOccurrences(of: CertificateWorker.partnerNameKey, with: partnerName)
+                    .replacingOccurrences(of: CertificateWorker.addressKey, with: address)
+                    .replacingOccurrences(of: CertificateWorker.partnerAddressKey, with: partnerAddress)
+                showWebView = true
             }
-        } catch {
-            print("error generating certificate: \(error)")
         }
-        DispatchQueue.global(qos: .userInitiated).async { [self] in
-            guard let data = self.certificate?.jpegData(compressionQuality: 1.0) else {
-                print("error getting jpeg data")
+    
+    func uploadCertificateToNftStorage(formatter: UIViewPrintFormatter) {
+        do {
+            guard let pdfUrl = try CertificateWorker.generateCertificatePdf(formatter: formatter) else {
                 return
             }
-            HttpRequester.shared.uploadPictureToNftStorage(data: data) { response, error in
-                if let error = error {
-                    print("Error uploading certificate: \(error)")
+            DispatchQueue.global(qos: .userInitiated).async { [self] in
+                let image = CertificateWorker.imageFromPdf(url: pdfUrl)
+                guard let data = image?.jpegData(compressionQuality: 1.0) else {
+                    print("error getting jpeg data")
                     return
                 }
-                if let response = response {
-                    if response.ok {
-                        print("certificate successfully uploaded: \(response.value.cid)")
-                        self.uploadMetaToNftStorage(cid: response.value.cid)
-                    } else {
-                        print("certificate upload not ok")
+                HttpRequester.shared.uploadPictureToNftStorage(data: data) { response, error in
+                    if let error = error {
+                        print("Error uploading certificate: \(error)")
+                        return
+                    }
+                    if let response = response {
+                        if response.ok {
+                            print("certificate successfully uploaded: \(response.value.cid)")
+                            self.uploadMetaToNftStorage(cid: response.value.cid)
+                        } else {
+                            print("certificate upload not ok")
+                        }
                     }
                 }
             }
+        } catch {
+            print("error generating certificate: \(error)")
         }
     }
     
@@ -463,7 +473,6 @@ class GlobalViewModel: ObservableObject {
             self.sendTxBackgroundTaskID = nil
         }
     }
-    
 }
 
 extension GlobalViewModel: WalletConnectDelegate {

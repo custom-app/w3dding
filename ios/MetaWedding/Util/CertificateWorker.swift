@@ -10,9 +10,9 @@ import UIKit
 
 class CertificateWorker {
     
-    private static let pdfName = "certificate.pdf"
+    private static let pdfName = "certificate"
     
-    private static let htmlTemplate = """
+    public static let htmlTemplate2 = """
 <h1 style="text-align: center;">MARRIAGE CERTIFICATE</h1>
 <h2 style="text-align: center;">&nbsp;</h2>
 <h2 style="text-align: center;"><span style="background-color: #000000; color: #ffffff;"><em><strong>&nbsp;name1&nbsp;</strong></em></span></h2>
@@ -22,24 +22,14 @@ class CertificateWorker {
 <h3 style="text-align: center;"><span style="color: #333399;"><em>(address2)</em></span></h3>
 """
     
-    private static let nameKey = "name1"
-    private static let partnerNameKey = "name2"
-    private static let addressKey = "address1"
-    private static let partnerAddressKey = "address2"
+    public static let nameKey = "name1"
+    public static let partnerNameKey = "name2"
+    public static let addressKey = "address1"
+    public static let partnerAddressKey = "address2"
     private static let pageWidth = 595.2
     private static let pageHeight = 841.8
     
-    static func generateCertificate(name: String,
-                                    partnerName: String,
-                                    address: String,
-                                    partnerAddress: String) throws -> UIImage? {
-        let htmlString = htmlTemplate
-            .replacingOccurrences(of: nameKey, with: name)
-            .replacingOccurrences(of: partnerNameKey, with: partnerName)
-            .replacingOccurrences(of: addressKey, with: address)
-            .replacingOccurrences(of: partnerAddressKey, with: partnerAddress)
-        
-        let formatter = UIMarkupTextPrintFormatter(markupText: htmlString)
+    static func generateCertificatePdf(formatter: UIViewPrintFormatter) throws -> URL? {
         let renderer = UIPrintPageRenderer()
         renderer.addPrintFormatter(formatter, startingAtPageAt: 0)
         let page = CGRect(x: 0, y: 0, width: pageWidth, height: pageHeight)
@@ -59,7 +49,7 @@ class CertificateWorker {
             create: false)
             .appendingPathComponent(pdfName).appendingPathExtension("pdf")
         pdfData.write(to: outputURL, atomically: true)
-        return imageFromPdf(url: outputURL)
+        return outputURL
     }
     
     static func imageFromPdf(url: URL) -> UIImage? {
@@ -77,7 +67,6 @@ class CertificateWorker {
 
             ctx.cgContext.drawPDFPage(page)
         }
-
         return img
     }
     

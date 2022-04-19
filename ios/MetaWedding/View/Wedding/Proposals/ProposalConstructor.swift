@@ -88,7 +88,7 @@ struct ProposalConstructor: View {
                     }
                     
                     Button {
-                        globalViewModel.uploadCertificateToNftStorage()
+                        globalViewModel.buildCertificateWebView()
                     } label: {
                         Text("Propose")
                             .padding(16)
@@ -102,10 +102,13 @@ struct ProposalConstructor: View {
                             .multilineTextAlignment(.center)
                     }
                     
-                    if let certificate = globalViewModel.certificate {
-                        Image(uiImage: certificate)
-                            .padding(.horizontal, 30)
-                            .padding(.top, 10)
+                    if globalViewModel.showWebView {
+                        WebView(htmlString: globalViewModel.certificateHtml) { formatter in
+                            globalViewModel.showWebView = false
+                            globalViewModel.uploadCertificateToNftStorage(formatter: formatter)
+                        }
+                        .frame(minHeight: 1, maxHeight: 1)
+                        .opacity(0)
                     }
                 }
                 .padding(.top, 20)
