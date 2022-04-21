@@ -382,11 +382,15 @@ class GlobalViewModel: ObservableObject {
     
     func buildCertificateWebView() {
             if let address = walletAccount {
+                let now = Date()
                 certificateHtml = CertificateWorker.htmlTemplate
                     .replacingOccurrences(of: CertificateWorker.nameKey, with: name)
                     .replacingOccurrences(of: CertificateWorker.partnerNameKey, with: partnerName)
                     .replacingOccurrences(of: CertificateWorker.addressKey, with: address)
                     .replacingOccurrences(of: CertificateWorker.partnerAddressKey, with: partnerAddress.lowercased())
+                    .replacingOccurrences(of: CertificateWorker.dayNumKey, with: now.dayOrdinal())
+                    .replacingOccurrences(of: CertificateWorker.monthNumKey, with: now.formattedDateString("LLLL").lowercased())
+                    .replacingOccurrences(of: CertificateWorker.yearNumKey, with: now.formattedDateString("yyyy"))
                 showWebView = true
             }
         }
