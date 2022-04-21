@@ -78,16 +78,24 @@ struct ProposalConstructor: View {
                 
                 
                 VStack(spacing: 30) {
-                    Button {
-                        globalViewModel.personalSign()
-                    } label: {
-                        Text("Personal Sign")
-                            .padding(16)
-                            .background(Color.white)
-                            .cornerRadius(8)
-                    }
                     
                     Button {
+                        guard Tools.isAddressValid(globalViewModel.partnerAddress) else {
+                            globalViewModel.alert = IdentifiableAlert.build(
+                                id: "validation failed",
+                                title: "Validation Failed",
+                                message: "Entered address is no valid"
+                            )
+                            return
+                        }
+                        guard !globalViewModel.name.isEmpty && !globalViewModel.partnerName.isEmpty else {
+                            globalViewModel.alert = IdentifiableAlert.build(
+                                id: "validation failed",
+                                title: "Validation Failed",
+                                message: "Names can't be empty"
+                            )
+                            return
+                        }
                         globalViewModel.buildCertificateWebView()
                     } label: {
                         Text("Propose")
