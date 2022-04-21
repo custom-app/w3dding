@@ -17,7 +17,8 @@ struct MarriageScreen: View {
             Text("Marriage Screen")
                 .padding(.bottom, 20)
             
-            if let marriage = globalViewModel.marriage {
+            let marriage = globalViewModel.marriage
+            if !marriage.isEmpty() {
                 Text(marriage.authorAddress)
                     .font(.system(size: 14))
                 Text("+")

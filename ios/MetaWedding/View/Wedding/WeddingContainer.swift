@@ -42,7 +42,7 @@ struct WeddingContainer: View {
                             }
                             .padding(.top, 20)
                         } else if globalViewModel.allLoaded {
-                            if globalViewModel.marriage != nil {
+                            if !globalViewModel.marriage.isEmpty() {
                                 MarriageScreen()
                             } else {
                                 ProposalsScreen()

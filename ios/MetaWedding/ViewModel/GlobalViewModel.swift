@@ -67,7 +67,7 @@ class GlobalViewModel: ObservableObject {
     @Published
     var isMarriageLoaded = false
     @Published
-    var marriage: Marriage?
+    var marriage: Marriage = Marriage()
     @Published
     var isReceivedProposalsLoaded = false
     @Published
@@ -137,7 +137,7 @@ class GlobalViewModel: ObservableObject {
     }
     
     var walletAccount: String? {
-        return session?.walletInfo!.accounts[0]
+        return session?.walletInfo!.accounts[0].lowercased()
     }
     
     func personalSign() {
@@ -307,10 +307,8 @@ class GlobalViewModel: ObservableObject {
                     print("got marriage error \(error)")
                     self?.isErrorLoading = true
                 } else {
-                    if !marriage.isEmpty() {
-                        withAnimation {
-                            self?.marriage = marriage
-                        }
+                    withAnimation {
+                        self?.marriage = marriage
                     }
                     withAnimation {
                         self?.isMarriageLoaded = true
@@ -388,7 +386,7 @@ class GlobalViewModel: ObservableObject {
                     .replacingOccurrences(of: CertificateWorker.nameKey, with: name)
                     .replacingOccurrences(of: CertificateWorker.partnerNameKey, with: partnerName)
                     .replacingOccurrences(of: CertificateWorker.addressKey, with: address)
-                    .replacingOccurrences(of: CertificateWorker.partnerAddressKey, with: partnerAddress)
+                    .replacingOccurrences(of: CertificateWorker.partnerAddressKey, with: partnerAddress.lowercased())
                 showWebView = true
             }
         }
@@ -432,7 +430,7 @@ class GlobalViewModel: ObservableObject {
     
     func uploadMetaToNftStorage(cid: String) {
         let properties = CertificateProperties(firstPersonAddress: walletAccount!,
-                                               secondPersonAddress: partnerAddress,
+                                               secondPersonAddress: partnerAddress.lowercased(),
                                                firstPersonName: name,
                                                secondPersonName: partnerName)
         let meta = CertificateMeta(name: "W3dding certificate",
