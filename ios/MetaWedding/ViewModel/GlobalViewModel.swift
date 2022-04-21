@@ -149,6 +149,7 @@ class GlobalViewModel: ObservableObject {
     }
     
     func propose(to: String, metaUrl: String, condData: String = "") {
+        backgroundManager.finishCertificateBackgroundTask()
         guard let data = web3.proposeData(to: to, metaUrl: metaUrl, condData: condData) else { return } // TODO: return error
         sendTx(data: data, label: proposeId)
     }
@@ -452,7 +453,6 @@ class GlobalViewModel: ObservableObject {
                     self.backgroundManager.finishCertificateBackgroundTask()
                     if response.ok {
                         print("certificate meta successfully uploaded, url: \(response.value.url)")
-                        self.backgroundManager.createCertificateBackgroundTask()
                         self.propose(to: self.partnerAddress, metaUrl: response.value.url)
                     } else {
                         print("certificate meta upload not ok")
