@@ -106,10 +106,3 @@ extension WalletConnect: ClientDelegate {
         delegate.didUpdate(session: session)
     }
 }
-
-extension WCURL {
-    var fullyPercentEncodedStr: String {
-        absoluteString.addingPercentEncoding(withAllowedCharacters: .alphanumerics) ?? ""
-    }
-}
-

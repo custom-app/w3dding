@@ -84,7 +84,7 @@ struct ProposalConstructor: View {
                             globalViewModel.alert = IdentifiableAlert.build(
                                 id: "validation failed",
                                 title: "Validation Failed",
-                                message: "Entered address is no valid"
+                                message: "Entered address is not valid"
                             )
                             return
                         }

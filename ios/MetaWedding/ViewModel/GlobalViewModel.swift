@@ -15,6 +15,7 @@ import UIKit
 class GlobalViewModel: ObservableObject {
     
     private let gasSafeAddition: BigUInt = 3000000000
+    private let deepLinkDelay = 0.5
     private let defaultGasAmount = "0x5208"
     private let proposeId = "propose"
     private let acceptProposalId = "accept_proposal"
@@ -58,11 +59,11 @@ class GlobalViewModel: ObservableObject {
     var alert: IdentifiableAlert?
     
     @Published
-    var partnerAddress: String = "0x5f28ba977324e28594E975f8a9453FF77792a6Ed"
+    var partnerAddress: String = ""
     @Published
-    var name: String = "Name0"
+    var name: String = ""
     @Published
-    var partnerName: String = "Name1"
+    var partnerName: String = ""
     
     @Published
     var isMarriageLoaded = false
@@ -70,6 +71,8 @@ class GlobalViewModel: ObservableObject {
     var marriage: Marriage = Marriage()
     @Published
     var meta: CertificateMeta?
+    @Published
+    var isErrorLoadingMeta = false
     @Published
     var isReceivedProposalsLoaded = false
     @Published
@@ -87,6 +90,10 @@ class GlobalViewModel: ObservableObject {
     
     @Published
     var isNewProposalPending = false
+    
+    var walletAccount: String? {
+        return session?.walletInfo!.accounts[0].lowercased()
+    }
     
     var isWrongChain: Bool {
         let requiredChainId = Config.TESTING ? Constants.ChainId.PolygonTestnet : Constants.ChainId.Polygon
@@ -118,10 +125,17 @@ class GlobalViewModel: ObservableObject {
         currentWallet = wallet
     }
     
+    func disconnect() {
+        guard let session = session, let walletConnect = walletConnect else { return }
+        try? walletConnect.client?.disconnect(from: session)
+        self.session = nil
+        UserDefaults.standard.removeObject(forKey: Constants.sessionKey)
+    }
+    
     func triggerPendingDeepLink() {
         guard let deepLink = pendingDeepLink else { return }
         pendingDeepLink = nil
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + deepLinkDelay) {
             if let url = URL(string: deepLink), UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             } else {
@@ -141,105 +155,98 @@ class GlobalViewModel: ObservableObject {
         }
     }
     
-    var walletAccount: String? {
-        return session?.walletInfo!.accounts[0].lowercased()
-    }
-    
-    func personalSign() {
-        guard let session = session, let client = walletConnect?.client else { return }
-        try? client.personal_sign(url: session.url, message: "Hi there!", account: walletAccount!) {
-            [weak self] response in
-            self?.handleReponse(response, label: "Signature")
-        }
-    }
-    
     func propose(to: String, metaUrl: String, condData: String = "") {
         backgroundManager.finishCertificateBackgroundTask()
-        guard let data = web3.proposeData(to: to, metaUrl: metaUrl, condData: condData) else { return } // TODO: return error
-        sendTx(data: data, label: proposeId)
+        guard let data = web3.proposeData(to: to, metaUrl: metaUrl, condData: condData) else {
+            handleError(InnerError.nilContractMethodData(method: "propose"))
+            return
+        }
+        prepareAndSendTx(data: data, label: proposeId)
     }
     
     func updateProposition(to: String, metaUrl: String, condData: String = "") {
         guard let data = web3.updatePropositionData(to: to,
                                                     metaUrl: metaUrl,
-                                                    condData: condData) else { return } // TODO: return error
-        sendTx(data: data, label: updateProposalId)
+                                                    condData: condData) else {
+            handleError(InnerError.nilContractMethodData(method: "updateProposition"))
+            return
+        }
+        prepareAndSendTx(data: data, label: updateProposalId)
     }
     
     func acceptProposition(to: String, metaUrl: String, condData: String = "") {
-        guard let data = web3.acceptPropositionData(to: to, metaUrl: metaUrl, condData: condData) else { return } // TODO: return error
-        sendTx(data: data, label: acceptProposalId)
+        guard let data = web3.acceptPropositionData(to: to, metaUrl: metaUrl, condData: condData) else {
+            handleError(InnerError.nilContractMethodData(method: "acceptProposition"))
+            return
+        }
+        prepareAndSendTx(data: data, label: acceptProposalId)
     }
     
     func requestDivorce() {
-        guard let data = web3.requestDivorceData() else { return } // TODO: return error
-        sendTx(data: data, label: requestDivorceId)
+        guard let data = web3.requestDivorceData() else {
+            handleError(InnerError.nilContractMethodData(method: "requestDivorce"))
+            return
+        }
+        prepareAndSendTx(data: data, label: requestDivorceId)
     }
     
     func confirmDivorce() {
-        guard let data = web3.confirmDivorceData() else { return } // TODO: return error
-        sendTx(data: data, label: confirmDivorceId)
+        guard let data = web3.confirmDivorceData() else {
+            handleError(InnerError.nilContractMethodData(method: "confirmDivorce"))
+            return
+        }
+        prepareAndSendTx(data: data, label: confirmDivorceId)
     }
     
-    func sendTx(data: String = "", label: String) {
-        guard let session = session,
-              let client = walletConnect?.client,
-              let from = walletAccount else { return } //TODO: return error
+    func prepareAndSendTx(data: String = "", label: String) {
+        guard session != nil,
+              walletConnect?.client != nil,
+              let from = walletAccount else {
+            handleError(InnerError.nilClientOrSession)
+            return
+        }
         if let wallet = currentWallet, wallet.gasPriceRequired {
             web3.getGasPrice { gasPrice, error in
                 if let error = error {
                     print("error getting gas price: \(error)")
-                    self.onMainThread {
-                        self.alert = IdentifiableAlert.forError(error: Errors.getGasPrice)
-                    }
+                    self.handleError(Errors.getGasPrice)
                 } else {
                     let safeGasPrice = gasPrice + self.gasSafeAddition
                     let tx = TxWorker.construct(from: from,
                                                 data: data,
                                                 gas: self.defaultGasAmount,
                                                 gasPrice: safeGasPrice.toHexString())
-                    do {
-                        try client.eth_sendTransaction(url: session.url,
-                                                       transaction: tx) { [weak self] response in
-                            self?.handleReponse(response, label: label)
-                        }
-                        print("sending tx: \(label)")
-                        self.onMainThread {
-                            self.backgroundManager.createSendTxBackgroundTask()
-                            withAnimation {
-                                self.sendTxPending = true
-                            }
-                            self.openWallet()
-                        }
-                    } catch {
-                        print("error sending tx: \(error)")
-                        self.onMainThread {
-                            self.alert = IdentifiableAlert.forError(error: error.localizedDescription)
-                        }
-                    }
+                    self.sendTx(tx, label: label)
                 }
             }
         } else {
             let tx = TxWorker.construct(from: from, data: data)
-            do {
-                try client.eth_sendTransaction(url: session.url,
-                                               transaction: tx) { [weak self] response in
-                    self?.handleReponse(response, label: label)
-                }
-                print("sending tx: \(label)")
-                onMainThread {
-                    self.backgroundManager.createSendTxBackgroundTask()
-                    withAnimation {
-                        self.sendTxPending = true
-                    }
-                    self.openWallet()
-                }
-            } catch {
-                print("error sending tx: \(error)")
-                self.onMainThread {
-                    self.alert = IdentifiableAlert.forError(error: error.localizedDescription)
-                }
+            sendTx(tx, label: label)
+        }
+    }
+    
+    func sendTx(_ tx: Client.Transaction, label: String) {
+        guard let session = session,
+              let client = walletConnect?.client else {
+            handleError(InnerError.nilClientOrSession)
+            return
+        }
+        do {
+            try client.eth_sendTransaction(url: session.url,
+                                           transaction: tx) { [weak self] response in
+                self?.handleReponse(response, label: label)
             }
+            print("sending tx: \(label)")
+            onMainThread {
+                self.backgroundManager.createSendTxBackgroundTask()
+                withAnimation {
+                    self.sendTxPending = true
+                }
+                self.openWallet()
+            }
+        } catch {
+            print("error sending tx: \(error)")
+            self.handleError(error)
         }
     }
     
@@ -248,15 +255,10 @@ class GlobalViewModel: ObservableObject {
             if let url = URL(string: wallet.formEmptyDeepLink()),
                UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            } else {
+                //TODO: mb show message for wallet verification only in this case?
             }
         }
-    }
-    
-    func disconnect() {
-        guard let session = session, let walletConnect = walletConnect else { return }
-        try? walletConnect.client?.disconnect(from: session)
-        self.session = nil
-        UserDefaults.standard.removeObject(forKey: Constants.sessionKey)
     }
     
     private func handleReponse(_ response: Response, label: String) {
@@ -269,18 +271,19 @@ class GlobalViewModel: ObservableObject {
                 }
             }
         }
-        self.onMainThread {
+        onMainThread {
             if let error = response.error {
                 print("got error on response: \(error)")
-                self.alert = IdentifiableAlert.forError(error: error.localizedDescription)
+                self.handleError(error)
                 return
             }
             do {
                 let result = try response.result(as: String.self)
                 print("got response result: \(result)")
+                //TODO: mb show alert that tx succeded?
             } catch {
                 print("Unexpected response type error: \(error)")
-                self.alert = IdentifiableAlert.forError(error: Errors.unknownError)
+                self.handleError(Errors.unknownError)
             }
         }
     }
@@ -294,11 +297,9 @@ class GlobalViewModel: ObservableObject {
     }
     
     func requestBalance() {
-        if let address = walletAccount  {
+        if let address = walletAccount {
             web3.getBalance(address: address) { [weak self] balance, error in
-                if let error = error {
-                    // handle error?
-                } else {
+                if error == nil {
                     self?.balance = balance
                 }
             }
@@ -306,7 +307,7 @@ class GlobalViewModel: ObservableObject {
     }
     
     func requestCurrentMarriage() {
-        if let address = walletAccount  {
+        if let address = walletAccount {
             web3.getCurrentMarriage(address: address) { [weak self] marriage, error in
                 print("got marriage result")
                 if let error = error {
@@ -321,20 +322,26 @@ class GlobalViewModel: ObservableObject {
                     }
                     self?.checkAllLoaded()
                     if !marriage.isEmpty() {
-                        if let url = URL(string: Tools.ipfsLinkToHttp(ipfsLink: marriage.metaUrl)) {
-                            print("requesting certificate meta")
-                            HttpRequester.shared.loadMeta(url: url) { meta, error in
-                                if let meta = meta {
-                                    print("got meta:\(meta)")
-                                    self?.meta = meta
-                                    return
-                                }
-                                if let error = error {
-                                    print("error getting meta: \(error)")
-                                }
-                            }
-                        }
+                        self?.requestMarriageMeta()
                     }
+                }
+            }
+        }
+    }
+    
+    func requestMarriageMeta() {
+        if !marriage.isEmpty(),
+           let url = URL(string: Tools.ipfsLinkToHttp(ipfsLink: marriage.metaUrl)) {
+            print("requesting certificate meta")
+            HttpRequester.shared.loadMeta(url: url) { meta, error in
+                if let meta = meta {
+                    print("got meta:\(meta)")
+                    self.meta = meta
+                    return
+                }
+                if let error = error {
+                    print("error getting meta: \(error)")
+                    self.isErrorLoadingMeta = true
                 }
             }
         }
@@ -345,7 +352,6 @@ class GlobalViewModel: ObservableObject {
             web3.getIncomingPropositions(address: address) { [weak self] incomingProposals, error in
                 if let error = error {
                     print("got incoming proposals error \(error)")
-                    //TODO: handle error
                     self?.isErrorLoading = true
                 } else {
                     withAnimation {
@@ -363,7 +369,6 @@ class GlobalViewModel: ObservableObject {
             web3.getOutgoingPropositions(address: address) { [weak self] outgoingProposals, error in
                 if let error = error {
                     print("got outgoing proposals error \(error)")
-                    //TODO: handle error
                     self?.isErrorLoading = true
                 } else {
                     withAnimation {
@@ -422,19 +427,22 @@ class GlobalViewModel: ObservableObject {
         do {
             guard let pdfUrl = try CertificateWorker.generateCertificatePdf(formatter: formatter) else {
                 onNewProposalProcessFinish()
+                handleError(InnerError.nilCertificateUrl)
                 return
             }
             DispatchQueue.global(qos: .userInitiated).async { [self] in
                 let image = CertificateWorker.imageFromPdf(url: pdfUrl)
-                guard let data = image?.jpegData(compressionQuality: 1.0) else {
+                guard let data = image?.jpegData(compressionQuality: 0.75) else {
                     print("error getting jpeg data")
                     onNewProposalProcessFinish()
+                    handleError(InnerError.jpegConverting)
                     return
                 }
                 HttpRequester.shared.uploadPictureToNftStorage(data: data) { response, error in
                     if let error = error {
                         print("Error uploading certificate: \(error)")
                         self.onNewProposalProcessFinish()
+                        self.handleError(error)
                         return
                     }
                     if let response = response {
@@ -444,6 +452,7 @@ class GlobalViewModel: ObservableObject {
                         } else {
                             print("certificate upload not ok")
                             self.onNewProposalProcessFinish()
+                            self.handleError(InnerError.httpError(body: "\(response)"))
                         }
                     }
                 }
@@ -451,6 +460,7 @@ class GlobalViewModel: ObservableObject {
         } catch {
             print("error generating certificate: \(error)")
             onNewProposalProcessFinish()
+            handleError(error)
         }
     }
     
@@ -477,6 +487,7 @@ class GlobalViewModel: ObservableObject {
                         self.propose(to: self.partnerAddress, metaUrl: response.value.url)
                     } else {
                         print("certificate meta upload not ok")
+                        self.handleError(InnerError.httpError(body: "\(response)"))
                     }
                 }
             }
@@ -491,6 +502,18 @@ class GlobalViewModel: ObservableObject {
             }
         }
     }
+    
+    func handleError(_ error: Error) {
+        self.onMainThread {
+            self.alert = IdentifiableAlert.forError(error: error.localizedDescription)
+        }
+    }
+    
+    func handleError(_ error: String) {
+        self.onMainThread {
+            self.alert = IdentifiableAlert.forError(error: error)
+        }
+    }
 }
 
 extension GlobalViewModel: WalletConnectDelegate {
@@ -502,9 +525,7 @@ extension GlobalViewModel: WalletConnectDelegate {
                 isConnecting = false
                 isReconnecting = false
             }
-            self.onMainThread {
-                self.alert = IdentifiableAlert.forError(error: Errors.failedToConnect)
-            }
+            self.handleError(Errors.failedToConnect)
         }
     }
 

@@ -15,6 +15,10 @@ enum InnerError: Error {
     case storeUploadParseError(description: String)
     case nilDataError
     case httpError(body: String)
+    case nilContractMethodData(method: String)
+    case nilClientOrSession
+    case nilCertificateUrl
+    case jpegConverting
 }
 
 class Errors {
@@ -32,8 +36,6 @@ class Errors {
             return failedToConnect
         case getGasPrice:
             return getGasPrice
-        case unknownError:
-            return unknownError
         default:
             return unknownError
         }
