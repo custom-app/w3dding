@@ -27,6 +27,22 @@ struct MarriageScreen: View {
                 Text(marriage.receiverAddress)
                     .font(.system(size: 14))
                 
+                if let meta = globalViewModel.meta {
+                    Button {
+                        if let url = URL(string: meta.httpImageLink()), UIApplication.shared.canOpenURL(url) {
+                            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                        } else {
+                            //TODO: show error alert
+                        }
+                    } label: {
+                        Text("View Certificate")
+                            .padding(16)
+                            .background(Color.white)
+                            .cornerRadius(8)
+                    }
+                    .padding(.top, 20)
+                }
+                
                 if let address = globalViewModel.walletAccount {
                     let isAuthor = address == marriage.authorAddress
                     if marriage.divorceState == .notRequested {

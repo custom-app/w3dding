@@ -69,6 +69,8 @@ class GlobalViewModel: ObservableObject {
     @Published
     var marriage: Marriage = Marriage()
     @Published
+    var meta: CertificateMeta?
+    @Published
     var isReceivedProposalsLoaded = false
     @Published
     var receivedProposals: [Proposal] = []
@@ -78,10 +80,13 @@ class GlobalViewModel: ObservableObject {
     var authoredProposals: [Proposal] = []
     
     @Published
-    var showWebView: Bool = false
+    var showWebView = false
  
     @Published
-    var certificateHtml: String = ""
+    var certificateHtml = ""
+    
+    @Published
+    var isNewProposalPending = false
     
     var isWrongChain: Bool {
         let requiredChainId = Config.TESTING ? Constants.ChainId.PolygonTestnet : Constants.ChainId.Polygon
@@ -315,6 +320,21 @@ class GlobalViewModel: ObservableObject {
                         self?.isMarriageLoaded = true
                     }
                     self?.checkAllLoaded()
+                    if !marriage.isEmpty() {
+                        if let url = URL(string: Tools.ipfsLinkToHttp(ipfsLink: marriage.metaUrl)) {
+                            print("requesting certificate meta")
+                            HttpRequester.shared.loadMeta(url: url) { meta, error in
+                                if let meta = meta {
+                                    print("got meta:\(meta)")
+                                    self?.meta = meta
+                                    return
+                                }
+                                if let error = error {
+                                    print("error getting meta: \(error)")
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -383,6 +403,7 @@ class GlobalViewModel: ObservableObject {
     
     func buildCertificateWebView() {
             if let address = walletAccount {
+                isNewProposalPending = true
                 let now = Date()
                 certificateHtml = CertificateWorker.htmlTemplate
                     .replacingOccurrences(of: CertificateWorker.nameKey, with: name)
@@ -400,20 +421,20 @@ class GlobalViewModel: ObservableObject {
         backgroundManager.createCertificateBackgroundTask()
         do {
             guard let pdfUrl = try CertificateWorker.generateCertificatePdf(formatter: formatter) else {
-                backgroundManager.finishCertificateBackgroundTask()
+                onNewProposalProcessFinish()
                 return
             }
             DispatchQueue.global(qos: .userInitiated).async { [self] in
                 let image = CertificateWorker.imageFromPdf(url: pdfUrl)
                 guard let data = image?.jpegData(compressionQuality: 1.0) else {
                     print("error getting jpeg data")
-                    backgroundManager.finishCertificateBackgroundTask()
+                    onNewProposalProcessFinish()
                     return
                 }
                 HttpRequester.shared.uploadPictureToNftStorage(data: data) { response, error in
                     if let error = error {
                         print("Error uploading certificate: \(error)")
-                        self.backgroundManager.finishCertificateBackgroundTask()
+                        self.onNewProposalProcessFinish()
                         return
                     }
                     if let response = response {
@@ -422,14 +443,14 @@ class GlobalViewModel: ObservableObject {
                             self.uploadMetaToNftStorage(cid: response.value.cid)
                         } else {
                             print("certificate upload not ok")
-                            self.backgroundManager.finishCertificateBackgroundTask()
+                            self.onNewProposalProcessFinish()
                         }
                     }
                 }
             }
         } catch {
             print("error generating certificate: \(error)")
-            backgroundManager.finishCertificateBackgroundTask()
+            onNewProposalProcessFinish()
         }
     }
     
@@ -446,11 +467,11 @@ class GlobalViewModel: ObservableObject {
             HttpRequester.shared.uploadMetaToNftStorage(meta: meta) { response, error in
                 if let error = error {
                     print("Error uploading certificate meta: \(error)")
-                    self.backgroundManager.finishCertificateBackgroundTask()
+                    self.onNewProposalProcessFinish()
                     return
                 }
                 if let response = response {
-                    self.backgroundManager.finishCertificateBackgroundTask()
+                    self.onNewProposalProcessFinish()
                     if response.ok {
                         print("certificate meta successfully uploaded, url: \(response.value.url)")
                         self.propose(to: self.partnerAddress, metaUrl: response.value.url)
@@ -458,6 +479,15 @@ class GlobalViewModel: ObservableObject {
                         print("certificate meta upload not ok")
                     }
                 }
+            }
+        }
+    }
+    
+    func onNewProposalProcessFinish() {
+        DispatchQueue.main.async {
+            self.backgroundManager.finishCertificateBackgroundTask()
+            withAnimation {
+                self.isNewProposalPending = false
             }
         }
     }

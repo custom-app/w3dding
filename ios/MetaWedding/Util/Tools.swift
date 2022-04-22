@@ -22,6 +22,10 @@ class Tools {
     static func isAddressValid(_ address: String) -> Bool {
         EthereumAddress(address) != nil
     }
+    
+    static func ipfsLinkToHttp(ipfsLink: String) -> String {
+        ipfsLink.replacingOccurrences(of: "ipfs://", with: "https://ipfs.io/ipfs/")
+    }
 }
 
 extension Data {

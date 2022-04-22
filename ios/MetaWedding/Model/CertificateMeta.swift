@@ -12,6 +12,10 @@ struct CertificateMeta: Codable {
     let description: String
     let image: String
     let properties: CertificateProperties
+    
+    func httpImageLink() -> String {
+        return Tools.ipfsLinkToHttp(ipfsLink: image)
+    }
 }
 
 struct CertificateProperties: Codable {

@@ -156,5 +156,61 @@ class HttpRequester {
         }
         task.resume()
     }
+    
+    func loadMeta(url: URL, onResult: @escaping (CertificateMeta?, Error?) -> ()) {
+        var request = URLRequest(
+            url: url,
+            cachePolicy: .reloadIgnoringLocalCacheData
+        )
+        request.httpMethod = "GET"
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) -> Void in
+            if let error = error {
+                print("response error: \(error)")
+                DispatchQueue.main.async {
+                    onResult(nil, error)
+                }
+                return
+            }
+            guard let httpResponse = response as? HTTPURLResponse else {
+                print("error converting to httpresponse")
+                DispatchQueue.main.async {
+                    onResult(nil, InnerError.storeUploadParseError(
+                        description: "error converting to httpresponse"))
+                }
+                return
+            }
+            
+            guard let data = data else {
+                print("got nil data")
+                DispatchQueue.main.async {
+                    onResult(nil, InnerError.nilDataError)
+                }
+                return
+            }
+            if httpResponse.statusCode == HttpRequester.HTTP_OK {
+                print("response ok")
+                print("response: \(String(decoding: data, as: UTF8.self))")
+                do {
+                    let response = try JSONDecoder().decode(CertificateMeta.self, from: data)
+                    print("parsed response: \(response)")
+                    DispatchQueue.main.async {
+                        onResult(response, nil)
+                    }
+                } catch {
+                    print("error decoding: \(error)")
+                    DispatchQueue.main.async {
+                        onResult(nil, error)
+                    }
+                }
+            } else {
+                let err = String(data: data, encoding: .utf8)! //TODO: handle
+                print("response not ok: \(err)")
+                DispatchQueue.main.async {
+                    onResult(nil, InnerError.httpError(body: err))
+                }
+            }
+        }
+        task.resume()
+    }
 }
 
