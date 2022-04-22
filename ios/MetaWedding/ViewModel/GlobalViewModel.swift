@@ -24,6 +24,9 @@ class GlobalViewModel: ObservableObject {
     private let confirmDivorceId = "confirm_divorce"
     
     @Published
+    var onAuthTab = true
+    
+    @Published
     var session: Session?
     @Published
     var currentWallet: Wallet?
@@ -46,9 +49,6 @@ class GlobalViewModel: ObservableObject {
     
     @Published
     var balance: Double? = nil
-    
-    @Published
-    var selectedTab = 1
     
     var backgroundManager = BackgroundTasksManager()
     
