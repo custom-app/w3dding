@@ -16,8 +16,17 @@ struct WeddingContainer: View {
     var weddingViewModel = WeddingViewModel()
     
     var body: some View {
-        ScrollView(.vertical) {
-            VStack {
+        GeometryReader { geometry in
+            HStack {
+                Text("Wedding")
+                    .foregroundColor(Colors.darkPurple)
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                Spacer()
+            }
+            .padding(.leading, 16)
+            .padding(.top, 18)
+            VStack(spacing: 0) {
                 if globalViewModel.isConnecting || globalViewModel.isReconnecting {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle())
@@ -39,13 +48,15 @@ struct WeddingContainer: View {
                             }
                             .padding(.top, 20)
                         } else if globalViewModel.allLoaded {
-                            PullToRefreshView(bg: .black, fg: .white) {
-                                globalViewModel.refresh()
-                            }
-                            if !globalViewModel.marriage.isEmpty() {
-                                MarriageScreen()
-                            } else {
-                                ProposalsScreen()
+                            ScrollView {
+                                PullToRefreshView(bg: .black, fg: .white) {
+                                    globalViewModel.refresh()
+                                }
+                                if !globalViewModel.marriage.isEmpty() {
+                                    MarriageScreen()
+                                } else {
+                                    ProposalsScreen()
+                                }
                             }
                         } else if globalViewModel.isErrorLoading {
                             Text("Connected to wrong chain. Please disconnect and connect to Polygon")
@@ -59,9 +70,11 @@ struct WeddingContainer: View {
                         }
                     } else {
                         NotConnectedScreen()
+                            .padding(.top, 50)
                     }
                 }
             }
+            .frame(width: geometry.size.width)
         }
         .navigationTitle("")
         .navigationBarHidden(true)

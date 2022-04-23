@@ -31,13 +31,12 @@ struct NotConnectedScreen: View {
                     .font(.system(size: 17))
                     .fontWeight(.bold)
                     .foregroundColor(.white)
-                    .padding(.horizontal, 30)
-                    .padding(.vertical, 17)
+                    .padding(.horizontal, 32)
+                    .padding(.vertical, 15)
                     .background(Colors.purple)
                     .cornerRadius(32)
             }
             .padding(.top, 24)
-            .padding(.bottom, 24)
             
             Spacer()
             
@@ -52,8 +51,8 @@ struct NotConnectedScreen: View {
                 .fontWeight(.bold)
                 .foregroundColor(Colors.darkGrey)
                 .multilineTextAlignment(.center)
-                .padding(.horizontal, 50)
-                .padding(.bottom, 44)
+                .padding(.horizontal, 56)
+                .padding(.bottom, 52)
         }
     }
 }

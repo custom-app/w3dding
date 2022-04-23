@@ -22,8 +22,8 @@ struct AuthScreen: View {
                 Spacer()
             }
             .padding(.leading, 16)
-            .padding(.top, 14)
-            VStack {
+            .padding(.top, 18)
+            VStack(spacing: 0) {
                 if globalViewModel.isConnecting || globalViewModel.isReconnecting {
                     Spacer()
                     ProgressView()
@@ -31,7 +31,7 @@ struct AuthScreen: View {
                         .scaleEffect(1.2)
                     Spacer()
                 } else {
-                    VStack {
+                    VStack(spacing: 0) {
                         if let session = globalViewModel.session {
 
                             Text("Connected to \(session.walletInfo?.peerMeta.name ?? "???")")
@@ -66,13 +66,13 @@ struct AuthScreen: View {
                             }
                         } else {
                             NotConnectedScreen()
+                                .padding(.top, 50)
                         }
                     }
                 }
             }
             .frame(width: geometry.size.width)
 //            .frame(height: geometry.size.height)
-            .padding(.top, 50)
         }
         .navigationTitle("")
         .navigationBarHidden(true)
