@@ -29,6 +29,10 @@ class Colors {
         Color(hex: "#79797D").opacity(0.5)
     }
     
+    static var lightGrey: Color {
+        Color(hex: "#DEDEDE")
+    }
+    
     static var mainBlack: Color {
         Color(hex: "#1F2033")
     }

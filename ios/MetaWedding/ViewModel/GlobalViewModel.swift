@@ -27,6 +27,9 @@ class GlobalViewModel: ObservableObject {
     var onAuthTab = true
     
     @Published
+    var showConnectSheet = false
+    
+    @Published
     var session: Session?
     @Published
     var currentWallet: Wallet?
@@ -544,6 +547,7 @@ extension GlobalViewModel: WalletConnectDelegate {
                 if !isWrongChain {
                     requestAllInfo()
                 }
+                showConnectSheet = false
             }
         }
     }

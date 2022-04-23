@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct NotConnectedScreen: View {
+    
+    @EnvironmentObject
+    var globalViewModel: GlobalViewModel
+    
     var body: some View {
         VStack(spacing: 0) {
             Spacer()
@@ -25,7 +29,7 @@ struct NotConnectedScreen: View {
                 .padding(.top, 24)
             
             Button {
-                
+                globalViewModel.showConnectSheet = true
             } label: {
                 Text("Connect")
                     .font(.system(size: 17))
