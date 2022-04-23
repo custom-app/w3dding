@@ -17,9 +17,6 @@ struct WeddingContainer: View {
     
     var body: some View {
         ScrollView(.vertical) {
-            PullToRefreshView(bg: .black, fg: .white) {
-                globalViewModel.refresh()
-            }
             VStack {
                 if globalViewModel.isConnecting || globalViewModel.isReconnecting {
                     ProgressView()
@@ -42,6 +39,9 @@ struct WeddingContainer: View {
                             }
                             .padding(.top, 20)
                         } else if globalViewModel.allLoaded {
+                            PullToRefreshView(bg: .black, fg: .white) {
+                                globalViewModel.refresh()
+                            }
                             if !globalViewModel.marriage.isEmpty() {
                                 MarriageScreen()
                             } else {
@@ -58,7 +58,7 @@ struct WeddingContainer: View {
                                 .scaleEffect(1.2)
                         }
                     } else {
-                        Text("Not connected")
+                        NotConnectedScreen()
                     }
                 }
             }

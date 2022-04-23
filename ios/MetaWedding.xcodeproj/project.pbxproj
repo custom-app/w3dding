@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		112206F52813679A00AF0315 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112206F42813679A00AF0315 /* Colors.swift */; };
+		112206F928137A6D00AF0315 /* NotConnectedScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112206F828137A6D00AF0315 /* NotConnectedScreen.swift */; };
 		113977DE28049A5A00D6FD57 /* abi.json in Resources */ = {isa = PBXBuildFile; fileRef = 113977DD28049A5A00D6FD57 /* abi.json */; };
 		11481B4B27FA4DF900439106 /* web3swift in Frameworks */ = {isa = PBXBuildFile; productRef = 11481B4A27FA4DF900439106 /* web3swift */; };
 		11481B4D27FA4E9A00439106 /* Web3Worker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11481B4C27FA4E9A00439106 /* Web3Worker.swift */; };
@@ -51,6 +52,7 @@
 
 /* Begin PBXFileReference section */
 		112206F42813679A00AF0315 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		112206F828137A6D00AF0315 /* NotConnectedScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotConnectedScreen.swift; sourceTree = "<group>"; };
 		113977DD28049A5A00D6FD57 /* abi.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = abi.json; sourceTree = "<group>"; };
 		11481B4C27FA4E9A00439106 /* Web3Worker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Web3Worker.swift; sourceTree = "<group>"; };
 		11481B4E27FA5BA600439106 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
@@ -232,6 +234,7 @@
 			isa = PBXGroup;
 			children = (
 				115A658727F22C3D001CBCD2 /* AuthScreen.swift */,
+				112206F828137A6D00AF0315 /* NotConnectedScreen.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -348,6 +351,7 @@
 				11A484C9280F804600DE5C24 /* BackgroundTasksManager.swift in Sources */,
 				11C356CD27FF82D1007A0E69 /* IdentifiableAlert.swift in Sources */,
 				118A952427F935F600798141 /* MainContainer.swift in Sources */,
+				112206F928137A6D00AF0315 /* NotConnectedScreen.swift in Sources */,
 				11E32C8E280224D800A540EE /* DivorceState.swift in Sources */,
 				11E32C882802208200A540EE /* WeddingViewModel.swift in Sources */,
 				11E32C9628022C4600A540EE /* AuthoredProposalsScreen.swift in Sources */,
