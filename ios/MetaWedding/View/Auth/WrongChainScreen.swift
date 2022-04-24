@@ -1,13 +1,13 @@
 //
-//  NotConnectedScreen.swift
+//  WrongChainScreen.swift
 //  MetaWedding
 //
-//  Created by Лев Бакланов on 23.04.2022.
+//  Created by Лев Бакланов on 24.04.2022.
 //
 
 import SwiftUI
 
-struct NotConnectedScreen: View {
+struct WrongChainScreen: View {
     
     @EnvironmentObject
     var globalViewModel: GlobalViewModel
@@ -22,23 +22,33 @@ struct NotConnectedScreen: View {
                 .scaledToFit()
                 .frame(width: 48)
             
-            Text("Wallet not connected")
+            Text("Wrong blockchain")
                 .font(.system(size: 22))
                 .fontWeight(.bold)
                 .foregroundColor(Colors.darkPurple)
                 .padding(.top, 24)
             
+            Text("Please change blockchain / reconnect wallet")
+                .font(.system(size: 13))
+                .fontWeight(.regular)
+                .foregroundColor(Colors.darkPurple)
+                .padding(.top, 24)
+            
             Button {
-                globalViewModel.showConnectSheet = true
+                globalViewModel.disconnect()
             } label: {
-                Text("Connect")
+                Text("Disconnect")
                     .font(.system(size: 17))
                     .fontWeight(.bold)
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 32)
+                    .foregroundColor(Colors.purple)
+                    .padding(.horizontal, 24)
                     .padding(.vertical, 15)
-                    .background(Colors.purple)
+                    .background(Color.white.opacity(0.5))
                     .cornerRadius(32)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 32)
+                            .stroke(Colors.purple, lineWidth: 2)
+                    )
             }
             .padding(.top, 24)
             
@@ -62,8 +72,8 @@ struct NotConnectedScreen: View {
     }
 }
 
-struct NotConnectedScreen_Previews: PreviewProvider {
+struct WrongChainScreen_Previews: PreviewProvider {
     static var previews: some View {
-        NotConnectedScreen()
+        WrongChainScreen()
     }
 }

@@ -33,10 +33,13 @@ struct AuthScreen: View {
                 } else {
                     VStack(spacing: 0) {
                         if let session = globalViewModel.session {
-                            ConnectedScreen()
+                            if globalViewModel.isWrongChain {
+                                WrongChainScreen()
+                            } else {
+                                ConnectedScreen()
+                            }
                         } else {
                             NotConnectedScreen()
-                                .padding(.top, 50)
                         }
                     }
                 }

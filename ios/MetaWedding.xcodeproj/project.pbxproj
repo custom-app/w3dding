@@ -29,6 +29,7 @@
 		11A484C9280F804600DE5C24 /* BackgroundTasksManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A484C8280F804600DE5C24 /* BackgroundTasksManager.swift */; };
 		11A92D7D2814AA9300B98066 /* ConnectSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A92D7C2814AA9300B98066 /* ConnectSheet.swift */; };
 		11A92D7F2814C08F00B98066 /* ConnectedScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A92D7E2814C08F00B98066 /* ConnectedScreen.swift */; };
+		11A92D812814CFB800B98066 /* WrongChainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A92D802814CFB800B98066 /* WrongChainScreen.swift */; };
 		11AA278027FE372500BC8BCA /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AA277F27FE372500BC8BCA /* Extensions.swift */; };
 		11B4C76D2808CD300058A319 /* SwipeRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B4C76C2808CD300058A319 /* SwipeRefresh.swift */; };
 		11B4C76F2808F2C10058A319 /* HttpRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B4C76E2808F2C10058A319 /* HttpRequester.swift */; };
@@ -77,6 +78,7 @@
 		11A484C8280F804600DE5C24 /* BackgroundTasksManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundTasksManager.swift; sourceTree = "<group>"; };
 		11A92D7C2814AA9300B98066 /* ConnectSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectSheet.swift; sourceTree = "<group>"; };
 		11A92D7E2814C08F00B98066 /* ConnectedScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectedScreen.swift; sourceTree = "<group>"; };
+		11A92D802814CFB800B98066 /* WrongChainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrongChainScreen.swift; sourceTree = "<group>"; };
 		11AA277F27FE372500BC8BCA /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		11B4C76C2808CD300058A319 /* SwipeRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeRefresh.swift; sourceTree = "<group>"; };
 		11B4C76E2808F2C10058A319 /* HttpRequester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpRequester.swift; sourceTree = "<group>"; };
@@ -241,6 +243,7 @@
 				112206F828137A6D00AF0315 /* NotConnectedScreen.swift */,
 				11A92D7C2814AA9300B98066 /* ConnectSheet.swift */,
 				11A92D7E2814C08F00B98066 /* ConnectedScreen.swift */,
+				11A92D802814CFB800B98066 /* WrongChainScreen.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -351,6 +354,7 @@
 				11E32C8C2802243200A540EE /* Marriage.swift in Sources */,
 				11E32C9828022C5300A540EE /* ReceivedProposalsScreen.swift in Sources */,
 				11B4C76D2808CD300058A319 /* SwipeRefresh.swift in Sources */,
+				11A92D812814CFB800B98066 /* WrongChainScreen.swift in Sources */,
 				11CE717028038ABC004782E5 /* CertificateWorker.swift in Sources */,
 				117173E8280CE18800C36A44 /* CertificateMeta.swift in Sources */,
 				11B4C77128090DEA0058A319 /* NftStorage.swift in Sources */,

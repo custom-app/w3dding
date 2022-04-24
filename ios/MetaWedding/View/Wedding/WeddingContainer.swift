@@ -34,6 +34,19 @@ struct WeddingContainer: View {
                 } else {
                     if globalViewModel.session != nil {
                         if globalViewModel.isWrongChain {
+                            WrongChainScreen()
+                        } else if globalViewModel.allLoaded {
+                            ScrollView {
+                                PullToRefreshView(bg: .black, fg: .white) {
+                                    globalViewModel.refresh()
+                                }
+                                if !globalViewModel.marriage.isEmpty() {
+                                    MarriageScreen()
+                                } else {
+                                    ProposalsScreen()
+                                }
+                            }
+                        } else if globalViewModel.isErrorLoading {
                             Text("Error occured while loading data")
                                 .padding(.horizontal, 20)
                                 .multilineTextAlignment(.center)
@@ -47,22 +60,6 @@ struct WeddingContainer: View {
                                     .cornerRadius(8)
                             }
                             .padding(.top, 20)
-                        } else if globalViewModel.allLoaded {
-                            ScrollView {
-                                PullToRefreshView(bg: .black, fg: .white) {
-                                    globalViewModel.refresh()
-                                }
-                                if !globalViewModel.marriage.isEmpty() {
-                                    MarriageScreen()
-                                } else {
-                                    ProposalsScreen()
-                                }
-                            }
-                        } else if globalViewModel.isErrorLoading {
-                            Text("Connected to wrong chain. Please disconnect and connect to Polygon")
-                                .padding(.horizontal, 20)
-                                .padding(.top, 50)
-                                .multilineTextAlignment(.center)
                         } else {
                             ProgressView()
                                 .progressViewStyle(CircularProgressViewStyle())
@@ -70,7 +67,6 @@ struct WeddingContainer: View {
                         }
                     } else {
                         NotConnectedScreen()
-                            .padding(.top, 50)
                     }
                 }
             }
