@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ConnectScreen: View {
+struct ConnectSheet: View {
     
     @EnvironmentObject
     var globalViewModel: GlobalViewModel
@@ -50,6 +50,7 @@ struct ConnectScreen: View {
                                         Spacer()
                                     }
                                     .padding(.vertical, 15)
+                                    .background(Color.white)
                                     .cornerRadius(32)
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 32)
@@ -99,6 +100,6 @@ struct ConnectScreen: View {
 
 struct ConnectScreen_Previews: PreviewProvider {
     static var previews: some View {
-        ConnectScreen()
+        ConnectSheet()
     }
 }

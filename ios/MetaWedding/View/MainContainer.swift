@@ -36,7 +36,7 @@ struct MainContainer: View {
                 }
                 .padding(.bottom, 144)
                 .sheet(isPresented: $globalViewModel.showConnectSheet) {
-                    ConnectScreen()
+                    ConnectSheet()
                         .environmentObject(globalViewModel)
                 }
                 

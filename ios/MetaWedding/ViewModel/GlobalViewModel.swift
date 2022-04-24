@@ -98,6 +98,13 @@ class GlobalViewModel: ObservableObject {
         return session?.walletInfo!.accounts[0].lowercased()
     }
     
+    var walletName: String {
+        if let name = session?.walletInfo?.peerMeta.name {
+            return name
+        }
+        return currentWallet?.name ?? "wallet"
+    }
+    
     var isWrongChain: Bool {
         let requiredChainId = Config.TESTING ? Constants.ChainId.PolygonTestnet : Constants.ChainId.Polygon
         if let session = session,
@@ -131,7 +138,9 @@ class GlobalViewModel: ObservableObject {
     func disconnect() {
         guard let session = session, let walletConnect = walletConnect else { return }
         try? walletConnect.client?.disconnect(from: session)
-        self.session = nil
+        withAnimation {
+            self.session = nil
+        }
         UserDefaults.standard.removeObject(forKey: Constants.sessionKey)
     }
     
