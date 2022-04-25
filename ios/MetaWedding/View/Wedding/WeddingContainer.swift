@@ -17,16 +17,29 @@ struct WeddingContainer: View {
     
     var body: some View {
         GeometryReader { geometry in
-            HStack {
-                Text("Wedding")
-                    .foregroundColor(Colors.darkPurple)
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                Spacer()
-            }
-            .padding(.leading, 16)
-            .padding(.top, 18)
             VStack(spacing: 0) {
+                HStack(alignment: .bottom) {
+                    Text("Wedding")
+                        .foregroundColor(Colors.darkPurple)
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                    Spacer()
+                    if !globalViewModel.marriage.isEmpty() &&
+                        globalViewModel.marriage.divorceState == .notRequested {
+                        Button {
+                            
+                        } label: {
+                            Text("Divorce")
+                                .foregroundColor(Colors.redAction)
+                                .font(.subheadline)
+                                .fontWeight(.bold)
+                        }
+                        .padding(.bottom, 8)
+                    }
+                }
+                .padding(.horizontal, 16)
+                .padding(.top, 18)
+                
                 if globalViewModel.isConnecting || globalViewModel.isReconnecting {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle())
@@ -36,16 +49,19 @@ struct WeddingContainer: View {
                         if globalViewModel.isWrongChain {
                             WrongChainScreen()
                         } else if globalViewModel.allLoaded {
+                            Spacer()
                             ScrollView {
-                                PullToRefreshView(bg: .black, fg: .white) {
+                                PullToRefreshView(bg: .black.opacity(0), fg: .black) {
                                     globalViewModel.refresh()
                                 }
-                                if !globalViewModel.marriage.isEmpty() {
-                                    MarriageScreen()
-                                } else {
+                                if globalViewModel.marriage.isEmpty() {
                                     ProposalsScreen()
+                                } else {
+                                    MarriageScreen()
+                                        .padding(.top, 30)
                                 }
                             }
+                            Spacer()
                         } else if globalViewModel.isErrorLoading {
                             Text("Error occured while loading data")
                                 .padding(.horizontal, 20)

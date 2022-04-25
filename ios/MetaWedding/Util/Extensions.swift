@@ -16,6 +16,11 @@ extension BigUInt {
 }
 
 extension Date {
+    
+    init(timestamp: Int64) {
+        self.init(timeIntervalSince1970: TimeInterval(timestamp))
+    }
+    
     func formattedDateString(_ format: String? = "yyyy-MM-dd") -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US")
