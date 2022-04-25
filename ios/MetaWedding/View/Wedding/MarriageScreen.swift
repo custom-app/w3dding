@@ -83,53 +83,107 @@ struct MarriageScreen: View {
                 }
                 .padding(.top, 32)
                 .padding(.horizontal, 16)
-            }
-            if let meta = globalViewModel.meta, !marriage.isEmpty() {
                 
-                if let address = globalViewModel.walletAccount {
-                    let isAuthor = address == marriage.authorAddress
-                    if marriage.divorceState == .notRequested {
-                        Button {
-                            globalViewModel.requestDivorce()
-                        } label: {
-                            Text("Request Divorce")
-                                .padding(16)
-                                .background(Color.white)
-                                .cornerRadius(8)
-                        }
-                        .padding(.top, 40)
-                    } else {
-                        if (isAuthor && marriage.divorceState == .requestedByReceiver) ||
-                            (!isAuthor && marriage.divorceState == .requestedByAuthor) {
-                            Button {
-                                globalViewModel.confirmDivorce()
-                            } label: {
-                                Text("Confirm divorce")
-                                    .padding(16)
-                                    .background(Color.white)
-                                    .cornerRadius(8)
-                            }
-                            .padding(.top, 40)
-                        } else if (isAuthor && marriage.divorceState == .requestedByAuthor) ||
-                                    (!isAuthor && marriage.divorceState == .requestedByReceiver) {
-                            let curTime = Int64((Date().timeIntervalSince1970).rounded())
-                            if curTime > marriage.divorceRequestTimestamp + marriage.divorceTimeout {
+                VStack(spacing: 0) {
+                    Spacer()
+                    if marriage.divorceState != .notRequested {
+                        if let address = globalViewModel.walletAccount {
+                            let isAuthor = address == marriage.authorAddress
+                            
+                            if (isAuthor && marriage.divorceState == .requestedByReceiver) ||
+                                (!isAuthor && marriage.divorceState == .requestedByAuthor) {
+                                Image("ic_warning")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 48)
+                                    .padding(.top, 30)
+                                
+                                Text("The partner initiated the divorce")
+                                    .font(.title2)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(Colors.darkPurple)
+                                    .padding(.top, 24)
+                                
                                 Button {
                                     globalViewModel.confirmDivorce()
                                 } label: {
-                                    Text("Divorce 1-way")
-                                        .padding(16)
-                                        .background(Color.white)
-                                        .cornerRadius(8)
+                                    Text("Confirm")
+                                        .font(.system(size: 17))
+                                        .fontWeight(.bold)
+                                        .foregroundColor(Colors.purple)
+                                        .padding(.horizontal, 24)
+                                        .padding(.vertical, 15)
+                                        .background(Color.white.opacity(0.5))
+                                        .cornerRadius(32)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 32)
+                                                .stroke(Colors.purple, lineWidth: 2)
+                                        )
                                 }
-                                .padding(.top, 40)
-                            } else {
-                                Text("Divorce in progress")
-                                    .padding(.top, 50)
+                                .padding(.top, 24)
+                            } else if (isAuthor && marriage.divorceState == .requestedByAuthor) ||
+                                        (!isAuthor && marriage.divorceState == .requestedByReceiver) {
+                                let curTime = Int64((Date().timeIntervalSince1970).rounded())
+                                let uniDivorceTime = marriage.divorceRequestTimestamp + marriage.divorceTimeout
+                                if curTime > marriage.divorceRequestTimestamp + marriage.divorceTimeout {
+                                    Image("ic_warning")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 48)
+                                        .padding(.top, 30)
+                                    
+                                    Text("The partner did not confirm the divorce. You can divorce unilaterally")
+                                        .font(.title2)
+                                        .fontWeight(.bold)
+                                        .foregroundColor(Colors.darkPurple)
+                                        .padding(.top, 24)
+                                    
+                                    Button {
+                                        globalViewModel.confirmDivorce()
+                                    } label: {
+                                        Text("Divorce")
+                                            .font(.system(size: 17))
+                                            .fontWeight(.bold)
+                                            .foregroundColor(Colors.purple)
+                                            .padding(.horizontal, 24)
+                                            .padding(.vertical, 15)
+                                            .background(Color.white.opacity(0.5))
+                                            .cornerRadius(32)
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 32)
+                                                    .stroke(Colors.purple, lineWidth: 2)
+                                            )
+                                    }
+                                    .padding(.top, 24)
+                                } else {
+                                    Image("ic_warning")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 48)
+                                        .padding(.top, 40)
+                                    
+                                    Text("Divorce in progress")
+                                        .font(.title2)
+                                        .fontWeight(.bold)
+                                        .foregroundColor(Colors.darkPurple)
+                                        .padding(.top, 24)
+                                    
+                                    let divorceDate = Date()
+                                    
+                                    Text("You will be able to divorce unilaterally after " +
+                                         "\(divorceDate.formattedDateString("HH:mm dd.MM.yyyy"))")
+                                        .font(.body)
+                                        .fontWeight(.regular)
+                                        .foregroundColor(Colors.darkPurple)
+                                        .multilineTextAlignment(.center)
+                                        .padding(.top, 20)
+                                }
                             }
                         }
                     }
+                    Spacer()
                 }
+                .padding(.horizontal, 28)
             }
         }
     }

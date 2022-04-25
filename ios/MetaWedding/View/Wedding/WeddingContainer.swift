@@ -27,7 +27,7 @@ struct WeddingContainer: View {
                     if !globalViewModel.marriage.isEmpty() &&
                         globalViewModel.marriage.divorceState == .notRequested {
                         Button {
-                            
+                            globalViewModel.requestDivorce()
                         } label: {
                             Text("Divorce")
                                 .foregroundColor(Colors.redAction)
