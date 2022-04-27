@@ -8,7 +8,7 @@
 import Foundation
 import WalletConnectSwift
 
-class LocalWalletConnect {
+class WalletConnect {
     var client: Client!
     var session: Session!
     var delegate: WalletConnectDelegate
@@ -29,7 +29,8 @@ class LocalWalletConnect {
                                             url: URL(string: "https://customapp.tech")!)
         let dAppInfo = Session.DAppInfo(peerId: UUID().uuidString,
                                         peerMeta: clientMeta,
-                                        chainId: Constants.PolygonChainId)
+                                        chainId: Config.TESTING ? Constants.ChainId.PolygonTestnet :
+                                            Constants.ChainId.Polygon)
         client = Client(delegate: self, dAppInfo: dAppInfo)
 
         try! client.connect(to: wcUrl)
@@ -69,10 +70,11 @@ class LocalWalletConnect {
 protocol WalletConnectDelegate {
     func failedToConnect()
     func didConnect()
+    func didUpdate(session: Session)
     func didDisconnect(isReconnecting: Bool)
 }
 
-extension LocalWalletConnect: ClientDelegate {
+extension WalletConnect: ClientDelegate {
     func client(_ client: Client, didFailToConnect url: WCURL) {
         delegate.failedToConnect()
     }
@@ -101,12 +103,6 @@ extension LocalWalletConnect: ClientDelegate {
 
     func client(_ client: Client, didUpdate session: Session) {
         print("did update")
+        delegate.didUpdate(session: session)
     }
 }
-
-extension WCURL {
-    var fullyPercentEncodedStr: String {
-        absoluteString.addingPercentEncoding(withAllowedCharacters: .alphanumerics) ?? ""
-    }
-}
-
