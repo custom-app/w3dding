@@ -17,12 +17,12 @@ struct ProposalsScreen: View {
     var body: some View {
         VStack {
             
-//            if globalViewModel.isReceivedProposalsLoaded &&
-//                !globalViewModel.receivedProposals.isEmpty {
+            if globalViewModel.isReceivedProposalsLoaded &&
+                !globalViewModel.receivedProposals.isEmpty {
                 ProposalsMenu()
                     .padding(.top, 14)
                     .padding(.leading, 16)
-//            }
+            }
             
             GeometryReader { innerGeometry in
                 if globalViewModel.selectedMyProposals {

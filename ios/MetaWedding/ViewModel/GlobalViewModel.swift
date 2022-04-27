@@ -350,6 +350,10 @@ class GlobalViewModel: ObservableObject {
                     self?.isErrorLoading = true
                 } else {
                     withAnimation {
+                        if let oldProposals = self?.receivedProposals,
+                           oldProposals.count < incomingProposals.count {
+                            self?.selectedMyProposals = false
+                        }
                         self?.receivedProposals = incomingProposals
                         self?.isReceivedProposalsLoaded = true
                         self?.checkAllLoaded()
