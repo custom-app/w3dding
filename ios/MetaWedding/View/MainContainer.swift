@@ -34,7 +34,7 @@ struct MainContainer: View {
                             .navigationBarHidden(true)
                     }
                 }
-                .padding(.bottom, 144)
+                .padding(.bottom, 140)
                 .sheet(isPresented: $globalViewModel.showConnectSheet) {
                     ConnectSheet()
                         .environmentObject(globalViewModel)

@@ -12,63 +12,93 @@ struct ProposalsScreen: View {
     @EnvironmentObject
     var globalViewModel: GlobalViewModel
     
-    @EnvironmentObject
-    var weddingViewModel: WeddingViewModel
+    let geometry: GeometryProxy
     
     var body: some View {
         VStack {
-            HStack(spacing: 0) {
-                Spacer()
-                Button {
-                    withAnimation {
-                        weddingViewModel.selectedMyProposals = true
-                    }
-                } label: {
-                    Text("My proposals")
-                        .font(.system(size: 22))
-                        .foregroundColor(weddingViewModel.selectedMyProposals ? .white : .gray)
-                        .underline()
-                }
-                Spacer()
-                Button {
-                    withAnimation {
-                        weddingViewModel.selectedMyProposals = false
-                    }
-                } label: {
-                    Text("Proposals for me")
-                        .font(.system(size: 22))
-                        .foregroundColor(weddingViewModel.selectedMyProposals ? .gray : .white)
-                        .underline()
-                }
-                Spacer()
-            }
-            .padding(.top, 14)
-            Spacer()
             
-            if weddingViewModel.selectedMyProposals {
-                if globalViewModel.isAuthoredProposalsLoaded {
-                    AuthoredProposalsScreen()
+            ProposalsMenu()
+                .padding(.top, 14)
+                .padding(.leading, 16)
+            
+            GeometryReader { innerGeometry in
+                if globalViewModel.selectedMyProposals {
+                    if globalViewModel.allAuthoredProposalsInfoLoaded {
+                        AuthoredProposalsScreen(geometry: innerGeometry)
+                    } else {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle())
+                            .scaleEffect(1.2)
+                    }
                 } else {
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle())
-                        .scaleEffect(1.2)
-                }
-            } else {
-                if globalViewModel.isReceivedProposalsLoaded {
-                    ReceivedProposalsScreen()
-                } else {
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle())
-                        .scaleEffect(1.2)
+                    if globalViewModel.allReceivedProposalsInfoLoaded {
+                        ReceivedProposalsScreen(geometry: innerGeometry)
+                    } else {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle())
+                            .scaleEffect(1.2)
+                    }
                 }
             }
-            Spacer()
         }
+        .frame(height: geometry.size.height)
     }
 }
 
-struct ProposalsScreen_Previews: PreviewProvider {
-    static var previews: some View {
-        ProposalsScreen()
+struct ProposalsMenu: View {
+    
+    @EnvironmentObject
+    var globalViewModel: GlobalViewModel
+    
+    var body: some View {
+        HStack {
+            HStack(spacing: 0) {
+                Button {
+                    withAnimation {
+                        globalViewModel.selectedMyProposals = true
+                    }
+                } label: {
+                    Text("My proposals")
+                        .font(.subheadline)
+                        .fontWeight(.bold)
+                        .foregroundColor(globalViewModel.selectedMyProposals ?
+                                         Colors.darkPurple : Colors.grey)
+                        .padding(.vertical, 15)
+                        .padding(.horizontal, 12)
+                        .background(Color.white.opacity(globalViewModel.selectedMyProposals ? 1 : 0))
+                        .cornerRadius(50)
+                }
+                .disabled(globalViewModel.selectedMyProposals)
+                .padding(5)
+                
+                Button {
+                    withAnimation {
+                        globalViewModel.selectedMyProposals = false
+                    }
+                } label: {
+                    Text("Proposals for me")
+                        .font(.subheadline)
+                        .fontWeight(.bold)
+                        .foregroundColor(globalViewModel.selectedMyProposals ?
+                                         Colors.grey : Colors.darkPurple)
+                        .padding(.vertical, 15)
+                        .padding(.horizontal, 12)
+                        .background(Color.white.opacity(globalViewModel.selectedMyProposals ? 0 : 1))
+                        .cornerRadius(50)
+                }
+                .disabled(!globalViewModel.selectedMyProposals)
+                .padding(.leading, 7)
+                .padding(.vertical, 5)
+                .padding(.trailing, 5)
+            }
+            .background(Color.white.opacity(0.5))
+            .cornerRadius(30)
+            .overlay(
+                RoundedRectangle(cornerRadius: 30)
+                    .stroke(Color.white, lineWidth: 1)
+            )
+            
+            Spacer()
+        }
     }
 }

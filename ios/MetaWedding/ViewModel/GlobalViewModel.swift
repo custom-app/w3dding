@@ -25,9 +25,10 @@ class GlobalViewModel: ObservableObject {
     
     @Published
     var onAuthTab = true
-    
     @Published
     var showConnectSheet = false
+    @Published
+    var selectedMyProposals: Bool = true
     
     @Published
     var session: Session?
@@ -73,7 +74,7 @@ class GlobalViewModel: ObservableObject {
     @Published
     var marriage: Marriage = Marriage()
     @Published
-    var meta: CertificateMeta?
+    var marriageMeta: CertificateMeta?
     @Published
     var isErrorLoadingMeta = false
     @Published
@@ -341,24 +342,6 @@ class GlobalViewModel: ObservableObject {
         }
     }
     
-    func requestMarriageMeta() {
-        if !marriage.isEmpty(),
-           let url = URL(string: Tools.ipfsLinkToHttp(ipfsLink: marriage.metaUrl)) {
-            print("requesting certificate meta")
-            HttpRequester.shared.loadMeta(url: url) { meta, error in
-                if let meta = meta {
-                    print("got meta:\(meta)")
-                    self.meta = meta
-                    return
-                }
-                if let error = error {
-                    print("error getting meta: \(error)")
-                    self.isErrorLoadingMeta = true
-                }
-            }
-        }
-    }
-    
     func requestIncomingProposals() {
         if let address = walletAccount  {
             web3.getIncomingPropositions(address: address) { [weak self] incomingProposals, error in
@@ -370,6 +353,7 @@ class GlobalViewModel: ObservableObject {
                         self?.receivedProposals = incomingProposals
                         self?.isReceivedProposalsLoaded = true
                         self?.checkAllLoaded()
+                        self?.requestReceivedProposalsMeta()
                     }
                 }
             }
@@ -387,6 +371,64 @@ class GlobalViewModel: ObservableObject {
                         self?.authoredProposals = outgoingProposals
                         self?.isAuthoredProposalsLoaded = true
                         self?.checkAllLoaded()
+                        self?.requestAuthoredProposalsMeta()
+                    }
+                }
+            }
+        }
+    }
+    
+    func requestMarriageMeta() {
+        if !marriage.isEmpty(),
+           let url = URL(string: Tools.ipfsLinkToHttp(ipfsLink: marriage.metaUrl)) {
+            print("requesting certificate meta")
+            HttpRequester.shared.loadMeta(url: url) { meta, error in
+                if let meta = meta {
+                    print("got meta:\(meta)")
+                    self.marriageMeta = meta
+                    return
+                }
+                if let error = error {
+                    print("error getting meta: \(error)")
+                    self.isErrorLoadingMeta = true
+                }
+            }
+        }
+    }
+    
+    //TODO: refactor for universal authored/received proposals method
+    func requestAuthoredProposalsMeta() {
+        for proposal in authoredProposals {
+            if let url = URL(string: Tools.ipfsLinkToHttp(ipfsLink: proposal.metaUrl)) {
+                print("requesting authored proposal meta")
+                HttpRequester.shared.loadMeta(url: url) { meta, error in
+                    if let meta = meta {
+                        print("got authored proposal meta:\(meta)")
+                        proposal.meta = meta
+                        return
+                    }
+                    if let error = error {
+                        print("error getting authored proposal meta: \(error)")
+                        proposal.meta = CertificateMeta()
+                    }
+                }
+            }
+        }
+    }
+    
+    func requestReceivedProposalsMeta() {
+        for proposal in receivedProposals {
+            if let url = URL(string: Tools.ipfsLinkToHttp(ipfsLink: proposal.metaUrl)) {
+                print("requesting received proposal meta")
+                HttpRequester.shared.loadMeta(url: url) { meta, error in
+                    if let meta = meta {
+                        print("got received proposal meta:\(meta)")
+                        proposal.meta = meta
+                        return
+                    }
+                    if let error = error {
+                        print("error getting received proposal meta: \(error)")
+                        proposal.meta = CertificateMeta()
                     }
                 }
             }
@@ -416,6 +458,31 @@ class GlobalViewModel: ObservableObject {
     
     var allLoaded: Bool {
         return isAuthoredProposalsLoaded && isReceivedProposalsLoaded && isMarriageLoaded
+    }
+    
+    //TODO: refactor for universal authored/received proposals method
+    var allReceivedProposalsInfoLoaded: Bool {
+        if isReceivedProposalsLoaded {
+            for proposal in receivedProposals {
+                if proposal.meta == nil {
+                    return false
+                }
+            }
+            return true
+        }
+        return false
+    }
+    
+    var allAuthoredProposalsInfoLoaded: Bool {
+        if isAuthoredProposalsLoaded {
+            for proposal in authoredProposals {
+                if proposal.meta == nil {
+                    return false
+                }
+            }
+            return true
+        }
+        return false
     }
     
     func buildCertificateWebView() {

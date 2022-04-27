@@ -13,113 +13,128 @@ struct ProposalConstructor: View {
     var globalViewModel: GlobalViewModel
     
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             if let address = globalViewModel.walletAccount {
-                Text("Your address")
-                    .font(.system(size: 15))
-                    .padding(.horizontal, 20)
-                    .multilineTextAlignment(.center)
                 
+                Text("Make proposal")
+                    .font(Font.title2.weight(.bold))
+                    .foregroundColor(Colors.darkPurple)
+                    .multilineTextAlignment(.center)
                 TextField("Your address", text: .constant(address))
-                    .foregroundColor(.white)
-                    .font(.system(size: 15))
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 6)
-                    .background(Color.gray.opacity(0.2))
-                    .cornerRadius(6)
+                    .font(Font.headline.weight(.bold))
+                    .foregroundColor(Colors.darkGrey)
+                    .lineLimit(1)
+                    .truncationMode(.tail)
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 13)
+                    .background(Color.white.opacity(0.5))
+                    .cornerRadius(32)
                     .disabled(true)
-                    .padding(.horizontal, 20)
+                    .padding(.horizontal, 16)
+                    .padding(.top, 40)
                 
-                Text("Partner address")
-                    .font(.system(size: 15))
-                    .padding(.horizontal, 20)
-                    .multilineTextAlignment(.center)
-                
-                TextField("Partner address", text: $globalViewModel.partnerAddress)
-                    .foregroundColor(.white)
-                    .font(.system(size: 16))
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 6)
-                    .background(Color.gray.opacity(0.3))
-                    .cornerRadius(6)
-                    .disabled(false)
-                    .padding(.horizontal, 20)
-                
-                Text("Your name")
-                    .font(.system(size: 15))
-                    .padding(.horizontal, 20)
-                    .multilineTextAlignment(.center)
-                
-                TextField("Your name", text: $globalViewModel.name)
-                    .foregroundColor(.white)
-                    .font(.system(size: 16))
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 6)
-                    .background(Color.gray.opacity(0.3))
-                    .cornerRadius(6)
-                    .disabled(false)
-                    .padding(.horizontal, 20)
-                
-                Text("Partner name")
-                    .font(.system(size: 15))
-                    .padding(.horizontal, 20)
-                    .multilineTextAlignment(.center)
-                
-                TextField("Partner name", text: $globalViewModel.partnerName)
-                    .foregroundColor(.white)
-                    .font(.system(size: 16))
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 6)
-                    .background(Color.gray.opacity(0.3))
-                    .cornerRadius(6)
-                    .disabled(false)
-                    .padding(.horizontal, 20)
-                
-                
-                
-                VStack(spacing: 30) {
-                    
-                    Button {
-                        guard Tools.isAddressValid(globalViewModel.partnerAddress) else {
-                            globalViewModel.alert = IdentifiableAlert.build(
-                                id: "validation failed",
-                                title: "Validation Failed",
-                                message: "Entered address is not valid"
-                            )
-                            return
-                        }
-                        guard !globalViewModel.name.isEmpty && !globalViewModel.partnerName.isEmpty else {
-                            globalViewModel.alert = IdentifiableAlert.build(
-                                id: "validation failed",
-                                title: "Validation Failed",
-                                message: "Names can't be empty"
-                            )
-                            return
-                        }
-                        globalViewModel.buildCertificateWebView()
-                    } label: {
-                        Text("Propose")
-                            .padding(16)
-                            .background(Color.white)
-                            .cornerRadius(8)
-                    }
-                    
-                    if globalViewModel.sendTxPending {
-                        Text("Please check wallet app for verification. If there is no verification popup try to click button again")
-                            .padding(.horizontal, 20)
+                TextField("", text: $globalViewModel.partnerAddress)
+                    .font(Font.headline.weight(.bold))
+                    .placeholder(when: globalViewModel.partnerAddress.isEmpty) {
+                        Text("Partner address")
+                            .font(Font.headline.weight(.bold))
+                            .foregroundColor(Colors.darkGrey.opacity(0.5))
                             .multilineTextAlignment(.center)
                     }
-                    
-                    if globalViewModel.showWebView {
-                        WebView(htmlString: globalViewModel.certificateHtml) { formatter in
-                            globalViewModel.showWebView = false
-                            globalViewModel.uploadCertificateToNftStorage(formatter: formatter)
-                        }
-                        .frame(minHeight: 1, maxHeight: 1)
-                        .opacity(0)
+                    .foregroundColor(Colors.darkGrey)
+                    .lineLimit(1)
+                    .truncationMode(.tail)
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 13)
+                    .background(Color.white.opacity(0.5))
+                    .cornerRadius(32)
+                    .disabled(false)
+                    .padding(.horizontal, 16)
+                    .padding(.top, 16)
+                
+                TextField("", text: $globalViewModel.name)
+                    .font(Font.headline.weight(.bold))
+                    .placeholder(when: globalViewModel.name.isEmpty) {
+                        Text("Your name")
+                            .font(Font.headline.weight(.bold))
+                            .foregroundColor(Colors.darkGrey.opacity(0.5))
+                            .multilineTextAlignment(.center)
                     }
+                    .foregroundColor(Colors.darkGrey)
+                    .lineLimit(1)
+                    .truncationMode(.tail)
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 13)
+                    .background(Color.white.opacity(0.5))
+                    .cornerRadius(32)
+                    .disabled(false)
+                    .padding(.horizontal, 16)
+                    .padding(.top, 16)
+                
+                TextField("", text: $globalViewModel.partnerName)
+                    .font(Font.headline.weight(.bold))
+                    .placeholder(when: globalViewModel.partnerName.isEmpty) {
+                        Text("Partner name")
+                            .font(Font.headline.weight(.bold))
+                            .foregroundColor(Colors.darkGrey.opacity(0.5))
+                            .multilineTextAlignment(.center)
+                    }
+                    .foregroundColor(Colors.darkGrey)
+                    .lineLimit(1)
+                    .truncationMode(.tail)
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 13)
+                    .background(Color.white.opacity(0.5))
+                    .cornerRadius(32)
+                    .disabled(false)
+                    .padding(.horizontal, 16)
+                    .padding(.top, 16)
+                
+                Button {
+                    guard Tools.isAddressValid(globalViewModel.partnerAddress) else {
+                        globalViewModel.alert = IdentifiableAlert.build(
+                            id: "validation failed",
+                            title: "Validation Failed",
+                            message: "Entered address is not valid"
+                        )
+                        return
+                    }
+                    guard !globalViewModel.name.isEmpty && !globalViewModel.partnerName.isEmpty else {
+                        globalViewModel.alert = IdentifiableAlert.build(
+                            id: "validation failed",
+                            title: "Validation Failed",
+                            message: "Names can't be empty"
+                        )
+                        return
+                    }
+                    globalViewModel.buildCertificateWebView()
+                } label: {
+                    Text("Propose")
+                        .font(.system(size: 17))
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 32)
+                        .padding(.vertical, 16)
+                        .background(Colors.purple)
+                        .cornerRadius(32)
                 }
-                .padding(.top, 20)
+                .padding(.top, 44)
+                
+                if globalViewModel.sendTxPending {
+                    Text("Please check wallet app for verification. If there is no verification popup try to click button again")
+                        .padding(.horizontal, 20)
+                        .multilineTextAlignment(.center)
+                        .padding(.top, 10)
+                }
+                
+                if globalViewModel.showWebView {
+                    WebView(htmlString: globalViewModel.certificateHtml) { formatter in
+                        globalViewModel.showWebView = false
+                        globalViewModel.uploadCertificateToNftStorage(formatter: formatter)
+                    }
+                    .frame(minHeight: 1, maxHeight: 1)
+                    .opacity(0)
+                }
             }
         }
     }

@@ -40,7 +40,6 @@
 		11B8CE5B280DF43700B25974 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B8CE5A280DF43700B25974 /* WebView.swift */; };
 		11C356CD27FF82D1007A0E69 /* IdentifiableAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C356CC27FF82D1007A0E69 /* IdentifiableAlert.swift */; };
 		11CE717028038ABC004782E5 /* CertificateWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CE716F28038ABC004782E5 /* CertificateWorker.swift */; };
-		11E32C882802208200A540EE /* WeddingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E32C872802208200A540EE /* WeddingViewModel.swift */; };
 		11E32C8A2802220B00A540EE /* Proposal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E32C892802220B00A540EE /* Proposal.swift */; };
 		11E32C8C2802243200A540EE /* Marriage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E32C8B2802243200A540EE /* Marriage.swift */; };
 		11E32C8E280224D800A540EE /* DivorceState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E32C8D280224D800A540EE /* DivorceState.swift */; };
@@ -51,6 +50,7 @@
 		11E32C9B28022CDA00A540EE /* ReceivedProposalInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E32C9A28022CDA00A540EE /* ReceivedProposalInfo.swift */; };
 		11E32C9D28022D6300A540EE /* AuthoredProposalInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E32C9C28022D6300A540EE /* AuthoredProposalInfo.swift */; };
 		11E32C9F280236A000A540EE /* ProposalConstructor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E32C9E280236A000A540EE /* ProposalConstructor.swift */; };
+		11E3D474281883C1004F7C07 /* Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E3D473281883C1004F7C07 /* Placeholder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -89,7 +89,6 @@
 		11B8CE5A280DF43700B25974 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		11C356CC27FF82D1007A0E69 /* IdentifiableAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifiableAlert.swift; sourceTree = "<group>"; };
 		11CE716F28038ABC004782E5 /* CertificateWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificateWorker.swift; sourceTree = "<group>"; };
-		11E32C872802208200A540EE /* WeddingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeddingViewModel.swift; sourceTree = "<group>"; };
 		11E32C892802220B00A540EE /* Proposal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Proposal.swift; sourceTree = "<group>"; };
 		11E32C8B2802243200A540EE /* Marriage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Marriage.swift; sourceTree = "<group>"; };
 		11E32C8D280224D800A540EE /* DivorceState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DivorceState.swift; sourceTree = "<group>"; };
@@ -100,6 +99,7 @@
 		11E32C9A28022CDA00A540EE /* ReceivedProposalInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivedProposalInfo.swift; sourceTree = "<group>"; };
 		11E32C9C28022D6300A540EE /* AuthoredProposalInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthoredProposalInfo.swift; sourceTree = "<group>"; };
 		11E32C9E280236A000A540EE /* ProposalConstructor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProposalConstructor.swift; sourceTree = "<group>"; };
+		11E3D473281883C1004F7C07 /* Placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Placeholder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,7 +184,6 @@
 				115A658B27F22D93001CBCD2 /* WalletConnect.swift */,
 				115A659727F253E8001CBCD2 /* GlobalViewModel.swift */,
 				11481B4C27FA4E9A00439106 /* Web3Worker.swift */,
-				11E32C872802208200A540EE /* WeddingViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -219,6 +218,7 @@
 				11C356CC27FF82D1007A0E69 /* IdentifiableAlert.swift */,
 				11B4C76C2808CD300058A319 /* SwipeRefresh.swift */,
 				11B8CE5A280DF43700B25974 /* WebView.swift */,
+				11E3D473281883C1004F7C07 /* Placeholder.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -363,7 +363,6 @@
 				118A952427F935F600798141 /* MainContainer.swift in Sources */,
 				112206F928137A6D00AF0315 /* NotConnectedScreen.swift in Sources */,
 				11E32C8E280224D800A540EE /* DivorceState.swift in Sources */,
-				11E32C882802208200A540EE /* WeddingViewModel.swift in Sources */,
 				11E32C9628022C4600A540EE /* AuthoredProposalsScreen.swift in Sources */,
 				11481B4D27FA4E9A00439106 /* Web3Worker.swift in Sources */,
 				11B4C76F2808F2C10058A319 /* HttpRequester.swift in Sources */,
@@ -380,6 +379,7 @@
 				11481B4F27FA5BA600439106 /* Errors.swift in Sources */,
 				11E32C8A2802220B00A540EE /* Proposal.swift in Sources */,
 				11E32C9D28022D6300A540EE /* AuthoredProposalInfo.swift in Sources */,
+				11E3D474281883C1004F7C07 /* Placeholder.swift in Sources */,
 				11E32C9B28022CDA00A540EE /* ReceivedProposalInfo.swift in Sources */,
 				115A659827F253E8001CBCD2 /* GlobalViewModel.swift in Sources */,
 				11B6336F2804CCDA00745730 /* TxWorker.swift in Sources */,

@@ -16,6 +16,7 @@ class Proposal: Identifiable {
     let timestamp: BigUInt
     let authorAccepted: Bool
     let receiverAccepted: Bool
+    var meta: CertificateMeta? = nil
     
     init(address: String, metaUrl: String, condData: String, divorceTimeout: BigUInt, timestamp: BigUInt, authorAccepted: Bool, receiverAccepted: Bool) {
         self.address = address

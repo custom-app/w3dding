@@ -12,9 +12,6 @@ struct WeddingContainer: View {
     @EnvironmentObject
     var globalViewModel: GlobalViewModel
     
-    @StateObject
-    var weddingViewModel = WeddingViewModel()
-    
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
@@ -26,6 +23,7 @@ struct WeddingContainer: View {
                     Spacer()
                     if !globalViewModel.marriage.isEmpty() &&
                         globalViewModel.marriage.divorceState == .notRequested {
+                        
                         Button {
                             globalViewModel.requestDivorce()
                         } label: {
@@ -50,15 +48,17 @@ struct WeddingContainer: View {
                             WrongChainScreen()
                         } else if globalViewModel.allLoaded {
                             Spacer()
-                            ScrollView {
-                                PullToRefreshView(bg: .black.opacity(0), fg: .black) {
-                                    globalViewModel.refresh()
-                                }
-                                if globalViewModel.marriage.isEmpty() {
-                                    ProposalsScreen()
-                                } else {
-                                    MarriageScreen()
-                                        .padding(.top, 30)
+                            GeometryReader { innerGeometry in
+                                ScrollView(showsIndicators: false) {
+                                    PullToRefreshView(bg: .black.opacity(0), fg: .black) {
+                                        globalViewModel.refresh()
+                                    }
+                                    if globalViewModel.marriage.isEmpty() {
+                                        ProposalsScreen(geometry: innerGeometry)
+                                    } else {
+                                        MarriageScreen()
+                                            .padding(.top, 30)
+                                    }
                                 }
                             }
                             Spacer()
@@ -90,7 +90,6 @@ struct WeddingContainer: View {
         }
         .navigationTitle("")
         .navigationBarHidden(true)
-        .environmentObject(weddingViewModel)
     }
 }
 

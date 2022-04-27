@@ -15,11 +15,18 @@ struct ReceivedProposalsScreen: View {
     @State
     var selectedProposal: Proposal?
     
+    let geometry: GeometryProxy
+    
     var body: some View {
         VStack {
             if globalViewModel.isReceivedProposalsLoaded {
                 if globalViewModel.receivedProposals.isEmpty {
-                    Text("There is no proposals for you")
+                    Text("There are no proposals addressed to you")
+                        .font(Font.title2.weight(.bold))
+                        .foregroundColor(Colors.darkPurple)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 36)
                 } else if globalViewModel.receivedProposals.count == 1 {
                     ReceivedProposalInfo(proposal: globalViewModel.receivedProposals[0])
                 } else {
@@ -38,15 +45,11 @@ struct ReceivedProposalsScreen: View {
                 }
             }
         }
+        .frame(width: geometry.size.width, height: geometry.size.height)
         .sheet(item: $selectedProposal,
-               onDismiss: { selectedProposal = nil}) { proposal in
+               onDismiss: { selectedProposal = nil }) { proposal in
             ReceivedProposalInfo(proposal: proposal)
+                .environmentObject(globalViewModel)
         }
-    }
-}
-
-struct ReceivedProposalsScreen_Previews: PreviewProvider {
-    static var previews: some View {
-        ReceivedProposalsScreen()
     }
 }

@@ -35,7 +35,7 @@ struct ConnectSheet: View {
                     
                     Spacer()
                     
-                    ScrollView {
+                    ScrollView(showsIndicators: false) {
                         VStack(spacing: 18) {
                             ForEach(Wallets.All, id: \.self) { wallet in
                                 Button {

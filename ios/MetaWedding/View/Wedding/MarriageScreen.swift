@@ -17,7 +17,7 @@ struct MarriageScreen: View {
             let marriage = globalViewModel.marriage
             if globalViewModel.isErrorLoadingMeta {
                 //TODO: retry block here
-            } else if let meta = globalViewModel.meta, !marriage.isEmpty() {
+            } else if let meta = globalViewModel.marriageMeta, !marriage.isEmpty() {
                 HStack {
                     VStack(alignment: .leading, spacing: 0) {
                         PersonCardInfo(name: meta.properties.firstPersonName,
@@ -129,14 +129,15 @@ struct MarriageScreen: View {
                                     Image("ic_warning")
                                         .resizable()
                                         .scaledToFit()
-                                        .frame(width: 48)
-                                        .padding(.top, 30)
+                                        .frame(width: 42)
+                                        .padding(.top, 20)
                                     
                                     Text("The partner did not confirm the divorce. You can divorce unilaterally")
-                                        .font(.title2)
+                                        .font(.system(size: 19))
                                         .fontWeight(.bold)
                                         .foregroundColor(Colors.darkPurple)
-                                        .padding(.top, 24)
+                                        .multilineTextAlignment(.center)
+                                        .padding(.top, 20)
                                     
                                     Button {
                                         globalViewModel.confirmDivorce()
@@ -154,7 +155,7 @@ struct MarriageScreen: View {
                                                     .stroke(Colors.purple, lineWidth: 2)
                                             )
                                     }
-                                    .padding(.top, 24)
+                                    .padding(.top, 20)
                                 } else {
                                     Image("ic_warning")
                                         .resizable()

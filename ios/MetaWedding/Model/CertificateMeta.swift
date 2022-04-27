@@ -16,6 +16,27 @@ struct CertificateMeta: Codable {
     func httpImageLink() -> String {
         return Tools.ipfsLinkToHttp(ipfsLink: image)
     }
+    
+    init(name: String, description: String, image: String, properties: CertificateProperties) {
+        self.name = name
+        self.description = description
+        self.image = image
+        self.properties = properties
+    }
+    
+    init() {
+        name = ""
+        description = ""
+        image = ""
+        properties = CertificateProperties(firstPersonAddress: "",
+                                           secondPersonAddress: "",
+                                           firstPersonName: "",
+                                           secondPersonName: "")
+    }
+    
+    func isEmpty() -> Bool {
+        return name.isEmpty && description.isEmpty && image.isEmpty
+    }
 }
 
 struct CertificateProperties: Codable {
