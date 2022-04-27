@@ -88,7 +88,7 @@ struct MarriageScreen: View {
                     Spacer()
                     if marriage.divorceState != .notRequested {
                         if let address = globalViewModel.walletAccount {
-                            let isAuthor = address == marriage.authorAddress
+                            let isAuthor = address == marriage.authorAddress.lowercased()
                             
                             if (isAuthor && marriage.divorceState == .requestedByReceiver) ||
                                 (!isAuthor && marriage.divorceState == .requestedByAuthor) {

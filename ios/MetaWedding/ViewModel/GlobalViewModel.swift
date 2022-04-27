@@ -563,7 +563,8 @@ class GlobalViewModel: ObservableObject {
                     self.onNewProposalProcessFinish()
                     if response.ok {
                         print("certificate meta successfully uploaded, url: \(response.value.url)")
-                        self.propose(to: self.partnerAddress, metaUrl: response.value.url)
+                        self.propose(to: self.partnerAddress.lowercased(),
+                                     metaUrl: response.value.url)
                     } else {
                         print("certificate meta upload not ok")
                         self.handleError(InnerError.httpError(body: "\(response)"))
