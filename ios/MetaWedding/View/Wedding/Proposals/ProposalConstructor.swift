@@ -6,8 +6,11 @@
 //
 
 import SwiftUI
+import Combine
 
 struct ProposalConstructor: View {
+    
+    let nameLimit = 50
     
     @EnvironmentObject
     var globalViewModel: GlobalViewModel
@@ -70,6 +73,11 @@ struct ProposalConstructor: View {
                     .disabled(false)
                     .padding(.horizontal, 16)
                     .padding(.top, 16)
+                    .onReceive(Just(globalViewModel.name)) { _ in
+                        if globalViewModel.name.count > nameLimit {
+                            globalViewModel.name = String(globalViewModel.name.prefix(nameLimit))
+                        }
+                    }
                 
                 TextField("", text: $globalViewModel.partnerName)
                     .font(Font.headline.weight(.bold))
@@ -89,6 +97,11 @@ struct ProposalConstructor: View {
                     .disabled(false)
                     .padding(.horizontal, 16)
                     .padding(.top, 16)
+                    .onReceive(Just(globalViewModel.partnerName)) { _ in
+                        if globalViewModel.partnerName.count > nameLimit {
+                            globalViewModel.partnerName = String(globalViewModel.partnerName.prefix(nameLimit))
+                        }
+                    }
                 
                 Button {
                     guard Tools.isAddressValid(globalViewModel.partnerAddress) else {
