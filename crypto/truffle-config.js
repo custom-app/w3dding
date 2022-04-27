@@ -22,6 +22,7 @@ const HDWalletProvider = require('@truffle/hdwallet-provider');
 
 const fs = require('fs');
 const privateKey = fs.readFileSync(".secret").toString().trim();
+const mainNetPrivateKey = fs.readFileSync(".secret-main2").toString().trim();
 
 module.exports = {
   /**
@@ -77,6 +78,14 @@ module.exports = {
         privateKeys: [privateKey]
       }),
       network_id: 80001
+    },
+    mainnet: {
+      provider: () => new HDWalletProvider({
+        providerOrUrl: process.env.POLYGON_MAINNET_URL,
+        privateKeys: [mainNetPrivateKey]
+      }),
+      network_id: 137,
+      gasPrice: 100000000000
     }
   },
 
