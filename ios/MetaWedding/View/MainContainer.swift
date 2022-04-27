@@ -72,37 +72,52 @@ struct BottomMenu: View {
                 .cornerRadius(50)
                 .padding(.leading, 2)
                 .padding(.vertical, 2)
-                Button {
+                
+                ZStack {
+                    Image("ic_marriage_off")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 24)
+                        .padding(.trailing, 29)
+                        .padding(.leading, 24)
+                }
+                .frame(width: 77)
+                .onTapGesture {
                     withAnimation {
                         firstTabSelected = false
                     }
-                } label: {
-                    ZStack {
-                        Image("ic_marriage_off")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 24)
-                            .padding(.trailing, 29)
-                            .padding(.leading, 24)
-                    }
-                    .frame(width: 77)
                 }
+//                Button {
+//                    withAnimation {
+//                        firstTabSelected = false
+//                    }
+//                } label: {
+//                    ZStack {
+//                        Image("ic_marriage_off")
+//                            .resizable()
+//                            .scaledToFit()
+//                            .frame(width: 24)
+//                            .padding(.trailing, 29)
+//                            .padding(.leading, 24)
+//                    }
+//                    .frame(width: 77)
+//                }
             } else {
-                Button {
+                ZStack {
+                    Image("ic_wallet_off")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 24)
+                        .padding(.leading, 29)
+                        .padding(.trailing, 24)
+                }
+                .frame(width: 77)
+                .onTapGesture {
                     withAnimation {
                         firstTabSelected = true
                     }
-                } label: {
-                    ZStack {
-                        Image("ic_wallet_off")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 24)
-                            .padding(.leading, 29)
-                            .padding(.trailing, 24)
-                    }
-                    .frame(width: 77)
                 }
+                
                 ZStack {
                     Image("ic_marriage_on")
                         .resizable()

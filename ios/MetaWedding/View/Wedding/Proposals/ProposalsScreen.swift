@@ -56,43 +56,41 @@ struct ProposalsMenu: View {
     var body: some View {
         HStack {
             HStack(spacing: 0) {
-                Button {
-                    withAnimation {
-                        globalViewModel.selectedMyProposals = true
+                Text("My proposals")
+                    .font(.subheadline)
+                    .fontWeight(.bold)
+                    .foregroundColor(globalViewModel.selectedMyProposals ?
+                                     Colors.darkPurple : Colors.grey)
+                    .padding(.vertical, 15)
+                    .padding(.horizontal, 12)
+                    .background(Color.white.opacity(globalViewModel.selectedMyProposals ? 1 : 0))
+                    .cornerRadius(50)
+                    .onTapGesture {
+                        withAnimation {
+                            globalViewModel.selectedMyProposals = true
+                        }
                     }
-                } label: {
-                    Text("My proposals")
-                        .font(.subheadline)
-                        .fontWeight(.bold)
-                        .foregroundColor(globalViewModel.selectedMyProposals ?
-                                         Colors.darkPurple : Colors.grey)
-                        .padding(.vertical, 15)
-                        .padding(.horizontal, 12)
-                        .background(Color.white.opacity(globalViewModel.selectedMyProposals ? 1 : 0))
-                        .cornerRadius(50)
-                }
-                .disabled(globalViewModel.selectedMyProposals)
-                .padding(5)
+                    .disabled(globalViewModel.selectedMyProposals)
+                    .padding(5)
                 
-                Button {
-                    withAnimation {
-                        globalViewModel.selectedMyProposals = false
+                Text("Proposals for me")
+                    .font(.subheadline)
+                    .fontWeight(.bold)
+                    .foregroundColor(globalViewModel.selectedMyProposals ?
+                                     Colors.grey : Colors.darkPurple)
+                    .padding(.vertical, 15)
+                    .padding(.horizontal, 12)
+                    .background(Color.white.opacity(globalViewModel.selectedMyProposals ? 0 : 1))
+                    .cornerRadius(50)
+                    .onTapGesture {
+                        withAnimation {
+                            globalViewModel.selectedMyProposals = false
+                        }
                     }
-                } label: {
-                    Text("Proposals for me")
-                        .font(.subheadline)
-                        .fontWeight(.bold)
-                        .foregroundColor(globalViewModel.selectedMyProposals ?
-                                         Colors.grey : Colors.darkPurple)
-                        .padding(.vertical, 15)
-                        .padding(.horizontal, 12)
-                        .background(Color.white.opacity(globalViewModel.selectedMyProposals ? 0 : 1))
-                        .cornerRadius(50)
-                }
-                .disabled(!globalViewModel.selectedMyProposals)
-                .padding(.leading, 7)
-                .padding(.vertical, 5)
-                .padding(.trailing, 5)
+                    .disabled(!globalViewModel.selectedMyProposals)
+                    .padding(.leading, 7)
+                    .padding(.vertical, 5)
+                    .padding(.trailing, 5)
             }
             .background(Color.white.opacity(0.5))
             .cornerRadius(30)

@@ -14,16 +14,18 @@ struct AuthScreen: View {
     
     var body: some View {
         GeometryReader { geometry in
-            HStack {
-                Text("Wallet")
-                    .foregroundColor(Colors.darkPurple)
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                Spacer()
-            }
-            .padding(.leading, 16)
-            .padding(.top, 18)
             VStack(spacing: 0) {
+                
+                HStack {
+                    Text("Wallet")
+                        .foregroundColor(Colors.darkPurple)
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                    Spacer()
+                }
+                .padding(.leading, 16)
+                .padding(.top, 18)
+                
                 if globalViewModel.isConnecting || globalViewModel.isReconnecting {
                     Spacer()
                     ProgressView()
