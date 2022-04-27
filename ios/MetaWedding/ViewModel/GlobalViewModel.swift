@@ -404,7 +404,11 @@ class GlobalViewModel: ObservableObject {
                 HttpRequester.shared.loadMeta(url: url) { meta, error in
                     if let meta = meta {
                         print("got authored proposal meta:\(meta)")
-                        proposal.meta = meta
+                        DispatchQueue.main.async {
+                            withAnimation {
+                                proposal.meta = meta
+                            }
+                        }
                         return
                     }
                     if let error = error {
@@ -423,7 +427,11 @@ class GlobalViewModel: ObservableObject {
                 HttpRequester.shared.loadMeta(url: url) { meta, error in
                     if let meta = meta {
                         print("got received proposal meta:\(meta)")
-                        proposal.meta = meta
+                        DispatchQueue.main.async {
+                            withAnimation {
+                                proposal.meta = meta
+                            }
+                        }
                         return
                     }
                     if let error = error {

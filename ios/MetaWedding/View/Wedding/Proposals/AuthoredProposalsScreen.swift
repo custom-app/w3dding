@@ -46,6 +46,7 @@ struct AuthoredProposalsScreen: View {
                                     .foregroundColor(Colors.darkPurple)
                                     .multilineTextAlignment(.center)
                                     .padding(.top, 24)
+                                    .padding(.horizontal, 20)
                                 
                                 HStack {
                                     Spacer()
