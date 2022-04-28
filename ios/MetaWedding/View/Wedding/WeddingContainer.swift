@@ -39,9 +39,9 @@ struct WeddingContainer: View {
                 .padding(.top, 18)
                 
                 if globalViewModel.isConnecting || globalViewModel.isReconnecting {
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle(tint: .black))
-                        .scaleEffect(1.2)
+                    Spacer()
+                    WeddingProgress()
+                    Spacer()
                 } else {
                     if globalViewModel.session != nil {
                         if globalViewModel.isWrongChain {
@@ -77,9 +77,9 @@ struct WeddingContainer: View {
                             }
                             .padding(.top, 20)
                         } else {
-                            ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle(tint: .black))
-                                .scaleEffect(1.2)
+                            Spacer()
+                            WeddingProgress()
+                            Spacer()
                         }
                     } else {
                         NotConnectedScreen()

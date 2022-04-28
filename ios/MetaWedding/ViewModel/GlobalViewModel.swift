@@ -95,6 +95,16 @@ class GlobalViewModel: ObservableObject {
     @Published
     var isNewProposalPending = false
     
+    @Published
+    var angle: Double = 0.0
+    @Published
+    var isAnimating = false
+    
+    var foreverAnimation: Animation {
+        Animation.easeInOut(duration: 1.0)
+            .repeatForever(autoreverses: false)
+    }
+
     var walletAccount: String? {
         return session?.walletInfo!.accounts[0].lowercased()
     }

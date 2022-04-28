@@ -29,17 +29,17 @@ struct ProposalsScreen: View {
                     if globalViewModel.isAuthoredProposalsLoaded {
                         AuthoredProposalsScreen(geometry: innerGeometry)
                     } else {
-                        ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle())
-                            .scaleEffect(1.2)
+                        Spacer()
+                        WeddingProgress()
+                        Spacer()
                     }
                 } else {
                     if globalViewModel.isReceivedProposalsLoaded {
                         ReceivedProposalsScreen(geometry: innerGeometry)
                     } else {
-                        ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle(tint: .black))
-                            .scaleEffect(1.2)
+                        Spacer()
+                        WeddingProgress()
+                        Spacer()
                     }
                 }
             }

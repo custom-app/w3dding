@@ -27,6 +27,7 @@
 		118A952227F935E000798141 /* WeddingContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118A952127F935E000798141 /* WeddingContainer.swift */; };
 		118A952427F935F600798141 /* MainContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118A952327F935F600798141 /* MainContainer.swift */; };
 		11A484C9280F804600DE5C24 /* BackgroundTasksManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A484C8280F804600DE5C24 /* BackgroundTasksManager.swift */; };
+		11A92636281A181E00816024 /* WeddingProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A92635281A181E00816024 /* WeddingProgress.swift */; };
 		11A92D7D2814AA9300B98066 /* ConnectSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A92D7C2814AA9300B98066 /* ConnectSheet.swift */; };
 		11A92D7F2814C08F00B98066 /* ConnectedScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A92D7E2814C08F00B98066 /* ConnectedScreen.swift */; };
 		11A92D812814CFB800B98066 /* WrongChainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A92D802814CFB800B98066 /* WrongChainScreen.swift */; };
@@ -76,6 +77,7 @@
 		118A952127F935E000798141 /* WeddingContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeddingContainer.swift; sourceTree = "<group>"; };
 		118A952327F935F600798141 /* MainContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContainer.swift; sourceTree = "<group>"; };
 		11A484C8280F804600DE5C24 /* BackgroundTasksManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundTasksManager.swift; sourceTree = "<group>"; };
+		11A92635281A181E00816024 /* WeddingProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeddingProgress.swift; sourceTree = "<group>"; };
 		11A92D7C2814AA9300B98066 /* ConnectSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectSheet.swift; sourceTree = "<group>"; };
 		11A92D7E2814C08F00B98066 /* ConnectedScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectedScreen.swift; sourceTree = "<group>"; };
 		11A92D802814CFB800B98066 /* WrongChainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrongChainScreen.swift; sourceTree = "<group>"; };
@@ -219,6 +221,7 @@
 				11B4C76C2808CD300058A319 /* SwipeRefresh.swift */,
 				11B8CE5A280DF43700B25974 /* WebView.swift */,
 				11E3D473281883C1004F7C07 /* Placeholder.swift */,
+				11A92635281A181E00816024 /* WeddingProgress.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -388,6 +391,7 @@
 				118A951C27F9281E00798141 /* Wallets.swift in Sources */,
 				118A951A27F925AE00798141 /* Constants.swift in Sources */,
 				11A92D7F2814C08F00B98066 /* ConnectedScreen.swift in Sources */,
+				11A92636281A181E00816024 /* WeddingProgress.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
