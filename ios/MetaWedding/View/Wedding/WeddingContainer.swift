@@ -69,7 +69,11 @@ struct WeddingContainer: View {
                             }
                             Spacer()
                         } else if globalViewModel.isErrorLoading {
+                            Spacer()
+                
                             Text("Error occured while loading data")
+                                .font(Font.headline.weight(.bold))
+                                .foregroundColor(Colors.darkPurple)
                                 .padding(.horizontal, 20)
                                 .multilineTextAlignment(.center)
                             
@@ -77,11 +81,17 @@ struct WeddingContainer: View {
                                 globalViewModel.refresh()
                             } label: {
                                 Text("Retry")
-                                    .padding(16)
-                                    .background(Color.white)
-                                    .cornerRadius(8)
+                                    .font(.system(size: 17))
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.white)
+                                    .padding(.horizontal, 32)
+                                    .padding(.vertical, 15)
+                                    .background(Colors.purple)
+                                    .cornerRadius(32)
                             }
                             .padding(.top, 20)
+                            
+                            Spacer()
                         } else {
                             Spacer()
                             VStack(spacing: 0) {

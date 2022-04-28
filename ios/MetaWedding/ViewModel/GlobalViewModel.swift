@@ -403,7 +403,10 @@ class GlobalViewModel: ObservableObject {
             HttpRequester.shared.loadMeta(url: url) { meta, error in
                 if let meta = meta {
                     print("got meta:\(meta)")
-                    self.marriageMeta = meta
+                    withAnimation {
+                        self.marriageMeta = meta
+                        self.isErrorLoadingMeta = false
+                    }
                     return
                 }
                 if let error = error {

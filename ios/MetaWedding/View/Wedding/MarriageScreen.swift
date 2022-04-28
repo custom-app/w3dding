@@ -16,7 +16,29 @@ struct MarriageScreen: View {
         VStack(spacing: 0) {
             let marriage = globalViewModel.marriage
             if globalViewModel.isErrorLoadingMeta {
-                //TODO: retry block here
+                Spacer()
+                
+                Text("Error occured while loading marriage info")
+                    .font(Font.headline.weight(.bold))
+                    .foregroundColor(Colors.darkPurple)
+                    .padding(.horizontal, 20)
+                    .multilineTextAlignment(.center)
+                
+                Button {
+                    globalViewModel.requestMarriageMeta()
+                } label: {
+                    Text("Retry")
+                        .font(.system(size: 17))
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 32)
+                        .padding(.vertical, 15)
+                        .background(Colors.purple)
+                        .cornerRadius(32)
+                }
+                .padding(.top, 20)
+                
+                Spacer()
             } else if let meta = globalViewModel.marriageMeta, !marriage.isEmpty() {
                 HStack {
                     VStack(alignment: .leading, spacing: 0) {
@@ -169,7 +191,7 @@ struct MarriageScreen: View {
                                         .foregroundColor(Colors.darkPurple)
                                         .padding(.top, 24)
                                     
-                                    let divorceDate = Date()
+                                    let divorceDate = Date(timestamp: Int64(uniDivorceTime))
                                     
                                     Text("You will be able to divorce unilaterally after " +
                                          "\(divorceDate.formattedDateString("HH:mm dd.MM.yyyy"))")
