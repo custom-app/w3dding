@@ -26,7 +26,7 @@ struct ProposalsScreen: View {
             
             GeometryReader { innerGeometry in
                 if globalViewModel.selectedMyProposals {
-                    if globalViewModel.allAuthoredProposalsInfoLoaded {
+                    if globalViewModel.isAuthoredProposalsLoaded {
                         AuthoredProposalsScreen(geometry: innerGeometry)
                     } else {
                         ProgressView()
@@ -34,11 +34,11 @@ struct ProposalsScreen: View {
                             .scaleEffect(1.2)
                     }
                 } else {
-                    if globalViewModel.allReceivedProposalsInfoLoaded {
+                    if globalViewModel.isReceivedProposalsLoaded {
                         ReceivedProposalsScreen(geometry: innerGeometry)
                     } else {
                         ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle())
+                            .progressViewStyle(CircularProgressViewStyle(tint: .black))
                             .scaleEffect(1.2)
                     }
                 }

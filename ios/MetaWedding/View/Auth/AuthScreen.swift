@@ -29,7 +29,7 @@ struct AuthScreen: View {
                 if globalViewModel.isConnecting || globalViewModel.isReconnecting {
                     Spacer()
                     ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle())
+                        .progressViewStyle(CircularProgressViewStyle(tint: .black))
                         .scaleEffect(1.2)
                     Spacer()
                 } else {

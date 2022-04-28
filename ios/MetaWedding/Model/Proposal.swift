@@ -8,7 +8,8 @@
 import Foundation
 import BigInt
 
-class Proposal: Identifiable {
+struct Proposal: Identifiable {
+    let id = UUID()
     let address: String
     let metaUrl: String
     let conditions: String

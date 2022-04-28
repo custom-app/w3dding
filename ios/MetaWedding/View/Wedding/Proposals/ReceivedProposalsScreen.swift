@@ -84,7 +84,7 @@ struct ReceivedProposalsScreen: View {
                     
                     Spacer()
                     
-                    if let meta = globalViewModel.receivedProposals.first?.meta {
+                    if let meta = globalViewModel.receivedProposals[0].meta {
                         VStack(spacing: 0) {
                             Text("You will be listed in certificate as")
                                 .font(Font.subheadline.weight(.bold))

@@ -22,41 +22,34 @@ struct PullToRefreshView: View {
     @State private var isRefreshIndicatorVisible = false
     @State private var refreshStartTime: Date? = nil
     
-    init(bg: Color = .white, fg: Color = .black, isEnabled: Bool = true, onRefresh: @escaping () -> Void)
-    {
+    init(bg: Color = .white, fg: Color = .black, isEnabled: Bool = true, onRefresh: @escaping () -> Void) {
         self.backgroundColor = bg
         self.foregroundColor = fg
         self.isEnabled = isEnabled
         self.onRefresh = onRefresh
     }
     
-    var body: some View
-    {
-        VStack(spacing: 0)
-        {
-            LazyVStack(spacing: 0)
-            {
+    var body: some View {
+        VStack(spacing: 0) {
+            LazyVStack(spacing: 0) {
                 Color.clear
                     .frame(height: Self.triggerHeight)
-                    .onAppear
-                    {
-                        if isEnabled
-                        {
-                            withAnimation
-                            {
+                    .onAppear {
+                        if isEnabled {
+                            withAnimation {
                                 isRefreshIndicatorVisible = true
                             }
                             refreshStartTime = Date()
                         }
                     }
-                    .onDisappear
-                    {
-                        if isEnabled, isRefreshIndicatorVisible, let diff = refreshStartTime?.distance(to: Date()), diff > Self.minRefreshTimeInterval
-                        {
+                    .onDisappear {
+                        if isEnabled,
+                            isRefreshIndicatorVisible,
+                            let diff = refreshStartTime?.distance(to: Date()),
+                            diff > Self.minRefreshTimeInterval {
                             onRefresh()
                         }
-                        withAnimation
-                        {
+                        withAnimation {
                             isRefreshIndicatorVisible = false
                         }
                         refreshStartTime = nil
@@ -73,8 +66,7 @@ struct PullToRefreshView: View {
         .padding(.top, -Self.fullHeight)
     }
     
-    private var indicator: some View
-    {
+    private var indicator: some View {
         ProgressView()
             .progressViewStyle(CircularProgressViewStyle(tint: foregroundColor))
             .opacity(isRefreshIndicatorVisible ? 1 : 0)

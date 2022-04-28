@@ -40,7 +40,7 @@ struct WeddingContainer: View {
                 
                 if globalViewModel.isConnecting || globalViewModel.isReconnecting {
                     ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle())
+                        .progressViewStyle(CircularProgressViewStyle(tint: .black))
                         .scaleEffect(1.2)
                 } else {
                     if globalViewModel.session != nil {
@@ -78,7 +78,7 @@ struct WeddingContainer: View {
                             .padding(.top, 20)
                         } else {
                             ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle())
+                                .progressViewStyle(CircularProgressViewStyle(tint: .black))
                                 .scaleEffect(1.2)
                         }
                     } else {

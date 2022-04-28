@@ -87,21 +87,6 @@ struct BottomMenu: View {
                         firstTabSelected = false
                     }
                 }
-//                Button {
-//                    withAnimation {
-//                        firstTabSelected = false
-//                    }
-//                } label: {
-//                    ZStack {
-//                        Image("ic_marriage_off")
-//                            .resizable()
-//                            .scaledToFit()
-//                            .frame(width: 24)
-//                            .padding(.trailing, 29)
-//                            .padding(.leading, 24)
-//                    }
-//                    .frame(width: 77)
-//                }
             } else {
                 ZStack {
                     Image("ic_wallet_off")

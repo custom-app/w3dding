@@ -402,7 +402,7 @@ class GlobalViewModel: ObservableObject {
     
     //TODO: refactor for universal authored/received proposals method
     func requestAuthoredProposalsMeta() {
-        for proposal in authoredProposals {
+        for (i, proposal) in authoredProposals.enumerated() {
             if let url = URL(string: Tools.ipfsLinkToHttp(ipfsLink: proposal.metaUrl)) {
                 print("requesting authored proposal meta")
                 HttpRequester.shared.loadMeta(url: url) { meta, error in
@@ -410,14 +410,14 @@ class GlobalViewModel: ObservableObject {
                         print("got authored proposal meta:\(meta)")
                         DispatchQueue.main.async {
                             withAnimation {
-                                proposal.meta = meta
+                                self.authoredProposals[i].meta = meta
                             }
                         }
                         return
                     }
                     if let error = error {
                         print("error getting authored proposal meta: \(error)")
-                        proposal.meta = CertificateMeta()
+                        self.authoredProposals[i].meta = CertificateMeta()
                     }
                 }
             }
@@ -425,7 +425,7 @@ class GlobalViewModel: ObservableObject {
     }
     
     func requestReceivedProposalsMeta() {
-        for proposal in receivedProposals {
+        for (i, proposal) in receivedProposals.enumerated() {
             if let url = URL(string: Tools.ipfsLinkToHttp(ipfsLink: proposal.metaUrl)) {
                 print("requesting received proposal meta")
                 HttpRequester.shared.loadMeta(url: url) { meta, error in
@@ -433,14 +433,14 @@ class GlobalViewModel: ObservableObject {
                         print("got received proposal meta:\(meta)")
                         DispatchQueue.main.async {
                             withAnimation {
-                                proposal.meta = meta
+                                self.receivedProposals[i].meta = meta
                             }
                         }
                         return
                     }
                     if let error = error {
                         print("error getting received proposal meta: \(error)")
-                        proposal.meta = CertificateMeta()
+                        self.receivedProposals[i].meta = CertificateMeta()
                     }
                 }
             }
