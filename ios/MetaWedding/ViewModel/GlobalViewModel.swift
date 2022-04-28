@@ -153,6 +153,10 @@ class GlobalViewModel: ObservableObject {
             self.session = nil
         }
         UserDefaults.standard.removeObject(forKey: Constants.sessionKey)
+        isAuthoredProposalsLoaded = false
+        isReceivedProposalsLoaded = false
+        marriageMeta = nil
+        isMarriageLoaded = false
     }
     
     func triggerPendingDeepLink() {

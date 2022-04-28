@@ -23,10 +23,10 @@ class WalletConnect {
         let wcUrl =  WCURL(topic: UUID().uuidString,
                            bridgeURL: URL(string: Constants.Bridges.Gnosis)!,
                            key: try! randomKey())
-        let clientMeta = Session.ClientMeta(name: "MetaWedding",
-                                            description: "MetaWedding App",
+        let clientMeta = Session.ClientMeta(name: "W3dding",
+                                            description: "W3dding mobile app",
                                             icons: [],
-                                            url: URL(string: "https://customapp.tech")!)
+                                            url: URL(string: "https://w3dding.io")!)
         let dAppInfo = Session.DAppInfo(peerId: UUID().uuidString,
                                         peerMeta: clientMeta,
                                         chainId: Config.TESTING ? Constants.ChainId.PolygonTestnet :

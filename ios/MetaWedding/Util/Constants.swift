@@ -26,7 +26,7 @@ struct Constants {
     }
     
     struct ContractAddress {
-        static let Mainnet = ""
+        static let Mainnet = "0xba21ce6B4Dc183fA5D257584e657B913c90A69dA"
         static let Testnet = "0x8c9d33423E5a3e0500AD388f53facB6754A570B3"
     }
     
