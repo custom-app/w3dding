@@ -368,6 +368,9 @@ class GlobalViewModel: ObservableObject {
                            oldProposals.count < incomingProposals.count {
                             self?.selectedMyProposals = false
                         }
+                        if incomingProposals.count == 0 {
+                            self?.selectedMyProposals = true
+                        }
                         self?.receivedProposals = incomingProposals
                         self?.isReceivedProposalsLoaded = true
                         self?.checkAllLoaded()
@@ -516,7 +519,9 @@ class GlobalViewModel: ObservableObject {
     
     func buildCertificateWebView() {
             if let address = walletAccount {
-                isNewProposalPending = true
+                withAnimation {
+                    isNewProposalPending = true
+                }
                 let now = Date()
                 certificateHtml = CertificateWorker.htmlTemplate
                     .replacingOccurrences(of: CertificateWorker.nameKey, with: name)

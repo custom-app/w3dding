@@ -51,7 +51,7 @@ struct ProposalConstructor: View {
                     .padding(.vertical, 13)
                     .background(Color.white.opacity(0.5))
                     .cornerRadius(32)
-                    .disabled(false)
+                    .disabled(globalViewModel.isNewProposalPending)
                     .padding(.horizontal, 16)
                     .padding(.top, 16)
                 
@@ -70,7 +70,7 @@ struct ProposalConstructor: View {
                     .padding(.vertical, 13)
                     .background(Color.white.opacity(0.5))
                     .cornerRadius(32)
-                    .disabled(false)
+                    .disabled(globalViewModel.isNewProposalPending)
                     .padding(.horizontal, 16)
                     .padding(.top, 16)
                     .onReceive(Just(globalViewModel.name)) { _ in
@@ -94,7 +94,7 @@ struct ProposalConstructor: View {
                     .padding(.vertical, 13)
                     .background(Color.white.opacity(0.5))
                     .cornerRadius(32)
-                    .disabled(false)
+                    .disabled(globalViewModel.isNewProposalPending)
                     .padding(.horizontal, 16)
                     .padding(.top, 16)
                     .onReceive(Just(globalViewModel.partnerName)) { _ in
@@ -103,41 +103,56 @@ struct ProposalConstructor: View {
                         }
                     }
                 
-                Button {
-                    guard Tools.isAddressValid(globalViewModel.partnerAddress) else {
-                        globalViewModel.alert = IdentifiableAlert.build(
-                            id: "validation failed",
-                            title: "Validation Failed",
-                            message: "Entered address is not valid"
-                        )
-                        return
+                if globalViewModel.isNewProposalPending {
+                    WeddingProgress()
+                        .padding(.top, 20)
+                } else {
+                    Button {
+                        guard Tools.isAddressValid(globalViewModel.partnerAddress) else {
+                            globalViewModel.alert = IdentifiableAlert.build(
+                                id: "validation failed",
+                                title: "Validation Failed",
+                                message: "Entered address is not valid"
+                            )
+                            return
+                        }
+                        guard !globalViewModel.name.isEmpty && !globalViewModel.partnerName.isEmpty else {
+                            globalViewModel.alert = IdentifiableAlert.build(
+                                id: "validation failed",
+                                title: "Validation Failed",
+                                message: "Names can't be empty"
+                            )
+                            return
+                        }
+                        globalViewModel.buildCertificateWebView()
+                    } label: {
+                        Text("Propose")
+                            .font(.system(size: 17))
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 32)
+                            .padding(.vertical, 16)
+                            .background(Colors.purple)
+                            .cornerRadius(32)
                     }
-                    guard !globalViewModel.name.isEmpty && !globalViewModel.partnerName.isEmpty else {
-                        globalViewModel.alert = IdentifiableAlert.build(
-                            id: "validation failed",
-                            title: "Validation Failed",
-                            message: "Names can't be empty"
-                        )
-                        return
-                    }
-                    globalViewModel.buildCertificateWebView()
-                } label: {
-                    Text("Propose")
-                        .font(.system(size: 17))
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 32)
-                        .padding(.vertical, 16)
-                        .background(Colors.purple)
-                        .cornerRadius(32)
+                    .padding(.top, 44)
                 }
-                .padding(.top, 44)
                 
-                if globalViewModel.sendTxPending {
-                    Text("Please check wallet app for verification. If there is no verification popup try to click button again")
-                        .padding(.horizontal, 20)
+//                if globalViewModel.sendTxPending {
+//                    Text("Please check wallet app for verification. If there is no verification popup try to click button again")
+//                        .padding(.horizontal, 20)
+//                        .multilineTextAlignment(.center)
+//                        .padding(.top, 10)
+//                }
+                
+                if globalViewModel.isNewProposalPending {
+                    Text("It can take some time. Please wait and don't close the app")
+                        .font(.headline)
+                        .fontWeight(.bold)
+                        .foregroundColor(Colors.darkPurple)
                         .multilineTextAlignment(.center)
-                        .padding(.top, 10)
+                        .padding(.top, 12)
+                        .padding(.horizontal, 20)
                 }
                 
                 if globalViewModel.showWebView {
