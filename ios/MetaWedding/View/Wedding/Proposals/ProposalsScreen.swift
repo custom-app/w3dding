@@ -30,7 +30,13 @@ struct ProposalsScreen: View {
                         AuthoredProposalsScreen(geometry: innerGeometry)
                     } else {
                         Spacer()
-                        WeddingProgress()
+                        VStack(spacing: 0) {
+                            WeddingProgress()
+                            Text("Loading data")
+                                .font(Font.headline.bold())
+                                .foregroundColor(Colors.darkPurple)
+                                .padding(.top, 24)
+                        }
                         Spacer()
                     }
                 } else {
@@ -38,7 +44,13 @@ struct ProposalsScreen: View {
                         ReceivedProposalsScreen(geometry: innerGeometry)
                     } else {
                         Spacer()
-                        WeddingProgress()
+                        VStack(spacing: 0) {
+                            WeddingProgress()
+                            Text("Loading data")
+                                .font(Font.headline.bold())
+                                .foregroundColor(Colors.darkPurple)
+                                .padding(.top, 24)
+                        }
                         Spacer()
                     }
                 }

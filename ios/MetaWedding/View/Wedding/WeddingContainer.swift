@@ -40,7 +40,13 @@ struct WeddingContainer: View {
                 
                 if globalViewModel.isConnecting || globalViewModel.isReconnecting {
                     Spacer()
-                    WeddingProgress()
+                    VStack(spacing: 0) {
+                        WeddingProgress()
+                        Text("Connecting")
+                            .font(Font.headline.bold())
+                            .foregroundColor(Colors.darkPurple)
+                            .padding(.top, 24)
+                    }
                     Spacer()
                 } else {
                     if globalViewModel.session != nil {
@@ -78,7 +84,13 @@ struct WeddingContainer: View {
                             .padding(.top, 20)
                         } else {
                             Spacer()
-                            WeddingProgress()
+                            VStack(spacing: 0) {
+                                WeddingProgress()
+                                Text("Loading data")
+                                    .font(Font.headline.bold())
+                                    .foregroundColor(Colors.darkPurple)
+                                    .padding(.top, 24)
+                            }
                             Spacer()
                         }
                     } else {

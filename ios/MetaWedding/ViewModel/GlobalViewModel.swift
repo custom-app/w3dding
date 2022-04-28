@@ -303,7 +303,11 @@ class GlobalViewModel: ObservableObject {
             do {
                 let result = try response.result(as: String.self)
                 print("got response result: \(result)")
-                //TODO: mb show alert that tx succeded?
+                self.alert = IdentifiableAlert.build(
+                    id: "tx success",
+                    title: "Transaction has been sent",
+                    message: "It should take a few seconds after confirming the transaction. Please refresh the status by swipe down"
+                )
             } catch {
                 print("Unexpected response type error: \(error)")
                 self.handleError(Errors.unknownError)

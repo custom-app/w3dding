@@ -28,7 +28,13 @@ struct AuthScreen: View {
                 
                 if globalViewModel.isConnecting || globalViewModel.isReconnecting {
                     Spacer()
-                    WeddingProgress()
+                    VStack(spacing:0) {
+                        WeddingProgress()
+                        Text("Connecting")
+                            .font(Font.headline.bold())
+                            .foregroundColor(Colors.darkPurple)
+                            .padding(.top, 24)
+                    }
                     Spacer()
                 } else {
                     VStack(spacing: 0) {
