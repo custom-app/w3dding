@@ -279,7 +279,7 @@ class GlobalViewModel: ObservableObject {
     
     func openWallet() {
         if let wallet = self.currentWallet {
-            if let url = URL(string: wallet.formEmptyDeepLink()),
+            if let url = URL(string: wallet.formLinkForOpen()),
                UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             } else {

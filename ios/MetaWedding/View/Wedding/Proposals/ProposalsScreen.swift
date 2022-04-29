@@ -62,7 +62,7 @@ struct ProposalsScreen: View {
             globalViewModel.isAuthoredProposalsLoaded &&
             globalViewModel.authoredProposals.isEmpty {
             Spacer()                // Used to create some space in scrollview to make bottom
-                .frame(height: 120) // textfields in proposal constructor visible while keyboard shown
+                .frame(height: 140) // textfields in proposal constructor visible while keyboard shown
         }
     }
 }

@@ -14,6 +14,7 @@ struct Wallet: Hashable {
     let mainUrl: String
     let appStoreLink: String
     let deepLinkScheme: String
+    let linkAdditionForOpen: String
     let gasPriceRequired: Bool
     
     var isUniversal: Bool {
@@ -31,6 +32,10 @@ struct Wallet: Hashable {
             return "\(deepLinkScheme)://"
         }
     }
+    
+    func formLinkForOpen() -> String {
+        return formEmptyDeepLink() + linkAdditionForOpen
+    }
 }
 
 struct Wallets {
@@ -40,6 +45,7 @@ struct Wallets {
         mainUrl: "https://trustwallet.com",
         appStoreLink: "https://apps.apple.com/app/apple-store/id1288339409",
         deepLinkScheme: "https://link.trustwallet.com",
+        linkAdditionForOpen: "open_coin?asset=c966",
         gasPriceRequired: false
     )
 
@@ -48,6 +54,7 @@ struct Wallets {
         mainUrl: "https://metamask.io",
         appStoreLink: "https://apps.apple.com/app/metamask/id1438144202",
         deepLinkScheme: "https://metamask.app.link",
+        linkAdditionForOpen: "",
         gasPriceRequired: false
     )
 
@@ -56,6 +63,7 @@ struct Wallets {
         mainUrl: "https://safepal.io",
         appStoreLink: "https://apps.apple.com/app/safepal-wallet/id1548297139",
         deepLinkScheme: "https://link.safepal.io",
+        linkAdditionForOpen: "",
         gasPriceRequired: true
     )
 
@@ -64,6 +72,7 @@ struct Wallets {
         mainUrl: "https://www.tokenpocket.pro",
         appStoreLink: "https://apps.apple.com/app/tokenpocket-trusted-wallet/id1436028697",
         deepLinkScheme: "tpoutside",
+        linkAdditionForOpen: "",
         gasPriceRequired: false
     )
 
@@ -72,6 +81,7 @@ struct Wallets {
         mainUrl: "https://unstoppable.money",
         appStoreLink: "https://apps.apple.com/app/bank-bitcoin-wallet/id1447619907",
         deepLinkScheme: "https://unstoppable.money",
+        linkAdditionForOpen: "",
         gasPriceRequired: false
     )
 
@@ -80,6 +90,7 @@ struct Wallets {
         mainUrl: "https://alphawallet.com/",
         appStoreLink: "https://apps.apple.com/app/alphawallet-eth-wallet/id1358230430",
         deepLinkScheme: "https://aw.app",
+        linkAdditionForOpen: "",
         gasPriceRequired: false
     )
 
@@ -88,6 +99,7 @@ struct Wallets {
         mainUrl: "https://www.mathwallet.org",
         appStoreLink: "https://apps.apple.com/app/mathwallet5/id1582612388",
         deepLinkScheme: "https://www.mathwallet.org",
+        linkAdditionForOpen: "",
         gasPriceRequired: false
     )
     
