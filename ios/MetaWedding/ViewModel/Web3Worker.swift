@@ -18,7 +18,9 @@ class Web3Worker: ObservableObject {
     private let contractWeb3: web3.web3contract
     
     init(endpoint: String) {
-        web3 = web3swift.web3(provider: Web3HttpProvider(URL(string: endpoint)!)!)
+        let chainId = BigUInt(Config.TESTING ? Constants.ChainId.PolygonTestnet : Constants.ChainId.Polygon)
+        web3 = web3swift.web3(provider: Web3HttpProvider(URL(string: endpoint)!,
+                                                         network: Networks.Custom(networkID: chainId))!)
         let path = Bundle.main.path(forResource: "abi", ofType: "json")!
         let abiString = try! String(contentsOfFile: path)
         contract = EthereumContract(abiString)!
