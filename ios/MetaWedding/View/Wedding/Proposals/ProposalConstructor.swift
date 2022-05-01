@@ -151,7 +151,7 @@ struct ProposalConstructor: View {
                         .fontWeight(.bold)
                         .foregroundColor(Colors.darkPurple)
                         .multilineTextAlignment(.center)
-                        .padding(.top, 12)
+                        .padding(.top, 22)
                         .padding(.horizontal, 20)
                 }
                 

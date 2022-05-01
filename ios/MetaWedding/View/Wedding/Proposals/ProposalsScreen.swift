@@ -60,7 +60,8 @@ struct ProposalsScreen: View {
         
         if globalViewModel.selectedMyProposals &&
             globalViewModel.isAuthoredProposalsLoaded &&
-            globalViewModel.authoredProposals.isEmpty {
+            globalViewModel.authoredProposals.isEmpty &&
+            !globalViewModel.isNewProposalPending {
             Spacer()                // Used to create some space in scrollview to make bottom
                 .frame(height: 140) // textfields in proposal constructor visible while keyboard shown
         }
