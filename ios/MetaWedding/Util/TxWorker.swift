@@ -13,14 +13,13 @@ class TxWorker {
     static func construct(from: String,
                           data: String = "",
                           value: String = "0x0",
-                          gas: String? = nil,
                           gasPrice: String? = nil) -> Client.Transaction {
         let contractAddress = Config.TESTING ? Constants.ContractAddress.Testnet :
                                                   Constants.ContractAddress.Mainnet
         return Client.Transaction(from: from,
                                   to: contractAddress,
                                   data: data,
-                                  gas: gas,
+                                  gas: nil,
                                   gasPrice: gasPrice,
                                   value: value,
                                   nonce: nil,

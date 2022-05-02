@@ -16,7 +16,6 @@ class GlobalViewModel: ObservableObject {
     
     private let gasSafeAddition: BigUInt = 3000000000
     private let deepLinkDelay = 0.5
-    private let defaultGasAmount = "0x5208"
     private let proposeId = "propose"
     private let acceptProposalId = "accept_proposal"
     private let updateProposalId = "update_proposal"
@@ -241,7 +240,6 @@ class GlobalViewModel: ObservableObject {
                     let safeGasPrice = gasPrice + self.gasSafeAddition
                     let tx = TxWorker.construct(from: from,
                                                 data: data,
-                                                gas: self.defaultGasAmount,
                                                 gasPrice: safeGasPrice.toHexString())
                     self.sendTx(tx, label: label)
                 }

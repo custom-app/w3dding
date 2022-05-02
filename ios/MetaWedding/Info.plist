@@ -5,8 +5,8 @@
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>tpoutside</string>
-		<string>pillarwallet</string>
-		<string>exodus</string>
+		<string>mathwallet</string>
+		<string>moneyunstoppable</string>
 		<string>metamask</string>
 	</array>
 	<key>UIBackgroundModes</key>
