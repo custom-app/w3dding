@@ -29,75 +29,78 @@ struct ReceivedProposalsScreen: View {
                         .padding(.bottom, 36)
                 } else if globalViewModel.receivedProposals.count == 1 {
                     
-                    Spacer()
+                    VStack(spacing: 0) {
                     
-                    Text("Received proposal from")
-                        .font(.title3.weight(.bold))
-                        .foregroundColor(Colors.darkGrey)
-                        .padding(.horizontal, 20)
-                        .padding(.top, 24)
-                    
-                    Text(globalViewModel.receivedProposals.first?.meta?.properties.firstPersonName ?? "")
-                        .font(Font.title2.weight(.bold))
-                        .foregroundColor(Colors.darkPurple)
-                        .multilineTextAlignment(.center)
-                        .padding(.top, 24)
-                        .padding(.horizontal, 20)
-                    
-                    HStack {
                         Spacer()
-                        Text("Address: \(globalViewModel.receivedProposals.first?.address ?? "")")
-                            .font(.system(size: 13).weight(.regular))
-                            .fontWeight(.regular)
+                        
+                        Text("Received proposal from")
+                            .font(.title3.weight(.bold))
+                            .foregroundColor(Colors.darkGrey)
+                            .padding(.horizontal, 20)
+                            .padding(.top, 24)
+                        
+                        Text(globalViewModel.receivedProposals.first?.meta?.properties.firstPersonName ?? "")
+                            .font(Font.title2.weight(.bold))
                             .foregroundColor(Colors.darkPurple)
-                            .lineLimit(1)
-                            .truncationMode(.middle)
+                            .multilineTextAlignment(.center)
+                            .padding(.top, 24)
+                            .padding(.horizontal, 20)
+                        
+                        HStack {
+                            Spacer()
+                            Text("Address: \(globalViewModel.receivedProposals.first?.address ?? "")")
+                                .font(.system(size: 13).weight(.regular))
+                                .fontWeight(.regular)
+                                .foregroundColor(Colors.darkPurple)
+                                .lineLimit(1)
+                                .truncationMode(.middle)
+                            
+                            Button {
+                                UIPasteboard.general.string =
+                                globalViewModel.receivedProposals.first?.address ?? ""
+                            } label: {
+                                Image("ic_copy")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 20)
+                            }
+                            Spacer()
+                        }
+                        .padding(.horizontal, 28)
+                        .padding(.top, 8)
+                        
                         
                         Button {
-                            UIPasteboard.general.string =
-                            globalViewModel.receivedProposals.first?.address ?? ""
+                            globalViewModel
+                                .acceptProposition(to: globalViewModel.receivedProposals.first!.address,
+                                                   metaUrl: globalViewModel.receivedProposals.first!.metaUrl)
                         } label: {
-                            Image("ic_copy")
+                            Image("ic_accept")
+                                .renderingMode(.template)
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 20)
+                                .foregroundColor(Colors.purple)
+                                .frame(width: 48)
                         }
+                        .padding(.top, 40)
+                        
                         Spacer()
-                    }
-                    .padding(.horizontal, 28)
-                    .padding(.top, 8)
-                    
-                    
-                    Button {
-                        globalViewModel
-                            .acceptProposition(to: globalViewModel.receivedProposals.first!.address,
-                                               metaUrl: globalViewModel.receivedProposals.first!.metaUrl)
-                    } label: {
-                        Image("ic_accept")
-                            .renderingMode(.template)
-                            .resizable()
-                            .scaledToFit()
-                            .foregroundColor(Colors.purple)
-                            .frame(width: 48)
-                    }
-                    .padding(.top, 40)
-                    
-                    Spacer()
-                    
-                    if let meta = globalViewModel.receivedProposals[0].meta {
-                        VStack(spacing: 0) {
-                            Text("You will be listed in certificate as")
-                                .font(Font.subheadline.weight(.bold))
-                                .foregroundColor(Colors.darkGrey)
-                            
-                            Text(meta.properties.secondPersonName)
-                                .font(Font.title3.weight(.bold))
-                                .foregroundColor(Colors.darkPurple)
-                                .padding(.top, 8)
+                        
+                        if let meta = globalViewModel.receivedProposals[0].meta {
+                            VStack(spacing: 0) {
+                                Text("You will be listed in certificate as")
+                                    .font(Font.subheadline.weight(.bold))
+                                    .foregroundColor(Colors.darkGrey)
+                                
+                                Text(meta.properties.secondPersonName)
+                                    .font(Font.title3.weight(.bold))
+                                    .foregroundColor(Colors.darkPurple)
+                                    .padding(.top, 8)
+                            }
+                            .padding(.horizontal, 20)
+                            .padding(.bottom, 30)
                         }
-                        .padding(.horizontal, 20)
-                        .padding(.bottom, 30)
-                    }
+                    }.frame(height: geometry.size.height-100)
                     
                 } else {
                     ForEach(globalViewModel.receivedProposals) { proposal in
@@ -150,12 +153,12 @@ struct ReceivedProposalsScreen: View {
                         .background(Color.white.opacity(0.5))
                         .cornerRadius(10)
                         .padding(.horizontal, 16)
-                        .padding(.vertical, 8)
+                        .padding(.vertical, 5)
                     }
                 }
             }
         }
-        .frame(width: geometry.size.width, height: geometry.size.height)
+        .frame(width: geometry.size.width)
         .sheet(item: $selectedProposal,
                onDismiss: { selectedProposal = nil }) { proposal in
             ReceivedProposalInfo(proposal: proposal)

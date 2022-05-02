@@ -24,46 +24,48 @@ struct ProposalsScreen: View {
                     .padding(.leading, 16)
             }
             
-            GeometryReader { innerGeometry in
-                if globalViewModel.selectedMyProposals {
-                    if globalViewModel.isAuthoredProposalsLoaded {
-                        AuthoredProposalsScreen(geometry: innerGeometry)
-                    } else {
-                        Spacer()
-                        VStack(spacing: 0) {
-                            WeddingProgress()
-                            Text("Loading data")
-                                .font(Font.headline.bold())
-                                .foregroundColor(Colors.darkPurple)
-                                .padding(.top, 24)
-                        }
-                        Spacer()
-                    }
+            if globalViewModel.selectedMyProposals {
+                if globalViewModel.isAuthoredProposalsLoaded {
+                    AuthoredProposalsScreen(geometry: geometry)
                 } else {
-                    if globalViewModel.isReceivedProposalsLoaded {
-                        ReceivedProposalsScreen(geometry: innerGeometry)
-                    } else {
-                        Spacer()
+                    GeometryReader { innerGeometry in
                         VStack(spacing: 0) {
+                            Spacer()
                             WeddingProgress()
                             Text("Loading data")
                                 .font(Font.headline.bold())
                                 .foregroundColor(Colors.darkPurple)
                                 .padding(.top, 24)
+                            Spacer()
                         }
+                        .frame(width: geometry.size.width, height: geometry.size.height-100)
+                    }
+                }
+            } else {
+                if globalViewModel.isReceivedProposalsLoaded {
+                    ReceivedProposalsScreen(geometry: geometry)
+                } else {
+                    VStack(spacing: 0) {
+                        Spacer()
+                        WeddingProgress()
+                        Text("Loading data")
+                            .font(Font.headline.bold())
+                            .foregroundColor(Colors.darkPurple)
+                            .padding(.top, 24)
                         Spacer()
                     }
+                    .frame(width: geometry.size.width, height: geometry.size.height-100)
+                    .background(Color.green.opacity(0.2))
                 }
             }
         }
-        .frame(height: geometry.size.height)
         
         if globalViewModel.selectedMyProposals &&
             globalViewModel.isAuthoredProposalsLoaded &&
             globalViewModel.authoredProposals.isEmpty &&
             !globalViewModel.isNewProposalPending {
             Spacer()                // Used to create some space in scrollview to make bottom
-                .frame(height: 140) // textfields in proposal constructor visible while keyboard shown
+                .frame(height: 170) // textfields in proposal constructor visible while keyboard shown
         }
     }
 }
