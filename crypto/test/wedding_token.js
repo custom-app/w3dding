@@ -1,7 +1,7 @@
 const truffleAssert = require("truffle-assertions");
 const sha256 = require("js-sha256").sha256;
 
-const WeddingToken = artifacts.require("WeddingToken");
+const WeddingToken = artifacts.require("WeddingTokenV3");
 
 const BN = web3.utils.BN;
 
@@ -57,8 +57,8 @@ contract("WeddingToken", function (accounts) {
     const tx = await instance.propose.sendTransaction(accounts[1], "some link", "some data", {from: accounts[0]});
     await truffleAssert.eventEmitted(tx, "Proposition", (ev) => {
       return ev.from.toLowerCase() === accounts[0].toLowerCase() &&
-        ev.to.toLowerCase() === accounts[1].toLowerCase() && ev.metaUri === "some link" &&
-        ev.condData === "some data" && ev.authorAccepted && !ev.receiverAccepted;
+        ev.to.toLowerCase() === accounts[1].toLowerCase() && new BN(ev.id).eq(new BN(1)) &&
+        ev.metaUri === "some link" && ev.condData === "some data" && ev.authorAccepted && !ev.receiverAccepted;
     });
   });
 
@@ -67,8 +67,8 @@ contract("WeddingToken", function (accounts) {
     const tx = await instance.propose.sendTransaction(accounts[2], "some link", "some data", {from: accounts[0]});
     await truffleAssert.eventEmitted(tx, "Proposition", (ev) => {
       return ev.from.toLowerCase() === accounts[0].toLowerCase() &&
-        ev.to.toLowerCase() === accounts[2].toLowerCase() && ev.metaUri === "some link" &&
-        ev.condData === "some data" && ev.authorAccepted && !ev.receiverAccepted;
+        ev.to.toLowerCase() === accounts[2].toLowerCase() && new BN(ev.id).eq(new BN(2)) &&
+        ev.metaUri === "some link" && ev.condData === "some data" && ev.authorAccepted && !ev.receiverAccepted;
     });
   });
 
@@ -80,6 +80,8 @@ contract("WeddingToken", function (accounts) {
     assert.equal(prop.divorceTimeout.eq(new BN(4)), true);
     assert.equal(prop.authorAccepted, true);
     assert.equal(prop.receiverAccepted, false);
+    assert.equal(new BN(prop.tokenId).eq(new BN(1)), true);
+    assert.equal(new BN(prop.prevBlockNumber).gt(new BN(0)), true);
   });
 
   it("should fail when proposition exists", async () => {
@@ -100,8 +102,8 @@ contract("WeddingToken", function (accounts) {
       "new link", "new data", {from: accounts[0]});
     await truffleAssert.eventEmitted(tx, "Proposition", (ev) => {
       return ev.from.toLowerCase() === accounts[0].toLowerCase() &&
-        ev.to.toLowerCase() === accounts[1].toLowerCase() && ev.metaUri === "new link" &&
-        ev.condData === "new data" && ev.authorAccepted && !ev.receiverAccepted;
+        ev.to.toLowerCase() === accounts[1].toLowerCase() && new BN(ev.id).eq(new BN(1)) &&
+        ev.metaUri === "new link" && ev.condData === "new data" && ev.authorAccepted && !ev.receiverAccepted;
     });
 
     const prop = await instance.propositions(accounts[0], accounts[1]);
@@ -110,6 +112,8 @@ contract("WeddingToken", function (accounts) {
     assert.equal(prop.divorceTimeout.eq(new BN(4)), true);
     assert.equal(prop.authorAccepted, true);
     assert.equal(prop.receiverAccepted, false);
+    assert.equal(new BN(prop.tokenId).eq(new BN(1)), true);
+    assert.equal(new BN(prop.prevBlockNumber).gt(new BN(0)), true);
   });
 
   it("accept should be disabled for already accepted 2", async () => {
@@ -124,8 +128,8 @@ contract("WeddingToken", function (accounts) {
       "new link 2", "new data 2", {from: accounts[1]});
     await truffleAssert.eventEmitted(tx, "Proposition", (ev) => {
       return ev.from.toLowerCase() === accounts[0].toLowerCase() &&
-        ev.to.toLowerCase() === accounts[1].toLowerCase() && ev.metaUri === "new link 2" &&
-        ev.condData === "new data 2" && !ev.authorAccepted && ev.receiverAccepted;
+        ev.to.toLowerCase() === accounts[1].toLowerCase() && new BN(ev.id).eq(new BN(1)) &&
+        ev.metaUri === "new link 2" && ev.condData === "new data 2" && !ev.authorAccepted && ev.receiverAccepted;
     });
 
     const prop = await instance.propositions(accounts[0], accounts[1]);
@@ -134,6 +138,8 @@ contract("WeddingToken", function (accounts) {
     assert.equal(prop.divorceTimeout.eq(new BN(4)), true);
     assert.equal(prop.authorAccepted, false);
     assert.equal(prop.receiverAccepted, true);
+    assert.equal(new BN(prop.tokenId).eq(new BN(1)), true);
+    assert.equal(new BN(prop.prevBlockNumber).gt(new BN(0)), true);
   });
 
   it("incoming propositions should be correct", async () => {
@@ -147,6 +153,8 @@ contract("WeddingToken", function (accounts) {
     assert.equal(new BN(incoming[1][0].divorceTimeout).eq(new BN(4)), true);
     assert.equal(incoming[1][0].authorAccepted, false);
     assert.equal(incoming[1][0].receiverAccepted, true);
+    assert.equal(new BN(incoming[1][0].tokenId).eq(new BN(1)), true);
+    assert.equal(new BN(incoming[1][0].prevBlockNumber).gt(new BN(0)), true);
   });
 
   it("outgoing propositions should be correct", async () => {
@@ -160,6 +168,7 @@ contract("WeddingToken", function (accounts) {
         divorceTimeout: "4",
         authorAccepted: false,
         receiverAccepted: true,
+        tokenId: "1",
       },
       {
         metaUri: "some link",
@@ -167,6 +176,7 @@ contract("WeddingToken", function (accounts) {
         divorceTimeout: "4",
         authorAccepted: true,
         receiverAccepted: false,
+        tokenId: "2",
       }
     ];
     assert.equal(outgoing[0].length, 2);
@@ -186,6 +196,8 @@ contract("WeddingToken", function (accounts) {
       assert.equal(new BN(outgoing[1][i].divorceTimeout).eq(new BN(props[i].divorceTimeout)), true);
       assert.equal(outgoing[1][i].authorAccepted, props[i].authorAccepted);
       assert.equal(outgoing[1][i].receiverAccepted, props[i].receiverAccepted);
+      assert.equal(new BN(outgoing[1][i].tokenId).eq(new BN(props[i].tokenId)), true);
+      assert.equal(new BN(outgoing[1][i].prevBlockNumber).gt(new BN(0)), true);
     }
   });
 
@@ -201,8 +213,8 @@ contract("WeddingToken", function (accounts) {
       "0x" + sha256("new data 2"), {from: accounts[0]});
     await truffleAssert.eventEmitted(tx, "Wedding", (ev) => {
       return ev.author.toLowerCase() === accounts[0].toLowerCase() &&
-        ev.receiver.toLowerCase() === accounts[1].toLowerCase() && ev.metaUri === "new link 2" &&
-        ev.condData === "new data 2";
+        ev.receiver.toLowerCase() === accounts[1].toLowerCase() && new BN(ev.id).eq(new BN(1)) &&
+        ev.metaUri === "new link 2" && ev.condData === "new data 2";
     });
   });
 
@@ -220,6 +232,7 @@ contract("WeddingToken", function (accounts) {
       assert.equal(new BN(wedding.divorceTimeout).eq(new BN(4)), true);
       assert.equal(new BN(wedding.divorceRequestTimestamp).eq(new BN(0)), true);
       assert.equal(wedding.divorceState, "0");
+      assert.equal(new BN(wedding.tokenId).eq(new BN(1)), true);
     }
   });
 
@@ -258,8 +271,8 @@ contract("WeddingToken", function (accounts) {
     const tx = await instance.requestDivorce({from: accounts[0]});
     await truffleAssert.eventEmitted(tx, "DivorceRequest", (ev) => {
       return ev.author.toLowerCase() === accounts[0].toLowerCase() &&
-        ev.receiver.toLowerCase() === accounts[1].toLowerCase() && new BN(ev.timeout).eq(new BN(4)) &&
-        ev.byAuthor;
+        ev.receiver.toLowerCase() === accounts[1].toLowerCase() && new BN(ev.id).eq(new BN(1))
+        && new BN(ev.timeout).eq(new BN(4)) && ev.byAuthor;
     });
     const wedding = await instance.getCurrentMarriage({from: accounts[0]});
     assert.equal(wedding.author.toLowerCase(), accounts[0].toLowerCase());
@@ -268,6 +281,7 @@ contract("WeddingToken", function (accounts) {
     assert.equal(wedding.conditionsData, "new data 2");
     assert.equal(new BN(wedding.divorceTimeout).eq(new BN(4)), true);
     assert.equal(wedding.divorceState, "1");
+    assert.equal(new BN(wedding.tokenId).eq(new BN(1)), true);
   });
 
   it("divorce rerequest should fail", async () => {
@@ -287,7 +301,7 @@ contract("WeddingToken", function (accounts) {
     const tx = await instance.confirmDivorce.sendTransaction({from: accounts[1]});
     await truffleAssert.eventEmitted(tx, "Divorce", (ev) => {
       return ev.author.toLowerCase() === accounts[0].toLowerCase() &&
-        ev.receiver.toLowerCase() === accounts[1].toLowerCase();
+        ev.receiver.toLowerCase() === accounts[1].toLowerCase() && new BN(ev.id).eq(new BN(1));
     });
   });
 
@@ -304,7 +318,7 @@ contract("WeddingToken", function (accounts) {
     const tx = await instance.confirmDivorce.sendTransaction({from: accounts[2], gas: 5000000});
     await truffleAssert.eventEmitted(tx, "Divorce", (ev) => {
       return ev.author.toLowerCase() === accounts[0].toLowerCase() &&
-        ev.receiver.toLowerCase() === accounts[2].toLowerCase();
+        ev.receiver.toLowerCase() === accounts[2].toLowerCase() && new BN(ev.id).eq(new BN(2));
     });
   });
 });
