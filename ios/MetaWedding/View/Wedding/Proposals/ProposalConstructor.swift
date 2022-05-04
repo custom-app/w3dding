@@ -12,6 +12,9 @@ struct ProposalConstructor: View {
     
     let nameLimit = 50
     
+    @State
+    var showPhotoPicker = false
+    
     @EnvironmentObject
     var globalViewModel: GlobalViewModel
     
@@ -163,6 +166,12 @@ struct ProposalConstructor: View {
                     .frame(minHeight: 1, maxHeight: 1)
                     .opacity(0)
                 }
+            }
+        }
+        .sheet(isPresented: $showPhotoPicker) {
+            PhotoPicker { image, _ in
+                print("image picked")
+                showPhotoPicker = false
             }
         }
     }

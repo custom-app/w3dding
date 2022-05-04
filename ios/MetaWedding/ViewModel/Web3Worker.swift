@@ -134,6 +134,9 @@ class Web3Worker: ObservableObject {
     private func parseProposals(addresses: [EthereumAddress], proposals: [[AnyObject]]) throws -> [Proposal] {
         var res: [Proposal] = []
         for (i, elem) in proposals.enumerated() {
+            if elem.count < 6 {
+                throw InnerError.structParseError(description: "Error proposal parse: \(elem)")
+            }
             guard let metaUrl = elem[0] as? String,
                   let condData = elem[1] as? String,
                   let divorceTimeout = elem[2] as? BigUInt,
@@ -193,6 +196,9 @@ class Web3Worker: ObservableObject {
     }
     
     private func parseMarriage(marriage: [AnyObject]) throws -> Marriage {
+        if marriage.count < 8 {
+            throw InnerError.structParseError(description: "Error marriage parse: \(marriage)")
+        }
         let divorceState = try parseDivorceState(marriage[2])
         guard let authorAddress = marriage[0] as? EthereumAddress,
               let receiverAddress = marriage[1] as? EthereumAddress,
