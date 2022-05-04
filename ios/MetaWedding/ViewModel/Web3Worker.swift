@@ -53,6 +53,23 @@ class Web3Worker: ObservableObject {
         }
     }
     
+    func getBlockHash(blockId: BigUInt, onResult: @escaping (String, Error?) -> ()) {
+        DispatchQueue.global(qos: .userInitiated).async { [self] in
+            do {
+                let result = try web3.eth.getBlockByNumber(blockId)
+                let hash = "0x\(result.hash.toHexString())"
+                print("got block hash: \(hash)")
+                DispatchQueue.main.async {
+                    onResult("0x\(result.hash.toHexString())", nil)
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    onResult("", error)
+                }
+            }
+        }
+    }
+    
     func getGasPrice(onResult: @escaping (BigUInt, Error?) -> ()) {
         DispatchQueue.global(qos: .userInitiated).async { [self] in
             do {

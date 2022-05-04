@@ -335,6 +335,10 @@ class GlobalViewModel: ObservableObject {
         }
     }
     
+    func requestBlockHash(_ id: BigUInt, onResult: @escaping (String, Error?) -> ()) {
+        web3.getBlockHash(blockId: id, onResult: onResult)
+    }
+    
     func requestCurrentMarriage() {
         if let address = walletAccount {
             web3.getCurrentMarriage(address: address) { [weak self] marriage, error in
