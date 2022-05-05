@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import PhotosUI
 
 struct ProposalConstructor: View {
     
@@ -106,6 +107,20 @@ struct ProposalConstructor: View {
                         }
                     }
                 
+                Button {
+                    openPhotoPicker()
+                } label: {
+                    Text("Pick photo")
+                        .font(.system(size: 17))
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 32)
+                        .padding(.vertical, 16)
+                        .background(Colors.purple)
+                        .cornerRadius(32)
+                }
+                .padding(.top, 44)
+                
                 if globalViewModel.isNewProposalPending {
                     WeddingProgress()
                         .padding(.top, 20)
@@ -166,13 +181,52 @@ struct ProposalConstructor: View {
                     .frame(minHeight: 1, maxHeight: 1)
                     .opacity(0)
                 }
+                
+                if let image = globalViewModel.selfImage {
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 140)
+                        .padding(.top, 20)
+                }
             }
         }
         .sheet(isPresented: $showPhotoPicker) {
-            PhotoPicker { image, _ in
+            PhotoPicker { image in
                 print("image picked")
                 showPhotoPicker = false
+                if image == nil {
+                    globalViewModel.alert = IdentifiableAlert.build(
+                        id: "loading photo err",
+                        title: "An error has occurred",
+                        message: "Image loading failed. Please try again"
+                    )
+                } else {
+                    globalViewModel.selfImage = image
+                }
             }
+        }
+    }
+    
+    func openPhotoPicker() {
+        let status = PHPhotoLibrary.authorizationStatus()
+        switch status {
+        case .authorized, .limited:
+            showPhotoPicker = true
+        case .denied, .restricted:
+            globalViewModel.alert = IdentifiableAlert.build(
+                id: "photo library access",
+                title: "Access denied",
+                message: "You need to give permission for photos in settings"
+            )
+        case .notDetermined:
+            PHPhotoLibrary.requestAuthorization { newStatus in
+                if newStatus == .authorized {
+                    showPhotoPicker = true
+                }
+            }
+        @unknown default:
+            print("Unknown photo library authorization status")
         }
     }
 }

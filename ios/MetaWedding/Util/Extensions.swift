@@ -70,3 +70,9 @@ extension Color {
         )
     }
 }
+
+extension UIImage {
+    func base64() -> String? {
+        self.pngData()?.base64EncodedString()
+    }
+}

@@ -99,6 +99,9 @@ class GlobalViewModel: ObservableObject {
     @Published
     var isAnimating = false
     
+    @Published
+    var selfImage: UIImage?
+    
     var foreverAnimation: Animation {
         Animation.easeInOut(duration: 1.0)
             .repeatForever(autoreverses: false)
