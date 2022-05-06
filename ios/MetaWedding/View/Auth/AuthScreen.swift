@@ -38,7 +38,7 @@ struct AuthScreen: View {
                     Spacer()
                 } else {
                     VStack(spacing: 0) {
-                        if let session = globalViewModel.session {
+                        if globalViewModel.session != nil {
                             if globalViewModel.isWrongChain {
                                 WrongChainScreen()
                             } else {

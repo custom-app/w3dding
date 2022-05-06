@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		112206F52813679A00AF0315 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112206F42813679A00AF0315 /* Colors.swift */; };
 		112206F928137A6D00AF0315 /* NotConnectedScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112206F828137A6D00AF0315 /* NotConnectedScreen.swift */; };
-		113977DE28049A5A00D6FD57 /* abi.json in Resources */ = {isa = PBXBuildFile; fileRef = 113977DD28049A5A00D6FD57 /* abi.json */; };
+		113977DE28049A5A00D6FD57 /* wedding_abi.json in Resources */ = {isa = PBXBuildFile; fileRef = 113977DD28049A5A00D6FD57 /* wedding_abi.json */; };
 		11481B4B27FA4DF900439106 /* web3swift in Frameworks */ = {isa = PBXBuildFile; productRef = 11481B4A27FA4DF900439106 /* web3swift */; };
 		11481B4D27FA4E9A00439106 /* Web3Worker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11481B4C27FA4E9A00439106 /* Web3Worker.swift */; };
 		11481B4F27FA5BA600439106 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11481B4E27FA5BA600439106 /* Errors.swift */; };
@@ -33,6 +33,7 @@
 		11A92D7F2814C08F00B98066 /* ConnectedScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A92D7E2814C08F00B98066 /* ConnectedScreen.swift */; };
 		11A92D812814CFB800B98066 /* WrongChainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A92D802814CFB800B98066 /* WrongChainScreen.swift */; };
 		11AA278027FE372500BC8BCA /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AA277F27FE372500BC8BCA /* Extensions.swift */; };
+		11AD63C12825292500A91AE0 /* faucet_abi.json in Resources */ = {isa = PBXBuildFile; fileRef = 11AD63C02825292500A91AE0 /* faucet_abi.json */; };
 		11B4C76D2808CD300058A319 /* SwipeRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B4C76C2808CD300058A319 /* SwipeRefresh.swift */; };
 		11B4C76F2808F2C10058A319 /* HttpRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B4C76E2808F2C10058A319 /* HttpRequester.swift */; };
 		11B4C77128090DEA0058A319 /* NftStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B4C77028090DEA0058A319 /* NftStorage.swift */; };
@@ -59,7 +60,7 @@
 /* Begin PBXFileReference section */
 		112206F42813679A00AF0315 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		112206F828137A6D00AF0315 /* NotConnectedScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotConnectedScreen.swift; sourceTree = "<group>"; };
-		113977DD28049A5A00D6FD57 /* abi.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = abi.json; sourceTree = "<group>"; };
+		113977DD28049A5A00D6FD57 /* wedding_abi.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = wedding_abi.json; sourceTree = "<group>"; };
 		11481B4C27FA4E9A00439106 /* Web3Worker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Web3Worker.swift; sourceTree = "<group>"; };
 		11481B4E27FA5BA600439106 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		115A657427F218EE001CBCD2 /* MetaWedding.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MetaWedding.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -85,6 +86,7 @@
 		11A92D7E2814C08F00B98066 /* ConnectedScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectedScreen.swift; sourceTree = "<group>"; };
 		11A92D802814CFB800B98066 /* WrongChainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrongChainScreen.swift; sourceTree = "<group>"; };
 		11AA277F27FE372500BC8BCA /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		11AD63C02825292500A91AE0 /* faucet_abi.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = faucet_abi.json; sourceTree = "<group>"; };
 		11B4C76C2808CD300058A319 /* SwipeRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeRefresh.swift; sourceTree = "<group>"; };
 		11B4C76E2808F2C10058A319 /* HttpRequester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpRequester.swift; sourceTree = "<group>"; };
 		11B4C77028090DEA0058A319 /* NftStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NftStorage.swift; sourceTree = "<group>"; };
@@ -142,7 +144,8 @@
 		115A657627F218EE001CBCD2 /* MetaWedding */ = {
 			isa = PBXGroup;
 			children = (
-				113977DD28049A5A00D6FD57 /* abi.json */,
+				113977DD28049A5A00D6FD57 /* wedding_abi.json */,
+				11AD63C02825292500A91AE0 /* faucet_abi.json */,
 				115A659927F3CD1B001CBCD2 /* Info.plist */,
 				118A951827F925A000798141 /* Util */,
 				11C356CE27FF84E8007A0E69 /* Model */,
@@ -345,7 +348,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				113977DE28049A5A00D6FD57 /* abi.json in Resources */,
+				11AD63C12825292500A91AE0 /* faucet_abi.json in Resources */,
+				113977DE28049A5A00D6FD57 /* wedding_abi.json in Resources */,
 				11EABE4F281C0BFB003DE322 /* LaunchScreen.storyboard in Resources */,
 				115A657F27F218F0001CBCD2 /* Preview Assets.xcassets in Resources */,
 				115A657C27F218F0001CBCD2 /* Assets.xcassets in Resources */,

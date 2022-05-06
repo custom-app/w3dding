@@ -38,6 +38,12 @@
           "internalType": "address",
           "name": "receiver",
           "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
         }
       ],
       "name": "Divorce",
@@ -57,6 +63,12 @@
           "internalType": "address",
           "name": "receiver",
           "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
         },
         {
           "indexed": false,
@@ -94,6 +106,12 @@
           "internalType": "address",
           "name": "to",
           "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
         },
         {
           "indexed": false,
@@ -307,6 +325,12 @@
           "type": "address"
         },
         {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        },
+        {
           "indexed": false,
           "internalType": "string",
           "name": "metaUri",
@@ -333,8 +357,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -358,8 +381,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -383,8 +405,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [],
@@ -397,8 +418,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -417,8 +437,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [],
@@ -431,8 +450,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -451,8 +469,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -494,8 +511,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -519,8 +535,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -543,7 +558,7 @@
           "type": "address"
         },
         {
-          "internalType": "enum WeddingToken.DivorceState",
+          "internalType": "enum WeddingTokenV3.DivorceState",
           "name": "divorceState",
           "type": "uint8"
         },
@@ -571,11 +586,20 @@
           "internalType": "string",
           "name": "conditionsData",
           "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "prevBlockNumber",
+          "type": "uint256"
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -621,11 +645,20 @@
           "internalType": "bool",
           "name": "receiverAccepted",
           "type": "bool"
+        },
+        {
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "prevBlockNumber",
+          "type": "uint256"
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -711,8 +744,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -798,6 +830,19 @@
       "type": "function"
     },
     {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_uri",
+          "type": "string"
+        }
+      ],
+      "name": "setContractUri",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
       "inputs": [],
       "name": "getIncomingPropositions",
       "outputs": [
@@ -837,16 +882,25 @@
               "internalType": "bool",
               "name": "receiverAccepted",
               "type": "bool"
+            },
+            {
+              "internalType": "uint256",
+              "name": "tokenId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "prevBlockNumber",
+              "type": "uint256"
             }
           ],
-          "internalType": "struct WeddingToken.PropositionData[]",
+          "internalType": "struct WeddingTokenV3.PropositionData[]",
           "name": "",
           "type": "tuple[]"
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [],
@@ -888,16 +942,38 @@
               "internalType": "bool",
               "name": "receiverAccepted",
               "type": "bool"
+            },
+            {
+              "internalType": "uint256",
+              "name": "tokenId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "prevBlockNumber",
+              "type": "uint256"
             }
           ],
-          "internalType": "struct WeddingToken.PropositionData[]",
+          "internalType": "struct WeddingTokenV3.PropositionData[]",
           "name": "",
           "type": "tuple[]"
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "contractURI",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
     },
     {
       "inputs": [
@@ -930,8 +1006,7 @@
       "name": "safeTransferFrom",
       "outputs": [],
       "stateMutability": "pure",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -964,8 +1039,7 @@
       "name": "safeBatchTransferFrom",
       "outputs": [],
       "stateMutability": "pure",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -984,8 +1058,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [],
@@ -1004,7 +1077,7 @@
               "type": "address"
             },
             {
-              "internalType": "enum WeddingToken.DivorceState",
+              "internalType": "enum WeddingTokenV3.DivorceState",
               "name": "divorceState",
               "type": "uint8"
             },
@@ -1032,15 +1105,24 @@
               "internalType": "string",
               "name": "conditionsData",
               "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "tokenId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "prevBlockNumber",
+              "type": "uint256"
             }
           ],
-          "internalType": "struct WeddingToken.Marriage",
+          "internalType": "struct WeddingTokenV3.Marriage",
           "name": "",
           "type": "tuple"
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     }
   ]

@@ -52,6 +52,8 @@ class GlobalViewModel: ObservableObject {
     
     @Published
     var balance: Double? = nil
+    @Published
+    var faucetRequested = false
     
     var backgroundManager = BackgroundTasksManager()
     
@@ -332,7 +334,35 @@ class GlobalViewModel: ObservableObject {
         if let address = walletAccount {
             web3.getBalance(address: address) { [weak self] balance, error in
                 if error == nil {
-                    self?.balance = balance
+                    withAnimation {
+                        self?.balance = balance
+                        if balance != 0 {
+                            self?.faucetRequested = false
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func callFaucet() {
+        if let address = walletAccount {
+            withAnimation {
+                faucetRequested = true
+            }
+            web3.callFaucet(to: address) { err in
+                if err == nil {
+                    
+                } else {
+                    withAnimation {
+                        self.faucetRequested = false
+                    }
+                    print("Faucet error: \(err)")
+                    self.alert = IdentifiableAlert.build(
+                        id: "faucet error",
+                        title: "Faucet error",
+                        message: "Faucet is closed or you already used it for current address"
+                    )
                 }
             }
         }
@@ -481,6 +511,7 @@ class GlobalViewModel: ObservableObject {
         requestIncomingProposals()
         requestOutgoingProposals()
         requestCurrentMarriage()
+        requestBalance()
     }
     
     func refresh() {

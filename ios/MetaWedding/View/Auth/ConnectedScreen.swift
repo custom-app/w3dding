@@ -71,6 +71,36 @@ struct ConnectedScreen: View {
             }
             .padding(.top, 70)
             
+            if let balance = globalViewModel.balance, balance != 0 {
+            
+                if globalViewModel.faucetRequested {
+                    Text("It should take a few seconds. Please refresh the status by swipe down")
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 20)
+                        .padding(.top, 20)
+                } else {
+                    Button {
+                        globalViewModel.callFaucet()
+                    } label: {
+                        Text("Faucet")
+                            .font(.system(size: 17))
+                            .fontWeight(.bold)
+                            .foregroundColor(Colors.purple)
+                            .padding(.horizontal, 24)
+                            .padding(.vertical, 15)
+                            .background(Color.white.opacity(0.5))
+                            .cornerRadius(32)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 32)
+                                    .stroke(Colors.purple, lineWidth: 2)
+                            )
+                    }
+                    .padding(.top, 20)
+                }
+                
+                
+            }
+            
             Spacer()
         }
     }

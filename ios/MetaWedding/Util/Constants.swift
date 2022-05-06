@@ -25,9 +25,19 @@ struct Constants {
         static let PolygonTestnet = 80001
     }
     
-    struct ContractAddress {
+    struct WeddingContract {
         static let Mainnet = "0xba21ce6B4Dc183fA5D257584e657B913c90A69dA"
         static let Testnet = "0x8c9d33423E5a3e0500AD388f53facB6754A570B3"
+    }
+    
+    struct FaucetContract {
+        static let Mainnet = ""
+        static let Testnet = "0xA87AEDC7AbCdEBb5252770027CC1c5cCf500315e"
+    }
+    
+    struct FaucetAccount {
+        static let Mainnet = ""
+        static let Testnet = "0x9dCb41F58406c5A4F1338b57ca0039Cebc8E1D93"
     }
     
 }
