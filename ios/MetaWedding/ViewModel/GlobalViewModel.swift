@@ -64,11 +64,9 @@ class GlobalViewModel: ObservableObject {
     var alert: IdentifiableAlert?
     
     @Published
-    var partnerAddress: String = ""
-    @Published
     var name: String = ""
     @Published
-    var partnerName: String = ""
+    var partnerAddress: String = ""
     
     @Published
     var isMarriageLoaded = false
@@ -103,6 +101,11 @@ class GlobalViewModel: ObservableObject {
     
     @Published
     var selfImage: UIImage?
+    @Published
+    var partnerImage: UIImage?
+    
+    @Published
+    var templateId = "1"
     
     var foreverAnimation: Animation {
         Animation.easeInOut(duration: 1.0)
@@ -187,7 +190,7 @@ class GlobalViewModel: ObservableObject {
     }
     
     func propose(to: String, metaUrl: String, condData: String = "") {
-        backgroundManager.finishCertificateBackgroundTask()
+        backgroundManager.finishProposalBackgroundTask()
         guard let data = web3.proposeData(to: to, metaUrl: metaUrl, condData: condData) else {
             handleError(InnerError.nilContractMethodData(method: "propose"))
             return
@@ -557,96 +560,50 @@ class GlobalViewModel: ObservableObject {
         return false
     }
     
-    func buildCertificateWebView() {
-            if let address = walletAccount {
-                withAnimation {
-                    isNewProposalPending = true
-                }
-                let now = Date()
-                certificateHtml = CertificateWorker.htmlTemplate
-                    .replacingOccurrences(of: CertificateWorker.nameKey, with: name)
-                    .replacingOccurrences(of: CertificateWorker.partnerNameKey, with: partnerName)
-                    .replacingOccurrences(of: CertificateWorker.addressKey, with: address)
-                    .replacingOccurrences(of: CertificateWorker.partnerAddressKey, with: partnerAddress.lowercased())
-                    .replacingOccurrences(of: CertificateWorker.dayNumKey, with: now.dayOrdinal())
-                    .replacingOccurrences(of: CertificateWorker.monthNumKey, with: now.formattedDateString("LLLL").lowercased())
-                    .replacingOccurrences(of: CertificateWorker.yearNumKey, with: now.formattedDateString("yyyy"))
-                showWebView = true
-            }
-        }
-    
-    func uploadCertificateToNftStorage(formatter: UIViewPrintFormatter) {
-        backgroundManager.createCertificateBackgroundTask()
-        do {
-            guard let pdfUrl = try CertificateWorker.generateCertificatePdf(formatter: formatter) else {
-                onNewProposalProcessFinish()
-                handleError(InnerError.nilCertificateUrl)
+    func uploadImageToIpfs(image: UIImage,
+                           quality: Double = 0.75,
+                           onSuccess: @escaping (String) -> ()) {
+        DispatchQueue.global(qos: .userInitiated).async { [self] in
+            guard let data = image.jpegData(compressionQuality: quality) else {
+                print("error getting jpeg data for photo")
+                onProposalProcessFinish()
+                handleError(InnerError.nilJpegData)
                 return
             }
-            DispatchQueue.global(qos: .userInitiated).async { [self] in
-                let image = CertificateWorker.imageFromPdf(url: pdfUrl)
-                guard let data = image?.jpegData(compressionQuality: 0.75) else {
-                    print("error getting jpeg data")
-                    onNewProposalProcessFinish()
-                    handleError(InnerError.jpegConverting)
+            HttpRequester.shared.uploadPictureToNftStorage(data: data) { response, error in
+                if let error = error {
+                    print("Error uploading photo: \(error)")
+                    self.onProposalProcessFinish()
+                    self.handleError(error)
                     return
                 }
-                HttpRequester.shared.uploadPictureToNftStorage(data: data) { response, error in
-                    if let error = error {
-                        print("Error uploading certificate: \(error)")
-                        self.onNewProposalProcessFinish()
-                        self.handleError(error)
-                        return
-                    }
-                    if let response = response {
-                        if response.ok {
-                            print("certificate successfully uploaded: \(response.value.cid)")
-                            self.uploadMetaToNftStorage(cid: response.value.cid)
-                        } else {
-                            print("certificate upload not ok")
-                            self.onNewProposalProcessFinish()
-                            self.handleError(InnerError.httpError(body: "\(response)"))
-                        }
+                if let response = response {
+                    if response.ok {
+                        print("image successfully uploaded: \(response.value.cid)")
+                        onSuccess(response.value.cid)
+                    } else {
+                        print("image upload not ok")
+                        self.onProposalProcessFinish()
+                        self.handleError(InnerError.httpError(body: "\(response)"))
                     }
                 }
             }
-        } catch {
-            print("error generating certificate: \(error)")
-            onNewProposalProcessFinish()
-            handleError(error)
         }
     }
     
-    func uploadMetaToNftStorage(cid: String) {
-        let properties = CertificateProperties(firstPersonAddress: walletAccount!,
-                                               secondPersonAddress: partnerAddress.lowercased(),
-                                               firstPersonName: name,
-                                               secondPersonName: partnerName)
-        let meta = CertificateMeta(name: "W3dding certificate",
-                                   description: "Marriage certificate info",
-                                   image: "ipfs://\(cid)",
-                                   properties: properties)
+    func uploadMetaToIpfs(meta: CertificateMeta, onSuccess: @escaping (String) -> ()) {
         DispatchQueue.global(qos: .userInitiated).async { [self] in
             HttpRequester.shared.uploadMetaToNftStorage(meta: meta) { response, error in
                 if let error = error {
                     print("Error uploading certificate meta: \(error)")
-                    self.onNewProposalProcessFinish()
+                    self.onProposalProcessFinish()
                     return
                 }
                 if let response = response {
-                    self.onNewProposalProcessFinish()
+                    self.onProposalProcessFinish()
                     if response.ok {
                         print("certificate meta successfully uploaded, url: \(response.value.url)")
-                        let partnerAddress = self.partnerAddress.lowercased()
-                        if self.authoredProposals.contains(where: {
-                            $0.address.lowercased() == partnerAddress
-                        }) {
-                            self.updateProposition(to: partnerAddress,
-                                                   metaUrl: response.value.url)
-                        } else {
-                            self.propose(to: partnerAddress,
-                                         metaUrl: response.value.url)
-                        }
+                        onSuccess(response.value.url)
                     } else {
                         print("certificate meta upload not ok")
                         self.handleError(InnerError.httpError(body: "\(response)"))
@@ -656,9 +613,155 @@ class GlobalViewModel: ObservableObject {
         }
     }
     
-    func onNewProposalProcessFinish() {
+    func sendNewProposal(selfAddress: String,
+                         partnerAddress: String,
+                         selfName: String,
+                         selfImage: UIImage?,
+                         templateId: String) {
+        withAnimation {
+            isNewProposalPending = true
+        }
+        backgroundManager.createProposalBackgroundTask()
+        if let image = selfImage {
+            uploadImageToIpfs(image: image) { cid in
+                self.uploadNewProposalMeta(selfAddress: selfAddress,
+                                           partnerAddress: partnerAddress,
+                                           selfName: selfName,
+                                           imageCid: cid,
+                                           templateId: templateId)
+            }
+        } else {
+            uploadNewProposalMeta(selfAddress: selfAddress,
+                                  partnerAddress: partnerAddress,
+                                  selfName: selfName,
+                                  imageCid: nil,
+                                  templateId: templateId)
+        }
+    }
+    
+    func uploadNewProposalMeta(selfAddress: String,
+                               partnerAddress: String,
+                               selfName: String,
+                               imageCid: String?,
+                               templateId: String) {
+        let selfImageUrl = imageCid == nil ? "" : "ipfs://\(imageCid ?? "")"
+        let properties = CertificateProperties(
+            id: "",
+            firstPersonAddress: selfAddress.lowercased(),
+            secondPersonAddress: partnerAddress.lowercased(),
+            firstPersonName: selfName,
+            secondPersonName: "",
+            firstPersonImage: selfImageUrl,
+            secondPersonImage: "",
+            templateId: templateId,
+            blockHash: ""
+        )
+        let meta = CertificateMeta(name: "W3dding certificate",
+                                   description: "Marriage certificate info",
+                                   image: "",
+                                   properties: properties)
+        self.uploadMetaToIpfs(meta: meta) { url in
+            if self.authoredProposals.contains(where: {
+                $0.address.lowercased() == partnerAddress.lowercased()
+            }) {
+                self.updateProposition(to: partnerAddress.lowercased(),
+                                       metaUrl: url)
+            } else {
+                self.propose(to: partnerAddress.lowercased(),
+                             metaUrl: url)
+            }
+        }
+    }
+    
+    func buildCertificateWebView(id: String,
+                                 firstPersonName: String,
+                                 secondPersonName: String,
+                                 firstPersonAddress: String,
+                                 secondPersonAddress: String,
+                                 firstPersonImage: UIImage?,
+                                 secondPersonImage: UIImage?,
+                                 templateId: String,
+                                 blockHash: String) {
+            if let address = walletAccount {
+                DispatchQueue.global(qos: .userInitiated).async { [self] in
+                    let certPath = Bundle.main.path(forResource: "cert\(templateId)", ofType: "html")!
+                    let htmlTemplate = try! String(contentsOfFile: certPath) //TODO: handle?
+                    let now = Date()
+                    
+                    let htmlString = htmlTemplate
+                        .replacingOccurrences(of: CertificateWorker.nameKey, with: firstPersonName)
+                        .replacingOccurrences(of: CertificateWorker.partnerNameKey, with: secondPersonName)
+                        .replacingOccurrences(of: CertificateWorker.addressKey, with: address.lowercased())
+                        .replacingOccurrences(of: CertificateWorker.partnerAddressKey, with: partnerAddress.lowercased())
+                        .replacingOccurrences(of: CertificateWorker.dayNumKey, with: now.dayOrdinal())
+                        .replacingOccurrences(of: CertificateWorker.monthNumKey, with: now.formattedDateString("LLLL").lowercased())
+                        .replacingOccurrences(of: CertificateWorker.yearNumKey, with: now.formattedDateString("yyyy"))
+                    
+                    DispatchQueue.main.async {
+                        self.certificateHtml = htmlString
+                        self.showWebView = true
+                    }
+                }
+            }
+        }
+    
+    func uploadCertificateToIpfs(formatter: UIViewPrintFormatter,
+                                 id: String,
+                                 firstPersonName: String,
+                                 secondPersonName: String,
+                                 firstPersonAddress: String,
+                                 secondPersonAddress: String,
+                                 firstPersonImage: UIImage?,
+                                 secondPersonImage: UIImage?,
+                                 templateId: String,
+                                 blockHash: String) {
+        backgroundManager.createProposalBackgroundTask()
+        do {
+            // Can't run on background thread
+            guard let pdfUrl = try CertificateWorker.generateCertificatePdf(formatter: formatter) else {
+                onProposalProcessFinish()
+                handleError(InnerError.nilCertificateUrl)
+                return
+            }
+            DispatchQueue.global(qos: .userInitiated).async { [self] in
+                guard let image = CertificateWorker.imageFromPdf(url: pdfUrl) else {
+                    print("error converting cert pdf to image")
+                    onProposalProcessFinish()
+                    handleError(InnerError.jpegConverting)
+                    return
+                }
+                uploadImageToIpfs(image: image) { cid in
+                    let properties = CertificateProperties(
+                        id: "",
+                        firstPersonAddress: self.walletAccount!,
+                        secondPersonAddress: self.partnerAddress.lowercased(),
+                        firstPersonName: self.name,
+                        secondPersonName: "",
+                        firstPersonImage: "",
+                        secondPersonImage: "",
+                        templateId: "",
+                        blockHash: ""
+                    )
+                    let meta = CertificateMeta(name: "W3dding certificate",
+                                               description: "Marriage certificate info",
+                                               image: "ipfs://\(cid)",
+                                               properties: properties)
+                    self.uploadMetaToIpfs(meta: meta) { url in
+                        //accept proposition here
+                    }
+                }
+                
+            }
+        } catch {
+            print("error generating certificate: \(error)")
+            onProposalProcessFinish()
+            handleError(error)
+        }
+    }
+    
+    func onProposalProcessFinish() {
         DispatchQueue.main.async {
-            self.backgroundManager.finishCertificateBackgroundTask()
+            self.backgroundManager.finishProposalBackgroundTask()
             withAnimation {
                 self.isNewProposalPending = false
             }

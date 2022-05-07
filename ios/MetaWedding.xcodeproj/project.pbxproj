@@ -34,6 +34,7 @@
 		11A92D812814CFB800B98066 /* WrongChainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A92D802814CFB800B98066 /* WrongChainScreen.swift */; };
 		11AA278027FE372500BC8BCA /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AA277F27FE372500BC8BCA /* Extensions.swift */; };
 		11AD63C12825292500A91AE0 /* faucet_abi.json in Resources */ = {isa = PBXBuildFile; fileRef = 11AD63C02825292500A91AE0 /* faucet_abi.json */; };
+		11AD63C328257EB000A91AE0 /* cert1.html in Resources */ = {isa = PBXBuildFile; fileRef = 11AD63C228257EB000A91AE0 /* cert1.html */; };
 		11B4C76D2808CD300058A319 /* SwipeRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B4C76C2808CD300058A319 /* SwipeRefresh.swift */; };
 		11B4C76F2808F2C10058A319 /* HttpRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B4C76E2808F2C10058A319 /* HttpRequester.swift */; };
 		11B4C77128090DEA0058A319 /* NftStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B4C77028090DEA0058A319 /* NftStorage.swift */; };
@@ -87,6 +88,7 @@
 		11A92D802814CFB800B98066 /* WrongChainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrongChainScreen.swift; sourceTree = "<group>"; };
 		11AA277F27FE372500BC8BCA /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		11AD63C02825292500A91AE0 /* faucet_abi.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = faucet_abi.json; sourceTree = "<group>"; };
+		11AD63C228257EB000A91AE0 /* cert1.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = cert1.html; sourceTree = "<group>"; };
 		11B4C76C2808CD300058A319 /* SwipeRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeRefresh.swift; sourceTree = "<group>"; };
 		11B4C76E2808F2C10058A319 /* HttpRequester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpRequester.swift; sourceTree = "<group>"; };
 		11B4C77028090DEA0058A319 /* NftStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NftStorage.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 				113977DD28049A5A00D6FD57 /* wedding_abi.json */,
 				11AD63C02825292500A91AE0 /* faucet_abi.json */,
 				115A659927F3CD1B001CBCD2 /* Info.plist */,
+				11AD63C42825824F00A91AE0 /* Certificates */,
 				118A951827F925A000798141 /* Util */,
 				11C356CE27FF84E8007A0E69 /* Model */,
 				115A658A27F22D12001CBCD2 /* ViewModel */,
@@ -220,6 +223,14 @@
 				112206F42813679A00AF0315 /* Colors.swift */,
 			);
 			path = Util;
+			sourceTree = "<group>";
+		};
+		11AD63C42825824F00A91AE0 /* Certificates */ = {
+			isa = PBXGroup;
+			children = (
+				11AD63C228257EB000A91AE0 /* cert1.html */,
+			);
+			path = Certificates;
 			sourceTree = "<group>";
 		};
 		11C356CB27FF82BB007A0E69 /* Components */ = {
@@ -350,6 +361,7 @@
 			files = (
 				11AD63C12825292500A91AE0 /* faucet_abi.json in Resources */,
 				113977DE28049A5A00D6FD57 /* wedding_abi.json in Resources */,
+				11AD63C328257EB000A91AE0 /* cert1.html in Resources */,
 				11EABE4F281C0BFB003DE322 /* LaunchScreen.storyboard in Resources */,
 				115A657F27F218F0001CBCD2 /* Preview Assets.xcassets in Resources */,
 				115A657C27F218F0001CBCD2 /* Assets.xcassets in Resources */,

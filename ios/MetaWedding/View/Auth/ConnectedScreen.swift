@@ -71,7 +71,7 @@ struct ConnectedScreen: View {
             }
             .padding(.top, 70)
             
-            if let balance = globalViewModel.balance, balance != 0 {
+            if let balance = globalViewModel.balance, balance == 0 {
             
                 if globalViewModel.faucetRequested {
                     Text("It should take a few seconds. Please refresh the status by swipe down")

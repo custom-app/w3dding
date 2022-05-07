@@ -19,6 +19,7 @@ enum InnerError: Error {
     case nilClientOrSession
     case nilCertificateUrl
     case jpegConverting
+    case nilJpegData
 }
 
 class Errors {

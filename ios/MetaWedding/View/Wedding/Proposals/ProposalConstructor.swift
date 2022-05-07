@@ -82,30 +82,7 @@ struct ProposalConstructor: View {
                             globalViewModel.name = String(globalViewModel.name.prefix(nameLimit))
                         }
                     }
-                
-                TextField("", text: $globalViewModel.partnerName)
-                    .font(Font.headline.weight(.bold))
-                    .placeholder(when: globalViewModel.partnerName.isEmpty) {
-                        Text("Partner name")
-                            .font(Font.headline.weight(.bold))
-                            .foregroundColor(Colors.darkGrey.opacity(0.5))
-                            .multilineTextAlignment(.center)
-                    }
-                    .foregroundColor(Colors.darkGrey)
-                    .lineLimit(1)
-                    .truncationMode(.tail)
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 13)
-                    .background(Color.white.opacity(0.5))
-                    .cornerRadius(32)
-                    .disabled(globalViewModel.isNewProposalPending)
-                    .padding(.horizontal, 16)
-                    .padding(.top, 16)
-                    .onReceive(Just(globalViewModel.partnerName)) { _ in
-                        if globalViewModel.partnerName.count > nameLimit {
-                            globalViewModel.partnerName = String(globalViewModel.partnerName.prefix(nameLimit))
-                        }
-                    }
+
                 
                 Button {
                     openPhotoPicker()
@@ -134,15 +111,21 @@ struct ProposalConstructor: View {
                             )
                             return
                         }
-                        guard !globalViewModel.name.isEmpty && !globalViewModel.partnerName.isEmpty else {
+                        guard !globalViewModel.name.isEmpty else {
                             globalViewModel.alert = IdentifiableAlert.build(
                                 id: "validation failed",
                                 title: "Validation Failed",
-                                message: "Names can't be empty"
+                                message: "Name can't be empty"
                             )
                             return
                         }
-                        globalViewModel.buildCertificateWebView()
+                        globalViewModel.sendNewProposal(
+                            selfAddress: globalViewModel.walletAccount!,
+                            partnerAddress: globalViewModel.partnerAddress,
+                            selfName: globalViewModel.name,
+                            selfImage: globalViewModel.selfImage,
+                            templateId: globalViewModel.templateId)
+//                        globalViewModel.buildCertificateWebView()
                     } label: {
                         Text("Propose")
                             .font(.system(size: 17))
@@ -176,10 +159,10 @@ struct ProposalConstructor: View {
                 if globalViewModel.showWebView {
                     WebView(htmlString: globalViewModel.certificateHtml) { formatter in
                         globalViewModel.showWebView = false
-                        globalViewModel.uploadCertificateToNftStorage(formatter: formatter)
+//                        globalViewModel.uploadCertificateToIpfs(formatter: formatter)
                     }
-                    .frame(minHeight: 1, maxHeight: 1)
-                    .opacity(0)
+                    .frame(minHeight: 200, maxHeight: 200)
+                    .opacity(1)
                 }
                 
                 if let image = globalViewModel.selfImage {

@@ -28,10 +28,17 @@ struct CertificateMeta: Codable {
         name = ""
         description = ""
         image = ""
-        properties = CertificateProperties(firstPersonAddress: "",
-                                           secondPersonAddress: "",
-                                           firstPersonName: "",
-                                           secondPersonName: "")
+        properties = CertificateProperties(
+            id: "",
+            firstPersonAddress: "",
+            secondPersonAddress: "",
+            firstPersonName: "",
+            secondPersonName: "",
+            firstPersonImage: "",
+            secondPersonImage: "",
+            templateId: "",
+            blockHash: ""
+        )
     }
     
     func isEmpty() -> Bool {
@@ -40,8 +47,13 @@ struct CertificateMeta: Codable {
 }
 
 struct CertificateProperties: Codable {
+    let id: String
     let firstPersonAddress: String
     let secondPersonAddress: String
     let firstPersonName: String
     let secondPersonName: String
+    let firstPersonImage: String
+    let secondPersonImage: String
+    let templateId: String
+    let blockHash: String
 }
