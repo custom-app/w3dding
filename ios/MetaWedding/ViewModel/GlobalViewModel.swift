@@ -560,6 +560,15 @@ class GlobalViewModel: ObservableObject {
         return false
     }
     
+    func handleSelfPhotoPicked(photo: UIImage) {
+        DispatchQueue.global(qos: .userInitiated).async { [self] in
+            let compressed = CertificateWorker.compressImage(image: photo)
+            DispatchQueue.main.async {
+                self.selfImage = compressed
+            }
+        }
+    }
+    
     func uploadImageToIpfs(image: UIImage,
                            quality: Double = 0.75,
                            onSuccess: @escaping (String) -> ()) {

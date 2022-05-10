@@ -178,15 +178,15 @@ struct ProposalConstructor: View {
             PhotoPicker { image in
                 print("image picked")
                 showPhotoPicker = false
-                if image == nil {
+                guard let image = image else {
                     globalViewModel.alert = IdentifiableAlert.build(
                         id: "loading photo err",
                         title: "An error has occurred",
                         message: "Image loading failed. Please try again"
                     )
-                } else {
-                    globalViewModel.selfImage = image
+                    return
                 }
+                globalViewModel.handleSelfPhotoPicked(photo: image)
             }
         }
     }

@@ -12,9 +12,6 @@ class CertificateWorker {
     
     private static let pdfName = "certificate"
     
-    public static let htmlTemplate = """
-
-"""
     public static let nameKey = "name1"
     public static let partnerNameKey = "name2"
     public static let addressKey = "address1"
@@ -22,8 +19,11 @@ class CertificateWorker {
     public static let dayNumKey = "day_num"
     public static let monthNumKey = "month_num"
     public static let yearNumKey = "year_num"
+    
     private static let pageWidth = 1152.0
     private static let pageHeight = 819.2
+    
+    private static let selfPictureMaxSize: Float = 800
     
     static func generateCertificatePdf(formatter: UIViewPrintFormatter) throws -> URL? {
         let renderer = UIPrintPageRenderer()
@@ -64,6 +64,48 @@ class CertificateWorker {
             ctx.cgContext.drawPDFPage(page)
         }
         return img
+    }
+    
+    static func compressImage(image: UIImage, maxHeight: Float = selfPictureMaxSize,
+                       maxWidth: Float = selfPictureMaxSize) -> UIImage {
+        return compress(
+            image: image,
+            maxHeight: maxHeight,
+            maxWidth: maxWidth)
+    }
+    
+    private static func compress(image: UIImage, maxHeight: Float = selfPictureMaxSize,
+                       maxWidth: Float = selfPictureMaxSize) -> UIImage {
+        var actualHeight: Float = Float(image.size.height)
+        var actualWidth: Float = Float(image.size.width)
+        var imgRatio: Float = actualWidth / actualHeight
+        let maxRatio: Float = maxWidth / maxHeight
+
+        if actualHeight > maxHeight || actualWidth > maxWidth {
+            if imgRatio < maxRatio {
+                //adjust width according to maxHeight
+                imgRatio = maxHeight / actualHeight
+                actualWidth = imgRatio * actualWidth
+                actualHeight = maxHeight
+            }
+            else if imgRatio > maxRatio {
+                //adjust height according to maxWidth
+                imgRatio = maxWidth / actualWidth
+                actualHeight = imgRatio * actualHeight
+                actualWidth = maxWidth
+            }
+            else {
+                actualHeight = maxHeight
+                actualWidth = maxWidth
+            }
+        }
+
+        let rect = CGRect(x: 0.0, y: 0.0, width: CGFloat(actualWidth), height: CGFloat(actualHeight))
+        UIGraphicsBeginImageContext(rect.size)
+        image.draw(in: rect)
+        let img = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return img!
     }
     
 }
