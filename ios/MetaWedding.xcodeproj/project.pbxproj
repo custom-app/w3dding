@@ -44,6 +44,9 @@
 		11B8CE5B280DF43700B25974 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B8CE5A280DF43700B25974 /* WebView.swift */; };
 		11C356CD27FF82D1007A0E69 /* IdentifiableAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C356CC27FF82D1007A0E69 /* IdentifiableAlert.swift */; };
 		11C8502B282A7EFD00AFAB82 /* default_photo.txt in Resources */ = {isa = PBXBuildFile; fileRef = 11C8502A282A7EFD00AFAB82 /* default_photo.txt */; };
+		11C8502D282A99D700AFAB82 /* TemplatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C8502C282A99D700AFAB82 /* TemplatePicker.swift */; };
+		11C8502F282A9A2600AFAB82 /* cert2.html in Resources */ = {isa = PBXBuildFile; fileRef = 11C8502E282A9A2600AFAB82 /* cert2.html */; };
+		11C85031282A9A3E00AFAB82 /* cert3.html in Resources */ = {isa = PBXBuildFile; fileRef = 11C85030282A9A3E00AFAB82 /* cert3.html */; };
 		11CE717028038ABC004782E5 /* CertificateWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CE716F28038ABC004782E5 /* CertificateWorker.swift */; };
 		11E32C8A2802220B00A540EE /* Proposal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E32C892802220B00A540EE /* Proposal.swift */; };
 		11E32C8C2802243200A540EE /* Marriage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E32C8B2802243200A540EE /* Marriage.swift */; };
@@ -99,6 +102,9 @@
 		11B8CE5A280DF43700B25974 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		11C356CC27FF82D1007A0E69 /* IdentifiableAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifiableAlert.swift; sourceTree = "<group>"; };
 		11C8502A282A7EFD00AFAB82 /* default_photo.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = default_photo.txt; sourceTree = "<group>"; };
+		11C8502C282A99D700AFAB82 /* TemplatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatePicker.swift; sourceTree = "<group>"; };
+		11C8502E282A9A2600AFAB82 /* cert2.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = cert2.html; sourceTree = "<group>"; };
+		11C85030282A9A3E00AFAB82 /* cert3.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = cert3.html; sourceTree = "<group>"; };
 		11CE716F28038ABC004782E5 /* CertificateWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificateWorker.swift; sourceTree = "<group>"; };
 		11E32C892802220B00A540EE /* Proposal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Proposal.swift; sourceTree = "<group>"; };
 		11E32C8B2802243200A540EE /* Marriage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Marriage.swift; sourceTree = "<group>"; };
@@ -232,6 +238,8 @@
 			isa = PBXGroup;
 			children = (
 				11AD63C228257EB000A91AE0 /* cert1.html */,
+				11C8502E282A9A2600AFAB82 /* cert2.html */,
+				11C85030282A9A3E00AFAB82 /* cert3.html */,
 			);
 			path = Certificates;
 			sourceTree = "<group>";
@@ -293,6 +301,7 @@
 				11E32C9C28022D6300A540EE /* AuthoredProposalInfo.swift */,
 				11E32C9728022C5300A540EE /* ReceivedProposalsScreen.swift */,
 				11E32C9A28022CDA00A540EE /* ReceivedProposalInfo.swift */,
+				11C8502C282A99D700AFAB82 /* TemplatePicker.swift */,
 			);
 			path = Proposals;
 			sourceTree = "<group>";
@@ -363,10 +372,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				11AD63C12825292500A91AE0 /* faucet_abi.json in Resources */,
+				11C85031282A9A3E00AFAB82 /* cert3.html in Resources */,
 				113977DE28049A5A00D6FD57 /* wedding_abi.json in Resources */,
 				11C8502B282A7EFD00AFAB82 /* default_photo.txt in Resources */,
 				11AD63C328257EB000A91AE0 /* cert1.html in Resources */,
 				11EABE4F281C0BFB003DE322 /* LaunchScreen.storyboard in Resources */,
+				11C8502F282A9A2600AFAB82 /* cert2.html in Resources */,
 				115A657F27F218F0001CBCD2 /* Preview Assets.xcassets in Resources */,
 				115A657C27F218F0001CBCD2 /* Assets.xcassets in Resources */,
 			);
@@ -416,6 +427,7 @@
 				11B6336F2804CCDA00745730 /* TxWorker.swift in Sources */,
 				112206F52813679A00AF0315 /* Colors.swift in Sources */,
 				11B8CE59280DD38C00B25974 /* Config.swift in Sources */,
+				11C8502D282A99D700AFAB82 /* TemplatePicker.swift in Sources */,
 				118A951C27F9281E00798141 /* Wallets.swift in Sources */,
 				118A951A27F925AE00798141 /* Constants.swift in Sources */,
 				11A92D7F2814C08F00B98066 /* ConnectedScreen.swift in Sources */,
@@ -550,7 +562,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"MetaWedding/Preview Content\"";
-				DEVELOPMENT_TEAM = QP27S8ZPKZ;
+				DEVELOPMENT_TEAM = 7VF24UW9N8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MetaWedding/Info.plist;
@@ -569,7 +581,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.0.2;
-				PRODUCT_BUNDLE_IDENTIFIER = com.crypto.wedding;
+				PRODUCT_BUNDLE_IDENTIFIER = com.crypto.w3dding;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -585,7 +597,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"MetaWedding/Preview Content\"";
-				DEVELOPMENT_TEAM = QP27S8ZPKZ;
+				DEVELOPMENT_TEAM = 7VF24UW9N8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MetaWedding/Info.plist;
@@ -604,7 +616,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.0.2;
-				PRODUCT_BUNDLE_IDENTIFIER = com.crypto.wedding;
+				PRODUCT_BUNDLE_IDENTIFIER = com.crypto.w3dding;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

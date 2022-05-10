@@ -105,7 +105,9 @@ class GlobalViewModel: ObservableObject {
     var partnerImage: UIImage?
     
     @Published
-    var templateId = "1"
+    var selectedTemplateId = "1"
+    @Published
+    var templateIds: [String]
     
     var foreverAnimation: Animation {
         Animation.easeInOut(duration: 1.0)
@@ -131,6 +133,13 @@ class GlobalViewModel: ObservableObject {
             return true
         }
         return false
+    }
+    
+    init() {
+        templateIds = []
+        for i in 0..<Constants.certificatesNum {
+            templateIds.append("\(i+1)")
+        }
     }
     
     func initWalletConnect() {

@@ -16,6 +16,9 @@ struct ProposalConstructor: View {
     @State
     var showPhotoPicker = false
     
+    @State
+    var showTemplatePicker = false
+    
     @EnvironmentObject
     var globalViewModel: GlobalViewModel
     
@@ -96,7 +99,45 @@ struct ProposalConstructor: View {
                         .background(Colors.purple)
                         .cornerRadius(32)
                 }
-                .padding(.top, 44)
+                .padding(.top, 24)
+                .sheet(isPresented: $showPhotoPicker) {
+                    PhotoPicker { image in
+                        print("image picked")
+                        showPhotoPicker = false
+                        guard let image = image else {
+                            globalViewModel.alert = IdentifiableAlert.build(
+                                id: "loading photo err",
+                                title: "An error has occurred",
+                                message: "Image loading failed. Please try again"
+                            )
+                            return
+                        }
+                        globalViewModel.handleSelfPhotoPicked(photo: image)
+                    }
+                }
+                
+                VStack {
+                    HStack {
+                        Text("Picked template:")
+                            .font(.system(size: 17))
+                            .fontWeight(.bold)
+                            .foregroundColor(.black)
+                        Spacer()
+                        Image("preview_cert\(globalViewModel.selectedTemplateId)")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 100)
+                            .onTapGesture {
+                                showTemplatePicker = true
+                            }
+                    }
+                    .sheet(isPresented: $showTemplatePicker) {
+                        TemplatePicker(showPicker: $showTemplatePicker)
+                            .environmentObject(globalViewModel)
+                    }
+                }
+                .padding(.horizontal, 20)
+                .padding(.top, 10)
                 
                 if globalViewModel.isNewProposalPending {
                     WeddingProgress()
@@ -124,7 +165,7 @@ struct ProposalConstructor: View {
                             partnerAddress: globalViewModel.partnerAddress,
                             selfName: globalViewModel.name,
                             selfImage: globalViewModel.selfImage,
-                            templateId: globalViewModel.templateId)
+                            templateId: globalViewModel.selectedTemplateId)
 //                        globalViewModel.buildCertificateWebView()
                     } label: {
                         Text("Propose")
@@ -172,21 +213,6 @@ struct ProposalConstructor: View {
                         .frame(height: 140)
                         .padding(.top, 20)
                 }
-            }
-        }
-        .sheet(isPresented: $showPhotoPicker) {
-            PhotoPicker { image in
-                print("image picked")
-                showPhotoPicker = false
-                guard let image = image else {
-                    globalViewModel.alert = IdentifiableAlert.build(
-                        id: "loading photo err",
-                        title: "An error has occurred",
-                        message: "Image loading failed. Please try again"
-                    )
-                    return
-                }
-                globalViewModel.handleSelfPhotoPicked(photo: image)
             }
         }
     }
