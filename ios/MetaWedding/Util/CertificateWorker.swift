@@ -16,9 +16,12 @@ class CertificateWorker {
     public static let partnerNameKey = "name2"
     public static let addressKey = "address1"
     public static let partnerAddressKey = "address2"
+    public static let timeKey = "timing"
     public static let dayNumKey = "day_num"
     public static let monthNumKey = "month_num"
     public static let yearNumKey = "year_num"
+    public static let serialNumber = "serial_number"
+    public static let blockHash = "block_hash"
     
     private static let pageWidth = 1152.0
     private static let pageHeight = 819.2
@@ -64,6 +67,34 @@ class CertificateWorker {
             ctx.cgContext.drawPDFPage(page)
         }
         return img
+    }
+    
+    static func generateHtmlString(id: String,
+                                   firstPersonName: String,
+                                   secondPersonName: String,
+                                   firstPersonAddress: String,
+                                   secondPersonAddress: String,
+                                   firstPersonImage: UIImage?,
+                                   secondPersonImage: UIImage?,
+                                   templateId: String,
+                                   blockHash: String) -> String {
+        let certPath = Bundle.main.path(forResource: "cert\(templateId)", ofType: "html")!
+        let htmlTemplate = try! String(contentsOfFile: certPath) //TODO: handle?
+        let now = Date()
+        
+        let htmlString = htmlTemplate
+            .replacingOccurrences(of: CertificateWorker.nameKey, with: firstPersonName)
+            .replacingOccurrences(of: CertificateWorker.partnerNameKey, with: secondPersonName)
+            .replacingOccurrences(of: CertificateWorker.addressKey, with: firstPersonAddress)
+            .replacingOccurrences(of: CertificateWorker.partnerAddressKey, with: secondPersonAddress)
+            .replacingOccurrences(of: CertificateWorker.dayNumKey, with: now.dayOrdinal())
+            .replacingOccurrences(of: CertificateWorker.monthNumKey, with: now.formattedDateString("LLLL").lowercased())
+            .replacingOccurrences(of: CertificateWorker.yearNumKey, with: now.formattedDateString("yyyy"))
+            .replacingOccurrences(of: CertificateWorker.timeKey, with: now.formattedDateString("HH:mm"))
+            .replacingOccurrences(of: CertificateWorker.blockHash, with: blockHash)
+            .replacingOccurrences(of: CertificateWorker.serialNumber, with: id)
+        
+        return htmlString
     }
     
     static func compressImage(image: UIImage, maxHeight: Float = selfPictureMaxSize,

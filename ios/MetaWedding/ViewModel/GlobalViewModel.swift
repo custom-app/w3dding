@@ -691,28 +691,25 @@ class GlobalViewModel: ObservableObject {
                                  secondPersonImage: UIImage?,
                                  templateId: String,
                                  blockHash: String) {
-            if let address = walletAccount {
-                DispatchQueue.global(qos: .userInitiated).async { [self] in
-                    let certPath = Bundle.main.path(forResource: "cert\(templateId)", ofType: "html")!
-                    let htmlTemplate = try! String(contentsOfFile: certPath) //TODO: handle?
-                    let now = Date()
-                    
-                    let htmlString = htmlTemplate
-                        .replacingOccurrences(of: CertificateWorker.nameKey, with: firstPersonName)
-                        .replacingOccurrences(of: CertificateWorker.partnerNameKey, with: secondPersonName)
-                        .replacingOccurrences(of: CertificateWorker.addressKey, with: address.lowercased())
-                        .replacingOccurrences(of: CertificateWorker.partnerAddressKey, with: partnerAddress.lowercased())
-                        .replacingOccurrences(of: CertificateWorker.dayNumKey, with: now.dayOrdinal())
-                        .replacingOccurrences(of: CertificateWorker.monthNumKey, with: now.formattedDateString("LLLL").lowercased())
-                        .replacingOccurrences(of: CertificateWorker.yearNumKey, with: now.formattedDateString("yyyy"))
-                    
-                    DispatchQueue.main.async {
-                        self.certificateHtml = htmlString
-                        self.showWebView = true
-                    }
-                }
+        DispatchQueue.global(qos: .userInitiated).async { [self] in
+            let htmlString = CertificateWorker.generateHtmlString(
+                id: id,
+                firstPersonName: firstPersonName,
+                secondPersonName: secondPersonName,
+                firstPersonAddress: firstPersonAddress,
+                secondPersonAddress: secondPersonAddress,
+                firstPersonImage: firstPersonImage,
+                secondPersonImage: secondPersonImage,
+                templateId: templateId,
+                blockHash: blockHash
+            )
+            
+            DispatchQueue.main.async {
+                self.certificateHtml = htmlString
+                self.showWebView = true
             }
         }
+    }
     
     func uploadCertificateToIpfs(formatter: UIViewPrintFormatter,
                                  id: String,
