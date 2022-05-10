@@ -161,8 +161,8 @@ struct ProposalConstructor: View {
                         globalViewModel.showWebView = false
 //                        globalViewModel.uploadCertificateToIpfs(formatter: formatter)
                     }
-                    .frame(minHeight: 200, maxHeight: 200)
-                    .opacity(1)
+                    .frame(minHeight: 1, maxHeight: 1)
+                    .opacity(0)
                 }
                 
                 if let image = globalViewModel.selfImage {

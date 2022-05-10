@@ -18,8 +18,18 @@ struct Proposal: Identifiable {
     let authorAccepted: Bool
     let receiverAccepted: Bool
     var meta: CertificateMeta? = nil
+    var tokenId: BigUInt //TODO: remove uuid
+    var prevBlockNumber: BigUInt
     
-    init(address: String, metaUrl: String, condData: String, divorceTimeout: BigUInt, timestamp: BigUInt, authorAccepted: Bool, receiverAccepted: Bool) {
+    init(address: String,
+         metaUrl: String,
+         condData: String,
+         divorceTimeout: BigUInt,
+         timestamp: BigUInt,
+         authorAccepted: Bool,
+         receiverAccepted: Bool,
+         tokenId: BigUInt,
+         prevBlockNumber: BigUInt) {
         self.address = address
         self.metaUrl = metaUrl
         self.conditions = condData
@@ -27,6 +37,8 @@ struct Proposal: Identifiable {
         self.timestamp = timestamp
         self.authorAccepted = authorAccepted
         self.receiverAccepted = receiverAccepted
+        self.tokenId = tokenId
+        self.prevBlockNumber = prevBlockNumber
         print("address: \(address)")
         print("metaUrl: \(metaUrl)")
         print("condData: \(condData)")
@@ -34,5 +46,7 @@ struct Proposal: Identifiable {
         print("timestamp: \(timestamp)")
         print("authorAccepted: \(authorAccepted)")
         print("receiverAccepted: \(receiverAccepted)")
+        print("tokenId: \(tokenId)")
+        print("prevBlockNumber: \(prevBlockNumber)")
     }
 }

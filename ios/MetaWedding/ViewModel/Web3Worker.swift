@@ -193,7 +193,7 @@ class Web3Worker: ObservableObject {
     private func parseProposals(addresses: [EthereumAddress], proposals: [[AnyObject]]) throws -> [Proposal] {
         var res: [Proposal] = []
         for (i, elem) in proposals.enumerated() {
-            if elem.count < 6 {
+            if elem.count < 8 {
                 throw InnerError.structParseError(description: "Error proposal parse: \(elem)")
             }
             guard let metaUrl = elem[0] as? String,
@@ -201,16 +201,22 @@ class Web3Worker: ObservableObject {
                   let divorceTimeout = elem[2] as? BigUInt,
                   let timestamp = elem[3] as? BigUInt,
                   let authorAccepted = elem[4] as? Int,
-                  let receiverAccepted = elem[5] as? Int else {
+                  let receiverAccepted = elem[5] as? Int,
+                  let tokenId = elem[6] as? BigUInt,
+                  let prevBlockNumber = elem[7] as? BigUInt else {
                       throw InnerError.structParseError(description: "Error proposal parse: \(elem)")
             }
-            let proposal = Proposal(address: addresses[i].address,
-                                metaUrl: metaUrl,
-                                condData: condData,
-                                divorceTimeout: divorceTimeout,
-                                timestamp: timestamp,
-                                authorAccepted: authorAccepted == 1,
-                                receiverAccepted: receiverAccepted == 1)
+            let proposal = Proposal(
+                address: addresses[i].address,
+                metaUrl: metaUrl,
+                condData: condData,
+                divorceTimeout: divorceTimeout,
+                timestamp: timestamp,
+                authorAccepted: authorAccepted == 1,
+                receiverAccepted: receiverAccepted == 1,
+                tokenId: tokenId,
+                prevBlockNumber: prevBlockNumber
+            )
             res.append(proposal)
         }
         return res
@@ -255,7 +261,7 @@ class Web3Worker: ObservableObject {
     }
     
     private func parseMarriage(marriage: [AnyObject]) throws -> Marriage {
-        if marriage.count < 8 {
+        if marriage.count < 10 {
             throw InnerError.structParseError(description: "Error marriage parse: \(marriage)")
         }
         let divorceState = try parseDivorceState(marriage[2])
@@ -265,20 +271,25 @@ class Web3Worker: ObservableObject {
               let divorceTimeout = marriage[4] as? BigUInt,
               let timestamp = marriage[5] as? BigUInt,
               let metaUrl = marriage[6] as? String,
-              let conditions = marriage[7] as? String else {
+              let conditions = marriage[7] as? String,
+              let tokenId = marriage[8] as? BigUInt,
+              let prevBlockNumber = marriage[9] as? BigUInt else {
                   throw InnerError.structParseError(description: "Error marriage parse: \(marriage)")
         }
         if authorAddress.address == zeroAddress {
             return Marriage()
         }
-        return Marriage(authorAddress: authorAddress.address,
-                        receiverAddress: receiverAddress.address,
-                        divorceState: divorceState,
-                        divorceRequestTimestamp: divorceRequestTimestamp,
-                        divorceTimeout: divorceTimeout,
-                        timestamp: timestamp,
-                        metaUrl: metaUrl,
-                        conditions: conditions)
+        return Marriage(
+            authorAddress: authorAddress.address,
+            receiverAddress: receiverAddress.address,
+            divorceState: divorceState,
+            divorceRequestTimestamp: divorceRequestTimestamp,
+            divorceTimeout: divorceTimeout,
+            timestamp: timestamp,
+            metaUrl: metaUrl,
+            conditions: conditions,
+            tokenId: tokenId,
+            prevBlockNumber: prevBlockNumber)
     }
     
     private func parseDivorceState(_ state: AnyObject) throws -> DivorceState {

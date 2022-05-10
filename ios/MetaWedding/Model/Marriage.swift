@@ -18,6 +18,9 @@ struct Marriage {
     let metaUrl: String
     let conditions: String
     
+    let tokenId: BigUInt
+    let prevBlockNumber: BigUInt
+    
     init(authorAddress: String,
          receiverAddress: String,
          divorceState: DivorceState,
@@ -25,7 +28,9 @@ struct Marriage {
          divorceTimeout: BigUInt,
          timestamp: BigUInt,
          metaUrl: String,
-         conditions: String) {
+         conditions: String,
+         tokenId: BigUInt,
+         prevBlockNumber: BigUInt) {
         self.authorAddress = authorAddress
         self.receiverAddress = receiverAddress
         self.divorceState = divorceState
@@ -34,6 +39,8 @@ struct Marriage {
         self.timestamp = timestamp
         self.metaUrl = metaUrl
         self.conditions = conditions
+        self.tokenId = tokenId
+        self.prevBlockNumber = prevBlockNumber
     }
     
     init() {
@@ -45,6 +52,8 @@ struct Marriage {
         self.timestamp = 0
         self.metaUrl = ""
         self.conditions = ""
+        self.tokenId = 0
+        self.prevBlockNumber = 0
     }
     
     func isEmpty() -> Bool {

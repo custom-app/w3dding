@@ -12,7 +12,7 @@ class BackgroundTasksManager {
     
     var connectBackgroundTaskID: UIBackgroundTaskIdentifier?
     var sendTxBackgroundTaskID: UIBackgroundTaskIdentifier?
-    var newProposalBackgroundTaskID: UIBackgroundTaskIdentifier?
+    var proposalBackgroundTaskID: UIBackgroundTaskIdentifier?
     
     func createConnectBackgroundTask() {
         connectBackgroundTaskID =
@@ -29,7 +29,7 @@ class BackgroundTasksManager {
     }
     
     func createProposalBackgroundTask() {
-        newProposalBackgroundTaskID =
+        proposalBackgroundTaskID =
         UIApplication.shared.beginBackgroundTask (withName: "Upload proposal info") { [weak self] in
             self?.finishProposalBackgroundTask()
         }
@@ -50,9 +50,9 @@ class BackgroundTasksManager {
     }
     
     func finishProposalBackgroundTask() {
-        if let taskId = newProposalBackgroundTaskID {
+        if let taskId = proposalBackgroundTaskID {
             UIApplication.shared.endBackgroundTask(taskId)
-            self.newProposalBackgroundTaskID = nil
+            self.proposalBackgroundTaskID = nil
         }
     }
 }
