@@ -103,6 +103,7 @@ class CertificateWorker {
         } else {
             let defaultImagePath = Bundle.main.path(forResource: "default_image", ofType: "txt")!
             let defaultImageBase64 = try! String(contentsOfFile: certPath)
+            
             if let firstImage = firstPersonImage {
                 htmlString = htmlString.replacingOccurrences(of: CertificateWorker.selfImageKey, with: firstImage)
             } else {
@@ -114,9 +115,7 @@ class CertificateWorker {
             } else {
                 htmlString = htmlString.replacingOccurrences(of: CertificateWorker.partnerImageKey, with: defaultImageBase64)
             }
-            
         }
-        
         return htmlString
     }
     
