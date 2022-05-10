@@ -43,6 +43,7 @@
 		11B8CE59280DD38C00B25974 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B8CE58280DD38C00B25974 /* Config.swift */; };
 		11B8CE5B280DF43700B25974 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B8CE5A280DF43700B25974 /* WebView.swift */; };
 		11C356CD27FF82D1007A0E69 /* IdentifiableAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C356CC27FF82D1007A0E69 /* IdentifiableAlert.swift */; };
+		11C8502B282A7EFD00AFAB82 /* default_photo.txt in Resources */ = {isa = PBXBuildFile; fileRef = 11C8502A282A7EFD00AFAB82 /* default_photo.txt */; };
 		11CE717028038ABC004782E5 /* CertificateWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CE716F28038ABC004782E5 /* CertificateWorker.swift */; };
 		11E32C8A2802220B00A540EE /* Proposal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E32C892802220B00A540EE /* Proposal.swift */; };
 		11E32C8C2802243200A540EE /* Marriage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E32C8B2802243200A540EE /* Marriage.swift */; };
@@ -97,6 +98,7 @@
 		11B8CE58280DD38C00B25974 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		11B8CE5A280DF43700B25974 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		11C356CC27FF82D1007A0E69 /* IdentifiableAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifiableAlert.swift; sourceTree = "<group>"; };
+		11C8502A282A7EFD00AFAB82 /* default_photo.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = default_photo.txt; sourceTree = "<group>"; };
 		11CE716F28038ABC004782E5 /* CertificateWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificateWorker.swift; sourceTree = "<group>"; };
 		11E32C892802220B00A540EE /* Proposal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Proposal.swift; sourceTree = "<group>"; };
 		11E32C8B2802243200A540EE /* Marriage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Marriage.swift; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 			children = (
 				113977DD28049A5A00D6FD57 /* wedding_abi.json */,
 				11AD63C02825292500A91AE0 /* faucet_abi.json */,
+				11C8502A282A7EFD00AFAB82 /* default_photo.txt */,
 				115A659927F3CD1B001CBCD2 /* Info.plist */,
 				11AD63C42825824F00A91AE0 /* Certificates */,
 				118A951827F925A000798141 /* Util */,
@@ -361,6 +364,7 @@
 			files = (
 				11AD63C12825292500A91AE0 /* faucet_abi.json in Resources */,
 				113977DE28049A5A00D6FD57 /* wedding_abi.json in Resources */,
+				11C8502B282A7EFD00AFAB82 /* default_photo.txt in Resources */,
 				11AD63C328257EB000A91AE0 /* cert1.html in Resources */,
 				11EABE4F281C0BFB003DE322 /* LaunchScreen.storyboard in Resources */,
 				115A657F27F218F0001CBCD2 /* Preview Assets.xcassets in Resources */,

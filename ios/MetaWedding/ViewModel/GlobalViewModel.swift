@@ -692,14 +692,16 @@ class GlobalViewModel: ObservableObject {
                                  templateId: String,
                                  blockHash: String) {
         DispatchQueue.global(qos: .userInitiated).async { [self] in
+            let firstPersonImageBase64 = firstPersonImage?.base64()
+            let secondPersonImageBase64 = secondPersonImage?.base64()
             let htmlString = CertificateWorker.generateHtmlString(
                 id: id,
                 firstPersonName: firstPersonName,
                 secondPersonName: secondPersonName,
                 firstPersonAddress: firstPersonAddress,
                 secondPersonAddress: secondPersonAddress,
-                firstPersonImage: firstPersonImage,
-                secondPersonImage: secondPersonImage,
+                firstPersonImage: firstPersonImageBase64,
+                secondPersonImage: secondPersonImageBase64,
                 templateId: templateId,
                 blockHash: blockHash
             )

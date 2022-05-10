@@ -22,6 +22,8 @@ class CertificateWorker {
     public static let yearNumKey = "year_num"
     public static let serialNumber = "serial_number"
     public static let blockHash = "block_hash"
+    public static let selfImageKey = "self_image"
+    public static let partnerImageKey = "partner_image"
     
     private static let pageWidth = 1152.0
     private static let pageHeight = 819.2
@@ -74,15 +76,15 @@ class CertificateWorker {
                                    secondPersonName: String,
                                    firstPersonAddress: String,
                                    secondPersonAddress: String,
-                                   firstPersonImage: UIImage?,
-                                   secondPersonImage: UIImage?,
+                                   firstPersonImage: String?,
+                                   secondPersonImage: String?,
                                    templateId: String,
                                    blockHash: String) -> String {
         let certPath = Bundle.main.path(forResource: "cert\(templateId)", ofType: "html")!
         let htmlTemplate = try! String(contentsOfFile: certPath) //TODO: handle?
         let now = Date()
         
-        let htmlString = htmlTemplate
+        var htmlString = htmlTemplate
             .replacingOccurrences(of: CertificateWorker.nameKey, with: firstPersonName)
             .replacingOccurrences(of: CertificateWorker.partnerNameKey, with: secondPersonName)
             .replacingOccurrences(of: CertificateWorker.addressKey, with: firstPersonAddress)
@@ -93,6 +95,27 @@ class CertificateWorker {
             .replacingOccurrences(of: CertificateWorker.timeKey, with: now.formattedDateString("HH:mm"))
             .replacingOccurrences(of: CertificateWorker.blockHash, with: blockHash)
             .replacingOccurrences(of: CertificateWorker.serialNumber, with: id)
+        
+        if let firstImage = firstPersonImage, let secondImage = secondPersonImage {
+            htmlString = htmlString
+                .replacingOccurrences(of: CertificateWorker.selfImageKey, with: firstImage)
+                .replacingOccurrences(of: CertificateWorker.partnerImageKey, with: secondImage)
+        } else {
+            let defaultImagePath = Bundle.main.path(forResource: "default_image", ofType: "txt")!
+            let defaultImageBase64 = try! String(contentsOfFile: certPath)
+            if let firstImage = firstPersonImage {
+                htmlString = htmlString.replacingOccurrences(of: CertificateWorker.selfImageKey, with: firstImage)
+            } else {
+                htmlString = htmlString.replacingOccurrences(of: CertificateWorker.selfImageKey, with: defaultImageBase64)
+            }
+            
+            if let secondImage = secondPersonImage {
+                htmlString = htmlString.replacingOccurrences(of: CertificateWorker.partnerImageKey, with: secondImage)
+            } else {
+                htmlString = htmlString.replacingOccurrences(of: CertificateWorker.partnerImageKey, with: defaultImageBase64)
+            }
+            
+        }
         
         return htmlString
     }
