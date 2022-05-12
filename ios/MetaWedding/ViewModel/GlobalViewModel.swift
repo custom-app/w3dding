@@ -11,10 +11,12 @@ import WalletConnectSwift
 import web3swift
 import BigInt
 import UIKit
+import PhotosUI
 
 class GlobalViewModel: ObservableObject {
     
     private let gasSafeAddition: BigUInt = 3000000000
+    public let nameLimit = 50
     private let deepLinkDelay = 0.5
     private let proposeId = "propose"
     private let acceptProposalId = "accept_proposal"
@@ -93,6 +95,8 @@ class GlobalViewModel: ObservableObject {
     
     @Published
     var isNewProposalPending = false
+    @Published
+    var isAcceptPending = false
     
     @Published
     var angle: Double = 0.0
@@ -108,6 +112,8 @@ class GlobalViewModel: ObservableObject {
     var selectedTemplateId = "1"
     @Published
     var templateIds: [String]
+    
+    var currentBlockHash: String = ""
     
     var foreverAnimation: Animation {
         Animation.easeInOut(duration: 1.0)
@@ -215,6 +221,9 @@ class GlobalViewModel: ObservableObject {
             return
         }
         prepareAndSendTx(data: data, label: updateProposalId)
+        withAnimation {
+            self.isAcceptPending = false
+        }
     }
     
     func acceptProposition(to: String, metaUrl: String, condData: String = "") {
@@ -569,6 +578,28 @@ class GlobalViewModel: ObservableObject {
         return false
     }
     
+    func openPhotoPicker(onSuccess: @escaping () -> ()) {
+        let status = PHPhotoLibrary.authorizationStatus()
+        switch status {
+        case .authorized, .limited:
+            onSuccess()
+        case .denied, .restricted:
+            alert = IdentifiableAlert.build(
+                id: "photo library access",
+                title: "Access denied",
+                message: "You need to give permission for photos in settings"
+            )
+        case .notDetermined:
+            PHPhotoLibrary.requestAuthorization { newStatus in
+                if newStatus == .authorized {
+                    onSuccess()
+                }
+            }
+        @unknown default:
+            print("Unknown photo library authorization status")
+        }
+    }
+    
     func handleSelfPhotoPicked(photo: UIImage) {
         DispatchQueue.global(qos: .userInitiated).async { [self] in
             let compressed = CertificateWorker.compressImage(image: photo)
@@ -581,6 +612,7 @@ class GlobalViewModel: ObservableObject {
     func uploadImageToIpfs(image: UIImage,
                            quality: Double = 0.75,
                            onSuccess: @escaping (String) -> ()) {
+        print("uploading image to ipfs")
         DispatchQueue.global(qos: .userInitiated).async { [self] in
             guard let data = image.jpegData(compressionQuality: quality) else {
                 print("error getting jpeg data for photo")
@@ -634,8 +666,7 @@ class GlobalViewModel: ObservableObject {
     func sendNewProposal(selfAddress: String,
                          partnerAddress: String,
                          selfName: String,
-                         selfImage: UIImage?,
-                         templateId: String) {
+                         selfImage: UIImage?) {
         withAnimation {
             isNewProposalPending = true
         }
@@ -645,23 +676,21 @@ class GlobalViewModel: ObservableObject {
                 self.uploadNewProposalMeta(selfAddress: selfAddress,
                                            partnerAddress: partnerAddress,
                                            selfName: selfName,
-                                           imageCid: cid,
-                                           templateId: templateId)
+                                           imageCid: cid)
             }
         } else {
             uploadNewProposalMeta(selfAddress: selfAddress,
                                   partnerAddress: partnerAddress,
                                   selfName: selfName,
-                                  imageCid: nil,
-                                  templateId: templateId)
+                                  imageCid: nil)
         }
     }
     
     func uploadNewProposalMeta(selfAddress: String,
                                partnerAddress: String,
                                selfName: String,
-                               imageCid: String?,
-                               templateId: String) {
+                               imageCid: String?) {
+        print("uploading new proposal meta")
         let selfImageUrl = imageCid == nil ? "" : "ipfs://\(imageCid ?? "")"
         let properties = CertificateProperties(
             id: "",
@@ -671,7 +700,7 @@ class GlobalViewModel: ObservableObject {
             secondPersonName: "",
             firstPersonImage: selfImageUrl,
             secondPersonImage: "",
-            templateId: templateId,
+            templateId: "",
             blockHash: ""
         )
         let meta = CertificateMeta(name: "W3dding certificate",
@@ -687,6 +716,74 @@ class GlobalViewModel: ObservableObject {
             } else {
                 self.propose(to: partnerAddress.lowercased(),
                              metaUrl: url)
+            }
+        }
+    }
+    
+    func generateCerificateAndAcceptProposition(proposal: Proposal,
+                           properties: CertificateProperties,
+                           name: String,
+                           image: UIImage?,
+                           templateId: String = "1") {
+        guard let address = walletAccount else {
+            return
+        }
+        withAnimation {
+            isAcceptPending = true
+        }
+        DispatchQueue.global(qos: .userInitiated).async { [self] in
+            print("getting block hash")
+            web3.getBlockHash(blockId: proposal.prevBlockNumber+1) { hash, error in
+                print("loaded block hash")
+                if let error = error {
+                    DispatchQueue.main.async {
+                        self.handleError(error)
+                        self.onProposalProcessFinish()
+                    }
+                    return
+                }
+                self.currentBlockHash = hash
+                if !properties.firstPersonImage.isEmpty {
+                    print("loading author image")
+                    URLSession.shared.dataTask(with: URL(string: Tools.ipfsLinkToHttp(ipfsLink: properties.firstPersonImage))!) { [self] data, response, error in
+                        if let error = error {
+                            DispatchQueue.main.async {
+                                self.handleError(error)
+                                self.onProposalProcessFinish()
+                            }
+                            return
+                        }
+                        guard let data = data else {
+                            DispatchQueue.main.async {
+                                self.handleError("Got nil data partner image")
+                                self.onProposalProcessFinish()
+                            }
+                            return
+                        }
+                        print("author photo loaded")
+                        let partnerImage = UIImage(data: data) //TODO: pass base64 w/o converting
+                        self.buildCertificateWebView(id: String(proposal.tokenId),
+                                                firstPersonName: properties.firstPersonName,
+                                                secondPersonName: name,
+                                                firstPersonAddress: properties.firstPersonAddress,
+                                                secondPersonAddress: address,
+                                                firstPersonImage: partnerImage,
+                                                secondPersonImage: image,
+                                                templateId: templateId,
+                                                blockHash: hash)
+                    }
+                    .resume()
+                } else {
+                    self.buildCertificateWebView(id: String(proposal.tokenId),
+                                            firstPersonName: properties.firstPersonName,
+                                            secondPersonName: name,
+                                            firstPersonAddress: properties.firstPersonAddress,
+                                            secondPersonAddress: address,
+                                            firstPersonImage: nil,
+                                            secondPersonImage: image,
+                                            templateId: templateId,
+                                            blockHash: hash)
+                }
             }
         }
     }
@@ -728,8 +825,6 @@ class GlobalViewModel: ObservableObject {
                                  secondPersonName: String,
                                  firstPersonAddress: String,
                                  secondPersonAddress: String,
-                                 firstPersonImage: UIImage?,
-                                 secondPersonImage: UIImage?,
                                  templateId: String,
                                  blockHash: String) {
         backgroundManager.createProposalBackgroundTask()
@@ -748,23 +843,24 @@ class GlobalViewModel: ObservableObject {
                     return
                 }
                 uploadImageToIpfs(image: image) { cid in
+                    print("uploaded certificate to ipfs, cid: \(cid)")
                     let properties = CertificateProperties(
-                        id: "",
-                        firstPersonAddress: self.walletAccount!,
-                        secondPersonAddress: self.partnerAddress.lowercased(),
-                        firstPersonName: self.name,
-                        secondPersonName: "",
+                        id: id,
+                        firstPersonAddress: firstPersonAddress,
+                        secondPersonAddress: secondPersonAddress,
+                        firstPersonName: firstPersonName,
+                        secondPersonName: secondPersonName,
                         firstPersonImage: "",
                         secondPersonImage: "",
-                        templateId: "",
-                        blockHash: ""
+                        templateId: templateId,
+                        blockHash: blockHash
                     )
                     let meta = CertificateMeta(name: "W3dding certificate",
                                                description: "Marriage certificate info",
                                                image: "ipfs://\(cid)",
                                                properties: properties)
-                    self.uploadMetaToIpfs(meta: meta) { url in
-                        //accept proposition here
+                    self.uploadMetaToIpfs(meta: meta) { [self] url in
+                        updateProposition(to: firstPersonAddress, metaUrl: url)
                     }
                 }
                 

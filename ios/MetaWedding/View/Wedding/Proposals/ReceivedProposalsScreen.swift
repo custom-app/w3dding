@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct ReceivedProposalsScreen: View {
     
@@ -16,6 +17,12 @@ struct ReceivedProposalsScreen: View {
     var selectedProposal: Proposal?
     
     let geometry: GeometryProxy
+    
+    @State
+    var showPhotoPicker = false
+    
+    @State
+    var showTemplatePicker = false
     
     var body: some View {
         VStack(spacing: 0) {
@@ -69,37 +76,152 @@ struct ReceivedProposalsScreen: View {
                         .padding(.horizontal, 28)
                         .padding(.top, 8)
                         
+                        TextField("", text: $globalViewModel.name)
+                            .font(Font.headline.weight(.bold))
+                            .placeholder(when: globalViewModel.name.isEmpty) {
+                                Text("Your name")
+                                    .font(Font.headline.weight(.bold))
+                                    .foregroundColor(Colors.darkGrey.opacity(0.5))
+                                    .multilineTextAlignment(.center)
+                            }
+                            .foregroundColor(Colors.darkGrey)
+                            .lineLimit(1)
+                            .truncationMode(.tail)
+                            .padding(.horizontal, 14)
+                            .padding(.vertical, 13)
+                            .background(Color.white.opacity(0.5))
+                            .cornerRadius(32)
+                            .disabled(globalViewModel.isNewProposalPending)
+                            .padding(.horizontal, 16)
+                            .padding(.top, 16)
+                            .onReceive(Just(globalViewModel.name)) { _ in
+                                if globalViewModel.name.count > globalViewModel.nameLimit {
+                                    globalViewModel.name = String(globalViewModel.name.prefix(globalViewModel.nameLimit))
+                                }
+                            }
                         
                         Button {
-                            globalViewModel
-                                .acceptProposition(to: globalViewModel.receivedProposals.first!.address,
-                                                   metaUrl: globalViewModel.receivedProposals.first!.metaUrl)
-                        } label: {
-                            Image("ic_accept")
-                                .renderingMode(.template)
-                                .resizable()
-                                .scaledToFit()
-                                .foregroundColor(Colors.purple)
-                                .frame(width: 48)
-                        }
-                        .padding(.top, 40)
-                        
-                        Spacer()
-                        
-                        if let meta = globalViewModel.receivedProposals[0].meta {
-                            VStack(spacing: 0) {
-                                Text("You will be listed in certificate as")
-                                    .font(Font.subheadline.weight(.bold))
-                                    .foregroundColor(Colors.darkGrey)
-                                
-                                Text(meta.properties.secondPersonName)
-                                    .font(Font.title3.weight(.bold))
-                                    .foregroundColor(Colors.darkPurple)
-                                    .padding(.top, 8)
+                            globalViewModel.openPhotoPicker {
+                                showPhotoPicker = true
                             }
-                            .padding(.horizontal, 20)
-                            .padding(.bottom, 30)
+                        } label: {
+                            Text("Pick photo")
+                                .font(.system(size: 17))
+                                .fontWeight(.bold)
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 32)
+                                .padding(.vertical, 16)
+                                .background(Colors.purple)
+                                .cornerRadius(32)
                         }
+                        .padding(.top, 24)
+                        .sheet(isPresented: $showPhotoPicker) {
+                            PhotoPicker { image in
+                                print("image picked")
+                                showPhotoPicker = false
+                                guard let image = image else {
+                                    globalViewModel.alert = IdentifiableAlert.build(
+                                        id: "loading photo err",
+                                        title: "An error has occurred",
+                                        message: "Image loading failed. Please try again"
+                                    )
+                                    return
+                                }
+                                globalViewModel.handleSelfPhotoPicked(photo: image)
+                            }
+                        }
+                        
+                        VStack {
+                            HStack {
+                                Text("Picked template:")
+                                    .font(.system(size: 17))
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.black)
+                                Spacer()
+                                Image("preview_cert\(globalViewModel.selectedTemplateId)")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 100)
+                                    .onTapGesture {
+                                        showTemplatePicker = true
+                                    }
+                            }
+                            .sheet(isPresented: $showTemplatePicker) {
+                                TemplatePicker(showPicker: $showTemplatePicker)
+                                    .environmentObject(globalViewModel)
+                            }
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.top, 10)
+                        
+                        
+                        if globalViewModel.isAcceptPending {
+                            WeddingProgress()
+                                .padding(.top, 20)
+                        } else {
+                            Button {
+                                guard !globalViewModel.name.isEmpty else {
+                                    globalViewModel.alert = IdentifiableAlert.build(
+                                        id: "validation failed",
+                                        title: "Validation Failed",
+                                        message: "Name can't be empty"
+                                    )
+                                    return
+                                }
+                                if let proposal = globalViewModel.receivedProposals.first, let properties = proposal.meta?.properties {
+                                    globalViewModel.generateCerificateAndAcceptProposition(proposal: proposal,
+                                                                                           properties: properties,
+                                                                                           name: globalViewModel.name,
+                                                                                           image: globalViewModel.selfImage)
+                                }
+                                
+    //                            globalViewModel
+    //                                .acceptProposition(to: globalViewModel.receivedProposals.first!.address,
+    //                                                   metaUrl: globalViewModel.receivedProposals.first!.metaUrl)
+                            } label: {
+                                Text("Accept")
+                                    .font(.system(size: 17))
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.white)
+                                    .padding(.horizontal, 32)
+                                    .padding(.vertical, 16)
+                                    .background(Colors.purple)
+                                    .cornerRadius(32)
+                            }
+                            .padding(.top, 40)
+                        }
+                        
+                        if globalViewModel.showWebView {
+                            if let proposal = globalViewModel.receivedProposals.first, let properties = proposal.meta?.properties {
+                                WebView(htmlString: globalViewModel.certificateHtml) { formatter in
+                                    globalViewModel.showWebView = false
+                                    globalViewModel.uploadCertificateToIpfs(formatter: formatter,
+                                                                            id: String(proposal.tokenId),
+                                                                            firstPersonName: properties.firstPersonName,
+                                                                            secondPersonName: properties.secondPersonName,
+                                                                            firstPersonAddress: properties.firstPersonAddress,
+                                                                            secondPersonAddress: properties.secondPersonAddress,
+                                                                            templateId: globalViewModel.selectedTemplateId,
+                                                                            blockHash: globalViewModel.currentBlockHash)
+                                }
+                                .frame(minHeight: 1, maxHeight: 1)
+                                .opacity(0)
+                            }
+                        }
+                        
+                        if globalViewModel.isAcceptPending {
+                            Text("It can take some time. Please wait and don't close the app")
+                                .font(.headline)
+                                .fontWeight(.bold)
+                                .foregroundColor(Colors.darkPurple)
+                                .multilineTextAlignment(.center)
+                                .padding(.top, 22)
+                                .padding(.horizontal, 20)
+                        }
+                        
+//                        Spacer()
+                        
+                        
                     }.frame(height: geometry.size.height-100)
                     
                 } else {

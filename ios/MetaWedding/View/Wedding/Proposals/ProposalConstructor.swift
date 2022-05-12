@@ -11,13 +11,8 @@ import PhotosUI
 
 struct ProposalConstructor: View {
     
-    let nameLimit = 50
-    
     @State
     var showPhotoPicker = false
-    
-    @State
-    var showTemplatePicker = false
     
     @EnvironmentObject
     var globalViewModel: GlobalViewModel
@@ -81,14 +76,16 @@ struct ProposalConstructor: View {
                     .padding(.horizontal, 16)
                     .padding(.top, 16)
                     .onReceive(Just(globalViewModel.name)) { _ in
-                        if globalViewModel.name.count > nameLimit {
-                            globalViewModel.name = String(globalViewModel.name.prefix(nameLimit))
+                        if globalViewModel.name.count > globalViewModel.nameLimit {
+                            globalViewModel.name = String(globalViewModel.name.prefix(globalViewModel.nameLimit))
                         }
                     }
 
                 
                 Button {
-                    openPhotoPicker()
+                    globalViewModel.openPhotoPicker {
+                        showPhotoPicker = true
+                    }
                 } label: {
                     Text("Pick photo")
                         .font(.system(size: 17))
@@ -116,29 +113,6 @@ struct ProposalConstructor: View {
                     }
                 }
                 
-                VStack {
-                    HStack {
-                        Text("Picked template:")
-                            .font(.system(size: 17))
-                            .fontWeight(.bold)
-                            .foregroundColor(.black)
-                        Spacer()
-                        Image("preview_cert\(globalViewModel.selectedTemplateId)")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 100)
-                            .onTapGesture {
-                                showTemplatePicker = true
-                            }
-                    }
-                    .sheet(isPresented: $showTemplatePicker) {
-                        TemplatePicker(showPicker: $showTemplatePicker)
-                            .environmentObject(globalViewModel)
-                    }
-                }
-                .padding(.horizontal, 20)
-                .padding(.top, 10)
-                
                 if globalViewModel.isNewProposalPending {
                     WeddingProgress()
                         .padding(.top, 20)
@@ -148,7 +122,7 @@ struct ProposalConstructor: View {
                             globalViewModel.alert = IdentifiableAlert.build(
                                 id: "validation failed",
                                 title: "Validation Failed",
-                                message: "Entered address is not valid"
+                                message: "Entered address is not valid. Please enter correct polygon address"
                             )
                             return
                         }
@@ -164,8 +138,7 @@ struct ProposalConstructor: View {
                             selfAddress: globalViewModel.walletAccount!,
                             partnerAddress: globalViewModel.partnerAddress,
                             selfName: globalViewModel.name,
-                            selfImage: globalViewModel.selfImage,
-                            templateId: globalViewModel.selectedTemplateId)
+                            selfImage: globalViewModel.selfImage)
 //                        globalViewModel.buildCertificateWebView()
                     } label: {
                         Text("Propose")
@@ -180,13 +153,6 @@ struct ProposalConstructor: View {
                     .padding(.top, 44)
                 }
                 
-//                if globalViewModel.sendTxPending {
-//                    Text("Please check wallet app for verification. If there is no verification popup try to click button again")
-//                        .padding(.horizontal, 20)
-//                        .multilineTextAlignment(.center)
-//                        .padding(.top, 10)
-//                }
-                
                 if globalViewModel.isNewProposalPending {
                     Text("It can take some time. Please wait and don't close the app")
                         .font(.headline)
@@ -196,46 +162,7 @@ struct ProposalConstructor: View {
                         .padding(.top, 22)
                         .padding(.horizontal, 20)
                 }
-                
-                if globalViewModel.showWebView {
-                    WebView(htmlString: globalViewModel.certificateHtml) { formatter in
-                        globalViewModel.showWebView = false
-//                        globalViewModel.uploadCertificateToIpfs(formatter: formatter)
-                    }
-                    .frame(minHeight: 1, maxHeight: 1)
-                    .opacity(0)
-                }
-                
-                if let image = globalViewModel.selfImage {
-                    Image(uiImage: image)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height: 140)
-                        .padding(.top, 20)
-                }
             }
-        }
-    }
-    
-    func openPhotoPicker() {
-        let status = PHPhotoLibrary.authorizationStatus()
-        switch status {
-        case .authorized, .limited:
-            showPhotoPicker = true
-        case .denied, .restricted:
-            globalViewModel.alert = IdentifiableAlert.build(
-                id: "photo library access",
-                title: "Access denied",
-                message: "You need to give permission for photos in settings"
-            )
-        case .notDetermined:
-            PHPhotoLibrary.requestAuthorization { newStatus in
-                if newStatus == .authorized {
-                    showPhotoPicker = true
-                }
-            }
-        @unknown default:
-            print("Unknown photo library authorization status")
         }
     }
 }

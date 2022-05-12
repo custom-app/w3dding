@@ -71,7 +71,8 @@ struct WeddingContainer: View {
                                 }
                             }
                             if globalViewModel.isAuthoredProposalsLoaded &&
-                                globalViewModel.authoredProposals.count > 0 {
+                                globalViewModel.authoredProposals.count > 0 &&
+                                globalViewModel.selectedMyProposals {
                                 NewProposalBar(showSheet: $showConstructor)
                                     .padding(.bottom, 12)
                                     .padding(.top, 18)

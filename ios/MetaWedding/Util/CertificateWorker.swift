@@ -12,18 +12,18 @@ class CertificateWorker {
     
     private static let pdfName = "certificate"
     
-    public static let nameKey = "name1"
-    public static let partnerNameKey = "name2"
-    public static let addressKey = "address1"
-    public static let partnerAddressKey = "address2"
-    public static let timeKey = "timing"
-    public static let dayNumKey = "day_num"
-    public static let monthNumKey = "month_num"
-    public static let yearNumKey = "year_num"
-    public static let serialNumber = "serial_number"
-    public static let blockHash = "block_hash"
-    public static let selfImageKey = "self_image"
-    public static let partnerImageKey = "partner_image"
+    public static let nameKey = "[name1]"
+    public static let partnerNameKey = "[name2]"
+    public static let addressKey = "[address1]"
+    public static let partnerAddressKey = "[address2]"
+    public static let timeKey = "[timing]"
+    public static let dayNumKey = "[day_num]"
+    public static let monthNumKey = "[month_num]"
+    public static let yearNumKey = "[year_num]"
+    public static let serialNumberKey = "[serial_number]"
+    public static let blockHash = "[block_hash]"
+    public static let selfImageKey = "[self_image]"
+    public static let partnerImageKey = "[partner_image]"
     
     private static let pageWidth = 1152.0
     private static let pageHeight = 819.2
@@ -94,7 +94,7 @@ class CertificateWorker {
             .replacingOccurrences(of: CertificateWorker.yearNumKey, with: now.formattedDateString("yyyy"))
             .replacingOccurrences(of: CertificateWorker.timeKey, with: now.formattedDateString("HH:mm"))
             .replacingOccurrences(of: CertificateWorker.blockHash, with: blockHash)
-            .replacingOccurrences(of: CertificateWorker.serialNumber, with: id)
+            .replacingOccurrences(of: CertificateWorker.serialNumberKey, with: id)
         
         if let firstImage = firstPersonImage, let secondImage = secondPersonImage {
             htmlString = htmlString
