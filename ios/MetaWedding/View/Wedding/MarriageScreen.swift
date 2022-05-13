@@ -207,6 +207,19 @@ struct MarriageScreen: View {
                     Spacer()
                 }
                 .padding(.horizontal, 28)
+            } else {
+                Spacer()
+                
+                //TODO: move loader to center
+                VStack(spacing: 0) {
+                    WeddingProgress()
+                    Text("Loading data")
+                        .font(Font.headline.bold())
+                        .foregroundColor(Colors.darkPurple)
+                        .padding(.top, 24)
+                }
+                
+                Spacer()
             }
         }
     }
