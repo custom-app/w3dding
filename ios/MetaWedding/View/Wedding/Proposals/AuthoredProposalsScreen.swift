@@ -39,43 +39,100 @@ struct AuthoredProposalsScreen: View {
                     ZStack {
                         VStack(spacing: 0) {
                             if globalViewModel.authoredProposals.count == 1 {
-                                VStack(spacing: 0) {
-                                    Text("Proposal sent to")
-                                        .font(.title3.weight(.bold))
-                                        .foregroundColor(Colors.darkGrey)
-                                    
-                                    Text(globalViewModel.authoredProposals.first?.meta?.properties.secondPersonName ?? "")
-                                        .font(Font.title2.weight(.bold))
-                                        .foregroundColor(Colors.darkPurple)
-                                        .multilineTextAlignment(.center)
-                                        .padding(.top, 24)
-                                        .padding(.horizontal, 20)
-                                    
-                                    HStack {
-                                        Spacer()
-                                        Text("Address: \(globalViewModel.authoredProposals.first?.address ?? "")")
-                                            .font(.system(size: 13).weight(.regular))
-                                            .fontWeight(.regular)
-                                            .foregroundColor(Colors.darkPurple)
-                                            .lineLimit(1)
-                                            .truncationMode(.middle)
-                                        
-                                        Button {
-                                            UIPasteboard.general.string =
-                                            globalViewModel.authoredProposals.first?.address ?? ""
-                                        } label: {
-                                            Image("ic_copy")
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: 20)
+                                if let proposal = globalViewModel.authoredProposals.first {
+                                    if proposal.receiverAccepted, let meta = proposal.meta {
+                                        VStack(spacing: 0) {
+                                            Spacer()
+                                            
+                                            Button {
+                                                if let url = URL(string: meta.httpImageLink()), UIApplication.shared.canOpenURL(url) {
+                                                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                                                } else {
+                                                    //TODO: show error alert
+                                                }
+                                            } label: {
+                                                HStack(spacing: 0) {
+                                                    VStack(alignment: .leading, spacing: 0) {
+                                                        Text("Marriage license")
+                                                            .font(.headline)
+                                                            .fontWeight(.bold)
+                                                            .foregroundColor(Colors.darkPurple)
+                                                    }
+                                                    .padding(.leading, 20)
+                                                    
+                                                    Spacer()
+                                                    
+                                                    Image("ic_file")
+                                                        .resizable()
+                                                        .scaledToFit()
+                                                        .frame(width: 24)
+                                                        .padding(.trailing, 20)
+                                                        .padding(.leading, 16)
+                                                }
+                                                .padding(.vertical, 16)
+                                                .background(Color.white.opacity(0.5))
+                                                .cornerRadius(10)
+                                            }
+                                            .padding(.top, 32)
+                                            .padding(.horizontal, 16)
+                                            
+                                            Button {
+                                                globalViewModel.confirmProposal(to: proposal.address, metaUrl: proposal.metaUrl)
+                                            } label: {
+                                                Text("Confirm")
+                                                    .font(.system(size: 17))
+                                                    .fontWeight(.bold)
+                                                    .foregroundColor(.white)
+                                                    .padding(.horizontal, 32)
+                                                    .padding(.vertical, 16)
+                                                    .background(Colors.purple)
+                                                    .cornerRadius(32)
+                                            }
+                                            .padding(.top, 24)
+                                            
+                                            Spacer()
                                         }
-                                        Spacer()
+                                        .frame(height: geometry.size.height - (headerShown ? 100 : 0))
+                                    } else {
+                                        VStack(spacing: 0) {
+                                            Text("Proposal sent to")
+                                                .font(.title3.weight(.bold))
+                                                .foregroundColor(Colors.darkGrey)
+                                            
+                                            Text(proposal.meta?.properties.secondPersonName ?? "")
+                                                .font(Font.title2.weight(.bold))
+                                                .foregroundColor(Colors.darkPurple)
+                                                .multilineTextAlignment(.center)
+                                                .padding(.top, 24)
+                                                .padding(.horizontal, 20)
+                                            
+                                            HStack {
+                                                Spacer()
+                                                Text("Address: \(proposal.address ?? "")")
+                                                    .font(.system(size: 13).weight(.regular))
+                                                    .fontWeight(.regular)
+                                                    .foregroundColor(Colors.darkPurple)
+                                                    .lineLimit(1)
+                                                    .truncationMode(.middle)
+                                                
+                                                Button {
+                                                    UIPasteboard.general.string = proposal.address ?? ""
+                                                } label: {
+                                                    Image("ic_copy")
+                                                        .resizable()
+                                                        .scaledToFit()
+                                                        .frame(width: 20)
+                                                }
+                                                Spacer()
+                                            }
+                                            .padding(.horizontal, 28)
+                                            .padding(.top, 8)
+                                            
+                                        }
+                                        .frame(height: geometry.size.height - (headerShown ? 100 : 0))
                                     }
-                                    .padding(.horizontal, 28)
-                                    .padding(.top, 8)
                                     
                                 }
-                                .frame(height: geometry.size.height - (headerShown ? 100 : 0))
                                 
                             } else {
                                 VStack(spacing: 8) {
@@ -174,3 +231,5 @@ struct NewProposalBar: View {
     }
     
 }
+
+

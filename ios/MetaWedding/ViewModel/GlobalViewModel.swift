@@ -490,7 +490,9 @@ class GlobalViewModel: ObservableObject {
                         print("got authored proposal meta:\(meta)")
                         DispatchQueue.main.async {
                             withAnimation {
-                                self.authoredProposals[i].meta = meta
+                                if i < self.authoredProposals.count {
+                                    self.authoredProposals[i].meta = meta
+                                }
                             }
                         }
                         return
@@ -870,6 +872,10 @@ class GlobalViewModel: ObservableObject {
             onProposalProcessFinish()
             handleError(error)
         }
+    }
+    
+    func confirmProposal(to: String, metaUrl: String) {
+        acceptProposition(to: to, metaUrl: metaUrl)
     }
     
     func onProposalProcessFinish() {

@@ -198,9 +198,9 @@ struct ReceivedProposalsScreen: View {
                                     globalViewModel.uploadCertificateToIpfs(formatter: formatter,
                                                                             id: String(proposal.tokenId),
                                                                             firstPersonName: properties.firstPersonName,
-                                                                            secondPersonName: properties.secondPersonName,
+                                                                            secondPersonName: globalViewModel.name,
                                                                             firstPersonAddress: properties.firstPersonAddress,
-                                                                            secondPersonAddress: properties.secondPersonAddress,
+                                                                            secondPersonAddress: proposal.address,
                                                                             templateId: globalViewModel.selectedTemplateId,
                                                                             blockHash: globalViewModel.currentBlockHash)
                                 }
