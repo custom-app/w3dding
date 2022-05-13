@@ -22,6 +22,9 @@ struct ReceivedProposalsScreen: View {
     var showPhotoPicker = false
     
     @State
+    var showPreview = false
+    
+    @State
     var showTemplatePicker = false
     
     var body: some View {
@@ -209,6 +212,30 @@ struct ReceivedProposalsScreen: View {
                                     .padding(.horizontal, 20)
                                     .padding(.top, 10)
                                     
+                                    if !globalViewModel.name.isEmpty {
+                                        Button {
+                                            globalViewModel.openPhotoPicker {
+                                                showPreview = true
+                                            }
+                                        } label: {
+                                            Text("Check preview")
+                                                .font(.system(size: 17))
+                                                .fontWeight(.bold)
+                                                .foregroundColor(.white)
+                                                .padding(.horizontal, 32)
+                                                .padding(.vertical, 16)
+                                                .background(Colors.purple)
+                                                .cornerRadius(32)
+                                        }
+                                        .padding(.top, 24)
+                                        .sheet(isPresented: $showPreview, onDismiss: {
+                                            globalViewModel.previewImage = nil
+                                        }) {
+                                            PreviewSheet(proposal: $globalViewModel.receivedProposals[0])
+                                                .environmentObject(globalViewModel)
+                                        }
+                                    }
+                                    
                                     Button {
                                         guard !globalViewModel.name.isEmpty else {
                                             globalViewModel.alert = IdentifiableAlert.build(
@@ -333,6 +360,59 @@ struct ReceivedProposalsScreen: View {
                onDismiss: { selectedProposal = nil }) { proposal in
             ReceivedProposalInfo(proposal: proposal)
                 .environmentObject(globalViewModel)
+        }
+    }
+}
+
+struct PreviewSheet: View {
+    
+    @EnvironmentObject
+    var globalViewModel: GlobalViewModel
+    
+    @Binding
+    var proposal: Proposal
+    
+    var body: some View {
+        ZStack {
+            Image("DefaultBackground")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .edgesIgnoringSafeArea(.all)
+            
+            VStack {
+                Spacer()
+                
+                if let image = globalViewModel.previewImage {
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFit()
+                } else {
+                    WeddingProgress()
+                    Text("Loading preview")
+                        .font(Font.headline.bold())
+                        .foregroundColor(Colors.darkPurple)
+                        .padding(.top, 24)
+                    
+                    if globalViewModel.showPreviewWebView {
+                        WebView(htmlString: globalViewModel.previewHtml) { formatter in
+                            print("webview callback")
+                            globalViewModel.showPreviewWebView = false
+                            globalViewModel.generatePreviewImage(formatter: formatter)
+                        }
+                        .frame(minHeight: 1, maxHeight: 1)
+                        .opacity(0)
+                    }
+                }
+                Spacer()
+            }
+        }
+        .onAppear {
+            globalViewModel.previewImage = nil
+            if let properties = proposal.meta?.properties {
+                globalViewModel.buildPreview(properties: properties,
+                                             name: globalViewModel.name,
+                                             image: globalViewModel.selfImage)
+            }
         }
     }
 }

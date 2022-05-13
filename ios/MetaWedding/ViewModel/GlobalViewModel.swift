@@ -92,6 +92,8 @@ class GlobalViewModel: ObservableObject {
  
     @Published
     var certificateHtml = ""
+    @Published
+    var previewHtml = ""
     
     @Published
     var isProposalActionPending = false
@@ -112,6 +114,12 @@ class GlobalViewModel: ObservableObject {
     var templateIds: [String]
     
     var currentBlockHash: String = ""
+    
+    @Published
+    var previewImage: UIImage?
+    
+    @Published
+    var showPreviewWebView = false
     
     var foreverAnimation: Animation {
         Animation.easeInOut(duration: 1.0)
@@ -797,7 +805,8 @@ class GlobalViewModel: ObservableObject {
                                  firstPersonImage: UIImage?,
                                  secondPersonImage: UIImage?,
                                  templateId: String,
-                                 blockHash: String) {
+                                 blockHash: String,
+                                 forPreview: Bool = false) {
         DispatchQueue.global(qos: .userInitiated).async { [self] in
             let firstPersonImageBase64 = firstPersonImage?.base64()
             let secondPersonImageBase64 = secondPersonImage?.base64()
@@ -814,8 +823,13 @@ class GlobalViewModel: ObservableObject {
             )
             
             DispatchQueue.main.async {
-                self.certificateHtml = htmlString
-                self.showWebView = true
+                if forPreview {
+                    self.previewHtml = htmlString
+                    self.showPreviewWebView = true
+                } else {
+                    self.certificateHtml = htmlString
+                    self.showWebView = true
+                }
             }
         }
     }
@@ -864,7 +878,6 @@ class GlobalViewModel: ObservableObject {
                         updateProposition(to: firstPersonAddress, metaUrl: url)
                     }
                 }
-                
             }
         } catch {
             print("error generating certificate: \(error)")
@@ -875,6 +888,81 @@ class GlobalViewModel: ObservableObject {
     
     func confirmProposal(to: String, metaUrl: String) {
         acceptProposition(to: to, metaUrl: metaUrl)
+    }
+    
+    func buildPreview(properties: CertificateProperties,
+                      name: String,
+                      image: UIImage?,
+                      templateId: String = "1") {
+        guard let address = walletAccount else {
+            return
+        }
+        DispatchQueue.global(qos: .userInitiated).async { [self] in
+            if !properties.firstPersonImage.isEmpty {
+                print("loading author image")
+                URLSession.shared.dataTask(with: URL(string: Tools.ipfsLinkToHttp(ipfsLink: properties.firstPersonImage))!) { [self] data, response, error in
+                    if let error = error {
+                        DispatchQueue.main.async {
+                            self.handleError(error)
+                        }
+                        return
+                    }
+                    guard let data = data else {
+                        DispatchQueue.main.async {
+                            self.handleError("Got nil data partner image")
+                        }
+                        return
+                    }
+                    print("author photo loaded")
+                    let partnerImage = UIImage(data: data) //TODO: pass base64 w/o converting
+                    self.buildCertificateWebView(id: "preview",
+                                                 firstPersonName: properties.firstPersonName,
+                                                 secondPersonName: name,
+                                                 firstPersonAddress: properties.firstPersonAddress,
+                                                 secondPersonAddress: address,
+                                                 firstPersonImage: partnerImage,
+                                                 secondPersonImage: image,
+                                                 templateId: templateId,
+                                                 blockHash: "block hash",
+                                                 forPreview: true)
+                }
+                .resume()
+            } else {
+                self.buildCertificateWebView(id: "preview",
+                                             firstPersonName: properties.firstPersonName,
+                                             secondPersonName: name,
+                                             firstPersonAddress: properties.firstPersonAddress,
+                                             secondPersonAddress: address,
+                                             firstPersonImage: nil,
+                                             secondPersonImage: image,
+                                             templateId: templateId,
+                                             blockHash: "block hash",
+                                             forPreview: true)
+            }
+        }
+    }
+    
+    func generatePreviewImage(formatter: UIViewPrintFormatter) {
+        do {
+            // Can't run on background thread
+            guard let pdfUrl = try CertificateWorker.generateCertificatePdf(formatter: formatter) else {
+                handleError(InnerError.nilCertificateUrl)
+                return
+            }
+            DispatchQueue.global(qos: .userInitiated).async { [self] in
+                guard let image = CertificateWorker.imageFromPdf(url: pdfUrl) else {
+                    print("error converting cert pdf to image")
+                    handleError(InnerError.jpegConverting)
+                    return
+                }
+                DispatchQueue.main.async {
+                    self.previewImage = image
+                }
+            }
+        } catch {
+            print("error generating certificate: \(error)")
+            handleError(error)
+        }
     }
     
     func onProposalProcessFinish() {
