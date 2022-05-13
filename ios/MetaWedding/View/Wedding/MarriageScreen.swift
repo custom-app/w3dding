@@ -43,7 +43,7 @@ struct MarriageScreen: View {
                 HStack {
                     VStack(alignment: .leading, spacing: 0) {
                         PersonCardInfo(name: meta.properties.firstPersonName,
-                                       address: meta.properties.firstPersonAddress)
+                                       address: marriage.authorAddress)
                         
                         Text("in wedlock with")
                             .font(.subheadline)
@@ -52,7 +52,7 @@ struct MarriageScreen: View {
                             .padding(.vertical, 18)
                         
                         PersonCardInfo(name: meta.properties.secondPersonName,
-                                       address: meta.properties.secondPersonAddress)
+                                       address: marriage.receiverAddress)
                     }
                     .padding(.horizontal, 24)
                     .padding(.vertical, 30)

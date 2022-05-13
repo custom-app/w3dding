@@ -192,7 +192,9 @@ struct ReceivedProposalsScreen: View {
                         }
                         
                         if globalViewModel.showWebView {
-                            if let proposal = globalViewModel.receivedProposals.first, let properties = proposal.meta?.properties {
+                            if let address = globalViewModel.walletAccount,
+                               let proposal = globalViewModel.receivedProposals.first,
+                               let properties = proposal.meta?.properties {
                                 WebView(htmlString: globalViewModel.certificateHtml) { formatter in
                                     globalViewModel.showWebView = false
                                     globalViewModel.uploadCertificateToIpfs(formatter: formatter,
@@ -200,7 +202,7 @@ struct ReceivedProposalsScreen: View {
                                                                             firstPersonName: properties.firstPersonName,
                                                                             secondPersonName: globalViewModel.name,
                                                                             firstPersonAddress: properties.firstPersonAddress,
-                                                                            secondPersonAddress: proposal.address,
+                                                                            secondPersonAddress: address,
                                                                             templateId: globalViewModel.selectedTemplateId,
                                                                             blockHash: globalViewModel.currentBlockHash)
                                 }

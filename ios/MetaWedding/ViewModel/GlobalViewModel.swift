@@ -401,6 +401,7 @@ class GlobalViewModel: ObservableObject {
                     print("got marriage error \(error)")
                     self?.isErrorLoading = true
                 } else {
+                    print("marriage info:\n\(marriage)")
                     withAnimation {
                         self?.marriage = marriage
                     }
@@ -934,14 +935,14 @@ extension GlobalViewModel: WalletConnectDelegate {
     }
     
     func didUpdate(session: Session) {
-        var needToRequestData = false
+        var accountChanged = false
         if let curSession = self.session,
            let curInfo = curSession.walletInfo,
            let info = session.walletInfo,
            let curAddress = curInfo.accounts.first,
            let address = info.accounts.first,
            curAddress != address || curInfo.chainId != info.chainId {
-            needToRequestData = true
+            accountChanged = true
             do {
                 let sessionData = try JSONEncoder().encode(session)
                 UserDefaults.standard.set(sessionData, forKey: Constants.sessionKey)
@@ -953,7 +954,11 @@ extension GlobalViewModel: WalletConnectDelegate {
             withAnimation {
                 self.session = session
             }
-            if needToRequestData {
+            if accountChanged {
+                name = ""
+                partnerAddress = ""
+                selfImage = nil
+                partnerImage = nil
                 requestBalance()
                 refresh()
             }
