@@ -140,7 +140,7 @@ struct ReceivedProposalsScreen: View {
                                     .padding(.vertical, 13)
                                     .background(Color.white.opacity(0.5))
                                     .cornerRadius(32)
-                                    .disabled(globalViewModel.isNewProposalPending)
+                                    .disabled(globalViewModel.isProposalActionPending)
                                     .padding(.horizontal, 16)
                                     .padding(.top, 16)
                                     .onReceive(Just(globalViewModel.name)) { _ in
@@ -149,65 +149,66 @@ struct ReceivedProposalsScreen: View {
                                         }
                                     }
                                 
-                                Button {
-                                    globalViewModel.openPhotoPicker {
-                                        showPhotoPicker = true
-                                    }
-                                } label: {
-                                    Text("Pick photo")
-                                        .font(.system(size: 17))
-                                        .fontWeight(.bold)
-                                        .foregroundColor(.white)
-                                        .padding(.horizontal, 32)
-                                        .padding(.vertical, 16)
-                                        .background(Colors.purple)
-                                        .cornerRadius(32)
-                                }
-                                .padding(.top, 24)
-                                .sheet(isPresented: $showPhotoPicker) {
-                                    PhotoPicker { image in
-                                        print("image picked")
-                                        showPhotoPicker = false
-                                        guard let image = image else {
-                                            globalViewModel.alert = IdentifiableAlert.build(
-                                                id: "loading photo err",
-                                                title: "An error has occurred",
-                                                message: "Image loading failed. Please try again"
-                                            )
-                                            return
-                                        }
-                                        globalViewModel.handleSelfPhotoPicked(photo: image)
-                                    }
-                                }
                                 
-                                VStack {
-                                    HStack {
-                                        Text("Picked template:")
-                                            .font(.system(size: 17))
-                                            .fontWeight(.bold)
-                                            .foregroundColor(.black)
-                                        Spacer()
-                                        Image("preview_cert\(globalViewModel.selectedTemplateId)")
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: 100)
-                                            .onTapGesture {
-                                                showTemplatePicker = true
-                                            }
-                                    }
-                                    .sheet(isPresented: $showTemplatePicker) {
-                                        TemplatePicker(showPicker: $showTemplatePicker)
-                                            .environmentObject(globalViewModel)
-                                    }
-                                }
-                                .padding(.horizontal, 20)
-                                .padding(.top, 10)
-                                
-                                
-                                if globalViewModel.isAcceptPending {
+                                if globalViewModel.isProposalActionPending {
                                     WeddingProgress()
                                         .padding(.top, 20)
                                 } else {
+                                    
+                                    Button {
+                                        globalViewModel.openPhotoPicker {
+                                            showPhotoPicker = true
+                                        }
+                                    } label: {
+                                        Text("Pick photo")
+                                            .font(.system(size: 17))
+                                            .fontWeight(.bold)
+                                            .foregroundColor(.white)
+                                            .padding(.horizontal, 32)
+                                            .padding(.vertical, 16)
+                                            .background(Colors.purple)
+                                            .cornerRadius(32)
+                                    }
+                                    .padding(.top, 24)
+                                    .sheet(isPresented: $showPhotoPicker) {
+                                        PhotoPicker { image in
+                                            print("image picked")
+                                            showPhotoPicker = false
+                                            guard let image = image else {
+                                                globalViewModel.alert = IdentifiableAlert.build(
+                                                    id: "loading photo err",
+                                                    title: "An error has occurred",
+                                                    message: "Image loading failed. Please try again"
+                                                )
+                                                return
+                                            }
+                                            globalViewModel.handleSelfPhotoPicked(photo: image)
+                                        }
+                                    }
+                                    
+                                    VStack {
+                                        HStack {
+                                            Text("Picked template:")
+                                                .font(.system(size: 17))
+                                                .fontWeight(.bold)
+                                                .foregroundColor(.black)
+                                            Spacer()
+                                            Image("preview_cert\(globalViewModel.selectedTemplateId)")
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 100)
+                                                .onTapGesture {
+                                                    showTemplatePicker = true
+                                                }
+                                        }
+                                        .sheet(isPresented: $showTemplatePicker) {
+                                            TemplatePicker(showPicker: $showTemplatePicker)
+                                                .environmentObject(globalViewModel)
+                                        }
+                                    }
+                                    .padding(.horizontal, 20)
+                                    .padding(.top, 10)
+                                    
                                     Button {
                                         guard !globalViewModel.name.isEmpty else {
                                             globalViewModel.alert = IdentifiableAlert.build(
@@ -255,7 +256,7 @@ struct ReceivedProposalsScreen: View {
                                     }
                                 }
                                 
-                                if globalViewModel.isAcceptPending {
+                                if globalViewModel.isProposalActionPending {
                                     Text("It can take some time. Please wait and don't close the app")
                                         .font(.headline)
                                         .fontWeight(.bold)
@@ -265,9 +266,7 @@ struct ReceivedProposalsScreen: View {
                                         .padding(.horizontal, 20)
                                 }
                                 
-        //                        Spacer()
-                                
-                                
+                                Spacer()
                             }.frame(height: geometry.size.height-100)
                         }
                         

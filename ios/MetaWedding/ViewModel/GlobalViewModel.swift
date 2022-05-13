@@ -94,9 +94,7 @@ class GlobalViewModel: ObservableObject {
     var certificateHtml = ""
     
     @Published
-    var isNewProposalPending = false
-    @Published
-    var isAcceptPending = false
+    var isProposalActionPending = false
     
     @Published
     var angle: Double = 0.0
@@ -222,7 +220,7 @@ class GlobalViewModel: ObservableObject {
         }
         prepareAndSendTx(data: data, label: updateProposalId)
         withAnimation {
-            self.isAcceptPending = false
+            self.isProposalActionPending = false
         }
     }
     
@@ -671,7 +669,7 @@ class GlobalViewModel: ObservableObject {
                          selfName: String,
                          selfImage: UIImage?) {
         withAnimation {
-            isNewProposalPending = true
+            isProposalActionPending = true
         }
         backgroundManager.createProposalBackgroundTask()
         if let image = selfImage {
@@ -732,7 +730,7 @@ class GlobalViewModel: ObservableObject {
             return
         }
         withAnimation {
-            isAcceptPending = true
+            isProposalActionPending = true
         }
         DispatchQueue.global(qos: .userInitiated).async { [self] in
             print("getting block hash")
@@ -883,8 +881,7 @@ class GlobalViewModel: ObservableObject {
         DispatchQueue.main.async {
             self.backgroundManager.finishProposalBackgroundTask()
             withAnimation {
-                self.isNewProposalPending = false
-                self.isAcceptPending = false
+                self.isProposalActionPending = false
             }
         }
     }

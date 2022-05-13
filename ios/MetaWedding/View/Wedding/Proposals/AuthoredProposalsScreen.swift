@@ -99,16 +99,9 @@ struct AuthoredProposalsScreen: View {
                                                 .font(.title3.weight(.bold))
                                                 .foregroundColor(Colors.darkGrey)
                                             
-                                            Text(proposal.meta?.properties.secondPersonName ?? "")
-                                                .font(Font.title2.weight(.bold))
-                                                .foregroundColor(Colors.darkPurple)
-                                                .multilineTextAlignment(.center)
-                                                .padding(.top, 24)
-                                                .padding(.horizontal, 20)
-                                            
                                             HStack {
                                                 Spacer()
-                                                Text("Address: \(proposal.address ?? "")")
+                                                Text("Address: \(proposal.address)")
                                                     .font(.system(size: 13).weight(.regular))
                                                     .fontWeight(.regular)
                                                     .foregroundColor(Colors.darkPurple)
@@ -116,7 +109,7 @@ struct AuthoredProposalsScreen: View {
                                                     .truncationMode(.middle)
                                                 
                                                 Button {
-                                                    UIPasteboard.general.string = proposal.address ?? ""
+                                                    UIPasteboard.general.string = proposal.address
                                                 } label: {
                                                     Image("ic_copy")
                                                         .resizable()

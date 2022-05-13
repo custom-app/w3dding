@@ -39,7 +39,7 @@ struct ProposalConstructor: View {
                 .padding(.vertical, 13)
                 .background(Color.white.opacity(0.5))
                 .cornerRadius(32)
-                .disabled(globalViewModel.isNewProposalPending)
+                .disabled(globalViewModel.isProposalActionPending)
                 .padding(.horizontal, 16)
                 .padding(.top, 16)
             
@@ -58,7 +58,7 @@ struct ProposalConstructor: View {
                 .padding(.vertical, 13)
                 .background(Color.white.opacity(0.5))
                 .cornerRadius(32)
-                .disabled(globalViewModel.isNewProposalPending)
+                .disabled(globalViewModel.isProposalActionPending)
                 .padding(.horizontal, 16)
                 .padding(.top, 16)
                 .onReceive(Just(globalViewModel.name)) { _ in
@@ -67,7 +67,7 @@ struct ProposalConstructor: View {
                     }
                 }
             
-            if globalViewModel.isNewProposalPending {
+            if globalViewModel.isProposalActionPending {
                 WeddingProgress()
                     .padding(.top, 20)
             } else {
@@ -137,7 +137,7 @@ struct ProposalConstructor: View {
                 .padding(.top, 44)
             }
             
-            if globalViewModel.isNewProposalPending {
+            if globalViewModel.isProposalActionPending {
                 Text("It can take some time. Please wait and don't close the app")
                     .font(.headline)
                     .fontWeight(.bold)
