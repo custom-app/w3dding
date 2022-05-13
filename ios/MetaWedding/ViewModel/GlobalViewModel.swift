@@ -884,6 +884,7 @@ class GlobalViewModel: ObservableObject {
             self.backgroundManager.finishProposalBackgroundTask()
             withAnimation {
                 self.isNewProposalPending = false
+                self.isAcceptPending = false
             }
         }
     }

@@ -139,7 +139,6 @@ struct ProposalConstructor: View {
                             partnerAddress: globalViewModel.partnerAddress,
                             selfName: globalViewModel.name,
                             selfImage: globalViewModel.selfImage)
-//                        globalViewModel.buildCertificateWebView()
                     } label: {
                         Text("Propose")
                             .font(.system(size: 17))
