@@ -24,32 +24,81 @@ struct ProposalConstructor: View {
                 .foregroundColor(Colors.darkPurple)
                 .multilineTextAlignment(.center)
             
-            TextField("", text: $globalViewModel.partnerAddress)
-                .font(Font.headline.weight(.bold))
-                .placeholder(when: globalViewModel.partnerAddress.isEmpty) {
-                    Text("Partner address")
-                        .font(Font.headline.weight(.bold))
-                        .foregroundColor(Colors.darkGrey.opacity(0.5))
-                        .multilineTextAlignment(.center)
-                }
+            Text("Choose your avatar")
+                .font(Font.title3.weight(.bold))
                 .foregroundColor(Colors.darkGrey)
-                .lineLimit(1)
-                .truncationMode(.tail)
-                .padding(.horizontal, 14)
-                .padding(.vertical, 13)
-                .background(Color.white.opacity(0.5))
-                .cornerRadius(32)
-                .disabled(globalViewModel.isProposalActionPending)
-                .padding(.horizontal, 16)
-                .padding(.top, 16)
+                .multilineTextAlignment(.center)
+                .padding(.top, 24)
+            
+            Button {
+                globalViewModel.openPhotoPicker {
+                    showPhotoPicker = true
+                }
+            } label: {
+                ZStack {
+                    if let image = globalViewModel.selfImage {
+                        Image(uiImage: image)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 180, height: 180)
+                            .clipped()
+                    } else {
+                        Image("ic_heart")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 96)
+                            .padding(.top, 10)
+                    }
+                    
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            Image("ic_edit")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 27)
+                                .padding(.top, 4)
+                                .padding(.bottom, 3)
+                            Spacer()
+                        }
+                        .background(Colors.purple)
+                    }
+                }
+                .cornerRadius(150)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 150)
+                        .stroke(Colors.purple, lineWidth: 5)
+                )
+                .frame(width: 180, height: 180)
+            }
+            .padding(.top, 16)
+            .sheet(isPresented: $showPhotoPicker) {
+                PhotoPicker { image in
+                    print("image picked")
+                    showPhotoPicker = false
+                    guard let image = image else {
+                        print("image nil")
+                        withAnimation {
+                            globalViewModel.selfImage = nil
+                        }
+                        return
+                    }
+                    globalViewModel.handleSelfPhotoPicked(photo: image)
+                }
+            }
             
             TextField("", text: $globalViewModel.name)
                 .font(Font.headline.weight(.bold))
                 .placeholder(when: globalViewModel.name.isEmpty) {
-                    Text("Your name")
-                        .font(Font.headline.weight(.bold))
-                        .foregroundColor(Colors.darkGrey.opacity(0.5))
-                        .multilineTextAlignment(.center)
+                    HStack {
+                        Spacer()
+                        Text("Your name")
+                            .font(Font.headline.weight(.bold))
+                            .foregroundColor(Colors.darkGrey.opacity(0.5))
+                            .multilineTextAlignment(.center)
+                        Spacer()
+                    }
                 }
                 .foregroundColor(Colors.darkGrey)
                 .lineLimit(1)
@@ -60,48 +109,40 @@ struct ProposalConstructor: View {
                 .cornerRadius(32)
                 .disabled(globalViewModel.isProposalActionPending)
                 .padding(.horizontal, 16)
-                .padding(.top, 16)
+                .padding(.top, 24)
                 .onReceive(Just(globalViewModel.name)) { _ in
                     if globalViewModel.name.count > globalViewModel.nameLimit {
                         globalViewModel.name = String(globalViewModel.name.prefix(globalViewModel.nameLimit))
                     }
                 }
             
+            TextField("", text: $globalViewModel.partnerAddress)
+                .font(Font.headline.weight(.bold))
+                .placeholder(when: globalViewModel.partnerAddress.isEmpty) {
+                    HStack {
+                        Spacer()
+                        Text("Partner address")
+                            .font(Font.headline.weight(.bold))
+                            .foregroundColor(Colors.darkGrey.opacity(0.5))
+                            .multilineTextAlignment(.center)
+                        Spacer()
+                    }
+                }
+                .foregroundColor(Colors.darkGrey)
+                .lineLimit(1)
+                .truncationMode(.tail)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 13)
+                .background(Color.white.opacity(0.5))
+                .cornerRadius(32)
+                .disabled(globalViewModel.isProposalActionPending)
+                .padding(.horizontal, 16)
+                .padding(.top, 16)
+            
             if globalViewModel.isProposalActionPending {
                 WeddingProgress()
                     .padding(.top, 20)
             } else {
-                Button {
-                    globalViewModel.openPhotoPicker {
-                        showPhotoPicker = true
-                    }
-                } label: {
-                    Text("Pick photo")
-                        .font(.system(size: 17))
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 32)
-                        .padding(.vertical, 16)
-                        .background(Colors.purple)
-                        .cornerRadius(32)
-                }
-                .padding(.top, 24)
-                .sheet(isPresented: $showPhotoPicker) {
-                    PhotoPicker { image in
-                        print("image picked")
-                        showPhotoPicker = false
-                        guard let image = image else {
-                            globalViewModel.alert = IdentifiableAlert.build(
-                                id: "loading photo err",
-                                title: "An error has occurred",
-                                message: "Image loading failed. Please try again"
-                            )
-                            return
-                        }
-                        globalViewModel.handleSelfPhotoPicked(photo: image)
-                    }
-                }
-                
                 Button {
                     guard Tools.isAddressValid(globalViewModel.partnerAddress) else {
                         globalViewModel.alert = IdentifiableAlert.build(
@@ -134,7 +175,7 @@ struct ProposalConstructor: View {
                         .background(Colors.purple)
                         .cornerRadius(32)
                 }
-                .padding(.top, 44)
+                .padding(.top, 40)
             }
             
             if globalViewModel.isProposalActionPending {

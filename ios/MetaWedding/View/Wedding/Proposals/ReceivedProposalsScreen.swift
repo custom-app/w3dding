@@ -178,11 +178,9 @@ struct ReceivedProposalsScreen: View {
                                             print("image picked")
                                             showPhotoPicker = false
                                             guard let image = image else {
-                                                globalViewModel.alert = IdentifiableAlert.build(
-                                                    id: "loading photo err",
-                                                    title: "An error has occurred",
-                                                    message: "Image loading failed. Please try again"
-                                                )
+                                                withAnimation {
+                                                    globalViewModel.selfImage = nil
+                                                }
                                                 return
                                             }
                                             globalViewModel.handleSelfPhotoPicked(photo: image)

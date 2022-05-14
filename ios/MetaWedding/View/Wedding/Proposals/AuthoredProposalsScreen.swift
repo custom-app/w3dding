@@ -23,15 +23,14 @@ struct AuthoredProposalsScreen: View {
                 if globalViewModel.authoredProposals.isEmpty {
                     
                     VStack(spacing: 0) {
-                        Spacer()
                         Text("You are single")
                             .font(.title3)
                             .fontWeight(.bold)
                             .foregroundColor(Colors.darkGrey)
-                            .padding(.top, 50)
+                            .padding(.top, 24)
                         
                         ProposalConstructor()
-                            .padding(.top, 12)
+                            .padding(.top, 8)
                     }
                 } else {
                     let headerShown = globalViewModel.isReceivedProposalsLoaded &&

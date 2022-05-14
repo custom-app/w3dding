@@ -613,7 +613,9 @@ class GlobalViewModel: ObservableObject {
         DispatchQueue.global(qos: .userInitiated).async { [self] in
             let compressed = CertificateWorker.compressImage(image: photo)
             DispatchQueue.main.async {
-                self.selfImage = compressed
+                withAnimation {
+                    self.selfImage = compressed
+                }
             }
         }
     }
