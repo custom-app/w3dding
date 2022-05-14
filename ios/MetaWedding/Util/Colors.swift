@@ -37,6 +37,10 @@ class Colors {
         Color(hex: "#1F2033")
     }
     
+    static var mainBackground: Color {
+        Color(hex: "#EBE1FF")
+    }
+    
     static var redAction: Color {
         Color(hex: "#A63434")
     }

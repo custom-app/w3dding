@@ -94,9 +94,65 @@ struct AuthoredProposalsScreen: View {
                                         .frame(height: geometry.size.height - (headerShown ? 100 : 0))
                                     } else {
                                         VStack(spacing: 0) {
+                                            
+                                            HStack {
+                                                Spacer()
+                                                
+                                                ZStack(alignment: .leading) {
+                                                    ZStack {
+                                                        if let image = globalViewModel.selfImage {
+                                                            Image(uiImage: image)
+                                                                .resizable()
+                                                                .scaledToFill()
+                                                                .frame(width: 150, height: 150)
+                                                                .clipped()
+                                                        } else {
+                                                            Image("ic_heart_secondary")
+                                                                .resizable()
+                                                                .scaledToFit()
+                                                                .frame(width: 80)
+                                                                .padding(.top, 10)
+                                                        }
+                                                    }
+                                                    .frame(width: 150, height: 150)
+                                                    .cornerRadius(150)
+                                                    .overlay(
+                                                        RoundedRectangle(cornerRadius: 150)
+                                                            .stroke(Colors.darkPurple, lineWidth: 6)
+                                                    )
+                                                    .padding(.leading, 100)
+                                                    
+                                                    ZStack {
+                                                        if let image = globalViewModel.selfImage {
+                                                            Image(uiImage: image)
+                                                                .resizable()
+                                                                .scaledToFill()
+                                                                .frame(width: 150, height: 150)
+                                                                .clipped()
+                                                        } else {
+                                                            Image("ic_heart")
+                                                                .resizable()
+                                                                .scaledToFit()
+                                                                .frame(width: 80)
+                                                                .padding(.top, 10)
+                                                        }
+                                                    }
+                                                    .frame(width: 150, height: 150)
+                                                    .background(Colors.mainBackground)
+                                                    .cornerRadius(150)
+                                                    .overlay(
+                                                        RoundedRectangle(cornerRadius: 150)
+                                                            .stroke(Colors.darkPurple, lineWidth: 6)
+                                                    )
+                                                }
+                                                
+                                                Spacer()
+                                            }
+                                            
                                             Text("Proposal sent to")
                                                 .font(.title3.weight(.bold))
-                                                .foregroundColor(Colors.darkGrey)
+                                                .foregroundColor(Colors.darkPurple.opacity(0.65))
+                                                .padding(.top, 16)
                                             
                                             HStack {
                                                 Spacer()
@@ -118,7 +174,12 @@ struct AuthoredProposalsScreen: View {
                                                 Spacer()
                                             }
                                             .padding(.horizontal, 28)
-                                            .padding(.top, 8)
+                                            .padding(.top, 16)
+                                            
+                                            Text("Please wait for the partner decision")
+                                                .font(.subheadline.weight(.bold))
+                                                .foregroundColor(Colors.darkPurple.opacity(0.65))
+                                                .padding(.top, 16)
                                             
                                         }
                                         .frame(height: geometry.size.height - (headerShown ? 100 : 0))

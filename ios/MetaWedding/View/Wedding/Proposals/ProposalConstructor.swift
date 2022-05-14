@@ -65,12 +65,12 @@ struct ProposalConstructor: View {
                         .background(Colors.purple)
                     }
                 }
+                .frame(width: 180, height: 180)
                 .cornerRadius(150)
                 .overlay(
                     RoundedRectangle(cornerRadius: 150)
                         .stroke(Colors.purple, lineWidth: 6)
                 )
-                .frame(width: 180, height: 180)
             }
             .padding(.top, 16)
             .sheet(isPresented: $showPhotoPicker) {
