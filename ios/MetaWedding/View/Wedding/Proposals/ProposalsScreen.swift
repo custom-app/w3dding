@@ -78,7 +78,7 @@ struct ProposalsMenu: View {
     var body: some View {
         HStack {
             HStack(spacing: 0) {
-                Text("My proposals")
+                Text("Outgoing")
                     .font(.subheadline)
                     .fontWeight(.bold)
                     .foregroundColor(globalViewModel.selectedMyProposals ?
@@ -95,7 +95,7 @@ struct ProposalsMenu: View {
                     .disabled(globalViewModel.selectedMyProposals)
                     .padding(5)
                 
-                Text("Proposals for me")
+                Text("Incoming")
                     .font(.subheadline)
                     .fontWeight(.bold)
                     .foregroundColor(globalViewModel.selectedMyProposals ?

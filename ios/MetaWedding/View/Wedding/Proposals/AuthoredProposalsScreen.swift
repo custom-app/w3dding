@@ -123,9 +123,7 @@ struct AuthoredProposalsScreen: View {
                                         }
                                         .frame(height: geometry.size.height - (headerShown ? 100 : 0))
                                     }
-                                    
                                 }
-                                
                             } else {
                                 VStack(spacing: 8) {
                                     ForEach(globalViewModel.authoredProposals) { proposal in
