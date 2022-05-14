@@ -48,6 +48,7 @@
 		11C8502F282A9A2600AFAB82 /* cert2.html in Resources */ = {isa = PBXBuildFile; fileRef = 11C8502E282A9A2600AFAB82 /* cert2.html */; };
 		11C85031282A9A3E00AFAB82 /* cert3.html in Resources */ = {isa = PBXBuildFile; fileRef = 11C85030282A9A3E00AFAB82 /* cert3.html */; };
 		11CE717028038ABC004782E5 /* CertificateWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CE716F28038ABC004782E5 /* CertificateWorker.swift */; };
+		11D336EA282EFA5400CD26E0 /* CertificateTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D336E9282EFA5400CD26E0 /* CertificateTemplate.swift */; };
 		11E32C8A2802220B00A540EE /* Proposal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E32C892802220B00A540EE /* Proposal.swift */; };
 		11E32C8C2802243200A540EE /* Marriage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E32C8B2802243200A540EE /* Marriage.swift */; };
 		11E32C8E280224D800A540EE /* DivorceState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E32C8D280224D800A540EE /* DivorceState.swift */; };
@@ -106,6 +107,7 @@
 		11C8502E282A9A2600AFAB82 /* cert2.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = cert2.html; sourceTree = "<group>"; };
 		11C85030282A9A3E00AFAB82 /* cert3.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = cert3.html; sourceTree = "<group>"; };
 		11CE716F28038ABC004782E5 /* CertificateWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificateWorker.swift; sourceTree = "<group>"; };
+		11D336E9282EFA5400CD26E0 /* CertificateTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificateTemplate.swift; sourceTree = "<group>"; };
 		11E32C892802220B00A540EE /* Proposal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Proposal.swift; sourceTree = "<group>"; };
 		11E32C8B2802243200A540EE /* Marriage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Marriage.swift; sourceTree = "<group>"; };
 		11E32C8D280224D800A540EE /* DivorceState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DivorceState.swift; sourceTree = "<group>"; };
@@ -266,6 +268,7 @@
 				11E32C8B2802243200A540EE /* Marriage.swift */,
 				11E32C8D280224D800A540EE /* DivorceState.swift */,
 				117173E7280CE18800C36A44 /* CertificateMeta.swift */,
+				11D336E9282EFA5400CD26E0 /* CertificateTemplate.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -395,6 +398,7 @@
 				11E32C8C2802243200A540EE /* Marriage.swift in Sources */,
 				11E32C9828022C5300A540EE /* ReceivedProposalsScreen.swift in Sources */,
 				11B4C76D2808CD300058A319 /* SwipeRefresh.swift in Sources */,
+				11D336EA282EFA5400CD26E0 /* CertificateTemplate.swift in Sources */,
 				11A92D812814CFB800B98066 /* WrongChainScreen.swift in Sources */,
 				11CE717028038ABC004782E5 /* CertificateWorker.swift in Sources */,
 				117173E8280CE18800C36A44 /* CertificateMeta.swift in Sources */,

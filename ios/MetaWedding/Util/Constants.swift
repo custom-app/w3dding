@@ -42,4 +42,10 @@ struct Constants {
         static let Testnet = "0x9dCb41F58406c5A4F1338b57ca0039Cebc8E1D93"
     }
     
+    static let templates: [CertificateTemplate] = [
+        CertificateTemplate(id: "1", name: "Classic Theme"),
+        CertificateTemplate(id: "2", name: "Neon Theme"),
+        CertificateTemplate(id: "3", name: "Another Theme")
+    ]
+    
 }

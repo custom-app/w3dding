@@ -111,7 +111,7 @@ class GlobalViewModel: ObservableObject {
     @Published
     var selectedTemplateId = "1"
     @Published
-    var templateIds: [String]
+    var templates: [CertificateTemplate] = Constants.templates
     
     var currentBlockHash: String = ""
     
@@ -147,12 +147,12 @@ class GlobalViewModel: ObservableObject {
         return false
     }
     
-    init() {
-        templateIds = []
-        for i in 0..<Constants.certificatesNum {
-            templateIds.append("\(i+1)")
-        }
-    }
+//    init() {
+//        templateIds = []
+//        for i in 0..<Constants.certificatesNum {
+//            templateIds.append("\(i+1)")
+//        }
+//    }
     
     func initWalletConnect() {
         print("init wallet connect: \(walletConnect == nil)")

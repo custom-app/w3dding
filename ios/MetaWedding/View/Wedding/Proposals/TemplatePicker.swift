@@ -17,48 +17,75 @@ struct TemplatePicker: View {
     
     var body: some View {
         GeometryReader { geometry in
-            ZStack {
+            ZStack(alignment: .top) {
                 Image("DefaultBackground")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .edgesIgnoringSafeArea(.all)
                 
-                ScrollView {
-                    VStack(spacing: 0) {
-                        ForEach(globalViewModel.templateIds, id: \.self) { id in
-                            Button {
-                                withAnimation {
-                                    globalViewModel.selectedTemplateId = id
-                                }
-                                showPicker = false
-                            } label: {
-                                Image("preview_cert\(id)")
-                                    .resizable()
-                                    .scaledToFit()
+                VStack(spacing: 0) {
+                    Rectangle()
+                        .fill(.gray.opacity(0.5))
+                        .cornerRadius(10)
+                        .frame(width: 60, height: 6)
+                        .padding(.top, 8)
+                    
+                    Text("Select Template")
+                        .font(Font.title.bold())
+                        .foregroundColor(Colors.darkPurple)
+                        .padding(.top, 14)
+                        .padding(.bottom, 14)
+                    
+                    ScrollView {
+                        VStack(spacing: 0) {
+                            ForEach(globalViewModel.templates, id: \.id) { template in
+                                TemplateView(showPicker: $showPicker, template: template)
+                                    .padding(.horizontal, 20)
+                                    .padding(.bottom, 16)
                             }
-                            .padding(.horizontal, 20)
-                            .padding(.bottom, 16)
                         }
-                        
-                        ForEach(globalViewModel.templateIds, id: \.self) { id in
-                            Button {
-                                withAnimation {
-                                    globalViewModel.selectedTemplateId = id
-                                }
-                                showPicker = false
-                            } label: {
-                                Image("preview_cert\(id)")
-                                    .resizable()
-                                    .scaledToFit()
-                            }
-                            .padding(.horizontal, 20)
-                            .padding(.bottom, 16)
-                        }
+                        .padding(.bottom, 50)
                     }
-                    .padding(.bottom, 50)
+                    .frame(width: geometry.size.width, height: geometry.size.height-50)
                 }
-                .frame(width: geometry.size.width, height: geometry.size.height)
             }
+        }
+        .environmentObject(globalViewModel)
+    }
+}
+
+struct TemplateView: View {
+    
+    @EnvironmentObject
+    var globalViewModel: GlobalViewModel
+    
+    @Binding
+    var showPicker: Bool
+    
+    @State
+    var template: CertificateTemplate
+    
+    var body: some View {
+        Button {
+            withAnimation {
+                globalViewModel.selectedTemplateId = template.id
+            }
+            showPicker = false
+        } label: {
+            ZStack(alignment: .topLeading) {
+                Image("preview_cert\(template.id)")
+                    .resizable()
+                    .scaledToFit()
+                
+                Text(template.name)
+                    .font(Font.callout)
+                    .foregroundColor(Colors.darkPurple)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 2)
+                    .background(Color.white.opacity(0.7))
+                    .cornerRadius(6, corners: [.topLeft, .bottomRight])
+            }
+            .cornerRadius(6)
         }
     }
 }
