@@ -100,7 +100,7 @@ struct AuthoredProposalsScreen: View {
                                                 
                                                 ZStack(alignment: .leading) {
                                                     ZStack {
-                                                        if let image = globalViewModel.selfImage {
+                                                        if let image = proposal.receiverImage {
                                                             Image(uiImage: image)
                                                                 .resizable()
                                                                 .scaledToFill()
@@ -123,7 +123,7 @@ struct AuthoredProposalsScreen: View {
                                                     .padding(.leading, 100)
                                                     
                                                     ZStack {
-                                                        if let image = globalViewModel.selfImage {
+                                                        if let image = proposal.authorImage {
                                                             Image(uiImage: image)
                                                                 .resizable()
                                                                 .scaledToFill()

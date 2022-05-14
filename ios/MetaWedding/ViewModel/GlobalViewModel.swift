@@ -495,10 +495,48 @@ class GlobalViewModel: ObservableObject {
                 HttpRequester.shared.loadMeta(url: url) { meta, error in
                     if let meta = meta {
                         print("got authored proposal meta:\(meta)")
-                        DispatchQueue.main.async {
-                            withAnimation {
-                                if i < self.authoredProposals.count {
+                        if i < self.authoredProposals.count { //TODO: find by id instead of index
+                            DispatchQueue.main.async {
+                                withAnimation {
                                     self.authoredProposals[i].meta = meta
+                                }
+                                if !meta.properties.firstPersonImage.isEmpty {
+                                    DispatchQueue.global(qos: .userInitiated).async {
+                                        let url = URL(string: Tools.ipfsLinkToHttp(ipfsLink: meta.properties.firstPersonImage))!
+                                        URLSession.shared.dataTask(with: url) { [self] data, response, error in
+                                            guard error == nil, let data = data else {
+                                                return
+                                            }
+                                            let image = UIImage(data: data)
+                                            if i < self.authoredProposals.count { //TODO: find by id instead of index
+                                                DispatchQueue.main.async {
+                                                    withAnimation {
+                                                        self.authoredProposals[i].authorImage = image
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        .resume()
+                                    }
+                                }
+                                if !meta.properties.secondPersonImage.isEmpty {
+                                    DispatchQueue.global(qos: .userInitiated).async {
+                                        let url = URL(string: Tools.ipfsLinkToHttp(ipfsLink: meta.properties.secondPersonImage))!
+                                        URLSession.shared.dataTask(with: url) { [self] data, response, error in
+                                            guard error == nil, let data = data else {
+                                                return
+                                            }
+                                            let image = UIImage(data: data)
+                                            if i < self.authoredProposals.count { //TODO: find by id instead of index
+                                                DispatchQueue.main.async {
+                                                    withAnimation {
+                                                        self.authoredProposals[i].receiverImage = image
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        .resume()
+                                    }
                                 }
                             }
                         }
@@ -520,9 +558,49 @@ class GlobalViewModel: ObservableObject {
                 HttpRequester.shared.loadMeta(url: url) { meta, error in
                     if let meta = meta {
                         print("got received proposal meta:\(meta)")
-                        DispatchQueue.main.async {
-                            withAnimation {
-                                self.receivedProposals[i].meta = meta
+                        if i < self.receivedProposals.count {
+                            DispatchQueue.main.async {
+                                withAnimation {
+                                    self.receivedProposals[i].meta = meta
+                                }
+                                if !meta.properties.firstPersonImage.isEmpty {
+                                    DispatchQueue.global(qos: .userInitiated).async {
+                                        let url = URL(string: Tools.ipfsLinkToHttp(ipfsLink: meta.properties.firstPersonImage))!
+                                        URLSession.shared.dataTask(with: url) { [self] data, response, error in
+                                            guard error == nil, let data = data else {
+                                                return
+                                            }
+                                            let image = UIImage(data: data)
+                                            if i < self.receivedProposals.count { //TODO: find by id instead of index
+                                                DispatchQueue.main.async {
+                                                    withAnimation {
+                                                        self.receivedProposals[i].authorImage = image
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        .resume()
+                                    }
+                                }
+                                if !meta.properties.secondPersonImage.isEmpty {
+                                    DispatchQueue.global(qos: .userInitiated).async {
+                                        let url = URL(string: Tools.ipfsLinkToHttp(ipfsLink: meta.properties.secondPersonImage))!
+                                        URLSession.shared.dataTask(with: url) { [self] data, response, error in
+                                            guard error == nil, let data = data else {
+                                                return
+                                            }
+                                            let image = UIImage(data: data)
+                                            if i < self.receivedProposals.count { //TODO: find by id instead of index
+                                                DispatchQueue.main.async {
+                                                    withAnimation {
+                                                        self.receivedProposals[i].receiverImage = image
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        .resume()
+                                    }
+                                }
                             }
                         }
                         return

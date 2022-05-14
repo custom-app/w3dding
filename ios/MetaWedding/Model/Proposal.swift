@@ -7,6 +7,7 @@
 
 import Foundation
 import BigInt
+import UIKit
 
 struct Proposal: Identifiable {
     let id = UUID()
@@ -20,6 +21,8 @@ struct Proposal: Identifiable {
     var meta: CertificateMeta? = nil
     var tokenId: BigUInt //TODO: remove uuid
     var prevBlockNumber: BigUInt
+    var authorImage: UIImage?
+    var receiverImage: UIImage?
     
     init(address: String,
          metaUrl: String,
