@@ -27,7 +27,7 @@ struct AuthoredProposalsScreen: View {
                             .font(.title3)
                             .fontWeight(.bold)
                             .foregroundColor(Colors.darkGrey)
-                            .padding(.top, 24)
+                            .padding(.top, 16)
                         
                         ProposalConstructor()
                             .padding(.top, 8)

@@ -175,7 +175,7 @@ struct ProposalConstructor: View {
                         .background(Colors.purple)
                         .cornerRadius(32)
                 }
-                .padding(.top, 40)
+                .padding(.top, 24)
             }
             
             if globalViewModel.isProposalActionPending {

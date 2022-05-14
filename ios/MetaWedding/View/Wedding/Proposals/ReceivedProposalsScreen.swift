@@ -42,11 +42,9 @@ struct ReceivedProposalsScreen: View {
                     
                         if proposal.receiverAccepted {
                             VStack(spacing: 0) {
-                                Spacer()
-                                
                                 Text("Received proposal from")
                                     .font(.title3.weight(.bold))
-                                    .foregroundColor(Colors.darkGrey)
+                                    .foregroundColor(Colors.darkPurple.opacity(0.65))
                                     .padding(.horizontal, 20)
                                     .padding(.top, 24)
                                 
@@ -91,50 +89,150 @@ struct ReceivedProposalsScreen: View {
                             }.frame(height: geometry.size.height-100)
                         } else {
                             VStack(spacing: 0) {
-                                Spacer()
+                                VStack(spacing: 0) {
+                                    Text("Received proposal from")
+                                        .font(.title3.weight(.bold))
+                                        .foregroundColor(Colors.darkPurple.opacity(0.65))
+                                        .padding(.horizontal, 20)
+                                        .padding(.top, 24)
+                                    
+                                    Text(proposal.meta?.properties.firstPersonName ?? "")
+                                        .font(Font.title2.weight(.bold))
+                                        .foregroundColor(Colors.darkPurple)
+                                        .multilineTextAlignment(.center)
+                                        .padding(.top, 8)
+                                        .padding(.horizontal, 20)
+                                    
+                                    HStack {
+                                        Spacer()
+                                        Text("Address: \(proposal.address)")
+                                            .font(.system(size: 13).weight(.regular))
+                                            .fontWeight(.regular)
+                                            .foregroundColor(Colors.darkPurple)
+                                            .lineLimit(1)
+                                            .truncationMode(.middle)
+                                        
+                                        Button {
+                                            UIPasteboard.general.string = proposal.address
+                                        } label: {
+                                            Image("ic_copy")
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 20)
+                                        }
+                                        Spacer()
+                                    }
+                                    .padding(.horizontal, 28)
+                                    .padding(.top, 8)
+                                }
                                 
-                                Text("Received proposal from")
-                                    .font(.title3.weight(.bold))
+                                Text("Choose your avatar")
+                                    .font(Font.title3.weight(.bold))
                                     .foregroundColor(Colors.darkGrey)
-                                    .padding(.horizontal, 20)
-                                    .padding(.top, 24)
-                                
-                                Text(proposal.meta?.properties.firstPersonName ?? "")
-                                    .font(Font.title2.weight(.bold))
-                                    .foregroundColor(Colors.darkPurple)
                                     .multilineTextAlignment(.center)
                                     .padding(.top, 24)
-                                    .padding(.horizontal, 20)
                                 
                                 HStack {
                                     Spacer()
-                                    Text("Address: \(proposal.address)")
-                                        .font(.system(size: 13).weight(.regular))
-                                        .fontWeight(.regular)
-                                        .foregroundColor(Colors.darkPurple)
-                                        .lineLimit(1)
-                                        .truncationMode(.middle)
                                     
-                                    Button {
-                                        UIPasteboard.general.string = proposal.address
-                                    } label: {
-                                        Image("ic_copy")
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: 20)
+                                    ZStack(alignment: .leading) {
+                                        ZStack {
+                                            if let image = proposal.authorImage {
+                                                Image(uiImage: image)
+                                                    .resizable()
+                                                    .scaledToFill()
+                                                    .frame(width: 100, height: 100)
+                                                    .clipped()
+                                            } else {
+                                                Image("ic_heart_secondary")
+                                                    .resizable()
+                                                    .scaledToFit()
+                                                    .frame(width: 53)
+                                                    .padding(.top, 5)
+                                            }
+                                        }
+                                        .frame(width: 100, height: 100)
+                                        .cornerRadius(150)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 150)
+                                                .stroke(Colors.darkPurple, lineWidth: 6)
+                                        )
+                                        .padding(.leading, 50)
+                                        
+                                        Button {
+                                            globalViewModel.openPhotoPicker {
+                                                showPhotoPicker = true
+                                            }
+                                        } label: {
+                                            ZStack {
+                                                if let image = globalViewModel.selfImage {
+                                                    Image(uiImage: image)
+                                                        .resizable()
+                                                        .scaledToFill()
+                                                        .frame(width: 100, height: 100)
+                                                        .clipped()
+                                                } else {
+                                                    Image("ic_heart")
+                                                        .resizable()
+                                                        .scaledToFit()
+                                                        .frame(width: 53)
+                                                        .padding(.top, 5)
+                                                }
+                                                
+                                                VStack {
+                                                    Spacer()
+                                                    HStack {
+                                                        Spacer()
+                                                        Image("ic_edit")
+                                                            .resizable()
+                                                            .scaledToFit()
+                                                            .frame(width: 18)
+                                                            .padding(.top, 3)
+                                                            .padding(.bottom, 4)
+                                                        Spacer()
+                                                    }
+                                                    .background(Colors.purple)
+                                                }
+                                            }
+                                            .frame(width: 100, height: 100)
+                                            .background(Colors.mainBackground)
+                                            .cornerRadius(150)
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 150)
+                                                    .stroke(Colors.purple, lineWidth: 6)
+                                            )
+                                        }
+                                        .sheet(isPresented: $showPhotoPicker) {
+                                            PhotoPicker { image in
+                                                print("image picked")
+                                                showPhotoPicker = false
+                                                guard let image = image else {
+                                                    print("image nil")
+                                                    withAnimation {
+                                                        globalViewModel.selfImage = nil
+                                                    }
+                                                    return
+                                                }
+                                                globalViewModel.handleSelfPhotoPicked(photo: image)
+                                            }
+                                        }
                                     }
+                                    
                                     Spacer()
                                 }
-                                .padding(.horizontal, 28)
-                                .padding(.top, 8)
+                                .padding(.top, 16)
                                 
                                 TextField("", text: $globalViewModel.name)
                                     .font(Font.headline.weight(.bold))
                                     .placeholder(when: globalViewModel.name.isEmpty) {
-                                        Text("Your name")
-                                            .font(Font.headline.weight(.bold))
-                                            .foregroundColor(Colors.darkGrey.opacity(0.5))
-                                            .multilineTextAlignment(.center)
+                                        HStack {
+                                            Spacer()
+                                            Text("Your name")
+                                                .font(Font.headline.weight(.bold))
+                                                .foregroundColor(Colors.darkGrey.opacity(0.5))
+                                                .multilineTextAlignment(.center)
+                                            Spacer()
+                                        }
                                     }
                                     .foregroundColor(Colors.darkGrey)
                                     .lineLimit(1)
@@ -145,7 +243,7 @@ struct ReceivedProposalsScreen: View {
                                     .cornerRadius(32)
                                     .disabled(globalViewModel.isProposalActionPending)
                                     .padding(.horizontal, 16)
-                                    .padding(.top, 16)
+                                    .padding(.top, 24)
                                     .onReceive(Just(globalViewModel.name)) { _ in
                                         if globalViewModel.name.count > globalViewModel.nameLimit {
                                             globalViewModel.name = String(globalViewModel.name.prefix(globalViewModel.nameLimit))
@@ -157,58 +255,52 @@ struct ReceivedProposalsScreen: View {
                                     WeddingProgress()
                                         .padding(.top, 20)
                                 } else {
-                                    
-                                    Button {
-                                        globalViewModel.openPhotoPicker {
-                                            showPhotoPicker = true
-                                        }
-                                    } label: {
-                                        Text("Pick photo")
-                                            .font(.system(size: 17))
-                                            .fontWeight(.bold)
-                                            .foregroundColor(.white)
-                                            .padding(.horizontal, 32)
-                                            .padding(.vertical, 16)
-                                            .background(Colors.purple)
-                                            .cornerRadius(32)
-                                    }
-                                    .padding(.top, 24)
-                                    .sheet(isPresented: $showPhotoPicker) {
-                                        PhotoPicker { image in
-                                            print("image picked")
-                                            showPhotoPicker = false
-                                            guard let image = image else {
-                                                withAnimation {
-                                                    globalViewModel.selfImage = nil
-                                                }
-                                                return
-                                            }
-                                            globalViewModel.handleSelfPhotoPicked(photo: image)
-                                        }
-                                    }
-                                    
-                                    VStack {
-                                        HStack {
-                                            Text("Picked template:")
+                                    HStack(spacing:0) {
+                                        VStack(alignment: .leading, spacing: 0) {
+                                            Text("Picked Template:")
                                                 .font(.system(size: 17))
-                                                .fontWeight(.bold)
-                                                .foregroundColor(.black)
-                                            Spacer()
-                                            Image("preview_cert\(globalViewModel.selectedTemplateId)")
+                                                .foregroundColor(Colors.darkPurple)
+                                            
+                                            Text("\(globalViewModel.selectedTemplate.name)")
+                                                .font(.system(size: 20).weight(.bold))
+                                                .foregroundColor(Colors.darkPurple)
+                                                .padding(.top, 8)
+                                        }
+                                        Spacer()
+                                        ZStack(alignment: .bottomTrailing) {
+                                            Image("preview_cert\(globalViewModel.selectedTemplate.id)")
+                                                .resizable()
+                                                .scaledToFill()
+                                            
+                                            Image("ic_edit")
                                                 .resizable()
                                                 .scaledToFit()
-                                                .frame(width: 100)
-                                                .onTapGesture {
-                                                    showTemplatePicker = true
-                                                }
+                                                .frame(width: 12)
+                                                .padding(.top, 3)
+                                                .padding(.bottom, 3)
+                                                .padding(.leading, 3)
+                                                .padding(.trailing, 1)
+                                                .background(Colors.purple)
+                                                .cornerRadius(14, corners: [.topLeft])
                                         }
-                                        .sheet(isPresented: $showTemplatePicker) {
-                                            TemplatePicker(showPicker: $showTemplatePicker)
-                                                .environmentObject(globalViewModel)
+                                        .frame(width: 90)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 2)
+                                                .stroke(Colors.purple, lineWidth: 2)
+                                        )
+                                        .onTapGesture {
+                                            showTemplatePicker = true
                                         }
                                     }
-                                    .padding(.horizontal, 20)
-                                    .padding(.top, 10)
+                                    .sheet(isPresented: $showTemplatePicker) {
+                                        TemplatePicker(showPicker: $showTemplatePicker)
+                                            .environmentObject(globalViewModel)
+                                    }
+                                    .padding(16)
+                                    .background(Color.white.opacity(0.5))
+                                    .cornerRadius(20)
+                                    .padding(.horizontal, 16)
+                                    .padding(.top, 16)
                                     
                                     if !globalViewModel.name.isEmpty {
                                         Button {
@@ -259,7 +351,7 @@ struct ReceivedProposalsScreen: View {
                                             .background(Colors.purple)
                                             .cornerRadius(32)
                                     }
-                                    .padding(.top, 40)
+                                    .padding(.top, 24)
                                 }
                                 
                                 if globalViewModel.showWebView {
@@ -273,7 +365,7 @@ struct ReceivedProposalsScreen: View {
                                                                                     secondPersonName: globalViewModel.name,
                                                                                     firstPersonAddress: properties.firstPersonAddress,
                                                                                     secondPersonAddress: address,
-                                                                                    templateId: globalViewModel.selectedTemplateId,
+                                                                                    templateId: globalViewModel.selectedTemplate.id,
                                                                                     blockHash: globalViewModel.currentBlockHash)
                                         }
                                         .frame(minHeight: 1, maxHeight: 1)

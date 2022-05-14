@@ -68,7 +68,7 @@ struct TemplateView: View {
     var body: some View {
         Button {
             withAnimation {
-                globalViewModel.selectedTemplateId = template.id
+                globalViewModel.selectedTemplate = template
             }
             showPicker = false
         } label: {

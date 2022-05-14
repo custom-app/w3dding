@@ -109,7 +109,7 @@ class GlobalViewModel: ObservableObject {
     var partnerImage: UIImage?
     
     @Published
-    var selectedTemplateId = "1"
+    var selectedTemplate = Constants.templates[0]
     @Published
     var templates: [CertificateTemplate] = Constants.templates
     
