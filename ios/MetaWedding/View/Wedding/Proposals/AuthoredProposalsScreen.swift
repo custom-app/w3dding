@@ -75,19 +75,21 @@ struct AuthoredProposalsScreen: View {
                                             .padding(.top, 32)
                                             .padding(.horizontal, 16)
                                             
-                                            Button {
-                                                globalViewModel.confirmProposal(to: proposal.address, metaUrl: proposal.metaUrl)
-                                            } label: {
-                                                Text("Confirm")
-                                                    .font(.system(size: 17))
-                                                    .fontWeight(.bold)
-                                                    .foregroundColor(.white)
-                                                    .padding(.horizontal, 32)
-                                                    .padding(.vertical, 16)
-                                                    .background(Colors.purple)
-                                                    .cornerRadius(32)
+                                            if proposal.meta != nil {
+                                                Button {
+                                                    globalViewModel.confirmProposal(to: proposal.address, metaUrl: proposal.metaUrl)
+                                                } label: {
+                                                    Text("Confirm")
+                                                        .font(.system(size: 17))
+                                                        .fontWeight(.bold)
+                                                        .foregroundColor(.white)
+                                                        .padding(.horizontal, 32)
+                                                        .padding(.vertical, 16)
+                                                        .background(Colors.purple)
+                                                        .cornerRadius(32)
+                                                }
+                                                .padding(.top, 24)
                                             }
-                                            .padding(.top, 24)
                                             
                                             Spacer()
                                         }

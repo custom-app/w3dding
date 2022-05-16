@@ -270,7 +270,7 @@ struct ReceivedProposalsScreen: View {
                                         ZStack(alignment: .bottomTrailing) {
                                             Image("preview_cert\(globalViewModel.selectedTemplate.id)")
                                                 .resizable()
-                                                .scaledToFill()
+                                                .scaledToFit()
                                             
                                             Image("ic_edit")
                                                 .resizable()
@@ -303,65 +303,67 @@ struct ReceivedProposalsScreen: View {
                                     .padding(.top, 16)
 
                                     
-                                    HStack(spacing: 0) {
-                                        Spacer()
-                                        
-                                        if !globalViewModel.name.isEmpty {
+                                    if proposal.meta != nil {
+                                        HStack(spacing: 0) {
+                                            Spacer()
+
+                                            if !globalViewModel.name.isEmpty {
+                                                Button {
+                                                    globalViewModel.openPhotoPicker {
+                                                        showPreview = true
+                                                    }
+                                                } label: {
+                                                    Text("Preview")
+                                                        .font(.system(size: 17))
+                                                        .fontWeight(.bold)
+                                                        .foregroundColor(Colors.purple)
+                                                        .padding(.horizontal, 24)
+                                                        .padding(.vertical, 15)
+                                                        .background(Color.white.opacity(0.5))
+                                                        .cornerRadius(32)
+                                                        .overlay(
+                                                            RoundedRectangle(cornerRadius: 32)
+                                                                .stroke(Colors.purple, lineWidth: 2)
+                                                        )
+                                                }
+                                                .sheet(isPresented: $showPreview, onDismiss: {
+                                                    globalViewModel.previewImage = nil
+                                                }) {
+                                                    PreviewSheet(proposal: $globalViewModel.receivedProposals[0])
+                                                        .environmentObject(globalViewModel)
+                                                }
+                                                .padding(.trailing, 30)
+                                            }
+
                                             Button {
-                                                globalViewModel.openPhotoPicker {
-                                                    showPreview = true
+                                                guard !globalViewModel.name.isEmpty else {
+                                                    globalViewModel.alert = IdentifiableAlert.build(
+                                                        id: "validation failed",
+                                                        title: "Validation Failed",
+                                                        message: "Name can't be empty"
+                                                    )
+                                                    return
+                                                }
+                                                if let properties = proposal.meta?.properties {
+                                                    globalViewModel.generateCerificateAndAcceptProposition(proposal: proposal,
+                                                                                                           properties: properties,
+                                                                                                           name: globalViewModel.name,
+                                                                                                           image: globalViewModel.selfImage)
                                                 }
                                             } label: {
-                                                Text("Preview")
+                                                Text("Accept")
                                                     .font(.system(size: 17))
                                                     .fontWeight(.bold)
-                                                    .foregroundColor(Colors.purple)
-                                                    .padding(.horizontal, 24)
-                                                    .padding(.vertical, 15)
-                                                    .background(Color.white.opacity(0.5))
+                                                    .foregroundColor(.white)
+                                                    .padding(.horizontal, 32)
+                                                    .padding(.vertical, 16)
+                                                    .background(Colors.purple)
                                                     .cornerRadius(32)
-                                                    .overlay(
-                                                        RoundedRectangle(cornerRadius: 32)
-                                                            .stroke(Colors.purple, lineWidth: 2)
-                                                    )
                                             }
-                                            .sheet(isPresented: $showPreview, onDismiss: {
-                                                globalViewModel.previewImage = nil
-                                            }) {
-                                                PreviewSheet(proposal: $globalViewModel.receivedProposals[0])
-                                                    .environmentObject(globalViewModel)
-                                            }
-                                            .padding(.trailing, 30)
+                                            Spacer()
                                         }
-                                        
-                                        Button {
-                                            guard !globalViewModel.name.isEmpty else {
-                                                globalViewModel.alert = IdentifiableAlert.build(
-                                                    id: "validation failed",
-                                                    title: "Validation Failed",
-                                                    message: "Name can't be empty"
-                                                )
-                                                return
-                                            }
-                                            if let properties = proposal.meta?.properties {
-                                                globalViewModel.generateCerificateAndAcceptProposition(proposal: proposal,
-                                                                                                       properties: properties,
-                                                                                                       name: globalViewModel.name,
-                                                                                                       image: globalViewModel.selfImage)
-                                            }
-                                        } label: {
-                                            Text("Accept")
-                                                .font(.system(size: 17))
-                                                .fontWeight(.bold)
-                                                .foregroundColor(.white)
-                                                .padding(.horizontal, 32)
-                                                .padding(.vertical, 16)
-                                                .background(Colors.purple)
-                                                .cornerRadius(32)
-                                        }
-                                        Spacer()
+                                        .padding(.top, 24)
                                     }
-                                    .padding(.top, 24)
                                 }
                                 
                                 if globalViewModel.showWebView {
