@@ -33,6 +33,8 @@
 		11A92D7F2814C08F00B98066 /* ConnectedScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A92D7E2814C08F00B98066 /* ConnectedScreen.swift */; };
 		11A92D812814CFB800B98066 /* WrongChainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A92D802814CFB800B98066 /* WrongChainScreen.swift */; };
 		11AA278027FE372500BC8BCA /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AA277F27FE372500BC8BCA /* Extensions.swift */; };
+		11AB967F2832B22200695117 /* ReceivedProposalAccepted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AB967E2832B22200695117 /* ReceivedProposalAccepted.swift */; };
+		11AB96812832B25200695117 /* ReceivedProposalPending.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AB96802832B25200695117 /* ReceivedProposalPending.swift */; };
 		11AD63C12825292500A91AE0 /* faucet_abi.json in Resources */ = {isa = PBXBuildFile; fileRef = 11AD63C02825292500A91AE0 /* faucet_abi.json */; };
 		11AD63C328257EB000A91AE0 /* cert1.html in Resources */ = {isa = PBXBuildFile; fileRef = 11AD63C228257EB000A91AE0 /* cert1.html */; };
 		11B4C76D2808CD300058A319 /* SwipeRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B4C76C2808CD300058A319 /* SwipeRefresh.swift */; };
@@ -92,6 +94,8 @@
 		11A92D7E2814C08F00B98066 /* ConnectedScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectedScreen.swift; sourceTree = "<group>"; };
 		11A92D802814CFB800B98066 /* WrongChainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrongChainScreen.swift; sourceTree = "<group>"; };
 		11AA277F27FE372500BC8BCA /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		11AB967E2832B22200695117 /* ReceivedProposalAccepted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivedProposalAccepted.swift; sourceTree = "<group>"; };
+		11AB96802832B25200695117 /* ReceivedProposalPending.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivedProposalPending.swift; sourceTree = "<group>"; };
 		11AD63C02825292500A91AE0 /* faucet_abi.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = faucet_abi.json; sourceTree = "<group>"; };
 		11AD63C228257EB000A91AE0 /* cert1.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = cert1.html; sourceTree = "<group>"; };
 		11B4C76C2808CD300058A319 /* SwipeRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeRefresh.swift; sourceTree = "<group>"; };
@@ -304,6 +308,8 @@
 				11E32C9C28022D6300A540EE /* AuthoredProposalInfo.swift */,
 				11E32C9728022C5300A540EE /* ReceivedProposalsScreen.swift */,
 				11E32C9A28022CDA00A540EE /* ReceivedProposalInfo.swift */,
+				11AB967E2832B22200695117 /* ReceivedProposalAccepted.swift */,
+				11AB96802832B25200695117 /* ReceivedProposalPending.swift */,
 				11C8502C282A99D700AFAB82 /* TemplatePicker.swift */,
 			);
 			path = Proposals;
@@ -402,6 +408,7 @@
 				11A92D812814CFB800B98066 /* WrongChainScreen.swift in Sources */,
 				11CE717028038ABC004782E5 /* CertificateWorker.swift in Sources */,
 				117173E8280CE18800C36A44 /* CertificateMeta.swift in Sources */,
+				11AB967F2832B22200695117 /* ReceivedProposalAccepted.swift in Sources */,
 				11B4C77128090DEA0058A319 /* NftStorage.swift in Sources */,
 				11A484C9280F804600DE5C24 /* BackgroundTasksManager.swift in Sources */,
 				11C356CD27FF82D1007A0E69 /* IdentifiableAlert.swift in Sources */,
@@ -418,6 +425,7 @@
 				115A658C27F22D93001CBCD2 /* WalletConnect.swift in Sources */,
 				115A657A27F218EE001CBCD2 /* ContentView.swift in Sources */,
 				115A657827F218EE001CBCD2 /* MetaWeddingApp.swift in Sources */,
+				11AB96812832B25200695117 /* ReceivedProposalPending.swift in Sources */,
 				11B8CE5B280DF43700B25974 /* WebView.swift in Sources */,
 				11AA278027FE372500BC8BCA /* Extensions.swift in Sources */,
 				11E32C9428022BBB00A540EE /* ProposalsScreen.swift in Sources */,

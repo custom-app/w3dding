@@ -90,7 +90,6 @@ struct AuthoredProposalsScreen: View {
                                                 }
                                                 .padding(.top, 24)
                                             }
-                                            
                                             Spacer()
                                         }
                                         .frame(height: geometry.size.height - (headerShown ? 100 : 0))

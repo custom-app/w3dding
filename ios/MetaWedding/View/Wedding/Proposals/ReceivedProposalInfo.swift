@@ -15,21 +15,21 @@ struct ReceivedProposalInfo: View {
     var proposal: Proposal
     
     var body: some View {
-        VStack {
-            Text("Received from:")
-            Text(proposal.address)
-                .font(.system(size: 13))
-                .padding(.top, 10)
-                .padding(.horizontal, 20)
-            Button {
-                globalViewModel.acceptProposition(to: proposal.address, metaUrl: proposal.metaUrl)
-            } label: {
-                Text("Accept")
-                    .padding(16)
-                    .background(Color.white)
-                    .cornerRadius(8)
+        GeometryReader { geometry in
+            ZStack {
+                Image("DefaultBackground")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .edgesIgnoringSafeArea(.all)
+                VStack(spacing: 0) {
+                    if proposal.receiverAccepted {
+                        ReceivedProposalAccepted(proposal: proposal)
+                    } else {
+                        ReceivedProposalPending(proposal: proposal)
+                    }
+                }
+                .frame(width: geometry.size.width, height: geometry.size.height)
             }
-            .padding(.top, 40)
         }
     }
 }

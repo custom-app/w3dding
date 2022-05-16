@@ -431,7 +431,7 @@ class GlobalViewModel: ObservableObject {
                         if incomingProposals.count == 0 {
                             self?.selectedMyProposals = true
                         }
-                        self?.receivedProposals = [incomingProposals[0]]
+                        self?.receivedProposals = incomingProposals
                         self?.isReceivedProposalsLoaded = true
                         self?.checkAllLoaded()
                         self?.requestReceivedProposalsMeta()
