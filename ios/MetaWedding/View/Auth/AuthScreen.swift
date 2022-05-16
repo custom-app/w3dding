@@ -17,7 +17,7 @@ struct AuthScreen: View {
             VStack(spacing: 0) {
                 
                 HStack {
-                    Text("Wallet")
+                    Text("Connect the wallet")
                         .foregroundColor(Colors.darkPurple)
                         .font(.largeTitle)
                         .fontWeight(.bold)

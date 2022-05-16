@@ -147,13 +147,6 @@ class GlobalViewModel: ObservableObject {
         return false
     }
     
-//    init() {
-//        templateIds = []
-//        for i in 0..<Constants.certificatesNum {
-//            templateIds.append("\(i+1)")
-//        }
-//    }
-    
     func initWalletConnect() {
         print("init wallet connect: \(walletConnect == nil)")
         if walletConnect == nil {
@@ -438,7 +431,7 @@ class GlobalViewModel: ObservableObject {
                         if incomingProposals.count == 0 {
                             self?.selectedMyProposals = true
                         }
-                        self?.receivedProposals = incomingProposals
+                        self?.receivedProposals = [incomingProposals[0]]
                         self?.isReceivedProposalsLoaded = true
                         self?.checkAllLoaded()
                         self?.requestReceivedProposalsMeta()

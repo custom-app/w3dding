@@ -95,12 +95,12 @@ struct ProposalConstructor: View {
                         Spacer()
                         Text("Your name")
                             .font(Font.headline.weight(.bold))
-                            .foregroundColor(Colors.darkGrey.opacity(0.5))
+                            .foregroundColor(Colors.darkPurple.opacity(0.65))
                             .multilineTextAlignment(.center)
                         Spacer()
                     }
                 }
-                .foregroundColor(Colors.darkGrey)
+                .foregroundColor(Colors.darkPurple)
                 .lineLimit(1)
                 .truncationMode(.tail)
                 .padding(.horizontal, 14)
@@ -123,12 +123,12 @@ struct ProposalConstructor: View {
                         Spacer()
                         Text("Partner address")
                             .font(Font.headline.weight(.bold))
-                            .foregroundColor(Colors.darkGrey.opacity(0.5))
+                            .foregroundColor(Colors.darkPurple.opacity(0.65))
                             .multilineTextAlignment(.center)
                         Spacer()
                     }
                 }
-                .foregroundColor(Colors.darkGrey)
+                .foregroundColor(Colors.darkPurple)
                 .lineLimit(1)
                 .truncationMode(.tail)
                 .padding(.horizontal, 14)

@@ -85,7 +85,6 @@ struct ReceivedProposalsScreen: View {
                                     .padding(.horizontal, 20)
                                 
                                 Spacer()
-                                
                             }.frame(height: geometry.size.height-100)
                         } else {
                             VStack(spacing: 0) {
@@ -94,7 +93,7 @@ struct ReceivedProposalsScreen: View {
                                         .font(.title3.weight(.bold))
                                         .foregroundColor(Colors.darkPurple.opacity(0.65))
                                         .padding(.horizontal, 20)
-                                        .padding(.top, 24)
+                                        .padding(.top, 18)
                                     
                                     Text(proposal.meta?.properties.firstPersonName ?? "")
                                         .font(Font.title2.weight(.bold))
@@ -105,7 +104,7 @@ struct ReceivedProposalsScreen: View {
                                     
                                     HStack {
                                         Spacer()
-                                        Text("Address: \(proposal.address)")
+                                        Text("\(proposal.address)")
                                             .font(.system(size: 13).weight(.regular))
                                             .fontWeight(.regular)
                                             .foregroundColor(Colors.darkPurple)
@@ -122,15 +121,15 @@ struct ReceivedProposalsScreen: View {
                                         }
                                         Spacer()
                                     }
-                                    .padding(.horizontal, 28)
+                                    .padding(.horizontal, 48)
                                     .padding(.top, 8)
                                 }
                                 
                                 Text("Choose your avatar")
                                     .font(Font.title3.weight(.bold))
-                                    .foregroundColor(Colors.darkGrey)
+                                    .foregroundColor(Colors.darkPurple.opacity(0.65))
                                     .multilineTextAlignment(.center)
-                                    .padding(.top, 24)
+                                    .padding(.top, 20)
                                 
                                 HStack {
                                     Spacer()
@@ -152,6 +151,7 @@ struct ReceivedProposalsScreen: View {
                                             }
                                         }
                                         .frame(width: 100, height: 100)
+                                        .background(Colors.mainBackground)
                                         .cornerRadius(150)
                                         .overlay(
                                             RoundedRectangle(cornerRadius: 150)
@@ -229,12 +229,12 @@ struct ReceivedProposalsScreen: View {
                                             Spacer()
                                             Text("Your name")
                                                 .font(Font.headline.weight(.bold))
-                                                .foregroundColor(Colors.darkGrey.opacity(0.5))
+                                                .foregroundColor(Colors.darkPurple.opacity(0.65))
                                                 .multilineTextAlignment(.center)
                                             Spacer()
                                         }
                                     }
-                                    .foregroundColor(Colors.darkGrey)
+                                    .foregroundColor(Colors.darkPurple)
                                     .lineLimit(1)
                                     .truncationMode(.tail)
                                     .padding(.horizontal, 14)
@@ -283,11 +283,11 @@ struct ReceivedProposalsScreen: View {
                                                 .background(Colors.purple)
                                                 .cornerRadius(14, corners: [.topLeft])
                                         }
-                                        .frame(width: 90)
                                         .overlay(
                                             RoundedRectangle(cornerRadius: 2)
                                                 .stroke(Colors.purple, lineWidth: 2)
                                         )
+                                        .frame(width: 90)
                                         .onTapGesture {
                                             showTemplatePicker = true
                                         }
@@ -301,14 +301,56 @@ struct ReceivedProposalsScreen: View {
                                     .cornerRadius(20)
                                     .padding(.horizontal, 16)
                                     .padding(.top, 16)
+
                                     
-                                    if !globalViewModel.name.isEmpty {
+                                    HStack(spacing: 0) {
+                                        Spacer()
+                                        
+                                        if !globalViewModel.name.isEmpty {
+                                            Button {
+                                                globalViewModel.openPhotoPicker {
+                                                    showPreview = true
+                                                }
+                                            } label: {
+                                                Text("Preview")
+                                                    .font(.system(size: 17))
+                                                    .fontWeight(.bold)
+                                                    .foregroundColor(Colors.purple)
+                                                    .padding(.horizontal, 24)
+                                                    .padding(.vertical, 15)
+                                                    .background(Color.white.opacity(0.5))
+                                                    .cornerRadius(32)
+                                                    .overlay(
+                                                        RoundedRectangle(cornerRadius: 32)
+                                                            .stroke(Colors.purple, lineWidth: 2)
+                                                    )
+                                            }
+                                            .sheet(isPresented: $showPreview, onDismiss: {
+                                                globalViewModel.previewImage = nil
+                                            }) {
+                                                PreviewSheet(proposal: $globalViewModel.receivedProposals[0])
+                                                    .environmentObject(globalViewModel)
+                                            }
+                                            .padding(.trailing, 30)
+                                        }
+                                        
                                         Button {
-                                            globalViewModel.openPhotoPicker {
-                                                showPreview = true
+                                            guard !globalViewModel.name.isEmpty else {
+                                                globalViewModel.alert = IdentifiableAlert.build(
+                                                    id: "validation failed",
+                                                    title: "Validation Failed",
+                                                    message: "Name can't be empty"
+                                                )
+                                                return
+                                            }
+                                            if let properties = proposal.meta?.properties {
+                                                globalViewModel.generateCerificateAndAcceptProposition(proposal: proposal,
+                                                                                                       properties: properties,
+                                                                                                       name: globalViewModel.name,
+                                                                                                       image: globalViewModel.selfImage)
                                             }
                                         } label: {
-                                            Text("Check preview")
+                                            Text("Accept")
                                                 .font(.system(size: 17))
                                                 .fontWeight(.bold)
                                                 .foregroundColor(.white)
@@ -317,39 +359,7 @@ struct ReceivedProposalsScreen: View {
                                                 .background(Colors.purple)
                                                 .cornerRadius(32)
                                         }
-                                        .padding(.top, 24)
-                                        .sheet(isPresented: $showPreview, onDismiss: {
-                                            globalViewModel.previewImage = nil
-                                        }) {
-                                            PreviewSheet(proposal: $globalViewModel.receivedProposals[0])
-                                                .environmentObject(globalViewModel)
-                                        }
-                                    }
-                                    
-                                    Button {
-                                        guard !globalViewModel.name.isEmpty else {
-                                            globalViewModel.alert = IdentifiableAlert.build(
-                                                id: "validation failed",
-                                                title: "Validation Failed",
-                                                message: "Name can't be empty"
-                                            )
-                                            return
-                                        }
-                                        if let properties = proposal.meta?.properties {
-                                            globalViewModel.generateCerificateAndAcceptProposition(proposal: proposal,
-                                                                                                   properties: properties,
-                                                                                                   name: globalViewModel.name,
-                                                                                                   image: globalViewModel.selfImage)
-                                        }
-                                    } label: {
-                                        Text("Accept")
-                                            .font(.system(size: 17))
-                                            .fontWeight(.bold)
-                                            .foregroundColor(.white)
-                                            .padding(.horizontal, 32)
-                                            .padding(.vertical, 16)
-                                            .background(Colors.purple)
-                                            .cornerRadius(32)
+                                        Spacer()
                                     }
                                     .padding(.top, 24)
                                 }

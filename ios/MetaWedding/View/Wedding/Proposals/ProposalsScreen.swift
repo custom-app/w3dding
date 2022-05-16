@@ -60,12 +60,16 @@ struct ProposalsScreen: View {
             }
         }
         
-        if globalViewModel.selectedMyProposals &&
+        if (globalViewModel.selectedMyProposals &&
             globalViewModel.isAuthoredProposalsLoaded &&
             globalViewModel.authoredProposals.isEmpty &&
-            !globalViewModel.isProposalActionPending {
+            !globalViewModel.isProposalActionPending) ||
+            (!globalViewModel.selectedMyProposals &&
+             globalViewModel.isReceivedProposalsLoaded &&
+             globalViewModel.receivedProposals.count == 1 &&
+             !globalViewModel.isProposalActionPending) {
             Spacer()                // Used to create some space in scrollview to make bottom
-                .frame(height: 170) // textfields in proposal constructor visible while keyboard shown
+                .frame(height: 170) // textfields in proposal constructor (or proposal acception) visible while keyboard shown
         }
     }
 }
