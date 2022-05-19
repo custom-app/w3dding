@@ -17,9 +17,7 @@ class CertificateWorker {
     public static let addressKey = "[address1]"
     public static let partnerAddressKey = "[address2]"
     public static let timeKey = "[timing]"
-    public static let dayNumKey = "[day_num]"
-    public static let monthNumKey = "[month_num]"
-    public static let yearNumKey = "[year_num]"
+    public static let dateKey = "[date]"
     public static let serialNumberKey = "[serial_number]"
     public static let blockHash = "[block_hash]"
     public static let selfImageKey = "[self_image]"
@@ -89,10 +87,8 @@ class CertificateWorker {
             .replacingOccurrences(of: CertificateWorker.partnerNameKey, with: secondPersonName)
             .replacingOccurrences(of: CertificateWorker.addressKey, with: firstPersonAddress)
             .replacingOccurrences(of: CertificateWorker.partnerAddressKey, with: secondPersonAddress)
-            .replacingOccurrences(of: CertificateWorker.dayNumKey, with: now.dayOrdinal())
-            .replacingOccurrences(of: CertificateWorker.monthNumKey, with: now.formattedDateString("LLLL").lowercased())
-            .replacingOccurrences(of: CertificateWorker.yearNumKey, with: now.formattedDateString("yyyy"))
-            .replacingOccurrences(of: CertificateWorker.timeKey, with: now.formattedDateString("HH:mm"))
+            .replacingOccurrences(of: CertificateWorker.dateKey, with: now.formattedDateString("dd.MM.yyyy"))
+            .replacingOccurrences(of: CertificateWorker.timeKey, with: now.formattedDateString("HH:mm:ss"))
             .replacingOccurrences(of: CertificateWorker.blockHash, with: blockHash)
             .replacingOccurrences(of: CertificateWorker.serialNumberKey, with: id)
         
