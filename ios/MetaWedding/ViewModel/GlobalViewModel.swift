@@ -817,6 +817,7 @@ class GlobalViewModel: ObservableObject {
         withAnimation {
             isProposalActionPending = true
         }
+        backgroundManager.createProposalBackgroundTask()
         DispatchQueue.global(qos: .userInitiated).async { [self] in
             print("getting block hash")
             web3.getBlockHash(blockId: proposal.prevBlockNumber+1) { hash, error in
@@ -917,8 +918,10 @@ class GlobalViewModel: ObservableObject {
                                  secondPersonName: String,
                                  firstPersonAddress: String,
                                  secondPersonAddress: String,
+                                 firstPersonImage: String,
                                  templateId: String,
                                  blockHash: String) {
+        backgroundManager.finishProposalBackgroundTask() // need to recreate background task because of 30 sec limit
         backgroundManager.createProposalBackgroundTask()
         do {
             // Can't run on background thread
@@ -928,38 +931,76 @@ class GlobalViewModel: ObservableObject {
                 return
             }
             DispatchQueue.global(qos: .userInitiated).async { [self] in
-                guard let image = CertificateWorker.imageFromPdf(url: pdfUrl) else {
+                guard let certImage = CertificateWorker.imageFromPdf(url: pdfUrl) else {
                     print("error converting cert pdf to image")
                     onProposalProcessFinish()
                     handleError(InnerError.jpegConverting)
                     return
                 }
-                uploadImageToIpfs(image: image) { cid in
-                    print("uploaded certificate to ipfs, cid: \(cid)")
-                    let properties = CertificateProperties(
-                        id: id,
-                        firstPersonAddress: firstPersonAddress,
-                        secondPersonAddress: secondPersonAddress,
-                        firstPersonName: firstPersonName,
-                        secondPersonName: secondPersonName,
-                        firstPersonImage: "",
-                        secondPersonImage: "",
-                        templateId: templateId,
-                        blockHash: blockHash
-                    )
-                    let meta = CertificateMeta(name: "W3dding certificate",
-                                               description: "Marriage certificate info",
-                                               image: "ipfs://\(cid)",
-                                               properties: properties)
-                    self.uploadMetaToIpfs(meta: meta) { [self] url in
-                        updateProposition(to: firstPersonAddress, metaUrl: url)
+                if let image = selfImage {
+                    uploadImageToIpfs(image: image) { [self] selfImageCid in
+                        print("uploaded self image to ipfs, cid: \(selfImageCid)")
+                        finishCertificateUploading(certImage: certImage,
+                                                   id: id,
+                                                   firstPersonName: firstPersonName,
+                                                   secondPersonName: secondPersonName,
+                                                   firstPersonAddress: firstPersonAddress,
+                                                   secondPersonAddress: secondPersonAddress,
+                                                   firstPersonImage: firstPersonImage,
+                                                   secondPersonImage: "ipfs://\(selfImageCid)",
+                                                   templateId: templateId,
+                                                   blockHash: blockHash)
                     }
+                } else {
+                    finishCertificateUploading(certImage: certImage,
+                                               id: id,
+                                               firstPersonName: firstPersonName,
+                                               secondPersonName: secondPersonName,
+                                               firstPersonAddress: firstPersonAddress,
+                                               secondPersonAddress: secondPersonAddress,
+                                               firstPersonImage: firstPersonImage,
+                                               secondPersonImage: "",
+                                               templateId: templateId,
+                                               blockHash: blockHash)
                 }
             }
         } catch {
             print("error generating certificate: \(error)")
             onProposalProcessFinish()
             handleError(error)
+        }
+    }
+    
+    func finishCertificateUploading(certImage: UIImage,
+                                    id: String,
+                                    firstPersonName: String,
+                                    secondPersonName: String,
+                                    firstPersonAddress: String,
+                                    secondPersonAddress: String,
+                                    firstPersonImage: String,
+                                    secondPersonImage: String,
+                                    templateId: String,
+                                    blockHash: String) {
+        uploadImageToIpfs(image: certImage) { certCid in
+            print("uploaded certificate to ipfs, cid: \(certCid)")
+            let properties = CertificateProperties(
+                id: id,
+                firstPersonAddress: firstPersonAddress,
+                secondPersonAddress: secondPersonAddress,
+                firstPersonName: firstPersonName,
+                secondPersonName: secondPersonName,
+                firstPersonImage: firstPersonImage,
+                secondPersonImage: secondPersonImage,
+                templateId: templateId,
+                blockHash: blockHash
+            )
+            let meta = CertificateMeta(name: "W3dding certificate",
+                                       description: "Marriage certificate info",
+                                       image: "ipfs://\(certCid)",
+                                       properties: properties)
+            self.uploadMetaToIpfs(meta: meta) { [self] url in
+                updateProposition(to: firstPersonAddress, metaUrl: url)
+            }
         }
     }
     

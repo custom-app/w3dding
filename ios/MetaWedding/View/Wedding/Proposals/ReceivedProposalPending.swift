@@ -315,6 +315,7 @@ struct ReceivedProposalPending: View {
                                                                 secondPersonName: globalViewModel.name,
                                                                 firstPersonAddress: properties.firstPersonAddress,
                                                                 secondPersonAddress: address,
+                                                                firstPersonImage: properties.firstPersonImage,
                                                                 templateId: globalViewModel.selectedTemplate.id,
                                                                 blockHash: globalViewModel.currentBlockHash)
                     }

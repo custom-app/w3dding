@@ -101,7 +101,21 @@ struct ReceivedProposalsScreen: View {
                                 .padding(.leading, 32)
 
                                 ZStack {
-                                    if let image = globalViewModel.selfImage {
+                                    if proposal.receiverAccepted {
+                                        if let image = proposal.receiverImage {
+                                            Image(uiImage: image)
+                                                .resizable()
+                                                .scaledToFill()
+                                                .frame(width: 48, height: 48)
+                                                .clipped()
+                                        } else {
+                                            Image("ic_heart")
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 24)
+                                                .padding(.top, 5)
+                                        }
+                                    } else if let image = globalViewModel.selfImage {
                                         Image(uiImage: image)
                                             .resizable()
                                             .scaledToFill()

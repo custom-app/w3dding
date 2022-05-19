@@ -21,6 +21,7 @@ struct ReceivedProposalInfo: View {
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .edgesIgnoringSafeArea(.all)
+                
                 VStack(spacing: 0) {
                     if proposal.receiverAccepted {
                         ReceivedProposalAccepted(proposal: proposal)
