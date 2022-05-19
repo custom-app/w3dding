@@ -12,12 +12,21 @@ struct AuthoredProposalInfo: View {
     var proposal: Proposal
     
     var body: some View {
-        VStack {
-            Text("Proposal to:")
-            Text(proposal.address)
-                .font(.system(size: 13))
-                .padding(.top, 10)
-                .padding(.horizontal, 20)
+        GeometryReader { geometry in
+            ZStack {
+                Image("DefaultBackground")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .edgesIgnoringSafeArea(.all)
+                VStack(spacing: 0) {
+                    if proposal.receiverAccepted, proposal.meta != nil {
+                        AuthoredProposalAccepted(proposal: proposal)
+                    } else {
+                        AuthoredProposalPending(proposal: proposal)
+                    }
+                }
+                .frame(width: geometry.size.width, height: geometry.size.height)
+            }
         }
     }
 }

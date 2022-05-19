@@ -37,6 +37,8 @@
 		11AB96812832B25200695117 /* ReceivedProposalPending.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AB96802832B25200695117 /* ReceivedProposalPending.swift */; };
 		11AD63C12825292500A91AE0 /* faucet_abi.json in Resources */ = {isa = PBXBuildFile; fileRef = 11AD63C02825292500A91AE0 /* faucet_abi.json */; };
 		11AD63C328257EB000A91AE0 /* cert1.html in Resources */ = {isa = PBXBuildFile; fileRef = 11AD63C228257EB000A91AE0 /* cert1.html */; };
+		11B03EA52836DA3700EA0DAE /* AuthoredProposalPending.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B03EA42836DA3700EA0DAE /* AuthoredProposalPending.swift */; };
+		11B03EA72836DB4600EA0DAE /* AuthoredProposalAccepted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B03EA62836DB4600EA0DAE /* AuthoredProposalAccepted.swift */; };
 		11B4C76D2808CD300058A319 /* SwipeRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B4C76C2808CD300058A319 /* SwipeRefresh.swift */; };
 		11B4C76F2808F2C10058A319 /* HttpRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B4C76E2808F2C10058A319 /* HttpRequester.swift */; };
 		11B4C77128090DEA0058A319 /* NftStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B4C77028090DEA0058A319 /* NftStorage.swift */; };
@@ -98,6 +100,8 @@
 		11AB96802832B25200695117 /* ReceivedProposalPending.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivedProposalPending.swift; sourceTree = "<group>"; };
 		11AD63C02825292500A91AE0 /* faucet_abi.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = faucet_abi.json; sourceTree = "<group>"; };
 		11AD63C228257EB000A91AE0 /* cert1.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = cert1.html; sourceTree = "<group>"; };
+		11B03EA42836DA3700EA0DAE /* AuthoredProposalPending.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthoredProposalPending.swift; sourceTree = "<group>"; };
+		11B03EA62836DB4600EA0DAE /* AuthoredProposalAccepted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthoredProposalAccepted.swift; sourceTree = "<group>"; };
 		11B4C76C2808CD300058A319 /* SwipeRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeRefresh.swift; sourceTree = "<group>"; };
 		11B4C76E2808F2C10058A319 /* HttpRequester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpRequester.swift; sourceTree = "<group>"; };
 		11B4C77028090DEA0058A319 /* NftStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NftStorage.swift; sourceTree = "<group>"; };
@@ -306,6 +310,8 @@
 				11E32C9E280236A000A540EE /* ProposalConstructor.swift */,
 				11E32C9528022C4600A540EE /* AuthoredProposalsScreen.swift */,
 				11E32C9C28022D6300A540EE /* AuthoredProposalInfo.swift */,
+				11B03EA62836DB4600EA0DAE /* AuthoredProposalAccepted.swift */,
+				11B03EA42836DA3700EA0DAE /* AuthoredProposalPending.swift */,
 				11E32C9728022C5300A540EE /* ReceivedProposalsScreen.swift */,
 				11E32C9A28022CDA00A540EE /* ReceivedProposalInfo.swift */,
 				11AB967E2832B22200695117 /* ReceivedProposalAccepted.swift */,
@@ -411,6 +417,7 @@
 				11AB967F2832B22200695117 /* ReceivedProposalAccepted.swift in Sources */,
 				11B4C77128090DEA0058A319 /* NftStorage.swift in Sources */,
 				11A484C9280F804600DE5C24 /* BackgroundTasksManager.swift in Sources */,
+				11B03EA72836DB4600EA0DAE /* AuthoredProposalAccepted.swift in Sources */,
 				11C356CD27FF82D1007A0E69 /* IdentifiableAlert.swift in Sources */,
 				118A952427F935F600798141 /* MainContainer.swift in Sources */,
 				112206F928137A6D00AF0315 /* NotConnectedScreen.swift in Sources */,
@@ -444,6 +451,7 @@
 				118A951A27F925AE00798141 /* Constants.swift in Sources */,
 				11A92D7F2814C08F00B98066 /* ConnectedScreen.swift in Sources */,
 				11A92636281A181E00816024 /* WeddingProgress.swift in Sources */,
+				11B03EA52836DA3700EA0DAE /* AuthoredProposalPending.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
