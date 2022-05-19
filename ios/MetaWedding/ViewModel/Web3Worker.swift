@@ -186,6 +186,7 @@ class Web3Worker: ObservableObject {
             let addresses = result["0"] as! [EthereumAddress]
             let proposals = result["1"] as! [[AnyObject]]
             let res = try parseProposals(addresses: addresses, proposals: proposals)
+            print("\(method)\n\(res)")
             return (res, nil)
         }
     }

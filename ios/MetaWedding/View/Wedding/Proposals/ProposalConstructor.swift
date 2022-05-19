@@ -72,6 +72,7 @@ struct ProposalConstructor: View {
                         .stroke(Colors.purple, lineWidth: 6)
                 )
             }
+            .disabled(globalViewModel.isProposalActionPending)
             .padding(.top, 16)
             .sheet(isPresented: $showPhotoPicker) {
                 PhotoPicker { image in

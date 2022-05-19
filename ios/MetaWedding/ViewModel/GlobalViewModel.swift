@@ -849,27 +849,31 @@ class GlobalViewModel: ObservableObject {
                         }
                         print("author photo loaded")
                         let partnerImage = UIImage(data: data) //TODO: pass base64 w/o converting
-                        self.buildCertificateWebView(id: String(proposal.tokenId),
-                                                firstPersonName: properties.firstPersonName,
-                                                secondPersonName: name,
-                                                firstPersonAddress: properties.firstPersonAddress,
-                                                secondPersonAddress: address,
-                                                firstPersonImage: partnerImage,
-                                                secondPersonImage: image,
-                                                templateId: templateId,
-                                                blockHash: hash)
+                        self.buildCertificateWebView(
+                            id: String(proposal.tokenId),
+                            firstPersonName: properties.firstPersonName,
+                            secondPersonName: name,
+                            firstPersonAddress: properties.firstPersonAddress,
+                            secondPersonAddress: address,
+                            firstPersonImage: partnerImage,
+                            secondPersonImage: image,
+                            templateId: templateId,
+                            blockHash: hash,
+                            blockNumber: "\(proposal.prevBlockNumber+1)")
                     }
                     .resume()
                 } else {
-                    self.buildCertificateWebView(id: String(proposal.tokenId),
-                                            firstPersonName: properties.firstPersonName,
-                                            secondPersonName: name,
-                                            firstPersonAddress: properties.firstPersonAddress,
-                                            secondPersonAddress: address,
-                                            firstPersonImage: nil,
-                                            secondPersonImage: image,
-                                            templateId: templateId,
-                                            blockHash: hash)
+                    self.buildCertificateWebView(
+                        id: String(proposal.tokenId),
+                        firstPersonName: properties.firstPersonName,
+                        secondPersonName: name,
+                        firstPersonAddress: properties.firstPersonAddress,
+                        secondPersonAddress: address,
+                        firstPersonImage: nil,
+                        secondPersonImage: image,
+                        templateId: templateId,
+                        blockHash: hash,
+                        blockNumber: "\(proposal.prevBlockNumber+1)")
                 }
             }
         }
@@ -884,6 +888,7 @@ class GlobalViewModel: ObservableObject {
                                  secondPersonImage: UIImage?,
                                  templateId: String,
                                  blockHash: String,
+                                 blockNumber: String,
                                  forPreview: Bool = false) {
         DispatchQueue.global(qos: .userInitiated).async { [self] in
             let firstPersonImageBase64 = firstPersonImage?.base64()
@@ -897,7 +902,8 @@ class GlobalViewModel: ObservableObject {
                 firstPersonImage: firstPersonImageBase64,
                 secondPersonImage: secondPersonImageBase64,
                 templateId: templateId,
-                blockHash: blockHash
+                blockHash: blockHash,
+                blockNumber: blockNumber
             )
             
             DispatchQueue.main.async {
@@ -1042,6 +1048,7 @@ class GlobalViewModel: ObservableObject {
                                                  secondPersonImage: image,
                                                  templateId: templateId,
                                                  blockHash: "block hash",
+                                                 blockNumber: "block number",
                                                  forPreview: true)
                 }
                 .resume()
@@ -1055,6 +1062,7 @@ class GlobalViewModel: ObservableObject {
                                              secondPersonImage: image,
                                              templateId: templateId,
                                              blockHash: "block hash",
+                                             blockNumber: "block number",
                                              forPreview: true)
             }
         }

@@ -20,6 +20,7 @@ class CertificateWorker {
     public static let dateKey = "[date]"
     public static let serialNumberKey = "[serial_number]"
     public static let blockHash = "[block_hash]"
+    public static let blockNumber = "[block_number]"
     public static let selfImageKey = "[self_image]"
     public static let partnerImageKey = "[partner_image]"
     
@@ -77,7 +78,8 @@ class CertificateWorker {
                                    firstPersonImage: String?,
                                    secondPersonImage: String?,
                                    templateId: String,
-                                   blockHash: String) -> String {
+                                   blockHash: String,
+                                   blockNumber: String) -> String {
         let certPath = Bundle.main.path(forResource: "cert\(templateId)", ofType: "html")!
         let htmlTemplate = try! String(contentsOfFile: certPath) //TODO: handle?
         let now = Date()
@@ -90,6 +92,7 @@ class CertificateWorker {
             .replacingOccurrences(of: CertificateWorker.dateKey, with: now.formattedDateString("dd.MM.yyyy"))
             .replacingOccurrences(of: CertificateWorker.timeKey, with: now.formattedDateString("HH:mm:ss"))
             .replacingOccurrences(of: CertificateWorker.blockHash, with: blockHash)
+            .replacingOccurrences(of: CertificateWorker.blockNumber, with: blockNumber)
             .replacingOccurrences(of: CertificateWorker.serialNumberKey, with: id)
         
         if let firstImage = firstPersonImage, let secondImage = secondPersonImage {

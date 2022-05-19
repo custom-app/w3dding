@@ -140,6 +140,7 @@ struct ReceivedProposalPending: View {
                                 .stroke(Colors.purple, lineWidth: 6)
                         )
                     }
+                    .disabled(globalViewModel.isProposalActionPending)
                     .sheet(isPresented: $showPhotoPicker) {
                         PhotoPicker { image in
                             print("image picked")
