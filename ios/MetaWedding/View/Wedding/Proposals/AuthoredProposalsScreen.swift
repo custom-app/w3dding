@@ -247,25 +247,22 @@ struct NewProposalBar: View {
     @EnvironmentObject
     var globalViewModel: GlobalViewModel
     
-    @Binding
-    var showSheet: Bool
-    
     var body: some View {
         VStack(spacing: 0) {
-            Text("Something wrong with your proposal?")
+            Text("Messed up with filling out the proposal?")
                 .font(Font.subheadline.weight(.bold))
                 .foregroundColor(Colors.darkGrey)
             
             Button {
-                showSheet = true
+                globalViewModel.showConstructorSheet = true
             } label: {
                 Text("New proposal")
                     .font(Font.subheadline.weight(.bold))
                     .foregroundColor(Colors.purple)
             }
             .padding(.top, 10)
-            .sheet(isPresented: $showSheet,
-                  onDismiss: { showSheet = false }) {
+            .sheet(isPresented: $globalViewModel.showConstructorSheet,
+                  onDismiss: { globalViewModel.showConstructorSheet = false }) {
                 ZStack {
                     Image("DefaultBackground")
                         .resizable()

@@ -12,9 +12,6 @@ struct WeddingContainer: View {
     @EnvironmentObject
     var globalViewModel: GlobalViewModel
     
-    @State
-    var showConstructor: Bool = false
-    
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
@@ -73,7 +70,7 @@ struct WeddingContainer: View {
                             if globalViewModel.isAuthoredProposalsLoaded &&
                                 globalViewModel.authoredProposals.count > 0 &&
                                 globalViewModel.selectedMyProposals {
-                                NewProposalBar(showSheet: $showConstructor)
+                                NewProposalBar()
                                     .padding(.bottom, 12)
                                     .padding(.top, 18)
                             }

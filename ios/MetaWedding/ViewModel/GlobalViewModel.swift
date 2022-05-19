@@ -88,6 +88,9 @@ class GlobalViewModel: ObservableObject {
     var authoredProposals: [Proposal] = []
     
     @Published
+    var showConstructorSheet: Bool = false
+    
+    @Published
     var showWebView = false
  
     @Published
@@ -284,7 +287,7 @@ class GlobalViewModel: ObservableObject {
         do {
             try client.eth_sendTransaction(url: session.url,
                                            transaction: tx) { [weak self] response in
-                self?.handleReponse(response, label: label)
+                self?.handleResponse(response, label: label)
             }
             print("sending tx: \(label)")
             onMainThread {
@@ -311,7 +314,7 @@ class GlobalViewModel: ObservableObject {
         }
     }
     
-    private func handleReponse(_ response: Response, label: String) {
+    private func handleResponse(_ response: Response, label: String) {
         print("hadling response:\(label)")
         if isSendRequestLabel(label: label) {
             onMainThread {
@@ -330,6 +333,7 @@ class GlobalViewModel: ObservableObject {
             do {
                 let result = try response.result(as: String.self)
                 print("got response result: \(result)")
+                self.showConstructorSheet = false
                 self.alert = IdentifiableAlert.build(
                     id: "tx success",
                     title: "Transaction has been sent",
