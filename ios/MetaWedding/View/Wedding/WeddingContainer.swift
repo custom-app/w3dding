@@ -16,9 +16,9 @@ struct WeddingContainer: View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
                 HStack(alignment: .bottom) {
-                    Text("Wedding")
+                    Text("Agreement of Love & Loyalty")
                         .foregroundColor(Colors.darkPurple)
-                        .font(.largeTitle)
+                        .font(.system(size: 26))
                         .fontWeight(.bold)
                     Spacer()
                     if !globalViewModel.marriage.isEmpty() &&

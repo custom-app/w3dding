@@ -355,6 +355,7 @@ class GlobalViewModel: ObservableObject {
     func requestBalance() {
         if let address = walletAccount {
             web3.getBalance(address: address) { [weak self] balance, error in
+                print("balance: \(balance)")
                 if error == nil {
                     withAnimation {
                         self?.balance = balance
@@ -374,7 +375,7 @@ class GlobalViewModel: ObservableObject {
             }
             web3.callFaucet(to: address) { err in
                 if err == nil {
-                    
+                    print("faucet called")
                 } else {
                     withAnimation {
                         self.faucetRequested = false

@@ -86,7 +86,7 @@ class Web3Worker: ObservableObject {
                     extraData: Data(),
                     transactionOptions: options)!
                 let res = try tx.send()
-                print("got faucet res: \(res)")
+//                print("got faucet res: \(res)")
             } catch {
                 DispatchQueue.main.async {
                     onResult(error)

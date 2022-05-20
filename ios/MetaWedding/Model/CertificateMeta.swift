@@ -55,5 +55,5 @@ struct CertificateProperties: Codable {
     let firstPersonImage: String
     let secondPersonImage: String
     let templateId: String
-    let blockNumber: String
+    let blockNumber: String?
 }

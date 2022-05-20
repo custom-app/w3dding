@@ -15,11 +15,10 @@ struct AuthScreen: View {
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
-                
                 HStack {
                     Text("Connect the wallet")
                         .foregroundColor(Colors.darkPurple)
-                        .font(.largeTitle)
+                        .font(.system(size: 26))
                         .fontWeight(.bold)
                     Spacer()
                 }
