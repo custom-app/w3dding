@@ -116,8 +116,6 @@ class GlobalViewModel: ObservableObject {
     @Published
     var templates: [CertificateTemplate] = Constants.templates
     
-    var currentBlockHash: String = ""
-    
     @Published
     var previewImage: UIImage?
     
@@ -787,7 +785,7 @@ class GlobalViewModel: ObservableObject {
             firstPersonImage: selfImageUrl,
             secondPersonImage: "",
             templateId: "",
-            blockHash: ""
+            blockNumber: ""
         )
         let meta = CertificateMeta(name: "W3dding certificate",
                                    description: "Marriage certificate info",
@@ -829,7 +827,6 @@ class GlobalViewModel: ObservableObject {
                     }
                     return
                 }
-                self.currentBlockHash = hash
                 if !properties.firstPersonImage.isEmpty {
                     print("loading author image")
                     URLSession.shared.dataTask(with: URL(string: Tools.ipfsLinkToHttp(ipfsLink: properties.firstPersonImage))!) { [self] data, response, error in
@@ -925,8 +922,8 @@ class GlobalViewModel: ObservableObject {
                                  firstPersonAddress: String,
                                  secondPersonAddress: String,
                                  firstPersonImage: String,
-                                 templateId: String,
-                                 blockHash: String) {
+                                 blockNumber: String,
+                                 templateId: String) {
         backgroundManager.finishProposalBackgroundTask() // need to recreate background task because of 30 sec limit
         backgroundManager.createProposalBackgroundTask()
         do {
@@ -954,8 +951,8 @@ class GlobalViewModel: ObservableObject {
                                                    secondPersonAddress: secondPersonAddress,
                                                    firstPersonImage: firstPersonImage,
                                                    secondPersonImage: "ipfs://\(selfImageCid)",
-                                                   templateId: templateId,
-                                                   blockHash: blockHash)
+                                                   blockNumber: blockNumber,
+                                                   templateId: templateId)
                     }
                 } else {
                     finishCertificateUploading(certImage: certImage,
@@ -966,8 +963,8 @@ class GlobalViewModel: ObservableObject {
                                                secondPersonAddress: secondPersonAddress,
                                                firstPersonImage: firstPersonImage,
                                                secondPersonImage: "",
-                                               templateId: templateId,
-                                               blockHash: blockHash)
+                                               blockNumber: blockNumber,
+                                               templateId: templateId)
                 }
             }
         } catch {
@@ -985,8 +982,8 @@ class GlobalViewModel: ObservableObject {
                                     secondPersonAddress: String,
                                     firstPersonImage: String,
                                     secondPersonImage: String,
-                                    templateId: String,
-                                    blockHash: String) {
+                                    blockNumber: String,
+                                    templateId: String) {
         uploadImageToIpfs(image: certImage) { certCid in
             print("uploaded certificate to ipfs, cid: \(certCid)")
             let properties = CertificateProperties(
@@ -998,7 +995,7 @@ class GlobalViewModel: ObservableObject {
                 firstPersonImage: firstPersonImage,
                 secondPersonImage: secondPersonImage,
                 templateId: templateId,
-                blockHash: blockHash
+                blockNumber: ""
             )
             let meta = CertificateMeta(name: "W3dding certificate",
                                        description: "Marriage certificate info",

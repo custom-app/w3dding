@@ -37,7 +37,7 @@ struct CertificateMeta: Codable {
             firstPersonImage: "",
             secondPersonImage: "",
             templateId: "",
-            blockHash: ""
+            blockNumber: ""
         )
     }
     
@@ -55,5 +55,5 @@ struct CertificateProperties: Codable {
     let firstPersonImage: String
     let secondPersonImage: String
     let templateId: String
-    let blockHash: String
+    let blockNumber: String
 }
