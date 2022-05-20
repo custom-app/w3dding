@@ -534,6 +534,25 @@ class GlobalViewModel: ObservableObject {
                                         .resume()
                                     }
                                 }
+                                if !meta.image.isEmpty {
+                                    DispatchQueue.global(qos: .userInitiated).async {
+                                        let url = URL(string: Tools.ipfsLinkToHttp(ipfsLink: meta.image))!
+                                        URLSession.shared.dataTask(with: url) { [self] data, response, error in
+                                            guard error == nil, let data = data else {
+                                                return
+                                            }
+                                            let image = UIImage(data: data)
+                                            if i < self.authoredProposals.count { //TODO: find by id instead of index
+                                                DispatchQueue.main.async {
+                                                    withAnimation {
+                                                        self.authoredProposals[i].certImage = image
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        .resume()
+                                    }
+                                }
                             }
                         }
                         return

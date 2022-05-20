@@ -23,6 +23,7 @@ struct Proposal: Identifiable {
     var prevBlockNumber: BigUInt
     var authorImage: UIImage?
     var receiverImage: UIImage?
+    var certImage: UIImage?
     
     init(address: String,
          metaUrl: String,

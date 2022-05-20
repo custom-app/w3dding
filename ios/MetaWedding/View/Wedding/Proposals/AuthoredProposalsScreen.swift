@@ -195,7 +195,7 @@ struct NewProposalBar: View {
         VStack(spacing: 0) {
             Text("Messed up with filling out the proposal?")
                 .font(Font.subheadline.weight(.bold))
-                .foregroundColor(Colors.darkGrey)
+                .foregroundColor(Colors.darkPurple.opacity(0.65))
             
             Button {
                 globalViewModel.showConstructorSheet = true
