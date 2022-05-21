@@ -9,6 +9,10 @@
 		<string>moneyunstoppable</string>
 		<string>metamask</string>
 	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>marediv.ttf</string>
+	</array>
 	<key>UIBackgroundModes</key>
 	<array/>
 	<key>UIStatusBarStyle</key>

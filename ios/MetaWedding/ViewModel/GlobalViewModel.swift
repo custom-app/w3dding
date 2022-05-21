@@ -27,6 +27,8 @@ class GlobalViewModel: ObservableObject {
     @Published
     var onAuthTab = true
     @Published
+    var showingOnboarding = false
+    @Published
     var showConnectSheet = false
     @Published
     var selectedMyProposals: Bool = true
@@ -146,6 +148,14 @@ class GlobalViewModel: ObservableObject {
             return true
         }
         return false
+    }
+    
+    init() {
+        if let shown = UserDefaultsWorker.shared.isOnboardingShown() {
+            showingOnboarding = !shown
+        } else {
+            showingOnboarding = true
+        }
     }
     
     func initWalletConnect() {

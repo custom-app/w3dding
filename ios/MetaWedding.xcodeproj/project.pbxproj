@@ -10,6 +10,10 @@
 		112206F52813679A00AF0315 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112206F42813679A00AF0315 /* Colors.swift */; };
 		112206F928137A6D00AF0315 /* NotConnectedScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112206F828137A6D00AF0315 /* NotConnectedScreen.swift */; };
 		113977DE28049A5A00D6FD57 /* wedding_abi.json in Resources */ = {isa = PBXBuildFile; fileRef = 113977DD28049A5A00D6FD57 /* wedding_abi.json */; };
+		113F17AA283968B20051E3F1 /* OnboardingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113F17A9283968B20051E3F1 /* OnboardingScreen.swift */; };
+		113F17AD28396AE20051E3F1 /* UserDefaultsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113F17AC28396AE20051E3F1 /* UserDefaultsWorker.swift */; };
+		113F17B1283973A60051E3F1 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113F17B0283973A60051E3F1 /* OnboardingViewModel.swift */; };
+		113F17BA283993130051E3F1 /* marediv.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 113F17B9283993130051E3F1 /* marediv.ttf */; };
 		11481B4B27FA4DF900439106 /* web3swift in Frameworks */ = {isa = PBXBuildFile; productRef = 11481B4A27FA4DF900439106 /* web3swift */; };
 		11481B4D27FA4E9A00439106 /* Web3Worker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11481B4C27FA4E9A00439106 /* Web3Worker.swift */; };
 		11481B4F27FA5BA600439106 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11481B4E27FA5BA600439106 /* Errors.swift */; };
@@ -71,6 +75,10 @@
 		112206F42813679A00AF0315 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		112206F828137A6D00AF0315 /* NotConnectedScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotConnectedScreen.swift; sourceTree = "<group>"; };
 		113977DD28049A5A00D6FD57 /* wedding_abi.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = wedding_abi.json; sourceTree = "<group>"; };
+		113F17A9283968B20051E3F1 /* OnboardingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingScreen.swift; sourceTree = "<group>"; };
+		113F17AC28396AE20051E3F1 /* UserDefaultsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWorker.swift; sourceTree = "<group>"; };
+		113F17B0283973A60051E3F1 /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
+		113F17B9283993130051E3F1 /* marediv.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = marediv.ttf; sourceTree = "<group>"; };
 		11481B4C27FA4E9A00439106 /* Web3Worker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Web3Worker.swift; sourceTree = "<group>"; };
 		11481B4E27FA5BA600439106 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		115A657427F218EE001CBCD2 /* MetaWedding.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MetaWedding.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -143,6 +151,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		113F17AB283968B80051E3F1 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				113F17A9283968B20051E3F1 /* OnboardingScreen.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		113F17B228398C1F0051E3F1 /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				113F17B9283993130051E3F1 /* marediv.ttf */,
+			);
+			path = fonts;
+			sourceTree = "<group>";
+		};
 		115A656B27F218EE001CBCD2 = {
 			isa = PBXGroup;
 			children = (
@@ -174,6 +198,7 @@
 				115A658A27F22D12001CBCD2 /* ViewModel */,
 				115A658927F22CFF001CBCD2 /* View */,
 				115A657727F218EE001CBCD2 /* MetaWeddingApp.swift */,
+				113F17B228398C1F0051E3F1 /* fonts */,
 				115A657927F218EE001CBCD2 /* ContentView.swift */,
 				115A657B27F218F0001CBCD2 /* Assets.xcassets */,
 				115A657D27F218F0001CBCD2 /* Preview Content */,
@@ -201,6 +226,7 @@
 		115A658927F22CFF001CBCD2 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				113F17AB283968B80051E3F1 /* Onboarding */,
 				11C356CB27FF82BB007A0E69 /* Components */,
 				11E32C8F2802298C00A540EE /* Auth */,
 				11E32C902802299A00A540EE /* Wedding */,
@@ -216,6 +242,7 @@
 				115A658B27F22D93001CBCD2 /* WalletConnect.swift */,
 				115A659727F253E8001CBCD2 /* GlobalViewModel.swift */,
 				11481B4C27FA4E9A00439106 /* Web3Worker.swift */,
+				113F17B0283973A60051E3F1 /* OnboardingViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -240,6 +267,7 @@
 				11B8CE58280DD38C00B25974 /* Config.swift */,
 				11A484C8280F804600DE5C24 /* BackgroundTasksManager.swift */,
 				112206F42813679A00AF0315 /* Colors.swift */,
+				113F17AC28396AE20051E3F1 /* UserDefaultsWorker.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -395,6 +423,7 @@
 				11C8502F282A9A2600AFAB82 /* cert2.html in Resources */,
 				115A657F27F218F0001CBCD2 /* Preview Assets.xcassets in Resources */,
 				115A657C27F218F0001CBCD2 /* Assets.xcassets in Resources */,
+				113F17BA283993130051E3F1 /* marediv.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -425,9 +454,11 @@
 				11E32C9628022C4600A540EE /* AuthoredProposalsScreen.swift in Sources */,
 				11481B4D27FA4E9A00439106 /* Web3Worker.swift in Sources */,
 				11B4C76F2808F2C10058A319 /* HttpRequester.swift in Sources */,
+				113F17AA283968B20051E3F1 /* OnboardingScreen.swift in Sources */,
 				11E32C9F280236A000A540EE /* ProposalConstructor.swift in Sources */,
 				115A658827F22C3D001CBCD2 /* AuthScreen.swift in Sources */,
 				11A92D7D2814AA9300B98066 /* ConnectSheet.swift in Sources */,
+				113F17AD28396AE20051E3F1 /* UserDefaultsWorker.swift in Sources */,
 				11B6336D2804B4BD00745730 /* Tools.swift in Sources */,
 				115A658C27F22D93001CBCD2 /* WalletConnect.swift in Sources */,
 				115A657A27F218EE001CBCD2 /* ContentView.swift in Sources */,
@@ -446,6 +477,7 @@
 				11B6336F2804CCDA00745730 /* TxWorker.swift in Sources */,
 				112206F52813679A00AF0315 /* Colors.swift in Sources */,
 				11B8CE59280DD38C00B25974 /* Config.swift in Sources */,
+				113F17B1283973A60051E3F1 /* OnboardingViewModel.swift in Sources */,
 				11C8502D282A99D700AFAB82 /* TemplatePicker.swift in Sources */,
 				118A951C27F9281E00798141 /* Wallets.swift in Sources */,
 				118A951A27F925AE00798141 /* Constants.swift in Sources */,
