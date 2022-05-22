@@ -36,6 +36,9 @@ struct OnboardingScreen: View {
     @State
     var showThirdScreen = false
     
+    @State
+    var showFourthScreen = false
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack() {
@@ -220,15 +223,12 @@ struct OnboardingScreen: View {
         //                            }
                                 }
                             
-                            VStack(spacing: 0) {
-//                                Spacer()
-                                HStack(spacing: 0) {
-                                    Image("Onboarding3_cupid")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: geometry.size.width*0.37)
-                                    Spacer()
-                                }
+                            HStack(spacing: 0) {
+                                Image("Onboarding3_cupid")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: geometry.size.width*0.37)
+                                Spacer()
                             }
                             
                             VStack(spacing: 0) {
@@ -266,40 +266,171 @@ struct OnboardingScreen: View {
                                 .padding(.bottom, 20)
                                 
                                 HStack(spacing: 0) {
-                                    Spacer()
+                                     Spacer()
+                                     Button {
+                                         withAnimation {
+                                             showFourthScreen = true
+                                             showThirdScreen = false
+                                         }
+                                     } label: {
+                                         Text("NEXT")
+                                             .font(Font.custom("marediv", size: 19))
+                                             .multilineTextAlignment(.center)
+                                             .overlay (
+                                                 LinearGradient(
+                                                     colors: [Color(hex: "#0DFD61"), Color(hex: "#39EFFB")],
+                                                     startPoint: .top,
+                                                     endPoint: .bottom
+                                                 )
+                                                 .mask(
+                                                     Text("NEXT")
+                                                         .font(Font.custom("marediv", size: 19))
+                                                         .multilineTextAlignment(.center)
+                                                 )
+                                             )
+                                             .shadow(color: Color(hex: "#B20CFC"), radius: 0, x: 2, y: 0)
+                                             .shadow(color: Color(hex: "#7F39FB"), radius: 1, x: 0, y: 2)
+                                             .padding(.horizontal, 26)
+                                             .padding(.top, 6)
+                                             .padding(.bottom, 8)
+                                             .background(LinearGradient(gradient: Gradient(colors: [Color(hex: "#F600FB"), Color(hex: "#BD00FF")]),
+                                                                        startPoint: .leading,
+                                                                        endPoint: .trailing))
+                                             .cornerRadius(2)
+                                     }
+                                 }
+                                 .padding(.trailing, 64)
+                                 .padding(.bottom, 50)
+                            }
+                        }
+                        .padding(.top, -2)
+                    }
+                } else if showFourthScreen {
+                    VStack(spacing: 0) {
+                        ZStack(alignment: .top) {
+                            Image("Onboarding4_top")
+                                .resizable()
+                                .frame(width: geometry.size.width)
+                                .edgesIgnoringSafeArea(.top)
+                                .onAppear {
+        //                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        //                                withAnimation {
+        //                                    firstScreenState2 = true
+        //                                }
+        //                            }
+                                }
+                            
+                            Text("STEP 2")
+                                .font(Font.custom("marediv", size: 40))
+                                .multilineTextAlignment(.center)
+                                .overlay (
+                                    LinearGradient(
+                                        colors: [Color(hex: "#00FC83"), Color(hex: "#FAFF14")],
+                                        startPoint: .top,
+                                        endPoint: .bottom
+                                    )
+                                    .mask(
+                                        Text("STEP 2")
+                                            .font(Font.custom("marediv", size: 40))
+                                            .multilineTextAlignment(.center)
+                                    )
+                                )
+                                .shadow(color: Color(hex: "#B20CFC"), radius: 0, x: 1, y: 0)
+                                .shadow(color: Color(hex: "#7F39FB"), radius: 1, x: 0, y: 1)
+                                .padding(.top, 40)
+                        }
+                        
+                        ZStack(alignment: .bottom) {
+                            Image("Onboarding3_bottom")
+                                .resizable()
+                                .frame(width: geometry.size.width, height: geometry.size.height * 0.42)
+                                .onAppear {
+        //                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        //                                withAnimation {
+        //                                    firstScreenState2 = true
+        //                                }
+        //                            }
+                                }
+                            
+                            HStack(spacing: 0) {
+                                Spacer()
+                                Image("Onboarding4_cupid")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: geometry.size.height*0.22)
+                            }
+                            
+                            VStack(alignment: .leading, spacing: 0) {
+                                Text("To accept the Proposal")
+                                    .font(Font.custom("marediv", size: 19))
+                                    .foregroundColor(Color(hex: "#7E3906"))
+                                    .multilineTextAlignment(.leading)
+                                    .padding(.horizontal, 57)
+                                
+                                VStack(alignment: .leading, spacing: 6) {
+                                    Text("1. Connect your crypto wallet")
+                                        .font(Font.custom("marediv", size: 15))
+                                        .foregroundColor(Color(hex: "#7E3906"))
+                                        .multilineTextAlignment(.leading)
+                                    
+                                    Text("2. Get Matic from our Faucet")
+                                        .font(Font.custom("marediv", size: 15))
+                                        .foregroundColor(Color(hex: "#7E3906"))
+                                        .multilineTextAlignment(.leading)
+                                    
+                                    Text("3. Accept the Proposal in the App")
+                                        .font(Font.custom("marediv", size: 15))
+                                        .foregroundColor(Color(hex: "#7E3906"))
+                                        .multilineTextAlignment(.leading)
+                                }
+                                .padding(.horizontal, 57)
+                                .padding(.top, 16)
+                                .padding(.bottom, 30)
+                                
+                                HStack(spacing: 0) {
                                     Button {
                                         withAnimation {
-                                            
+                                            showFourthScreen = true
+                                            showThirdScreen = false
                                         }
                                     } label: {
-                                        Text("NEXT")
-                                            .font(Font.custom("marediv", size: 19))
-                                            .multilineTextAlignment(.center)
-                                            .overlay (
-                                                LinearGradient(
-                                                    colors: [Color(hex: "#0DFD61"), Color(hex: "#39EFFB")],
-                                                    startPoint: .top,
-                                                    endPoint: .bottom
+                                        HStack(spacing: 0) {
+                                            Text("AND SO\nWHAT")
+                                                .font(Font.custom("marediv", size: 19))
+                                                .multilineTextAlignment(.center)
+                                                .overlay (
+                                                    LinearGradient(
+                                                        colors: [Color(hex: "#B20CFC"), Color(hex: "#6E01F0")],
+                                                        startPoint: .leading,
+                                                        endPoint: .trailing
+                                                    )
+                                                    .mask(
+                                                        Text("AND SO\nWHAT")
+                                                            .font(Font.custom("marediv", size: 19))
+                                                            .multilineTextAlignment(.center)
+                                                    )
                                                 )
-                                                .mask(
-                                                    Text("NEXT")
-                                                        .font(Font.custom("marediv", size: 19))
-                                                        .multilineTextAlignment(.center)
-                                                )
-                                            )
-                                            .shadow(color: Color(hex: "#B20CFC"), radius: 0, x: 2, y: 0)
-                                            .shadow(color: Color(hex: "#7F39FB"), radius: 1, x: 0, y: 2)
-                                            .padding(.horizontal, 26)
-                                            .padding(.top, 6)
-                                            .padding(.bottom, 8)
-                                            .background(LinearGradient(gradient: Gradient(colors: [Color(hex: "#F600FB"), Color(hex: "#BD00FF")]),
-                                                                       startPoint: .leading,
-                                                                       endPoint: .trailing))
-                                            .cornerRadius(2)
+                                                .shadow(color: Color(hex: "#B20CFC"), radius: 0, x: 1, y: 0)
+                                                .shadow(color: Color(hex: "#7F39FB"), radius: 0, x: 0, y: 1)
+                                            
+                                            Image("ic_btn_arrow")
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 32)
+                                                .padding(.leading, 12)
+                                        }
+                                        .padding(.leading, 26)
+                                        .padding(.trailing, 17)
+                                        .padding(.vertical, 6)
+                                        .background(LinearGradient(gradient: Gradient(colors: [Color(hex: "#0DFD61"), Color(hex: "#39EFFB")]),
+                                                                   startPoint: .top,
+                                                                   endPoint: .bottom))
+                                        .cornerRadius(24)
                                     }
+                                    Spacer()
                                 }
-                                .padding(.trailing, 64)
-                                .padding(.bottom, 50)
+                                .padding(.leading, 64)
+                                .padding(.bottom, 64)
                             }
                         }
                         .padding(.top, -2)
