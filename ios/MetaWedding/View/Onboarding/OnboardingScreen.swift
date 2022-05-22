@@ -16,7 +16,7 @@ struct OnboardingScreen: View {
     var onboardingViewModel = OnboardingViewModel()
     
     @State
-    var showFirstScreen = true
+    var showFirstScreen = false
     
     @State
     var firstScreenState2 = false
@@ -38,6 +38,9 @@ struct OnboardingScreen: View {
     
     @State
     var showFourthScreen = false
+    
+    @State
+    var showFifthScreen = true
     
     var body: some View {
         GeometryReader { geometry in
@@ -390,8 +393,8 @@ struct OnboardingScreen: View {
                                 HStack(spacing: 0) {
                                     Button {
                                         withAnimation {
-                                            showFourthScreen = true
-                                            showThirdScreen = false
+                                            showFifthScreen = true
+                                            showFourthScreen = false
                                         }
                                     } label: {
                                         HStack(spacing: 0) {
@@ -417,7 +420,8 @@ struct OnboardingScreen: View {
                                                 .resizable()
                                                 .scaledToFit()
                                                 .frame(width: 32)
-                                                .padding(.leading, 12)
+                                                .padding(.leading, 8)
+                                                .padding(.top, 2)
                                         }
                                         .padding(.leading, 26)
                                         .padding(.trailing, 17)
@@ -434,6 +438,95 @@ struct OnboardingScreen: View {
                             }
                         }
                         .padding(.top, -2)
+                    }
+                } else if showFifthScreen {
+                    Image("Onboarding5_background")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: geometry.size.width)
+                        .ignoresSafeArea()
+                        .onAppear {
+                            
+                        }
+                    
+                    Image("rays_modified")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: geometry.size.width)
+                        .ignoresSafeArea()
+                        .onAppear {
+
+                        }
+                    
+                    VStack(spacing: 0) {
+
+                        Text("SUCCESS")
+                            .font(Font.custom("marediv", size: 40))
+                            .multilineTextAlignment(.center)
+                            .overlay (
+                                LinearGradient(
+                                    colors: [Color(hex: "#FF0000"), Color(hex: "#FAFF14")],
+                                    startPoint: .top,
+                                    endPoint: .bottom
+                                )
+                                .mask(
+                                    Text("SUCCESS")
+                                        .font(Font.custom("marediv", size: 40))
+                                        .multilineTextAlignment(.center)
+                                )
+                            )
+                            .shadow(color: Color(hex: "#B20CFC"), radius: 0, x: 1, y: 0)
+                            .shadow(color: Color(hex: "#7F39FB"), radius: 1, x: 0, y: 1)
+                            .padding(.bottom, 40)
+
+                        Text("Your union is concluded and\nregistered in the Polygon\nblockchain!")
+                            .font(.system(size: 24))
+                            .foregroundColor(Color.white)
+                            .multilineTextAlignment(.center)
+                            .shadow(color: Color(hex: "#B20CFC"), radius: 0, x: 1, y: 0)
+                            .shadow(color: Color(hex: "#7F39FB"), radius: 1, x: 0, y: 1)
+                            .padding(.bottom, 40)
+                            .padding(.horizontal, 20)
+
+                        Text("It will be stored as an NFT\nforever!")
+                            .font(.system(size: 24))
+                            .foregroundColor(Color.white)
+                            .multilineTextAlignment(.center)
+                            .shadow(color: Color(hex: "#B20CFC"), radius: 0, x: 1, y: 0)
+                            .shadow(color: Color(hex: "#7F39FB"), radius: 1, x: 0, y: 1)
+                            .padding(.bottom, 22)
+                            .padding(.horizontal, 20)
+
+                        Text("*Well, or until you decide to divorce :)")
+                            .font(Font.custom("marediv", size: 14))
+                            .foregroundColor(Color.white)
+                            .multilineTextAlignment(.center)
+                            .shadow(color: Color(hex: "#B20CFC"), radius: 0, x: 1, y: 0)
+                            .shadow(color: Color(hex: "#7F39FB"), radius: 1, x: 0, y: 1)
+                            .padding(.bottom, 14)
+                            .padding(.horizontal, 20)
+
+                        Image("Onboarding5_cupids")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: geometry.size.height*0.23)
+                            .padding(.bottom, 104)
+
+                        Button {
+
+                        } label: {
+                            Text("LET`S MINT")
+                                .font(.system(size: 26))
+                                .fontWeight(.bold)
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 35)
+                                .padding(.vertical, 17)
+                                .background(LinearGradient(gradient: Gradient(colors: [Color(hex: "#B20CFC"), Color(hex: "#6E01F0")]),
+                                                           startPoint: .leading,
+                                                           endPoint: .trailing))
+                                .cornerRadius(32)
+                        }
+                        .padding(.bottom, 44)
                     }
                 } else {
                     EmptyView()
