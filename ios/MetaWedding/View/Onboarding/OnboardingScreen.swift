@@ -180,10 +180,10 @@ struct OnboardingScreen: View {
                                                                            endPoint: .trailing))
                                                 .cornerRadius(2)
                                         }
-                                        .padding(.top, 12)
+                                        .padding(.top, geometry.size.height*0.018)
                                     }
                                     .padding(.horizontal, 50)
-                                    .padding(.top, 38)
+                                    .padding(.top, geometry.size.height*0.056)
                                 }
                                 .frame(height: showSecondScreen ? 400 : 0)
                                 .transition(.move(edge: .bottom))
@@ -318,35 +318,36 @@ struct OnboardingScreen: View {
                                     .font(Font.custom("marediv", size: 19))
                                     .foregroundColor(Color(hex: "#7E3906"))
                                     .multilineTextAlignment(.leading)
-                                    .padding(.horizontal, 55)
+                                    .padding(.horizontal, geometry.size.width*0.151)
                                     .opacity(showThirdScreenTitle ? 1 : 0)
                                 
                                 VStack(alignment: .leading, spacing: 6) {
                                     Text("1. Connect your crypto wallet")
-                                        .font(Font.custom("marediv", size: 15))
+                                        .font(Font.custom("marediv", size: 14))
                                         .foregroundColor(Color(hex: "#7E3906"))
                                         .multilineTextAlignment(.leading)
                                     
                                     Text("2. Get Matic from our Faucet")
-                                        .font(Font.custom("marediv", size: 15))
+                                        .font(Font.custom("marediv", size: 14))
                                         .foregroundColor(Color(hex: "#7E3906"))
                                         .multilineTextAlignment(.leading)
                                     
                                     Text("3. Send a proposal to the partner")
-                                        .font(Font.custom("marediv", size: 15))
+                                        .font(Font.custom("marediv", size: 14))
                                         .foregroundColor(Color(hex: "#7E3906"))
                                         .multilineTextAlignment(.leading)
                                     
                                     Text("4. Ask your partner to accept it")
-                                        .font(Font.custom("marediv", size: 15))
+                                        .font(Font.custom("marediv", size: 14))
                                         .foregroundColor(Color(hex: "#7E3906"))
                                         .multilineTextAlignment(.leading)
                                     
                                 }
-                                .padding(.horizontal, 55)
-                                .padding(.leading, 30)
-                                .padding(.top, 16)
-                                .padding(.bottom, 20)
+                                .padding(.horizontal, geometry.size.width*0.146)
+                                .padding(.leading, geometry.size.width*0.068)
+//                                .padding(.leading, geometry.size.width*0.054)
+                                .padding(.top, geometry.size.height*0.020)
+                                .padding(.bottom, geometry.size.height*0.020)
                                 .opacity(showThirdScreenMainText ? 1 : 0)
                                 
                                 HStack(spacing: 0) {
@@ -384,8 +385,8 @@ struct OnboardingScreen: View {
                                      }
                                      .opacity(showThirdScreenBtn ? 1 : 0)
                                  }
-                                 .padding(.trailing, 64)
-                                 .padding(.bottom, 50)
+                                 .padding(.trailing, geometry.size.width*0.175)
+                                 .padding(.bottom, geometry.size.height*0.069)
                             }
                         }
                         .padding(.top, -2)
@@ -467,7 +468,7 @@ struct OnboardingScreen: View {
                                     Image("Onboarding4_cupid")
                                         .resizable()
                                         .scaledToFit()
-                                        .frame(width: geometry.size.height*0.22)
+                                        .frame(width: geometry.size.height*0.21)
                                 }
                                 .transition(.move(edge: .trailing).combined(with: .opacity))
                                 .animation(.easeIn(duration: 1.0))
@@ -478,7 +479,7 @@ struct OnboardingScreen: View {
                                     .font(Font.custom("marediv", size: 19))
                                     .foregroundColor(Color(hex: "#7E3906"))
                                     .multilineTextAlignment(.leading)
-                                    .padding(.horizontal, 57)
+                                    .padding(.horizontal, geometry.size.width*0.158)
                                     .opacity(showFourthScreenTitle ? 1 : 0)
                                 
                                 VStack(alignment: .leading, spacing: 6) {
@@ -497,7 +498,7 @@ struct OnboardingScreen: View {
                                         .foregroundColor(Color(hex: "#7E3906"))
                                         .multilineTextAlignment(.leading)
                                 }
-                                .padding(.horizontal, 57)
+                                .padding(.horizontal, geometry.size.width*0.158)
                                 .padding(.top, 16)
                                 .padding(.bottom, 30)
                                 .opacity(showFourthScreenMainText ? 1 : 0)
@@ -546,8 +547,8 @@ struct OnboardingScreen: View {
                                     .opacity(showFourthScreenBtn ? 1 : 0)
                                     Spacer()
                                 }
-                                .padding(.leading, 64)
-                                .padding(.bottom, 64)
+                                .padding(.leading, geometry.size.width*0.167)
+                                .padding(.bottom, geometry.size.height*0.088)
                             }
                         }
                         .padding(.top, -2)
@@ -661,7 +662,7 @@ struct OnboardingScreen: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: geometry.size.height*0.23)
-                                .padding(.bottom, 104)
+                                .padding(.bottom, geometry.size.height*0.120)
                                 .transition(.move(edge: .bottom).combined(with: .opacity))
                                 .animation(.easeIn(duration: 0.5))
                         } else {
@@ -669,7 +670,7 @@ struct OnboardingScreen: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: geometry.size.height*0.23)
-                                .padding(.bottom, 104)
+                                .padding(.bottom, geometry.size.height*0.12)
                                 .opacity(0)
                         }
 
@@ -687,7 +688,7 @@ struct OnboardingScreen: View {
                                                            endPoint: .trailing))
                                 .cornerRadius(32)
                         }
-                        .padding(.bottom, 44)
+                        .padding(.bottom, geometry.size.height*0.025)
                         .shadow(color: Color.white.opacity(0.5), radius: 60, x: 0, y: 0 )
                         .opacity(showFifthScreenBtn ? 1 : 0)
                     }
