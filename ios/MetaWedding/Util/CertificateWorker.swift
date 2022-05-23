@@ -100,19 +100,20 @@ class CertificateWorker {
                 .replacingOccurrences(of: CertificateWorker.selfImageKey, with: firstImage)
                 .replacingOccurrences(of: CertificateWorker.partnerImageKey, with: secondImage)
         } else {
-            let defaultImagePath = Bundle.main.path(forResource: "default_photo", ofType: "txt")!
-            let defaultImageBase64 = try! String(contentsOfFile: defaultImagePath)
-            
             if let firstImage = firstPersonImage {
                 htmlString = htmlString.replacingOccurrences(of: CertificateWorker.selfImageKey, with: firstImage)
             } else {
-                htmlString = htmlString.replacingOccurrences(of: CertificateWorker.selfImageKey, with: defaultImageBase64)
+                let image = UIImage(named: "default_image_author")
+                let defaultImageBase64 = image?.base64()
+                htmlString = htmlString.replacingOccurrences(of: CertificateWorker.selfImageKey, with: defaultImageBase64!)
             }
             
             if let secondImage = secondPersonImage {
                 htmlString = htmlString.replacingOccurrences(of: CertificateWorker.partnerImageKey, with: secondImage)
             } else {
-                htmlString = htmlString.replacingOccurrences(of: CertificateWorker.partnerImageKey, with: defaultImageBase64)
+                let image = UIImage(named: "default_image_receiver")
+                let defaultImageBase64 = image?.base64()!
+                htmlString = htmlString.replacingOccurrences(of: CertificateWorker.partnerImageKey, with: defaultImageBase64!)
             }
         }
         return htmlString

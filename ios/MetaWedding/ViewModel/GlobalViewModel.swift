@@ -332,7 +332,6 @@ class GlobalViewModel: ObservableObject {
                 }
             }
         }
-//        let a = UIActivityViewController(activityItems: <#T##[Any]#>, applicationActivities: <#T##[UIActivity]?#>)
         onMainThread {
             if let error = response.error {
                 print("got error on response: \(error)")
