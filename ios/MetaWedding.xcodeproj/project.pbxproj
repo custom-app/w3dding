@@ -230,8 +230,8 @@
 				11C356CB27FF82BB007A0E69 /* Components */,
 				11E32C8F2802298C00A540EE /* Auth */,
 				11E32C902802299A00A540EE /* Wedding */,
-				118A952327F935F600798141 /* MainContainer.swift */,
 				11EABE4E281C0BFB003DE322 /* LaunchScreen.storyboard */,
+				118A952327F935F600798141 /* MainContainer.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";

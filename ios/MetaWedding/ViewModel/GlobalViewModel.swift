@@ -1075,7 +1075,7 @@ class GlobalViewModel: ObservableObject {
                                                  secondPersonImage: image,
                                                  templateId: templateId,
                                                  blockHash: "block hash",
-                                                 blockNumber: "block number",
+                                                 blockNumber: "block num",
                                                  forPreview: true)
                 }
                 .resume()
@@ -1089,7 +1089,7 @@ class GlobalViewModel: ObservableObject {
                                              secondPersonImage: image,
                                              templateId: templateId,
                                              blockHash: "block hash",
-                                             blockNumber: "block number",
+                                             blockNumber: "block num",
                                              forPreview: true)
             }
         }
