@@ -86,7 +86,7 @@ struct ProposalsMenu: View {
                     .font(.subheadline)
                     .fontWeight(.bold)
                     .foregroundColor(globalViewModel.selectedMyProposals ?
-                                     Colors.darkPurple : Colors.grey)
+                                     Colors.darkPurple : Colors.darkPurple.opacity(0.65))
                     .padding(.vertical, 15)
                     .padding(.horizontal, 12)
                     .background(Color.white.opacity(globalViewModel.selectedMyProposals ? 1 : 0))
@@ -103,7 +103,7 @@ struct ProposalsMenu: View {
                     .font(.subheadline)
                     .fontWeight(.bold)
                     .foregroundColor(globalViewModel.selectedMyProposals ?
-                                     Colors.grey : Colors.darkPurple)
+                                     Colors.darkPurple.opacity(0.65) : Colors.darkPurple)
                     .padding(.vertical, 15)
                     .padding(.horizontal, 12)
                     .background(Color.white.opacity(globalViewModel.selectedMyProposals ? 0 : 1))
@@ -120,10 +120,6 @@ struct ProposalsMenu: View {
             }
             .background(Color.white.opacity(0.5))
             .cornerRadius(30)
-            .overlay(
-                RoundedRectangle(cornerRadius: 30)
-                    .stroke(Color.white, lineWidth: 1)
-            )
             
             Spacer()
         }

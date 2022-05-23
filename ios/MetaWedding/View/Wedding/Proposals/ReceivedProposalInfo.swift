@@ -22,14 +22,19 @@ struct ReceivedProposalInfo: View {
                     .aspectRatio(contentMode: .fill)
                     .edgesIgnoringSafeArea(.all)
                 
-                VStack(spacing: 0) {
-                    if proposal.receiverAccepted {
-                        ReceivedProposalAccepted(proposal: proposal)
-                    } else {
-                        ReceivedProposalPending(proposal: proposal)
+                ScrollView {
+                    VStack(spacing: 0) {
+                        if proposal.receiverAccepted {
+                            ReceivedProposalAccepted(proposal: proposal)
+                        } else {
+                            ReceivedProposalPending(proposal: proposal)
+                        }
                     }
+                    .frame(width: geometry.size.width, height: geometry.size.height)
+                    
+                    Spacer()
+                        .frame(height: 240)
                 }
-                .frame(width: geometry.size.width, height: geometry.size.height)
             }
         }
     }

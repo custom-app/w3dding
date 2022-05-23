@@ -16,7 +16,7 @@ import PhotosUI
 class GlobalViewModel: ObservableObject {
     
     private let gasSafeAddition: BigUInt = 3000000000
-    public let nameLimit = 50
+    public let nameLimit = 40
     private let deepLinkDelay = 0.5
     private let proposeId = "propose"
     private let acceptProposalId = "accept_proposal"
@@ -332,6 +332,7 @@ class GlobalViewModel: ObservableObject {
                 }
             }
         }
+//        let a = UIActivityViewController(activityItems: <#T##[Any]#>, applicationActivities: <#T##[UIActivity]?#>)
         onMainThread {
             if let error = response.error {
                 print("got error on response: \(error)")

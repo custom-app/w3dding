@@ -43,9 +43,19 @@ struct Constants {
     }
     
     static let templates: [CertificateTemplate] = [
-        CertificateTemplate(id: "1", name: "Classic Theme"),
-        CertificateTemplate(id: "2", name: "Neon Theme"),
-        CertificateTemplate(id: "3", name: "Another Theme")
+        CertificateTemplate(id: "1", name: "Classic"),
+        CertificateTemplate(id: "2", name: "Blocks"),
+        CertificateTemplate(id: "3", name: "Eclipse"),
+        CertificateTemplate(id: "4", name: "Minimal Dark"),
+        CertificateTemplate(id: "5", name: "Minimal Light"),
+        CertificateTemplate(id: "6", name: "Natural"),
+        CertificateTemplate(id: "7", name: "Neon"),
+        CertificateTemplate(id: "8", name: "Northern Lights"),
+        CertificateTemplate(id: "9", name: "Pride"),
+        CertificateTemplate(id: "10", name: "Retrowave"),
+        CertificateTemplate(id: "11", name: "Space"),
+        CertificateTemplate(id: "12", name: "Stop War"),
+        CertificateTemplate(id: "13", name: "Street Art")
     ]
     
 }

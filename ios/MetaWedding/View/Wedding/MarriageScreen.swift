@@ -12,6 +12,9 @@ struct MarriageScreen: View {
     @EnvironmentObject
     var globalViewModel: GlobalViewModel
     
+    @State
+    var shareLoading = false
+    
     var body: some View {
         VStack(spacing: 0) {
             let marriage = globalViewModel.marriage
@@ -105,6 +108,64 @@ struct MarriageScreen: View {
                 }
                 .padding(.top, 32)
                 .padding(.horizontal, 16)
+                
+                if marriage.divorceState == .notRequested, let url = URL(string: meta.httpImageLink())  {
+                    if shareLoading {
+                        WeddingProgress()
+                            .padding(.top, 32)
+                        Text("Loading certificate")
+                            .font(Font.headline.bold())
+                            .foregroundColor(Colors.darkPurple)
+                            .padding(.top, 24)
+                    } else {
+                        Button {
+                            withAnimation {
+                                shareLoading = true
+                            }
+                            DispatchQueue.global(qos: .userInitiated).async {
+                                URLSession.shared.dataTask(with: URL(string: meta.httpImageLink())!) { data, response, error in
+                                    if error != nil {
+                                        DispatchQueue.main.async {
+                                            withAnimation {
+                                                shareLoading = false
+                                            }
+                                        }
+                                        return
+                                    }
+                                    guard let data = data else {
+                                        return
+                                    }
+                                    print("loaded cert image")
+                                    DispatchQueue.main.async {
+                                        withAnimation {
+                                            shareLoading = false
+                                        }
+                                    }
+                                    if let certImage = UIImage(data: data) {
+                                        DispatchQueue.main.async {
+                                            let activityController = UIActivityViewController(activityItems: [certImage], applicationActivities: nil)
+                                            UIApplication.shared.windows.first?.rootViewController!
+                                                .present(activityController, animated: true, completion: nil)
+                                        }
+                                    }
+                                }
+                                .resume()
+                            }
+                        } label: {
+                            Text("Share")
+                                .font(.system(size: 17))
+                                .fontWeight(.bold)
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 44)
+                                .padding(.vertical, 18)
+                                .background(LinearGradient(gradient: Gradient(colors: [Color(hex: "#B20CFC"), Color(hex: "#6E01F0")]),
+                                                           startPoint: .leading,
+                                                           endPoint: .trailing))
+                                .cornerRadius(32)
+                        }
+                        .padding(.top, 32)
+                    }
+                }
                 
                 VStack(spacing: 0) {
                     Spacer()

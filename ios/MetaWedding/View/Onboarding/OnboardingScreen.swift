@@ -293,13 +293,6 @@ struct OnboardingScreen: View {
                             Image("Onboarding3_bottom")
                                 .resizable()
                                 .frame(width: geometry.size.width, height: geometry.size.height * 0.42)
-                                .onAppear {
-        //                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-        //                                withAnimation {
-        //                                    firstScreenState2 = true
-        //                                }
-        //                            }
-                                }
                             
                             if showThirdScreenCupid {
                                 HStack(spacing: 0) {
@@ -345,7 +338,6 @@ struct OnboardingScreen: View {
                                 }
                                 .padding(.horizontal, geometry.size.width*0.146)
                                 .padding(.leading, geometry.size.width*0.068)
-//                                .padding(.leading, geometry.size.width*0.054)
                                 .padding(.top, geometry.size.height*0.020)
                                 .padding(.bottom, geometry.size.height*0.020)
                                 .opacity(showThirdScreenMainText ? 1 : 0)
@@ -454,14 +446,7 @@ struct OnboardingScreen: View {
                             Image("Onboarding3_bottom")
                                 .resizable()
                                 .frame(width: geometry.size.width, height: geometry.size.height * 0.42)
-                                .onAppear {
-        //                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-        //                                withAnimation {
-        //                                    firstScreenState2 = true
-        //                                }
-        //                            }
-                                }
-                            
+                                
                             if showFourthScreenCupid {
                                 HStack(spacing: 0) {
                                     Spacer()
@@ -597,9 +582,6 @@ struct OnboardingScreen: View {
                         .scaledToFit()
                         .frame(width: geometry.size.width)
                         .ignoresSafeArea()
-                        .onAppear {
-
-                        }
                         .opacity(showFifthScreenRays ? 1 : 0)
                     
                     VStack(spacing: 0) {
@@ -675,7 +657,10 @@ struct OnboardingScreen: View {
                         }
 
                         Button {
-
+                            UserDefaultsWorker.shared.setOnBoardingShown(shown: true)
+                            withAnimation {
+                                globalViewModel.showingOnboarding = false
+                            }
                         } label: {
                             Text("LET`S MINT")
                                 .font(.system(size: 26))

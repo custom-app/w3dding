@@ -16,7 +16,7 @@ struct WeddingContainer: View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
                 HStack(alignment: .bottom) {
-                    Text("Agreement of Love & Loyalty")
+                    Text("Agreement")
                         .foregroundColor(Colors.darkPurple)
                         .font(.system(size: 26))
                         .fontWeight(.bold)
