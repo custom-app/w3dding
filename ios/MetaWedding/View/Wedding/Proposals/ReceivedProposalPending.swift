@@ -287,7 +287,8 @@ struct ReceivedProposalPending: View {
                                 globalViewModel.generateCerificateAndAcceptProposition(proposal: proposal,
                                                                                        properties: properties,
                                                                                        name: globalViewModel.name,
-                                                                                       image: globalViewModel.selfImage)
+                                                                                       image: globalViewModel.selfImage,
+                                                                                       templateId: globalViewModel.selectedTemplate.id)
                             }
                         } label: {
                             Text("Accept")

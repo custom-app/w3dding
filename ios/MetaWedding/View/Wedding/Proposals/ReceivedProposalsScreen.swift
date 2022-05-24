@@ -206,7 +206,8 @@ struct PreviewSheet: View {
             if let properties = proposal.meta?.properties {
                 globalViewModel.buildPreview(properties: properties,
                                              name: globalViewModel.name,
-                                             image: globalViewModel.selfImage)
+                                             image: globalViewModel.selfImage,
+                                             templateId: globalViewModel.selectedTemplate.id)
             }
         }
     }

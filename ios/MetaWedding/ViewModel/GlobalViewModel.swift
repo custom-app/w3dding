@@ -16,7 +16,7 @@ import PhotosUI
 class GlobalViewModel: ObservableObject {
     
     private let gasSafeAddition: BigUInt = 3000000000
-    public let nameLimit = 40
+    public let nameLimit = 20
     private let deepLinkDelay = 0.5
     private let proposeId = "propose"
     private let acceptProposalId = "accept_proposal"
