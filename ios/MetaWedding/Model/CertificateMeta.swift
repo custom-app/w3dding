@@ -47,13 +47,13 @@ struct CertificateMeta: Codable {
 }
 
 struct CertificateProperties: Codable {
-    let id: String
+    let id: String?
     let firstPersonAddress: String
     let secondPersonAddress: String
     let firstPersonName: String
     let secondPersonName: String
-    let firstPersonImage: String
-    let secondPersonImage: String
-    let templateId: String
+    let firstPersonImage: String?
+    let secondPersonImage: String?
+    let templateId: String?
     let blockNumber: String?
 }

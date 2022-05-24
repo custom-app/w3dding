@@ -317,7 +317,7 @@ struct ReceivedProposalPending: View {
                                                                 secondPersonName: globalViewModel.name,
                                                                 firstPersonAddress: properties.firstPersonAddress,
                                                                 secondPersonAddress: address,
-                                                                firstPersonImage: properties.firstPersonImage,
+                                                                firstPersonImage: properties.firstPersonImage ?? "",
                                                                 blockNumber: "\(proposal.prevBlockNumber+1)",
                                                                 templateId: globalViewModel.selectedTemplate.id)
                     }

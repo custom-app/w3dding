@@ -33,12 +33,12 @@ struct Constants {
     }
     
     struct FaucetContract {
-        static let Mainnet = ""
+        static let Mainnet = "0x7432f560d132D9a5d355e7Dc7755272E10808413"
         static let Testnet = "0xA87AEDC7AbCdEBb5252770027CC1c5cCf500315e"
     }
     
     struct FaucetAccount {
-        static let Mainnet = ""
+        static let Mainnet = "0x1f1d8c998177c65B79710B335a7A831aB2E85990"
         static let Testnet = "0x9dCb41F58406c5A4F1338b57ca0039Cebc8E1D93"
     }
     

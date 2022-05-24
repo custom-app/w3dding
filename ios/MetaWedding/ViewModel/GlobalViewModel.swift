@@ -506,9 +506,9 @@ class GlobalViewModel: ObservableObject {
                                 withAnimation {
                                     self.authoredProposals[i].meta = meta
                                 }
-                                if !meta.properties.firstPersonImage.isEmpty {
+                                if let firstImage = meta.properties.firstPersonImage, !firstImage.isEmpty {
                                     DispatchQueue.global(qos: .userInitiated).async {
-                                        let url = URL(string: Tools.ipfsLinkToHttp(ipfsLink: meta.properties.firstPersonImage))!
+                                        let url = URL(string: Tools.ipfsLinkToHttp(ipfsLink: firstImage))!
                                         URLSession.shared.dataTask(with: url) { [self] data, response, error in
                                             guard error == nil, let data = data else {
                                                 return
@@ -525,9 +525,9 @@ class GlobalViewModel: ObservableObject {
                                         .resume()
                                     }
                                 }
-                                if !meta.properties.secondPersonImage.isEmpty {
+                                if let secondImage = meta.properties.secondPersonImage, !secondImage.isEmpty {
                                     DispatchQueue.global(qos: .userInitiated).async {
-                                        let url = URL(string: Tools.ipfsLinkToHttp(ipfsLink: meta.properties.secondPersonImage))!
+                                        let url = URL(string: Tools.ipfsLinkToHttp(ipfsLink: secondImage))!
                                         URLSession.shared.dataTask(with: url) { [self] data, response, error in
                                             guard error == nil, let data = data else {
                                                 return
@@ -588,9 +588,9 @@ class GlobalViewModel: ObservableObject {
                                 withAnimation {
                                     self.receivedProposals[i].meta = meta
                                 }
-                                if !meta.properties.firstPersonImage.isEmpty {
+                                if let firstImage = meta.properties.firstPersonImage, !firstImage.isEmpty {
                                     DispatchQueue.global(qos: .userInitiated).async {
-                                        let url = URL(string: Tools.ipfsLinkToHttp(ipfsLink: meta.properties.firstPersonImage))!
+                                        let url = URL(string: Tools.ipfsLinkToHttp(ipfsLink: firstImage))!
                                         URLSession.shared.dataTask(with: url) { [self] data, response, error in
                                             guard error == nil, let data = data else {
                                                 return
@@ -607,9 +607,9 @@ class GlobalViewModel: ObservableObject {
                                         .resume()
                                     }
                                 }
-                                if !meta.properties.secondPersonImage.isEmpty {
+                                if let secondImage = meta.properties.secondPersonImage, !secondImage.isEmpty {
                                     DispatchQueue.global(qos: .userInitiated).async {
-                                        let url = URL(string: Tools.ipfsLinkToHttp(ipfsLink: meta.properties.secondPersonImage))!
+                                        let url = URL(string: Tools.ipfsLinkToHttp(ipfsLink: secondImage))!
                                         URLSession.shared.dataTask(with: url) { [self] data, response, error in
                                             guard error == nil, let data = data else {
                                                 return
@@ -857,9 +857,9 @@ class GlobalViewModel: ObservableObject {
                     }
                     return
                 }
-                if !properties.firstPersonImage.isEmpty {
+                if let firstPersonImage = properties.firstPersonImage, !firstPersonImage.isEmpty {
                     print("loading author image")
-                    URLSession.shared.dataTask(with: URL(string: Tools.ipfsLinkToHttp(ipfsLink: properties.firstPersonImage))!) { [self] data, response, error in
+                    URLSession.shared.dataTask(with: URL(string: Tools.ipfsLinkToHttp(ipfsLink: firstPersonImage))!) { [self] data, response, error in
                         if let error = error {
                             DispatchQueue.main.async {
                                 self.handleError(error)
@@ -1049,9 +1049,9 @@ class GlobalViewModel: ObservableObject {
             return
         }
         DispatchQueue.global(qos: .userInitiated).async { [self] in
-            if !properties.firstPersonImage.isEmpty {
+            if let firstPersonImage = properties.firstPersonImage, !firstPersonImage.isEmpty {
                 print("loading author image")
-                URLSession.shared.dataTask(with: URL(string: Tools.ipfsLinkToHttp(ipfsLink: properties.firstPersonImage))!) { [self] data, response, error in
+                URLSession.shared.dataTask(with: URL(string: Tools.ipfsLinkToHttp(ipfsLink: firstPersonImage))!) { [self] data, response, error in
                     if let error = error {
                         DispatchQueue.main.async {
                             self.handleError(error)
