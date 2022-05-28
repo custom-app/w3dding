@@ -15,7 +15,7 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             if globalViewModel.showingOnboarding {
-                OnboardingScreen()
+                OnboardingContainer()
                     .navigationTitle("")
                     .navigationBarHidden(true)
             } else {

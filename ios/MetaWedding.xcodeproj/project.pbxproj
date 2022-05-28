@@ -50,6 +50,9 @@
 		11B8CE59280DD38C00B25974 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B8CE58280DD38C00B25974 /* Config.swift */; };
 		11B8CE5B280DF43700B25974 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B8CE5A280DF43700B25974 /* WebView.swift */; };
 		11C356CD27FF82D1007A0E69 /* IdentifiableAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C356CC27FF82D1007A0E69 /* IdentifiableAlert.swift */; };
+		11C610FD28429DBB0068B1B3 /* OnboardingSoundScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C610FC28429DBB0068B1B3 /* OnboardingSoundScreen.swift */; };
+		11C610FF2842A33B0068B1B3 /* OnboardingContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C610FE2842A33B0068B1B3 /* OnboardingContainer.swift */; };
+		11C611012842A8FA0068B1B3 /* w3dding-sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 11C611002842A8FA0068B1B3 /* w3dding-sound.mp3 */; };
 		11C8502B282A7EFD00AFAB82 /* default_photo.txt in Resources */ = {isa = PBXBuildFile; fileRef = 11C8502A282A7EFD00AFAB82 /* default_photo.txt */; };
 		11C8502D282A99D700AFAB82 /* TemplatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C8502C282A99D700AFAB82 /* TemplatePicker.swift */; };
 		11CE717028038ABC004782E5 /* CertificateWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CE716F28038ABC004782E5 /* CertificateWorker.swift */; };
@@ -127,6 +130,9 @@
 		11B8CE58280DD38C00B25974 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		11B8CE5A280DF43700B25974 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		11C356CC27FF82D1007A0E69 /* IdentifiableAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifiableAlert.swift; sourceTree = "<group>"; };
+		11C610FC28429DBB0068B1B3 /* OnboardingSoundScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingSoundScreen.swift; sourceTree = "<group>"; };
+		11C610FE2842A33B0068B1B3 /* OnboardingContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingContainer.swift; sourceTree = "<group>"; };
+		11C611002842A8FA0068B1B3 /* w3dding-sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "w3dding-sound.mp3"; sourceTree = "<group>"; };
 		11C8502A282A7EFD00AFAB82 /* default_photo.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = default_photo.txt; sourceTree = "<group>"; };
 		11C8502C282A99D700AFAB82 /* TemplatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatePicker.swift; sourceTree = "<group>"; };
 		11CE716F28038ABC004782E5 /* CertificateWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificateWorker.swift; sourceTree = "<group>"; };
@@ -175,6 +181,8 @@
 			isa = PBXGroup;
 			children = (
 				113F17A9283968B20051E3F1 /* OnboardingScreen.swift */,
+				11C610FC28429DBB0068B1B3 /* OnboardingSoundScreen.swift */,
+				11C610FE2842A33B0068B1B3 /* OnboardingContainer.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -210,6 +218,7 @@
 			children = (
 				113977DD28049A5A00D6FD57 /* wedding_abi.json */,
 				11AD63C02825292500A91AE0 /* faucet_abi.json */,
+				11C611002842A8FA0068B1B3 /* w3dding-sound.mp3 */,
 				11C8502A282A7EFD00AFAB82 /* default_photo.txt */,
 				115A659927F3CD1B001CBCD2 /* Info.plist */,
 				11AD63C42825824F00A91AE0 /* Certificates */,
@@ -454,6 +463,7 @@
 				11AD63C12825292500A91AE0 /* faucet_abi.json in Resources */,
 				11EC26E4283D731400D4C001 /* cert12.html in Resources */,
 				113977DE28049A5A00D6FD57 /* wedding_abi.json in Resources */,
+				11C611012842A8FA0068B1B3 /* w3dding-sound.mp3 in Resources */,
 				11C8502B282A7EFD00AFAB82 /* default_photo.txt in Resources */,
 				11EABE4F281C0BFB003DE322 /* LaunchScreen.storyboard in Resources */,
 				11EC26E1283D731400D4C001 /* cert3.html in Resources */,
@@ -484,6 +494,7 @@
 				11CE717028038ABC004782E5 /* CertificateWorker.swift in Sources */,
 				117173E8280CE18800C36A44 /* CertificateMeta.swift in Sources */,
 				11AB967F2832B22200695117 /* ReceivedProposalAccepted.swift in Sources */,
+				11C610FF2842A33B0068B1B3 /* OnboardingContainer.swift in Sources */,
 				11B4C77128090DEA0058A319 /* NftStorage.swift in Sources */,
 				11A484C9280F804600DE5C24 /* BackgroundTasksManager.swift in Sources */,
 				11B03EA72836DB4600EA0DAE /* AuthoredProposalAccepted.swift in Sources */,
@@ -521,6 +532,7 @@
 				11C8502D282A99D700AFAB82 /* TemplatePicker.swift in Sources */,
 				118A951C27F9281E00798141 /* Wallets.swift in Sources */,
 				118A951A27F925AE00798141 /* Constants.swift in Sources */,
+				11C610FD28429DBB0068B1B3 /* OnboardingSoundScreen.swift in Sources */,
 				11A92D7F2814C08F00B98066 /* ConnectedScreen.swift in Sources */,
 				11A92636281A181E00816024 /* WeddingProgress.swift in Sources */,
 				11B03EA52836DA3700EA0DAE /* AuthoredProposalPending.swift in Sources */,

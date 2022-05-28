@@ -10,10 +10,10 @@ import SwiftUI
 struct OnboardingScreen: View {
     
     @EnvironmentObject
-    var globalViewModel: GlobalViewModel
+    var onboardingViewModel: OnboardingViewModel
     
-    @StateObject
-    var onboardingViewModel = OnboardingViewModel()
+    @EnvironmentObject
+    var globalViewModel: GlobalViewModel
     
     @State
     var showFirstScreen = true
@@ -644,7 +644,7 @@ struct OnboardingScreen: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: geometry.size.height*0.23)
-                                .padding(.bottom, geometry.size.height*0.120)
+                                .padding(.bottom, geometry.size.height*0.12)
                                 .transition(.move(edge: .bottom).combined(with: .opacity))
                                 .animation(.easeIn(duration: 0.5))
                         } else {
@@ -658,6 +658,7 @@ struct OnboardingScreen: View {
 
                         Button {
                             UserDefaultsWorker.shared.setOnBoardingShown(shown: true)
+                            onboardingViewModel.stopMusic()
                             withAnimation {
                                 globalViewModel.showingOnboarding = false
                             }
