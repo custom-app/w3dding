@@ -161,20 +161,6 @@ struct AuthoredProposalsScreen: View {
                                     }
                                     .environmentObject(globalViewModel)
                                 }
-                               .sheet(isPresented: $globalViewModel.showConstructorSheet,
-                                     onDismiss: { globalViewModel.showConstructorSheet = false }) {
-                                   ZStack {
-                                       Image("DefaultBackground")
-                                           .resizable()
-                                           .aspectRatio(contentMode: .fill)
-                                           .edgesIgnoringSafeArea(.all)
-                                       
-                                       VStack(spacing: 0) {
-                                           ProposalConstructor()
-                                       }
-                                   }
-                                   .environmentObject(globalViewModel)
-                               }
                             }
                         }
                     }

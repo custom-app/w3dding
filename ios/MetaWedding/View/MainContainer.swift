@@ -35,10 +35,6 @@ struct MainContainer: View {
                     }
                 }
                 .padding(.bottom, 140)
-                .sheet(isPresented: $globalViewModel.showConnectSheet) {
-                    ConnectSheet()
-                        .environmentObject(globalViewModel)
-                }
                 
                 VStack(alignment: .center, spacing: 0) {
                     Spacer()

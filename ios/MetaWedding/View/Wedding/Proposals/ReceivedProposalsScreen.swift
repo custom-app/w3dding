@@ -147,15 +147,15 @@ struct ReceivedProposalsScreen: View {
                             selectedProposal = proposal
                         }
                     }
+                    .sheet(item: $selectedProposal,
+                           onDismiss: { selectedProposal = nil }) { proposal in
+                        ReceivedProposalInfo(proposal: proposal)
+                            .environmentObject(globalViewModel)
+                    }
                 }
             }
         }
         .frame(width: geometry.size.width)
-        .sheet(item: $selectedProposal,
-               onDismiss: { selectedProposal = nil }) { proposal in
-            ReceivedProposalInfo(proposal: proposal)
-                .environmentObject(globalViewModel)
-        }
     }
 }
 

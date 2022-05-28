@@ -59,6 +59,10 @@ struct NotConnectedScreen: View {
                 .padding(.bottom, 52)
         }
         .padding(.top, 50)
+        .sheet(isPresented: $globalViewModel.showConnectSheet) {
+            ConnectSheet()
+                .environmentObject(globalViewModel)
+        }
     }
 }
 
