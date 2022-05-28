@@ -16,9 +16,6 @@ struct OnboardingScreen: View {
     var globalViewModel: GlobalViewModel
     
     @State
-    var animatingScreenChange = false
-    
-    @State
     var showFirstScreen = true
     
     @State
@@ -96,9 +93,6 @@ struct OnboardingScreen: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                
-//                Color.black.ignoresSafeArea()
-                
                 if showFirstScreen {
                     if !showSecondScreen {
                         Image("Onboarding1")
@@ -107,7 +101,7 @@ struct OnboardingScreen: View {
                             .frame(width: geometry.size.width, height: geometry.size.height+100)
                             .ignoresSafeArea()
                             .onAppear {
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                     withAnimation {
                                         showFirstScreenWithLabel = true
                                     }
@@ -128,7 +122,7 @@ struct OnboardingScreen: View {
                                         }
                                     }
                                 }
-                                .animation(.easeIn(duration: 1.40).delay(0.95), value: showSecondScreen)
+                                .animation(.easeIn(duration: 1.00).delay(0.65), value: showSecondScreen)
                             
                             if showSecondScreen {
                                 ZStack(alignment: .top) {
@@ -193,7 +187,7 @@ struct OnboardingScreen: View {
                                 }
                                 .frame(height: showSecondScreen ? 400 : 0)
                                 .transition(.move(edge: .bottom))
-                                .animation(.easeIn(duration: 2.35))
+                                .animation(.easeIn(duration: 1.65))
                             }
                         }
                     }
@@ -223,9 +217,9 @@ struct OnboardingScreen: View {
                         .padding(.top, showSecondScreen ? -150 : 40)
                         .opacity(showSecondScreen ? 0 : 1)
                         .transition(.move(edge: .top).combined(with: .opacity))
-                        .animation(.spring(response: 1.5, dampingFraction: 0.8, blendDuration: 0).speed(0.75))
+                        .animation(.spring(response: 1.5, dampingFraction: 0.8, blendDuration: 0).speed(1.5))
                         .onAppear {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2.2) {
                                 withAnimation {
                                     showSecondScreen = true
 //                                    showFirstScreen = false
@@ -241,27 +235,27 @@ struct OnboardingScreen: View {
                                 .frame(width: geometry.size.width)
                                 .edgesIgnoringSafeArea(.top)
                                 .onAppear {
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                         withAnimation {
                                             showThirdScreenStepText = true
                                         }
                                     }
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.3) {
                                         withAnimation {
                                             showThirdScreenTitle = true
                                         }
                                     }
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.8) {
                                         withAnimation {
                                             showThirdScreenMainText = true
                                         }
                                     }
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.8) {
                                         withAnimation {
                                             showThirdScreenCupid = true
                                         }
                                     }
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
                                         withAnimation {
                                             showThirdScreenBtn = true
                                         }
@@ -288,7 +282,7 @@ struct OnboardingScreen: View {
                                     .shadow(color: Color(hex: "#7F39FB"), radius: 0, x: 0, y: 1)
                                     .padding(.top, 40)
                                     .transition(.move(edge: .leading).combined(with: .opacity))
-                                    .animation(.spring(response: 1.5, dampingFraction: 0.8, blendDuration: 0).speed(0.85))
+                                    .animation(.spring(response: 1.5, dampingFraction: 0.8, blendDuration: 0).speed(1.5))
                                     .onAppear {
                                         
                                     }
@@ -309,7 +303,7 @@ struct OnboardingScreen: View {
                                     Spacer()
                                 }
                                 .transition(.move(edge: .leading).combined(with: .opacity))
-                                .animation(.easeIn(duration: 1.0))
+                                .animation(.easeIn(duration: 0.5))
                             }
                             
                             VStack(spacing: 0) {
@@ -397,27 +391,27 @@ struct OnboardingScreen: View {
                                 .frame(width: geometry.size.width)
                                 .edgesIgnoringSafeArea(.top)
                                 .onAppear {
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                         withAnimation {
                                             showFourthScreenStepText = true
                                         }
                                     }
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.3) {
                                         withAnimation {
                                             showFourthScreenTitle = true
                                         }
                                     }
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.8) {
                                         withAnimation {
                                             showFourthScreenMainText = true
                                         }
                                     }
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.8) {
                                         withAnimation {
                                             showFourthScreenCupid = true
                                         }
                                     }
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
                                         withAnimation {
                                             showFourthScreenBtn = true
                                         }
@@ -444,7 +438,7 @@ struct OnboardingScreen: View {
                                     .shadow(color: Color(hex: "#7F39FB"), radius: 0, x: 0, y: 1)
                                     .padding(.top, 40)
                                     .transition(.move(edge: .leading).combined(with: .opacity))
-                                    .animation(.spring(response: 1.5, dampingFraction: 0.8, blendDuration: 0).speed(0.85))
+                                    .animation(.spring(response: 1.5, dampingFraction: 0.8, blendDuration: 0).speed(1.5))
                             }
                         }
                         
@@ -462,7 +456,7 @@ struct OnboardingScreen: View {
                                         .frame(width: geometry.size.height*0.21)
                                 }
                                 .transition(.move(edge: .trailing).combined(with: .opacity))
-                                .animation(.easeIn(duration: 1.0))
+                                .animation(.easeIn(duration: 0.5))
                             }
                             
                             VStack(alignment: .leading, spacing: 0) {
@@ -551,32 +545,32 @@ struct OnboardingScreen: View {
                         .frame(width: geometry.size.width)
                         .ignoresSafeArea()
                         .onAppear {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                 withAnimation {
                                     showFifthScreenSuccessText = true
                                 }
                             }
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.3) {
                                 withAnimation {
                                     showFifthScreenMainText = true
                                 }
                             }
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 4.5) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
                                 withAnimation {
                                     showFifthScreenAdditionalText = true
                                 }
                             }
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 6.0) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3.25) {
                                 withAnimation {
                                     showFifthScreenCupids = true
                                 }
                             }
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 6.5) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
                                 withAnimation {
                                     showFifthScreenRays = true
                                 }
                             }
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 8.0) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 4.25) {
                                 withAnimation {
                                     showFifthScreenBtn = true
                                 }
@@ -612,7 +606,7 @@ struct OnboardingScreen: View {
                                 .shadow(color: Color(hex: "#7F39FB"), radius: 0, x: 0, y: 1)
                                 .padding(.bottom, 40)
                                 .transition(.move(edge: .top).combined(with: .opacity))
-                                .animation(.spring(response: 1.5, dampingFraction: 0.8, blendDuration: 0).speed(0.85))
+                                .animation(.spring(response: 1.5, dampingFraction: 0.8, blendDuration: 0).speed(1.5))
                         }
 
                         Text("Your union is concluded and\nregistered in the Polygon\nblockchain!")
@@ -652,7 +646,7 @@ struct OnboardingScreen: View {
                                 .frame(width: geometry.size.height*0.23)
                                 .padding(.bottom, geometry.size.height*0.12)
                                 .transition(.move(edge: .bottom).combined(with: .opacity))
-                                .animation(.easeIn(duration: 0.5))
+                                .animation(.easeIn(duration: 0.25))
                         } else {
                             Image("Onboarding5_cupids")
                                 .resizable()
