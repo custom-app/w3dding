@@ -136,7 +136,7 @@ struct OnboardingScreen: View {
                                             .multilineTextAlignment(.center)
                                             .overlay (
                                                 LinearGradient(
-                                                    colors: [Color(hex: "#0DFD61"), Color(hex: "#39EFFB")],
+                                                    colors: [Color(hex: "#6E01F0"), Color(hex: "#B20CFC")],
                                                     startPoint: .top,
                                                     endPoint: .bottom
                                                 )
@@ -146,8 +146,6 @@ struct OnboardingScreen: View {
                                                         .multilineTextAlignment(.center)
                                                 )
                                             )
-                                            .shadow(color: Color(hex: "#B20CFC"), radius: 0, x: 1, y: 0)
-                                            .shadow(color: Color(hex: "#7F39FB"), radius: 0, x: 0, y: 1)
                                         
                                         Button {
                                             withAnimation {
@@ -511,8 +509,7 @@ struct OnboardingScreen: View {
                                                             .multilineTextAlignment(.center)
                                                     )
                                                 )
-                                                .shadow(color: Color(hex: "#B20CFC"), radius: 0, x: 1, y: 0)
-                                                .shadow(color: Color(hex: "#7F39FB"), radius: 0, x: 0, y: 1)
+                                                .shadow(color: Color(hex: "#B20CFC"), radius: 0, x: 0, y: 1)
                                             
                                             Image("ic_btn_arrow")
                                                 .resizable()
