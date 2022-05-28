@@ -16,10 +16,13 @@ struct OnboardingScreen: View {
     var globalViewModel: GlobalViewModel
     
     @State
+    var animatingScreenChange = false
+    
+    @State
     var showFirstScreen = true
     
     @State
-    var firstScreenState2 = false
+    var showFirstScreenWithLabel = false
     
     @State
     var showFirstScreenText = false
@@ -92,7 +95,10 @@ struct OnboardingScreen: View {
     
     var body: some View {
         GeometryReader { geometry in
-            ZStack() {
+            ZStack {
+                
+//                Color.black.ignoresSafeArea()
+                
                 if showFirstScreen {
                     if !showSecondScreen {
                         Image("Onboarding1")
@@ -103,12 +109,12 @@ struct OnboardingScreen: View {
                             .onAppear {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                     withAnimation {
-                                        firstScreenState2 = true
+                                        showFirstScreenWithLabel = true
                                     }
                                 }
                             }
                     }
-                    if firstScreenState2 {
+                    if showFirstScreenWithLabel {
                         VStack(spacing: 0) {
                             Image("Onboarding1_2")
                                 .resizable()
@@ -682,6 +688,7 @@ struct OnboardingScreen: View {
                     EmptyView()
                 }
             }
+            .background(Color.black.ignoresSafeArea(.all))
         }
     }
 }
