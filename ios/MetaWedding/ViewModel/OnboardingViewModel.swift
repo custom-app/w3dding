@@ -29,7 +29,7 @@ class OnboardingViewModel: ObservableObject {
             player = try AVAudioPlayer(contentsOf: url)
             player?.play()
         } catch let error {
-            print(error.localizedDescription)
+            print("Error playing music: \(error.localizedDescription)")
         }
     }
     

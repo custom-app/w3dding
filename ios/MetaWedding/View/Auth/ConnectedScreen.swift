@@ -138,6 +138,24 @@ struct ConnectedScreen: View {
             }
             
             Spacer()
+            
+            Button {
+                withAnimation {
+                    globalViewModel.showingOnboarding = true
+                }
+            } label: {
+                Text("Tutorial")
+                    .font(.system(size: 17))
+                    .fontWeight(.bold)
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 38)
+                    .padding(.vertical, 16)
+                    .background(LinearGradient(gradient: Gradient(colors: [Color(hex: "#B20CFC"), Color(hex: "#6E01F0")]),
+                                               startPoint: .leading,
+                                               endPoint: .trailing))
+                    .cornerRadius(32)
+            }
+            .padding(.bottom, 40)
         }
     }
 }
