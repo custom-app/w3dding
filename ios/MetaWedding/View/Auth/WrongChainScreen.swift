@@ -18,8 +18,10 @@ struct WrongChainScreen: View {
             Spacer()
             
             Image("ic_warning")
+                .renderingMode(.template)
                 .resizable()
                 .scaledToFit()
+                .foregroundColor(Colors.darkPurple.opacity(0.65))
                 .frame(width: 48)
             
             Text("Wrong blockchain")
@@ -63,7 +65,7 @@ struct WrongChainScreen: View {
             Text("Please select a wallet connected to the Polygon Blockchain")
                 .font(.subheadline)
                 .fontWeight(.bold)
-                .foregroundColor(Colors.darkGrey)
+                .foregroundColor(Colors.darkPurple.opacity(0.65))
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 56)
                 .padding(.bottom, 52)

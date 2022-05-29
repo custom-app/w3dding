@@ -26,7 +26,7 @@ struct ProposalConstructor: View {
             
             Text("Choose your avatar")
                 .font(Font.title3.weight(.bold))
-                .foregroundColor(Colors.darkGrey)
+                .foregroundColor(Colors.darkPurple.opacity(0.65))
                 .multilineTextAlignment(.center)
                 .padding(.top, 24)
             

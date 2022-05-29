@@ -342,10 +342,14 @@ class GlobalViewModel: ObservableObject {
                 let result = try response.result(as: String.self)
                 print("got response result: \(result)")
                 self.showConstructorSheet = false
+                var message = "It should take a few seconds after confirming the transaction. Please refresh the status by swipe down"
+                if self.currentWallet != nil && self.walletName == Wallets.Metamask.name {
+                    message += ". Metamask may send you notification that something went wrong, but it's not true :)"
+                }
                 self.alert = IdentifiableAlert.build(
                     id: "tx success",
                     title: "Transaction has been sent",
-                    message: "It should take a few seconds after confirming the transaction. Please refresh the status by swipe down"
+                    message: message
                 )
             } catch {
                 print("Unexpected response type error: \(error)")

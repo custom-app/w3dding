@@ -18,8 +18,10 @@ struct NotConnectedScreen: View {
             Spacer()
             
             Image("ic_warning")
+                .renderingMode(.template)
                 .resizable()
                 .scaledToFit()
+                .foregroundColor(Colors.darkPurple.opacity(0.65))
                 .frame(width: 48)
             
             Text("Wallet not connected")
@@ -53,7 +55,7 @@ struct NotConnectedScreen: View {
             Text("Please select a wallet connected to the Polygon Blockchain")
                 .font(.subheadline)
                 .fontWeight(.bold)
-                .foregroundColor(Colors.darkGrey)
+                .foregroundColor(Colors.darkPurple.opacity(0.65))
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 56)
                 .padding(.bottom, 52)

@@ -26,7 +26,7 @@ struct AuthoredProposalsScreen: View {
                         Text("You are single")
                             .font(.title3)
                             .fontWeight(.bold)
-                            .foregroundColor(Colors.darkGrey)
+                            .foregroundColor(Colors.darkPurple.opacity(0.65))
                             .padding(.top, 16)
                         
                         ProposalConstructor()

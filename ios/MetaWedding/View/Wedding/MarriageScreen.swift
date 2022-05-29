@@ -176,8 +176,10 @@ struct MarriageScreen: View {
                             if (isAuthor && marriage.divorceState == .requestedByReceiver) ||
                                 (!isAuthor && marriage.divorceState == .requestedByAuthor) {
                                 Image("ic_warning")
+                                    .renderingMode(.template)
                                     .resizable()
                                     .scaledToFit()
+                                    .foregroundColor(Colors.darkPurple.opacity(0.65))
                                     .frame(width: 48)
                                     .padding(.top, 30)
                                 
@@ -210,8 +212,10 @@ struct MarriageScreen: View {
                                 let uniDivorceTime = marriage.divorceRequestTimestamp + marriage.divorceTimeout
                                 if curTime > marriage.divorceRequestTimestamp + marriage.divorceTimeout {
                                     Image("ic_warning")
+                                        .renderingMode(.template)
                                         .resizable()
                                         .scaledToFit()
+                                        .foregroundColor(Colors.darkPurple.opacity(0.65))
                                         .frame(width: 42)
                                         .padding(.top, 20)
                                     
@@ -241,8 +245,10 @@ struct MarriageScreen: View {
                                     .padding(.top, 20)
                                 } else {
                                     Image("ic_warning")
+                                        .renderingMode(.template)
                                         .resizable()
                                         .scaledToFit()
+                                        .foregroundColor(Colors.darkPurple.opacity(0.65))
                                         .frame(width: 48)
                                         .padding(.top, 40)
                                     

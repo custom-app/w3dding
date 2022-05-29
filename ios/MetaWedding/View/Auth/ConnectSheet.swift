@@ -22,7 +22,7 @@ struct ConnectSheet: View {
                 
                 VStack(spacing: 0) {
                     Rectangle()
-                        .fill(Colors.lightGrey)
+                        .fill(Colors.darkPurple.opacity(0.3))
                         .frame(width: 64, height: 6)
                         .cornerRadius(20)
                         .padding(.top, 8)
@@ -69,27 +69,22 @@ struct ConnectSheet: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 46)
-                        .padding(.bottom, 20)
+                        .padding(.bottom, 18)
                     
                     Text("Please select a wallet connected to the Polygon Blockchain")
                         .font(.subheadline)
                         .fontWeight(.bold)
-                        .foregroundColor(Colors.darkGrey)
+                        .foregroundColor(Colors.darkPurple.opacity(0.65))
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 56)
-                        .padding(.bottom, 24)
+                        .padding(.bottom, 22)
                     
-                    Button {
-                        globalViewModel.showConnectSheet = false
-                    } label: {
-                        Text("Skip for now")
-                            .font(.subheadline)
-                            .fontWeight(.bold)
-                            .foregroundColor(Colors.purple)
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal, 56)
-                            .padding(.bottom, 16)
-                    }
+                    Text("*Make sure you have the latest version of the wallet app you are using")
+                        .font(.system(size: 13, weight: .bold))
+                        .foregroundColor(Colors.darkPurple.opacity(0.65))
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 26)
+                        .padding(.bottom, 4)
                 }
                 .frame(width: geometry.size.width)
             }
