@@ -25,9 +25,11 @@ struct ProposalsScreen: View {
             }
             
             if globalViewModel.selectedMyProposals {
-                if globalViewModel.isAuthoredProposalsLoaded {
+                if globalViewModel.isAuthoredProposalsLoaded &&
+                    (globalViewModel.authoredProposals.count != 1 ||
+                     globalViewModel.authoredProposals.first?.meta != nil) {
                     AuthoredProposalsScreen(geometry: geometry)
-                } else {
+                } else { 
                     GeometryReader { innerGeometry in
                         VStack(spacing: 0) {
                             Spacer()
@@ -42,7 +44,9 @@ struct ProposalsScreen: View {
                     }
                 }
             } else {
-                if globalViewModel.isReceivedProposalsLoaded {
+                if globalViewModel.isReceivedProposalsLoaded &&
+                    (globalViewModel.receivedProposals.count != 1 ||
+                     globalViewModel.receivedProposals.first?.meta != nil) {
                     ReceivedProposalsScreen(geometry: geometry)
                 } else {
                     VStack(spacing: 0) {
@@ -55,7 +59,6 @@ struct ProposalsScreen: View {
                         Spacer()
                     }
                     .frame(width: geometry.size.width, height: geometry.size.height-100)
-                    .background(Color.green.opacity(0.2))
                 }
             }
         }
