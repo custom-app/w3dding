@@ -11,6 +11,9 @@ struct AuthoredProposalInfo: View {
     
     var proposal: Proposal
     
+    @EnvironmentObject
+    var globalViewModel: GlobalViewModel
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack {
@@ -26,6 +29,9 @@ struct AuthoredProposalInfo: View {
                     }
                 }
                 .frame(width: geometry.size.width, height: geometry.size.height)
+            }
+            .alert(item: $globalViewModel.alert) { alert in
+                alert.alert()
             }
         }
     }

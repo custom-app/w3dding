@@ -36,7 +36,7 @@ struct ConnectedScreen: View {
                         Image("ic_copy")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 20)
+                            .frame(width: 20, height: 20)
                     }
                 }
                 .padding(.top, 12)

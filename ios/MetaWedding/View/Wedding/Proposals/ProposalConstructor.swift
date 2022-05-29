@@ -19,16 +19,16 @@ struct ProposalConstructor: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            Text("Make proposal")
+            Text("Make a proposal")
                 .font(Font.title2.weight(.bold))
                 .foregroundColor(Colors.darkPurple)
                 .multilineTextAlignment(.center)
             
-            Text("Choose your avatar")
-                .font(Font.title3.weight(.bold))
+            Text("to mint an NFT")
+                .font(.system(size: 20, weight: .bold))
                 .foregroundColor(Colors.darkPurple.opacity(0.65))
                 .multilineTextAlignment(.center)
-                .padding(.top, 24)
+                .padding(.top, 8)
             
             Button {
                 globalViewModel.openPhotoPicker {
@@ -89,6 +89,12 @@ struct ProposalConstructor: View {
                 }
             }
             
+            Text("Choose your avatar")
+                .font(.system(size: 16, weight: .bold))
+                .foregroundColor(Colors.darkPurple.opacity(0.65))
+                .multilineTextAlignment(.center)
+                .padding(.top, 12)
+            
             TextField("", text: $globalViewModel.name)
                 .font(Font.headline.weight(.bold))
                 .placeholder(when: globalViewModel.name.isEmpty) {
@@ -110,7 +116,7 @@ struct ProposalConstructor: View {
                 .cornerRadius(32)
                 .disabled(globalViewModel.isProposalActionPending)
                 .padding(.horizontal, 16)
-                .padding(.top, 24)
+                .padding(.top, 20)
                 .onReceive(Just(globalViewModel.name)) { _ in
                     if globalViewModel.name.count > globalViewModel.nameLimit {
                         globalViewModel.name = String(globalViewModel.name.prefix(globalViewModel.nameLimit))

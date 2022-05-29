@@ -220,8 +220,8 @@ struct ReceivedProposalPending: View {
                     ZStack(alignment: .bottomTrailing) {
                         Image("preview_cert\(globalViewModel.selectedTemplate.id)")
                             .resizable()
-                            .scaledToFill()
-                            .frame(width: 90)
+                            .scaledToFit()
+                            .frame(width: 90, height: 64)
                         
                         Image("ic_edit")
                             .resizable()

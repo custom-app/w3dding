@@ -116,7 +116,7 @@ struct AuthoredProposalListItem: View {
                             Image("ic_copy")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 20)
+                                .frame(width: 20, height: 20)
                         }
                     }
                     .padding(.trailing, 60)
@@ -237,6 +237,9 @@ struct NewProposalBar: View {
                     }
                 }
                 .environmentObject(globalViewModel)
+                .alert(item: $globalViewModel.alert) { alert in
+                    alert.alert()
+                }
             }
         }
         .padding(.horizontal, 28)
