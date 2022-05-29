@@ -7,7 +7,7 @@
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap");
       @import url("http://fonts.cdnfonts.com/css/sf-pro-display");
-      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@700&display=swap");
 
       * {
         box-sizing: border-box;
@@ -118,18 +118,27 @@
         display: flex;
         align-items: center;
         flex-direction: column;
-        gap: 20px;
+        position: relative;
+      }
+
+      .user-name-container {
+        height: 70px;
+      }
+
+      .user-name-box {
+        width: 100%;
+        top: 0;
+        position: absolute;
+        display: grid;
+        place-items: center;
       }
 
       .user-name {
         font-style: normal;
         font-weight: 800;
         font-size: 40px;
-        line-height: 60px;
+        line-height: 40px;
         color: #ffffff;
-        min-height: 60px;
-        max-height: 120px;
-        max-width: 100%;
         text-align: center;
       }
 
@@ -159,10 +168,10 @@
       .text-curve {
         font-style: normal;
         font-weight: 700;
-        font-size: 36px;
-        line-height: 34px;
-        letter-spacing: 7px;
-        font-family: "SF Pro Display", sans-serif;
+        font-size: 32px;
+        line-height: 32px;
+        letter-spacing: 4.1px;
+        font-family: "Roboto Mono", monospace;
       }
 
       .blockhain {
@@ -186,12 +195,12 @@
       }
 
       .stamp-curve {
-        font-family: "Inter";
+        font-family: "Roboto Mono", monospace;
         font-style: normal;
         font-weight: 700;
-        font-size: 11px;
+        font-size: 10.5px;
         line-height: 13px;
-        letter-spacing: 5px;
+        letter-spacing: 2.25px;
       }
 
       .section {
@@ -227,14 +236,14 @@
 
       .stamp-logo {
         position: absolute;
-        top: 30px;
+        top: 33px;
         left: 33px;
       }
 
       .w3id {
         position: absolute;
         top: 10px;
-        left: 41%;
+        left: 47%;
         font-size: 24px;
         font-weight: 600;
         line-height: 36px;
@@ -258,12 +267,15 @@
 
               <div class="users">
                 <div class="user">
-                  <div class="user-name">[name1]</div>
+                  <div class="user-name-container"></div>
+                  <div class="user-name-box">
+                    <div class="user-name">[name1]</div>
+                  </div>
                   <div class="user-image">
                     <div
                       class="image"
                       style="
-                      background-image: url(data:image/png;base64,[self_image]);
+                        background-image: url(data:image/png;base64,[self_image]);
                       "
                     ></div>
                     <div class="user-code">
@@ -277,13 +289,13 @@
                           a 150, 150 0 1,1 -320,0
                         "
                         />
-                        <text x="30">
+                        <text>
                           <textPath
                             xlink:href="#curved"
                             class="text-curve"
                             fill="#C4C4C4"
                           >
-                            [address1]
+                            •[address1]
                           </textPath>
                         </text>
                       </svg>
@@ -298,12 +310,15 @@
                 </div>
 
                 <div class="user">
-                  <div class="user-name">[name2]</div>
+                  <div class="user-name-container"></div>
+                  <div class="user-name-box">
+                    <div class="user-name">[name2]</div>
+                  </div>
                   <div class="user-image">
                     <div
                       class="image"
                       style="
-                      background-image: url(data:image/png;base64,[partner_image]);
+                        background-image: url(data:image/png;base64,[partner_image]);
                       "
                     ></div>
                     <div class="user-code">
@@ -317,13 +332,13 @@
                           a 150, 150 0 1,1 -320,0
                         "
                         />
-                        <text x="30">
+                        <text>
                           <textPath
                             xlink:href="#curved"
                             class="text-curve"
                             fill="#C4C4C4"
                           >
-                            [address2]
+                            •[address2]
                           </textPath>
                         </text>
                       </svg>
@@ -379,13 +394,13 @@
                           a 90, 90 0 1,1 -180,0
                         "
                       />
-                      <text x="20">
+                      <text>
                         <textPath
                           xlink:href="#stampcode"
                           class="stamp-curve"
                           fill="#000000"
                         >
-                          [block_hash]
+                          •[block_hash]
                         </textPath>
                       </text>
                     </svg>
