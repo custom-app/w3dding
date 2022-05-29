@@ -50,101 +50,7 @@ struct AuthoredProposalsScreen: View {
                             } else {
                                 VStack(spacing: 0) {
                                     ForEach(globalViewModel.authoredProposals) { proposal in
-                                        VStack(alignment: .leading, spacing: 0) {
-                                            
-                                            HStack(spacing: 0) {
-                                                VStack(alignment: .leading, spacing: 0) {
-                                                    let name = proposal.meta?.properties.secondPersonName ?? ""
-                                                    Text(name == "" ? "Outgoing proposal" : name)
-                                                        .font(Font.headline.weight(.bold))
-                                                        .foregroundColor(Colors.darkPurple)
-                                                    
-                                                    HStack {
-                                                        Text("\(proposal.address)")
-                                                            .font(Font.footnote.weight(.regular))
-                                                            .fontWeight(.regular)
-                                                            .foregroundColor(Colors.darkPurple)
-                                                            .lineLimit(1)
-                                                            .truncationMode(.middle)
-                                                        
-                                                        Button {
-                                                            UIPasteboard.general.string = proposal.address
-                                                        } label: {
-                                                            Image("ic_copy")
-                                                                .resizable()
-                                                                .scaledToFit()
-                                                                .frame(width: 20)
-                                                        }
-                                                    }
-                                                    .padding(.trailing, 60)
-                                                    .padding(.top, 8)
-                                                    
-                                                    Text(proposal.receiverAccepted ? "Ready to mint!" : "Waiting for partner reply")
-                                                        .font(Font.headline.weight(.bold))
-                                                        .foregroundColor(Colors.darkPurple.opacity(0.65))
-                                                        .padding(.top, 8)
-                                                }
-                                                
-                                                Spacer()
-                                                
-                                                ZStack(alignment: .leading) {
-                                                    ZStack {
-                                                        if let image = proposal.receiverImage {
-                                                            Image(uiImage: image)
-                                                                .resizable()
-                                                                .scaledToFill()
-                                                                .frame(width: 48, height: 48)
-                                                                .clipped()
-                                                        } else {
-                                                            Image("ic_heart_secondary")
-                                                                .resizable()
-                                                                .scaledToFit()
-                                                                .frame(width: 24)
-                                                                .padding(.top, 5)
-                                                        }
-                                                    }
-                                                    .frame(width: 48, height: 48)
-                                                    .background(Colors.mainBackground)
-                                                    .cornerRadius(50)
-                                                    .overlay(
-                                                        RoundedRectangle(cornerRadius: 50)
-                                                            .stroke(Colors.darkPurple, lineWidth: 2)
-                                                    )
-                                                    .padding(.leading, 32)
-
-                                                    ZStack {
-                                                        if let image = proposal.authorImage {
-                                                            Image(uiImage: image)
-                                                                .resizable()
-                                                                .scaledToFill()
-                                                                .frame(width: 48, height: 48)
-                                                                .clipped()
-                                                        } else {
-                                                            Image("ic_heart")
-                                                                .resizable()
-                                                                .scaledToFit()
-                                                                .frame(width: 24)
-                                                                .padding(.top, 5)
-                                                        }
-                                                    }
-                                                    .frame(width: 48, height: 48)
-                                                    .background(Colors.mainBackground)
-                                                    .cornerRadius(50)
-                                                    .overlay(
-                                                        RoundedRectangle(cornerRadius: 50)
-                                                            .stroke(Colors.purple, lineWidth: 2)
-                                                    )
-                                                }
-                                            }
-                                        }
-                                        .padding(16)
-                                        .background(Color.white.opacity(0.5))
-                                        .cornerRadius(10)
-                                        .padding(.horizontal, 16)
-                                        .padding(.vertical, 8)
-                                        .onTapGesture {
-                                            selectedProposal = proposal
-                                        }
+                                        AuthoredProposalListItem(proposal: proposal, selectedProposal: $selectedProposal)
                                     }
                                 }
                                 .sheet(item: $selectedProposal,
@@ -169,6 +75,133 @@ struct AuthoredProposalsScreen: View {
             }
         }
 
+    }
+}
+
+struct AuthoredProposalListItem: View {
+    
+    var proposal: Proposal
+    
+    @Binding
+    var selectedProposal: Proposal?
+    
+    @State
+    private var animatingAuthorPicture = false
+    
+    @State
+    private var animatingReceiverPicture = false
+    
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            
+            HStack(spacing: 0) {
+                VStack(alignment: .leading, spacing: 0) {
+                    let name = proposal.meta?.properties.secondPersonName ?? ""
+                    Text(name == "" ? "Outgoing proposal" : name)
+                        .font(Font.headline.weight(.bold))
+                        .foregroundColor(Colors.darkPurple)
+                    
+                    HStack {
+                        Text("\(proposal.address)")
+                            .font(Font.footnote.weight(.regular))
+                            .fontWeight(.regular)
+                            .foregroundColor(Colors.darkPurple)
+                            .lineLimit(1)
+                            .truncationMode(.middle)
+                        
+                        Button {
+                            UIPasteboard.general.string = proposal.address
+                        } label: {
+                            Image("ic_copy")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 20)
+                        }
+                    }
+                    .padding(.trailing, 60)
+                    .padding(.top, 8)
+                    
+                    Text(proposal.receiverAccepted ? "Ready to mint!" : "Waiting for partner reply")
+                        .font(Font.headline.weight(.bold))
+                        .foregroundColor(Colors.darkPurple.opacity(0.65))
+                        .padding(.top, 8)
+                }
+                
+                Spacer()
+                
+                ZStack(alignment: .leading) {
+                    ZStack {
+                        if let image = proposal.receiverImage {
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 48, height: 48)
+                                .clipped()
+                        } else {
+                            Image("ic_heart_secondary")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 24)
+                                .padding(.top, 5)
+                                .opacity(animatingReceiverPicture ? 0.1 : 1)
+                                .animation(Animation.easeIn(duration: 1).repeatForever())
+                                .onAppear(perform: {
+                                    if let image = proposal.meta?.properties.secondPersonImage, !image.isEmpty {
+                                        animatingReceiverPicture = true
+                                    }
+                                })
+                        }
+                    }
+                    .frame(width: 48, height: 48)
+                    .background(Colors.mainBackground)
+                    .cornerRadius(50)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 50)
+                            .stroke(Colors.darkPurple, lineWidth: 2)
+                    )
+                    .padding(.leading, 32)
+
+                    ZStack {
+                        if let image = proposal.authorImage {
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 48, height: 48)
+                                .clipped()
+                        } else {
+                            Image("ic_heart")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 24)
+                                .padding(.top, 5)
+                                .opacity(animatingAuthorPicture ? 0.1 : 1)
+                                .animation(Animation.easeIn(duration: 1).repeatForever())
+                                .onAppear(perform: {
+                                    if let image = proposal.meta?.properties.firstPersonImage, !image.isEmpty {
+                                        animatingAuthorPicture = true
+                                    }
+                                })
+                        }
+                    }
+                    .frame(width: 48, height: 48)
+                    .background(Colors.mainBackground)
+                    .cornerRadius(50)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 50)
+                            .stroke(Colors.purple, lineWidth: 2)
+                    )
+                }
+            }
+        }
+        .padding(16)
+        .background(Color.white.opacity(0.5))
+        .cornerRadius(10)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 8)
+        .onTapGesture {
+            selectedProposal = proposal
+        }
     }
 }
 

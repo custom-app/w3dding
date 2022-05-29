@@ -24,6 +24,9 @@ struct ReceivedProposalPending: View {
     @State
     var showPreview = false
     
+    @State
+    private var animatingAuthorPicture = false
+    
     var body: some View {
         VStack(spacing: 0) {
             VStack(spacing: 0) {
@@ -86,6 +89,13 @@ struct ReceivedProposalPending: View {
                                 .scaledToFit()
                                 .frame(width: 53)
                                 .padding(.top, 5)
+                                .opacity(animatingAuthorPicture ? 0.1 : 1)
+                                .animation(Animation.easeIn(duration: 1).repeatForever())
+                                .onAppear(perform: {
+                                    if let image = proposal.meta?.properties.firstPersonImage, !image.isEmpty {
+                                        animatingAuthorPicture = true
+                                    }
+                                })
                         }
                     }
                     .frame(width: 100, height: 100)
@@ -96,6 +106,7 @@ struct ReceivedProposalPending: View {
                             .stroke(Colors.darkPurple, lineWidth: 6)
                     )
                     .padding(.leading, 50)
+                    
                     
                     Button {
                         globalViewModel.openPhotoPicker {

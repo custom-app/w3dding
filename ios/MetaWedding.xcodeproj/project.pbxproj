@@ -255,8 +255,8 @@
 		115A658927F22CFF001CBCD2 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				113F17AB283968B80051E3F1 /* Onboarding */,
 				11C356CB27FF82BB007A0E69 /* Components */,
+				113F17AB283968B80051E3F1 /* Onboarding */,
 				11E32C8F2802298C00A540EE /* Auth */,
 				11E32C902802299A00A540EE /* Wedding */,
 				11EABE4E281C0BFB003DE322 /* LaunchScreen.storyboard */,

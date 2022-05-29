@@ -11,6 +11,9 @@ struct AuthoredProposalPending: View {
     
     var proposal: Proposal
     
+    @State
+    private var animatingAuthorPicture = false
+    
     var body: some View {
         VStack(spacing: 0) {
             HStack {
@@ -52,6 +55,13 @@ struct AuthoredProposalPending: View {
                                 .scaledToFit()
                                 .frame(width: 80)
                                 .padding(.top, 10)
+                                .opacity(animatingAuthorPicture ? 0.1 : 1)
+                                .animation(Animation.easeIn(duration: 1).repeatForever())
+                                .onAppear(perform: {
+                                    if let image = proposal.meta?.properties.firstPersonImage, !image.isEmpty {
+                                        animatingAuthorPicture = true
+                                    }
+                                })
                         }
                     }
                     .frame(width: 150, height: 150)
