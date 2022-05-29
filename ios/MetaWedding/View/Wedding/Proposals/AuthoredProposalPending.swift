@@ -53,10 +53,10 @@ struct AuthoredProposalPending: View {
                             Image("ic_heart")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 80)
-                                .padding(.top, 10)
+                                .frame(width: 80, height: 81)
                                 .opacity(animatingAuthorPicture ? 0.1 : 1)
                                 .animation(Animation.easeIn(duration: 1).repeatForever())
+                                .padding(.top, 10)
                                 .onAppear(perform: {
                                     if let image = proposal.meta?.properties.firstPersonImage, !image.isEmpty {
                                         animatingAuthorPicture = true

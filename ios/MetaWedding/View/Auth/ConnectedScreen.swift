@@ -125,7 +125,7 @@ struct ConnectedScreen: View {
                                             .multilineTextAlignment(.center)
                                     )
                                 )
-                                .padding(.horizontal, 30)
+                                .padding(.horizontal, 20)
                                 .padding(.top, 50)
                             Spacer()
                         }
