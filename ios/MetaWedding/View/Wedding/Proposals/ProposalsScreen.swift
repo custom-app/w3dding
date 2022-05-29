@@ -72,7 +72,7 @@ struct ProposalsScreen: View {
              globalViewModel.receivedProposals.count == 1 &&
              !globalViewModel.isProposalActionPending) {
             Spacer()                // Used to create some space in scrollview to make bottom
-                .frame(height: 170) // textfields in proposal constructor (or proposal acception) visible while keyboard shown
+                .frame(height: 240) // textfields in proposal constructor (or proposal acception) visible while keyboard shown
         }
     }
 }

@@ -161,6 +161,7 @@ struct ProposalConstructor: View {
                         )
                         return
                     }
+                    hideKeyboard()
                     globalViewModel.sendNewProposal(
                         selfAddress: globalViewModel.walletAccount!,
                         partnerAddress: globalViewModel.partnerAddress,

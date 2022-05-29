@@ -259,9 +259,8 @@ struct ReceivedProposalPending: View {
 
                         if !globalViewModel.name.isEmpty {
                             Button {
-                                globalViewModel.openPhotoPicker {
-                                    showPreview = true
-                                }
+                                hideKeyboard()
+                                showPreview = true
                             } label: {
                                 Text("Preview")
                                     .font(.system(size: 17))
@@ -294,6 +293,7 @@ struct ReceivedProposalPending: View {
                                 )
                                 return
                             }
+                            hideKeyboard()
                             if let properties = proposal.meta?.properties {
                                 globalViewModel.generateCerificateAndAcceptProposition(proposal: proposal,
                                                                                        properties: properties,
