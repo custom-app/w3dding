@@ -60,7 +60,6 @@ struct ConnectedScreen: View {
             .padding(.top, 16)
             .padding(.horizontal, 32)
             
-            Spacer()
             
             if let balance = globalViewModel.balance, balance == 0 {
                 GeometryReader { innerGeometry in
@@ -69,13 +68,13 @@ struct ConnectedScreen: View {
                             globalViewModel.requestBalance()
                         }
                         VStack(spacing: 0) {
-                            Spacer()
                             Image("ic_attention")
                                 .renderingMode(.template)
                                 .resizable()
                                 .scaledToFit()
                                 .foregroundColor(Colors.darkPurple.opacity(0.65))
                                 .frame(height: 48)
+                                .padding(.top, 40)
                             
                             Text("We can gift you some Matics to pay for a transaction fee once")
                                 .font(.system(size: 22))
@@ -111,12 +110,30 @@ struct ConnectedScreen: View {
                                 }
                                 .padding(.top, 24)
                             }
+                            Text("Love is a game that two can play\nand both win")
+                                .font(Font.custom("marediv", size: 17))
+                                .multilineTextAlignment(.center)
+                                .overlay (
+                                    LinearGradient(
+                                        colors: [Color(hex: "#F600FB"), Color(hex: "#BD00FF")],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                                    .mask(
+                                        Text("Love is a game that two can play\nand both win")
+                                            .font(Font.custom("marediv", size: 17))
+                                            .multilineTextAlignment(.center)
+                                    )
+                                )
+                                .padding(.horizontal, 30)
+                                .padding(.top, 50)
                             Spacer()
                         }
                         .frame(height: innerGeometry.size.height)
                     }
                 }
                 .padding(.horizontal, 24)
+                .padding(.bottom, 10)
             } else {
                 VStack(spacing: 0) {
                     Image("ic_accept")
@@ -134,10 +151,27 @@ struct ConnectedScreen: View {
                         .padding(.top, 24)
                 }
                 .padding(.horizontal, 24)
-                .padding(.bottom, 30)
+                .padding(.vertical, 50)
+                
+                Spacer()
+                Text("Love is a game that two can play\nand both win")
+                    .font(Font.custom("marediv", size: 17))
+                    .multilineTextAlignment(.center)
+                    .overlay (
+                        LinearGradient(
+                            colors: [Color(hex: "#F600FB"), Color(hex: "#BD00FF")],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                        .mask(
+                            Text("Love is a game that two can play\nand both win")
+                                .font(Font.custom("marediv", size: 17))
+                                .multilineTextAlignment(.center)
+                        )
+                    )
+                    .padding(.horizontal, 30)
+                Spacer()
             }
-            
-            Spacer()
             
             Button {
                 withAnimation {

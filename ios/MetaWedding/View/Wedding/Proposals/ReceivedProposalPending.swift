@@ -58,7 +58,7 @@ struct ReceivedProposalPending: View {
                         Image("ic_copy")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 20)
+                            .frame(width: 20, height: 20)
                     }
                     Spacer()
                 }
@@ -220,7 +220,8 @@ struct ReceivedProposalPending: View {
                     ZStack(alignment: .bottomTrailing) {
                         Image("preview_cert\(globalViewModel.selectedTemplate.id)")
                             .resizable()
-                            .scaledToFit()
+                            .scaledToFill()
+                            .frame(width: 90)
                         
                         Image("ic_edit")
                             .resizable()
@@ -314,6 +315,24 @@ struct ReceivedProposalPending: View {
                         Spacer()
                     }
                     .padding(.top, 24)
+                    
+                    Text("You don't find love, it finds you")
+                        .font(Font.custom("marediv", size: 17))
+                        .multilineTextAlignment(.center)
+                        .overlay (
+                            LinearGradient(
+                                colors: [Color(hex: "#F600FB"), Color(hex: "#BD00FF")],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                            .mask(
+                                Text("You don't find love, it finds you")
+                                    .font(Font.custom("marediv", size: 17))
+                                    .multilineTextAlignment(.center)
+                            )
+                        )
+                        .padding(.horizontal, 20)
+                        .padding(.top, 14)
                 }
             }
             

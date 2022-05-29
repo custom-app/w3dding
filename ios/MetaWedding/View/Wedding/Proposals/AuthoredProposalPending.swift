@@ -108,6 +108,24 @@ struct AuthoredProposalPending: View {
                 .foregroundColor(Colors.darkPurple.opacity(0.65))
                 .padding(.top, 16)
             
+            Text("True Love is worth the wait")
+                .font(Font.custom("marediv", size: 17))
+                .multilineTextAlignment(.center)
+                .overlay (
+                    LinearGradient(
+                        colors: [Color(hex: "#F600FB"), Color(hex: "#BD00FF")],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+                    .mask(
+                        Text("True Love is worth the wait")
+                            .font(Font.custom("marediv", size: 17))
+                            .multilineTextAlignment(.center)
+                    )
+                )
+                .padding(.horizontal, 20)
+                .padding(.top, 54)
+            
         }
     }
 }

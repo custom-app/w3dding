@@ -32,6 +32,14 @@ struct AuthoredProposalAccepted: View {
                     .padding(.top, 8)
                     .padding(.horizontal, 20)
                 
+                Text("We are ready to register your Metawedding")
+                    .font(.system(size: 17, weight: .bold))
+                    .fontWeight(.bold)
+                    .foregroundColor(Colors.darkPurple.opacity(0.65))
+                    .multilineTextAlignment(.center)
+                    .padding(.top, 8)
+                    .padding(.horizontal, 16)
+                
                 Button {
                     if let url = URL(string: meta.httpImageLink()), UIApplication.shared.canOpenURL(url) {
                         UIApplication.shared.open(url, options: [:], completionHandler: nil)
@@ -75,7 +83,7 @@ struct AuthoredProposalAccepted: View {
                     .background(Color.white.opacity(0.5))
                     .cornerRadius(20)
                 }
-                .padding(.top, 12)
+                .padding(.top, 16)
                 .padding(.horizontal, 16)
                 
                 if proposal.meta != nil {
@@ -95,6 +103,24 @@ struct AuthoredProposalAccepted: View {
                     }
                     .padding(.top, 24)
                 }
+                
+                Text("The best thing in our life is Love")
+                    .font(Font.custom("marediv", size: 17))
+                    .multilineTextAlignment(.center)
+                    .overlay (
+                        LinearGradient(
+                            colors: [Color(hex: "#F600FB"), Color(hex: "#BD00FF")],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                        .mask(
+                            Text("The best thing in our life is Love")
+                                .font(Font.custom("marediv", size: 17))
+                                .multilineTextAlignment(.center)
+                        )
+                    )
+                    .padding(.horizontal, 20)
+                    .padding(.top, 24)
                 Spacer()
             }
         }

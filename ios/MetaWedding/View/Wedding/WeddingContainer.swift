@@ -21,7 +21,8 @@ struct WeddingContainer: View {
                         .font(.system(size: 26))
                         .fontWeight(.bold)
                     Spacer()
-                    if !globalViewModel.marriage.isEmpty() &&
+                    if globalViewModel.session != nil &&
+                        !globalViewModel.marriage.isEmpty() &&
                         globalViewModel.marriage.divorceState == .notRequested {
                         
                         Button {
