@@ -23,7 +23,7 @@ struct ReceivedProposalsScreen: View {
             if globalViewModel.isReceivedProposalsLoaded {
                 if globalViewModel.receivedProposals.isEmpty {
                     Text("There are no proposals addressed to you")
-                        .font(Font.title2.weight(.bold))
+                        .font(.system(size: 22, weight: .bold))
                         .foregroundColor(Colors.darkPurple)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 20)
@@ -71,13 +71,13 @@ struct ReceivedProposalListItem: View {
         HStack(spacing: 0) {
             VStack(alignment: .leading, spacing: 0) {
                 Text(proposal.meta?.properties.firstPersonName ?? "")
-                    .font(Font.headline.weight(.bold))
+                    .font(.system(size: 17, weight: .bold))
                     .foregroundColor(Colors.darkPurple)
                     .padding(.top, 8)
                 
                 HStack {
                     Text("\(proposal.address)")
-                        .font(Font.footnote.weight(.regular))
+                        .font(.system(size: 13))
                         .fontWeight(.regular)
                         .foregroundColor(Colors.darkPurple)
                         .lineLimit(1)
@@ -96,7 +96,7 @@ struct ReceivedProposalListItem: View {
                 .padding(.top, 8)
                 
                 Text(proposal.receiverAccepted ? "Waiting for partner reply" : "Waiting for your reply")
-                    .font(Font.headline.weight(.bold))
+                    .font(.system(size: 17, weight: .bold))
                     .foregroundColor(Colors.darkPurple.opacity(0.65))
                     .padding(.top, 8)
             }
@@ -212,7 +212,7 @@ struct PreviewSheet: View {
                 } else {
                     WeddingProgress()
                     Text("Loading preview")
-                        .font(Font.headline.bold())
+                        .font(.system(size: 17, weight: .bold))
                         .foregroundColor(Colors.darkPurple)
                         .padding(.top, 24)
                     

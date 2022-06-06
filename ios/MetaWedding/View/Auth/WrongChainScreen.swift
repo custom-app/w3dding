@@ -63,7 +63,7 @@ struct WrongChainScreen: View {
                 .padding(.bottom, 24)
             
             Text("Please select a wallet connected to the Polygon Blockchain")
-                .font(.subheadline)
+                .font(.system(size: 15))
                 .fontWeight(.bold)
                 .foregroundColor(Colors.darkPurple.opacity(0.65))
                 .multilineTextAlignment(.center)

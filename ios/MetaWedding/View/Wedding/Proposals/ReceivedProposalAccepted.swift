@@ -14,13 +14,13 @@ struct ReceivedProposalAccepted: View {
     var body: some View {
         VStack(spacing: 0) {
             Text("Received proposal from")
-                .font(.title3.weight(.bold))
+                .font(.system(size: 20, weight: .bold))
                 .foregroundColor(Colors.darkPurple.opacity(0.65))
                 .padding(.horizontal, 20)
                 .padding(.top, 24)
             
             Text(proposal.meta?.properties.firstPersonName ?? "")
-                .font(Font.title2.weight(.bold))
+                .font(.system(size: 22, weight: .bold))
                 .foregroundColor(Colors.darkPurple)
                 .multilineTextAlignment(.center)
                 .padding(.top, 24)
@@ -49,7 +49,7 @@ struct ReceivedProposalAccepted: View {
             .padding(.top, 8)
             
             Text("Waiting for your partner confirmation")
-                .font(Font.title2.weight(.bold))
+                .font(.system(size: 22, weight: .bold))
                 .foregroundColor(Colors.darkPurple)
                 .multilineTextAlignment(.center)
                 .padding(.top, 40)

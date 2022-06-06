@@ -31,13 +31,13 @@ struct ReceivedProposalPending: View {
         VStack(spacing: 0) {
             VStack(spacing: 0) {
                 Text("Received proposal from")
-                    .font(.title3.weight(.bold))
+                    .font(.system(size: 20, weight: .bold))
                     .foregroundColor(Colors.darkPurple.opacity(0.65))
                     .padding(.horizontal, 20)
                     .padding(.top, 18)
                 
                 Text(proposal.meta?.properties.firstPersonName ?? "")
-                    .font(Font.title2.weight(.bold))
+                    .font(.system(size: 22, weight: .bold))
                     .foregroundColor(Colors.darkPurple)
                     .multilineTextAlignment(.center)
                     .padding(.top, 8)
@@ -173,12 +173,12 @@ struct ReceivedProposalPending: View {
                 .padding(.top, 12)
             
             TextField("", text: $globalViewModel.name)
-                .font(Font.headline.weight(.bold))
+                .font(.system(size: 17, weight: .bold))
                 .placeholder(when: globalViewModel.name.isEmpty) {
                     HStack {
                         Spacer()
                         Text("Your name")
-                            .font(Font.headline.weight(.bold))
+                            .font(.system(size: 17, weight: .bold))
                             .foregroundColor(Colors.darkPurple.opacity(0.65))
                             .multilineTextAlignment(.center)
                         Spacer()
@@ -358,7 +358,7 @@ struct ReceivedProposalPending: View {
             
             if globalViewModel.isProposalActionPending {
                 Text("It can take some time. Please wait and don't close the app")
-                    .font(.headline)
+                    .font(.system(size: 17))
                     .fontWeight(.bold)
                     .foregroundColor(Colors.darkPurple)
                     .multilineTextAlignment(.center)

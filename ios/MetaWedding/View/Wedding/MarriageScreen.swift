@@ -22,7 +22,7 @@ struct MarriageScreen: View {
                 Spacer()
                 
                 Text("Error occured while loading marriage info")
-                    .font(Font.headline.weight(.bold))
+                    .font(.system(size: 17, weight: .bold))
                     .foregroundColor(Colors.darkPurple)
                     .padding(.horizontal, 20)
                     .multilineTextAlignment(.center)
@@ -49,7 +49,7 @@ struct MarriageScreen: View {
                                        address: marriage.authorAddress)
                         
                         Text("in wedlock with")
-                            .font(.subheadline)
+                            .font(.system(size: 15))
                             .fontWeight(.bold)
                             .foregroundColor(.white)
                             .padding(.vertical, 18)
@@ -78,7 +78,7 @@ struct MarriageScreen: View {
                     HStack(spacing: 0) {
                         VStack(alignment: .leading, spacing: 0) {
                             Text("Marriage license")
-                                .font(.headline)
+                                .font(.system(size: 17))
                                 .fontWeight(.bold)
                                 .foregroundColor(Colors.darkPurple)
                             
@@ -88,7 +88,7 @@ struct MarriageScreen: View {
                                 .padding(.vertical, 12)
                             
                             Text("Date: **\(Date(timestamp: Int64(marriage.timestamp)).formattedDateString("dd.MM.yyyy"))**")
-                                .font(.subheadline)
+                                .font(.system(size: 15))
                                 .foregroundColor(Colors.darkPurple)
                         }
                         .padding(.leading, 20)
@@ -114,7 +114,7 @@ struct MarriageScreen: View {
                         WeddingProgress()
                             .padding(.top, 32)
                         Text("Loading certificate")
-                            .font(Font.headline.bold())
+                            .font(.system(size: 17, weight: .bold))
                             .foregroundColor(Colors.darkPurple)
                             .padding(.top, 24)
                     } else {
@@ -184,7 +184,7 @@ struct MarriageScreen: View {
                                     .padding(.top, 30)
                                 
                                 Text("The partner initiated the divorce")
-                                    .font(.title2)
+                                    .font(.system(size: 22))
                                     .fontWeight(.bold)
                                     .foregroundColor(Colors.darkPurple)
                                     .padding(.top, 24)
@@ -253,7 +253,7 @@ struct MarriageScreen: View {
                                         .padding(.top, 40)
                                     
                                     Text("Divorce in progress")
-                                        .font(.title2)
+                                        .font(.system(size: 22))
                                         .fontWeight(.bold)
                                         .foregroundColor(Colors.darkPurple)
                                         .padding(.top, 24)
@@ -262,7 +262,7 @@ struct MarriageScreen: View {
                                     
                                     Text("You will be able to divorce unilaterally after " +
                                          "\(divorceDate.formattedDateString("HH:mm dd.MM.yyyy"))")
-                                        .font(.body)
+                                        .font(.system(size: 17))
                                         .fontWeight(.regular)
                                         .foregroundColor(Colors.darkPurple)
                                         .multilineTextAlignment(.center)
@@ -281,7 +281,7 @@ struct MarriageScreen: View {
                 VStack(spacing: 0) {
                     WeddingProgress()
                     Text("Loading data")
-                        .font(Font.headline.bold())
+                        .font(.system(size: 17, weight: .bold))
                         .foregroundColor(Colors.darkPurple)
                         .padding(.top, 24)
                 }
@@ -300,7 +300,7 @@ struct PersonCardInfo: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             Text(name)
-                .font(.title3)
+                .font(.system(size: 20))
                 .fontWeight(.bold)
                 .foregroundColor(.white)
             

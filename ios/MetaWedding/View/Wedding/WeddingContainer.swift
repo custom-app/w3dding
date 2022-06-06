@@ -30,7 +30,7 @@ struct WeddingContainer: View {
                         } label: {
                             Text("Divorce")
                                 .foregroundColor(Colors.redAction)
-                                .font(.subheadline)
+                                .font(.system(size: 15))
                                 .fontWeight(.bold)
                         }
                         .padding(.bottom, 8)
@@ -44,7 +44,7 @@ struct WeddingContainer: View {
                     VStack(spacing: 0) {
                         WeddingProgress()
                         Text("Connecting")
-                            .font(Font.headline.bold())
+                            .font(.system(size: 17, weight: .bold))
                             .foregroundColor(Colors.darkPurple)
                             .padding(.top, 24)
                     }
@@ -80,7 +80,7 @@ struct WeddingContainer: View {
                             Spacer()
                 
                             Text("Error occured while loading data")
-                                .font(Font.headline.weight(.bold))
+                                .font(.system(size: 17, weight: .bold))
                                 .foregroundColor(Colors.darkPurple)
                                 .padding(.horizontal, 20)
                                 .multilineTextAlignment(.center)
@@ -105,7 +105,7 @@ struct WeddingContainer: View {
                             VStack(spacing: 0) {
                                 WeddingProgress()
                                 Text("Loading data")
-                                    .font(Font.headline.bold())
+                                    .font(.system(size: 17, weight: .bold))
                                     .foregroundColor(Colors.darkPurple)
                                     .padding(.top, 24)
                             }

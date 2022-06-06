@@ -1226,14 +1226,3 @@ extension GlobalViewModel: WalletConnectDelegate {
         }
     }
 }
-
-fileprivate enum Stub {
-
-    static let MATH_ADDRESS = "0xA4AC36f269d3F524a6A77DabDAe4D55BA9998a05"
-    static let TRUST_ADDRESS = "0x89e7d8Fe0140523EcfD1DDc4F511849429ecB1c2"
-    static let METAMASK_ADDRESS = ""
-    static let TP_ADDRESS = ""
-    static let SAFEPAL_ADDRESS = "0xeCd6120eDfC912736a9865689DeD058C00C15685"
-    static let ALPHA_ADDRESS = "0x8D2aC318B8173ca3103Ed6099879215E7080c878"
-    static let UNSTOPPABLE_ADDRESS = "0x553234087D6F0BB859c712558183a3B88179c4bD"
-}

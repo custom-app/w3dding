@@ -20,7 +20,7 @@ struct ProposalConstructor: View {
     var body: some View {
         VStack(spacing: 0) {
             Text("Make a proposal")
-                .font(Font.title2.weight(.bold))
+                .font(.system(size: 22, weight: .bold))
                 .foregroundColor(Colors.darkPurple)
                 .multilineTextAlignment(.center)
             
@@ -96,12 +96,12 @@ struct ProposalConstructor: View {
                 .padding(.top, 12)
             
             TextField("", text: $globalViewModel.name)
-                .font(Font.headline.weight(.bold))
+                .font(.system(size: 17, weight: .bold))
                 .placeholder(when: globalViewModel.name.isEmpty) {
                     HStack {
                         Spacer()
                         Text("Your name")
-                            .font(Font.headline.weight(.bold))
+                            .font(.system(size: 17, weight: .bold))
                             .foregroundColor(Colors.darkPurple.opacity(0.65))
                             .multilineTextAlignment(.center)
                         Spacer()
@@ -124,12 +124,12 @@ struct ProposalConstructor: View {
                 }
             
             TextField("", text: $globalViewModel.partnerAddress)
-                .font(Font.headline.weight(.bold))
+                .font(.system(size: 17, weight: .bold))
                 .placeholder(when: globalViewModel.partnerAddress.isEmpty) {
                     HStack {
                         Spacer()
                         Text("Partner address")
-                            .font(Font.headline.weight(.bold))
+                            .font(.system(size: 17, weight: .bold))
                             .foregroundColor(Colors.darkPurple.opacity(0.65))
                             .multilineTextAlignment(.center)
                         Spacer()
@@ -188,7 +188,7 @@ struct ProposalConstructor: View {
             
             if globalViewModel.isProposalActionPending {
                 Text("It can take some time. Please wait and don't close the app")
-                    .font(.headline)
+                    .font(.system(size: 17))
                     .fontWeight(.bold)
                     .foregroundColor(Colors.darkPurple)
                     .multilineTextAlignment(.center)

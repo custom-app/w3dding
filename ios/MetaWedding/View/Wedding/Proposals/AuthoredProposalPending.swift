@@ -77,7 +77,7 @@ struct AuthoredProposalPending: View {
             }
             
             Text("Proposal sent to")
-                .font(.title3.weight(.bold))
+                .font(.system(size: 20, weight: .bold))
                 .foregroundColor(Colors.darkPurple.opacity(0.65))
                 .padding(.top, 16)
             
@@ -104,7 +104,7 @@ struct AuthoredProposalPending: View {
             .padding(.top, 16)
             
             Text("Please wait for the partner decision")
-                .font(.subheadline.weight(.bold))
+                .font(.system(size: 15, weight: .bold))
                 .foregroundColor(Colors.darkPurple.opacity(0.65))
                 .padding(.top, 16)
             

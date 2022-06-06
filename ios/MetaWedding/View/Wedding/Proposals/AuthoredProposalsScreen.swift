@@ -24,7 +24,7 @@ struct AuthoredProposalsScreen: View {
                     
                     VStack(spacing: 0) {
                         Text("You are single")
-                            .font(.title3)
+                            .font(.system(size: 20))
                             .fontWeight(.bold)
                             .foregroundColor(Colors.darkPurple.opacity(0.65))
                             .padding(.top, 16)
@@ -99,12 +99,12 @@ struct AuthoredProposalListItem: View {
                 VStack(alignment: .leading, spacing: 0) {
                     let name = proposal.meta?.properties.secondPersonName ?? ""
                     Text(name == "" ? "Outgoing proposal" : name)
-                        .font(Font.headline.weight(.bold))
+                        .font(.system(size: 17, weight: .bold))
                         .foregroundColor(Colors.darkPurple)
                     
                     HStack {
                         Text("\(proposal.address)")
-                            .font(Font.footnote.weight(.regular))
+                            .font(.system(size: 13))
                             .fontWeight(.regular)
                             .foregroundColor(Colors.darkPurple)
                             .lineLimit(1)
@@ -123,7 +123,7 @@ struct AuthoredProposalListItem: View {
                     .padding(.top, 8)
                     
                     Text(proposal.receiverAccepted ? "Ready to mint!" : "Waiting for partner reply")
-                        .font(Font.headline.weight(.bold))
+                        .font(.system(size: 17, weight: .bold))
                         .foregroundColor(Colors.darkPurple.opacity(0.65))
                         .padding(.top, 8)
                 }
@@ -213,14 +213,14 @@ struct NewProposalBar: View {
     var body: some View {
         VStack(spacing: 0) {
             Text("Messed up with filling out the proposal?")
-                .font(Font.subheadline.weight(.bold))
+                .font(.system(size: 15, weight: .bold))
                 .foregroundColor(Colors.darkPurple.opacity(0.65))
             
             Button {
                 globalViewModel.showConstructorSheet = true
             } label: {
                 Text("New proposal")
-                    .font(Font.subheadline.weight(.bold))
+                    .font(.system(size: 15, weight: .bold))
                     .foregroundColor(Colors.purple)
             }
             .padding(.top, 10)

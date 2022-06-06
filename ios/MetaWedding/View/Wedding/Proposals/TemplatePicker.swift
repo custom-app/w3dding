@@ -78,7 +78,7 @@ struct TemplateView: View {
                     .scaledToFit()
                 
                 Text(template.name)
-                    .font(Font.callout)
+                    .font(.system(size: 16))
                     .foregroundColor(Colors.darkPurple)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 2)

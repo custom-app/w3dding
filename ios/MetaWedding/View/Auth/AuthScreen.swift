@@ -30,7 +30,7 @@ struct AuthScreen: View {
                     VStack(spacing:0) {
                         WeddingProgress()
                         Text("Connecting")
-                            .font(Font.headline.bold())
+                            .font(.system(size: 17, weight: .bold))
                             .foregroundColor(Colors.darkPurple)
                             .padding(.top, 24)
                     }

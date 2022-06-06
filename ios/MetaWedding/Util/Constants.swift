@@ -9,13 +9,7 @@ import Foundation
 
 struct Constants {
     
-    static let certificatesNum = 3
-    
     static let sessionKey = "sessionKey"
-    
-    static let testnetAddress1 = "0x5f28ba977324e28594E975f8a9453FF77792a6Ed"
-    static let testnetAddress2 = "0xf12E612DAF7d2893C766ADD26Ce1eA6831A59447"
-    static let testnetAddressOleg = "0x0c992620066668d2656A10aEC67046E7633da4A9"
     
     struct Bridges {
         static let Gnosis = "https://safe-walletconnect.gnosis.io/"

@@ -35,7 +35,7 @@ struct ProposalsScreen: View {
                             Spacer()
                             WeddingProgress()
                             Text("Loading data")
-                                .font(Font.headline.bold())
+                                .font(.system(size: 17, weight: .bold))
                                 .foregroundColor(Colors.darkPurple)
                                 .padding(.top, 24)
                             Spacer()
@@ -53,7 +53,7 @@ struct ProposalsScreen: View {
                         Spacer()
                         WeddingProgress()
                         Text("Loading data")
-                            .font(Font.headline.bold())
+                            .font(.system(size: 17, weight: .bold))
                             .foregroundColor(Colors.darkPurple)
                             .padding(.top, 24)
                         Spacer()
@@ -86,7 +86,7 @@ struct ProposalsMenu: View {
         HStack {
             HStack(spacing: 0) {
                 Text("Outgoing")
-                    .font(.subheadline)
+                    .font(.system(size: 15))
                     .fontWeight(.bold)
                     .foregroundColor(globalViewModel.selectedMyProposals ?
                                      Colors.darkPurple : Colors.darkPurple.opacity(0.65))
@@ -103,7 +103,7 @@ struct ProposalsMenu: View {
                     .padding(5)
                 
                 Text("Incoming")
-                    .font(.subheadline)
+                    .font(.system(size: 15))
                     .fontWeight(.bold)
                     .foregroundColor(globalViewModel.selectedMyProposals ?
                                      Colors.darkPurple.opacity(0.65) : Colors.darkPurple)

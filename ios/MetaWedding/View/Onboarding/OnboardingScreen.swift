@@ -132,7 +132,7 @@ struct OnboardingScreen: View {
                                     
                                     VStack(spacing: 0) {
                                         Text("Here you can Mint a holy NFT\nAgreement of Love & Loyalty\nwith your partner on Polygon")
-                                            .font(Font.custom("marediv", size: 19))
+                                            .font(Font.custom("marediv", fixedSize: 19))
                                             .multilineTextAlignment(.center)
                                             .overlay (
                                                 LinearGradient(
@@ -142,7 +142,7 @@ struct OnboardingScreen: View {
                                                 )
                                                 .mask(
                                                     Text("Here you can Mint a holy NFT Agreement of Love & Loyalty with your partner on Polygon")
-                                                        .font(Font.custom("marediv", size: 19))
+                                                        .font(Font.custom("marediv", fixedSize: 19))
                                                         .multilineTextAlignment(.center)
                                                 )
                                             )
@@ -154,7 +154,7 @@ struct OnboardingScreen: View {
                                             }
                                         } label: {
                                             Text("ENTER")
-                                                .font(Font.custom("marediv", size: 19))
+                                                .font(Font.custom("marediv", fixedSize: 19))
                                                 .multilineTextAlignment(.center)
                                                 .overlay (
                                                     LinearGradient(
@@ -164,7 +164,7 @@ struct OnboardingScreen: View {
                                                     )
                                                     .mask(
                                                         Text("ENTER")
-                                                            .font(Font.custom("marediv", size: 19))
+                                                            .font(Font.custom("marediv", fixedSize: 19))
                                                             .multilineTextAlignment(.center)
                                                     )
                                                 )
@@ -193,7 +193,7 @@ struct OnboardingScreen: View {
                     if showFirstScreenText {
                         VStack(spacing: 0) {
                             Text("Hello,\nMetaverse stranger!")
-                                .font(Font.custom("marediv", size: 28))
+                                .font(Font.custom("marediv", fixedSize: 28))
                                 .multilineTextAlignment(.center)
                                 .overlay (
                                     LinearGradient(
@@ -203,7 +203,7 @@ struct OnboardingScreen: View {
                                     )
                                     .mask(
                                         Text("Hello,\nMetaverse stranger!")
-                                            .font(Font.custom("marediv", size: 28))
+                                            .font(Font.custom("marediv", fixedSize: 28))
                                             .multilineTextAlignment(.center)
                                     )
                                 )
@@ -262,7 +262,7 @@ struct OnboardingScreen: View {
                             
                             if showThirdScreenStepText {
                                 Text("STEP 1")
-                                    .font(Font.custom("marediv", size: 40))
+                                    .font(Font.custom("marediv", fixedSize: 40))
                                     .multilineTextAlignment(.center)
                                     .overlay(
                                         LinearGradient(
@@ -272,7 +272,7 @@ struct OnboardingScreen: View {
                                         )
                                         .mask(
                                             Text("STEP 1")
-                                                .font(Font.custom("marediv", size: 40))
+                                                .font(Font.custom("marediv", fixedSize: 40))
                                                 .multilineTextAlignment(.center)
                                         )
                                     )
@@ -306,7 +306,7 @@ struct OnboardingScreen: View {
                             
                             VStack(spacing: 0) {
                                 Text("To mint an NFT Agreement of Love & Loyalty:")
-                                    .font(Font.custom("marediv", size: 19))
+                                    .font(Font.custom("marediv", fixedSize: 19))
                                     .foregroundColor(Color(hex: "#7E3906"))
                                     .multilineTextAlignment(.leading)
                                     .padding(.horizontal, geometry.size.width*0.151)
@@ -314,22 +314,22 @@ struct OnboardingScreen: View {
                                 
                                 VStack(alignment: .leading, spacing: 6) {
                                     Text("1. Connect your crypto wallet")
-                                        .font(Font.custom("marediv", size: 14))
+                                        .font(Font.custom("marediv", fixedSize: 14))
                                         .foregroundColor(Color(hex: "#7E3906"))
                                         .multilineTextAlignment(.leading)
                                     
                                     Text("2. Get Matic from our Faucet")
-                                        .font(Font.custom("marediv", size: 14))
+                                        .font(Font.custom("marediv", fixedSize: 14))
                                         .foregroundColor(Color(hex: "#7E3906"))
                                         .multilineTextAlignment(.leading)
                                     
                                     Text("3. Send a proposal to the partner")
-                                        .font(Font.custom("marediv", size: 14))
+                                        .font(Font.custom("marediv", fixedSize: 14))
                                         .foregroundColor(Color(hex: "#7E3906"))
                                         .multilineTextAlignment(.leading)
                                     
                                     Text("4. Ask your partner to accept it")
-                                        .font(Font.custom("marediv", size: 14))
+                                        .font(Font.custom("marediv", fixedSize: 14))
                                         .foregroundColor(Color(hex: "#7E3906"))
                                         .multilineTextAlignment(.leading)
                                     
@@ -349,7 +349,7 @@ struct OnboardingScreen: View {
                                          }
                                      } label: {
                                          Text("NEXT")
-                                             .font(Font.custom("marediv", size: 19))
+                                             .font(Font.custom("marediv", fixedSize: 19))
                                              .multilineTextAlignment(.center)
                                              .overlay (
                                                  LinearGradient(
@@ -359,7 +359,7 @@ struct OnboardingScreen: View {
                                                  )
                                                  .mask(
                                                      Text("NEXT")
-                                                         .font(Font.custom("marediv", size: 19))
+                                                         .font(Font.custom("marediv", fixedSize: 19))
                                                          .multilineTextAlignment(.center)
                                                  )
                                              )
@@ -418,7 +418,7 @@ struct OnboardingScreen: View {
                             
                             if showFourthScreenStepText {
                                 Text("STEP 2")
-                                    .font(Font.custom("marediv", size: 40))
+                                    .font(Font.custom("marediv", fixedSize: 40))
                                     .multilineTextAlignment(.center)
                                     .overlay (
                                         LinearGradient(
@@ -428,7 +428,7 @@ struct OnboardingScreen: View {
                                         )
                                         .mask(
                                             Text("STEP 2")
-                                                .font(Font.custom("marediv", size: 40))
+                                                .font(Font.custom("marediv", fixedSize: 40))
                                                 .multilineTextAlignment(.center)
                                         )
                                     )
@@ -459,7 +459,7 @@ struct OnboardingScreen: View {
                             
                             VStack(alignment: .leading, spacing: 0) {
                                 Text("To accept the Proposal")
-                                    .font(Font.custom("marediv", size: 19))
+                                    .font(Font.custom("marediv", fixedSize: 19))
                                     .foregroundColor(Color(hex: "#7E3906"))
                                     .multilineTextAlignment(.leading)
                                     .padding(.horizontal, geometry.size.width*0.158)
@@ -467,17 +467,17 @@ struct OnboardingScreen: View {
                                 
                                 VStack(alignment: .leading, spacing: 6) {
                                     Text("1. Connect your crypto wallet")
-                                        .font(Font.custom("marediv", size: 15))
+                                        .font(Font.custom("marediv", fixedSize: 15))
                                         .foregroundColor(Color(hex: "#7E3906"))
                                         .multilineTextAlignment(.leading)
                                     
                                     Text("2. Get Matic from our Faucet")
-                                        .font(Font.custom("marediv", size: 15))
+                                        .font(Font.custom("marediv", fixedSize: 15))
                                         .foregroundColor(Color(hex: "#7E3906"))
                                         .multilineTextAlignment(.leading)
                                     
                                     Text("3. Accept the Proposal in the App")
-                                        .font(Font.custom("marediv", size: 15))
+                                        .font(Font.custom("marediv", fixedSize: 15))
                                         .foregroundColor(Color(hex: "#7E3906"))
                                         .multilineTextAlignment(.leading)
                                 }
@@ -495,7 +495,7 @@ struct OnboardingScreen: View {
                                     } label: {
                                         HStack(spacing: 0) {
                                             Text("AND SO\nWHAT?")
-                                                .font(Font.custom("marediv", size: 19))
+                                                .font(Font.custom("marediv", fixedSize: 19))
                                                 .multilineTextAlignment(.center)
                                                 .overlay (
                                                     LinearGradient(
@@ -505,7 +505,7 @@ struct OnboardingScreen: View {
                                                     )
                                                     .mask(
                                                         Text("AND SO\nWHAT?")
-                                                            .font(Font.custom("marediv", size: 19))
+                                                            .font(Font.custom("marediv", fixedSize: 19))
                                                             .multilineTextAlignment(.center)
                                                     )
                                                 )
@@ -585,7 +585,7 @@ struct OnboardingScreen: View {
 
                         if showFifthScreenSuccessText {
                             Text("SUCCESS")
-                                .font(Font.custom("marediv", size: 40))
+                                .font(Font.custom("marediv", fixedSize: 40))
                                 .multilineTextAlignment(.center)
                                 .overlay (
                                     LinearGradient(
@@ -595,7 +595,7 @@ struct OnboardingScreen: View {
                                     )
                                     .mask(
                                         Text("SUCCESS")
-                                            .font(Font.custom("marediv", size: 40))
+                                            .font(Font.custom("marediv", fixedSize: 40))
                                             .multilineTextAlignment(.center)
                                     )
                                 )
@@ -627,7 +627,7 @@ struct OnboardingScreen: View {
                             .opacity(showFifthScreenMainText ? 1 : 0)
 
                         Text("*Well, or until you decide to divorce :)")
-                            .font(Font.custom("marediv", size: 14))
+                            .font(Font.custom("marediv", fixedSize: 14))
                             .foregroundColor(Color.white)
                             .multilineTextAlignment(.center)
                             .shadow(color: Color(hex: "#B20CFC"), radius: 0, x: 1, y: 0)
