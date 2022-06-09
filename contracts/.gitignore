@@ -1,0 +1,5 @@
+node_modules
+build
+.openzeppelin
+.secret*
+polygon-metadata.json
