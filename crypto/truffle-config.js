@@ -85,7 +85,9 @@ module.exports = {
         privateKeys: [mainNetPrivateKey]
       }),
       network_id: 137,
-      gasPrice: 100000000000
+      gasPrice: 100000000000,
+      gas: 4988423,
+      networkCheckTimeout: 100000000
     }
   },
 
