@@ -22,16 +22,16 @@ struct ConnectSheet: View {
                 
                 VStack(spacing: 0) {
                     Rectangle()
-                        .fill(Colors.lightGrey)
+                        .fill(Colors.darkPurple.opacity(0.3))
                         .frame(width: 64, height: 6)
                         .cornerRadius(20)
                         .padding(.top, 8)
                     
                     Text("Connect to wallet")
                         .foregroundColor(Colors.darkPurple)
-                        .font(.largeTitle)
+                        .font(.system(size: 34))
                         .fontWeight(.bold)
-                        .padding(.top, 10)
+                        .padding(.top, 8)
                     
                     Spacer()
                     
@@ -44,7 +44,7 @@ struct ConnectSheet: View {
                                     HStack {
                                         Spacer()
                                         Text(wallet.name)
-                                            .font(.headline)
+                                            .font(.system(size: 17))
                                             .fontWeight(.bold)
                                             .foregroundColor(Colors.purple)
                                         Spacer()
@@ -60,7 +60,7 @@ struct ConnectSheet: View {
                                 .padding(.horizontal, 30)
                             }
                         }
-                        .padding(.top, 34)
+                        .padding(.top, 14)
                     }
                     
                     Spacer()
@@ -69,27 +69,34 @@ struct ConnectSheet: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 46)
-                        .padding(.bottom, 20)
+                        .padding(.bottom, 16)
                     
                     Text("Please select a wallet connected to the Polygon Blockchain")
-                        .font(.subheadline)
+                        .font(.system(size: 15))
                         .fontWeight(.bold)
-                        .foregroundColor(Colors.darkGrey)
+                        .foregroundColor(Colors.darkPurple.opacity(0.65))
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 56)
-                        .padding(.bottom, 24)
+                        .padding(.bottom, 18)
+                    
+                    Text("*Make sure you have the latest version of the wallet app you are using")
+                        .font(.system(size: 13, weight: .bold))
+                        .foregroundColor(Colors.darkPurple.opacity(0.65))
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 26)
+                        .padding(.bottom, 12)
                     
                     Button {
-                        globalViewModel.showConnectSheet = false
-                    } label: {
-                        Text("Skip for now")
-                            .font(.subheadline)
-                            .fontWeight(.bold)
-                            .foregroundColor(Colors.purple)
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal, 56)
-                            .padding(.bottom, 16)
-                    }
+                         globalViewModel.showConnectSheet = false
+                     } label: {
+                         Text("Skip for now")
+                             .font(.system(size: 15))
+                             .fontWeight(.bold)
+                             .foregroundColor(Colors.purple)
+                             .multilineTextAlignment(.center)
+                             .padding(.horizontal, 56)
+                             .padding(.bottom, 12)
+                     }
                 }
                 .frame(width: geometry.size.width)
             }

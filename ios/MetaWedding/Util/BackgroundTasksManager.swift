@@ -12,7 +12,7 @@ class BackgroundTasksManager {
     
     var connectBackgroundTaskID: UIBackgroundTaskIdentifier?
     var sendTxBackgroundTaskID: UIBackgroundTaskIdentifier?
-    var certificateBackgroundTaskID: UIBackgroundTaskIdentifier?
+    var proposalBackgroundTaskID: UIBackgroundTaskIdentifier?
     
     func createConnectBackgroundTask() {
         connectBackgroundTaskID =
@@ -28,10 +28,10 @@ class BackgroundTasksManager {
         }
     }
     
-    func createCertificateBackgroundTask() {
-        certificateBackgroundTaskID =
-        UIApplication.shared.beginBackgroundTask (withName: "Upload certificate image") { [weak self] in
-            self?.finishCertificateBackgroundTask()
+    func createProposalBackgroundTask() {
+        proposalBackgroundTaskID =
+        UIApplication.shared.beginBackgroundTask (withName: "Upload proposal info") { [weak self] in
+            self?.finishProposalBackgroundTask()
         }
     }
     
@@ -49,10 +49,10 @@ class BackgroundTasksManager {
         }
     }
     
-    func finishCertificateBackgroundTask() {
-        if let taskId = certificateBackgroundTaskID {
+    func finishProposalBackgroundTask() {
+        if let taskId = proposalBackgroundTaskID {
             UIApplication.shared.endBackgroundTask(taskId)
-            self.certificateBackgroundTaskID = nil
+            self.proposalBackgroundTaskID = nil
         }
     }
 }

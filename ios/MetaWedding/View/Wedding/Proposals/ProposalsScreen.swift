@@ -25,15 +25,17 @@ struct ProposalsScreen: View {
             }
             
             if globalViewModel.selectedMyProposals {
-                if globalViewModel.isAuthoredProposalsLoaded {
+                if globalViewModel.isAuthoredProposalsLoaded &&
+                    (globalViewModel.authoredProposals.count != 1 ||
+                     globalViewModel.authoredProposals.first?.meta != nil) {
                     AuthoredProposalsScreen(geometry: geometry)
-                } else {
+                } else { 
                     GeometryReader { innerGeometry in
                         VStack(spacing: 0) {
                             Spacer()
                             WeddingProgress()
                             Text("Loading data")
-                                .font(Font.headline.bold())
+                                .font(.system(size: 17, weight: .bold))
                                 .foregroundColor(Colors.darkPurple)
                                 .padding(.top, 24)
                             Spacer()
@@ -42,30 +44,35 @@ struct ProposalsScreen: View {
                     }
                 }
             } else {
-                if globalViewModel.isReceivedProposalsLoaded {
+                if globalViewModel.isReceivedProposalsLoaded &&
+                    (globalViewModel.receivedProposals.count != 1 ||
+                     globalViewModel.receivedProposals.first?.meta != nil) {
                     ReceivedProposalsScreen(geometry: geometry)
                 } else {
                     VStack(spacing: 0) {
                         Spacer()
                         WeddingProgress()
                         Text("Loading data")
-                            .font(Font.headline.bold())
+                            .font(.system(size: 17, weight: .bold))
                             .foregroundColor(Colors.darkPurple)
                             .padding(.top, 24)
                         Spacer()
                     }
                     .frame(width: geometry.size.width, height: geometry.size.height-100)
-                    .background(Color.green.opacity(0.2))
                 }
             }
         }
         
-        if globalViewModel.selectedMyProposals &&
+        if (globalViewModel.selectedMyProposals &&
             globalViewModel.isAuthoredProposalsLoaded &&
             globalViewModel.authoredProposals.isEmpty &&
-            !globalViewModel.isNewProposalPending {
+            !globalViewModel.isProposalActionPending) ||
+            (!globalViewModel.selectedMyProposals &&
+             globalViewModel.isReceivedProposalsLoaded &&
+             globalViewModel.receivedProposals.count == 1 &&
+             !globalViewModel.isProposalActionPending) {
             Spacer()                // Used to create some space in scrollview to make bottom
-                .frame(height: 170) // textfields in proposal constructor visible while keyboard shown
+                .frame(height: 240) // textfields in proposal constructor (or proposal acception) visible while keyboard shown
         }
     }
 }
@@ -78,11 +85,11 @@ struct ProposalsMenu: View {
     var body: some View {
         HStack {
             HStack(spacing: 0) {
-                Text("My proposals")
-                    .font(.subheadline)
+                Text("Outgoing")
+                    .font(.system(size: 15))
                     .fontWeight(.bold)
                     .foregroundColor(globalViewModel.selectedMyProposals ?
-                                     Colors.darkPurple : Colors.grey)
+                                     Colors.darkPurple : Colors.darkPurple.opacity(0.65))
                     .padding(.vertical, 15)
                     .padding(.horizontal, 12)
                     .background(Color.white.opacity(globalViewModel.selectedMyProposals ? 1 : 0))
@@ -95,11 +102,11 @@ struct ProposalsMenu: View {
                     .disabled(globalViewModel.selectedMyProposals)
                     .padding(5)
                 
-                Text("Proposals for me")
-                    .font(.subheadline)
+                Text("Incoming")
+                    .font(.system(size: 15))
                     .fontWeight(.bold)
                     .foregroundColor(globalViewModel.selectedMyProposals ?
-                                     Colors.grey : Colors.darkPurple)
+                                     Colors.darkPurple.opacity(0.65) : Colors.darkPurple)
                     .padding(.vertical, 15)
                     .padding(.horizontal, 12)
                     .background(Color.white.opacity(globalViewModel.selectedMyProposals ? 0 : 1))
@@ -116,10 +123,6 @@ struct ProposalsMenu: View {
             }
             .background(Color.white.opacity(0.5))
             .cornerRadius(30)
-            .overlay(
-                RoundedRectangle(cornerRadius: 30)
-                    .stroke(Color.white, lineWidth: 1)
-            )
             
             Spacer()
         }

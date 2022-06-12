@@ -15,11 +15,10 @@ struct AuthScreen: View {
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
-                
                 HStack {
-                    Text("Wallet")
+                    Text("Connect the wallet")
                         .foregroundColor(Colors.darkPurple)
-                        .font(.largeTitle)
+                        .font(.system(size: 26))
                         .fontWeight(.bold)
                     Spacer()
                 }
@@ -31,14 +30,14 @@ struct AuthScreen: View {
                     VStack(spacing:0) {
                         WeddingProgress()
                         Text("Connecting")
-                            .font(Font.headline.bold())
+                            .font(.system(size: 17, weight: .bold))
                             .foregroundColor(Colors.darkPurple)
                             .padding(.top, 24)
                     }
                     Spacer()
                 } else {
                     VStack(spacing: 0) {
-                        if let session = globalViewModel.session {
+                        if globalViewModel.session != nil {
                             if globalViewModel.isWrongChain {
                                 WrongChainScreen()
                             } else {

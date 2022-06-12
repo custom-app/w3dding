@@ -12,6 +12,9 @@ struct MarriageScreen: View {
     @EnvironmentObject
     var globalViewModel: GlobalViewModel
     
+    @State
+    var shareLoading = false
+    
     var body: some View {
         VStack(spacing: 0) {
             let marriage = globalViewModel.marriage
@@ -19,7 +22,7 @@ struct MarriageScreen: View {
                 Spacer()
                 
                 Text("Error occured while loading marriage info")
-                    .font(Font.headline.weight(.bold))
+                    .font(.system(size: 17, weight: .bold))
                     .foregroundColor(Colors.darkPurple)
                     .padding(.horizontal, 20)
                     .multilineTextAlignment(.center)
@@ -43,16 +46,16 @@ struct MarriageScreen: View {
                 HStack {
                     VStack(alignment: .leading, spacing: 0) {
                         PersonCardInfo(name: meta.properties.firstPersonName,
-                                       address: meta.properties.firstPersonAddress)
+                                       address: marriage.authorAddress)
                         
                         Text("in wedlock with")
-                            .font(.subheadline)
+                            .font(.system(size: 15))
                             .fontWeight(.bold)
                             .foregroundColor(.white)
                             .padding(.vertical, 18)
                         
                         PersonCardInfo(name: meta.properties.secondPersonName,
-                                       address: meta.properties.secondPersonAddress)
+                                       address: marriage.receiverAddress)
                     }
                     .padding(.horizontal, 24)
                     .padding(.vertical, 30)
@@ -75,7 +78,7 @@ struct MarriageScreen: View {
                     HStack(spacing: 0) {
                         VStack(alignment: .leading, spacing: 0) {
                             Text("Marriage license")
-                                .font(.headline)
+                                .font(.system(size: 17))
                                 .fontWeight(.bold)
                                 .foregroundColor(Colors.darkPurple)
                             
@@ -85,7 +88,7 @@ struct MarriageScreen: View {
                                 .padding(.vertical, 12)
                             
                             Text("Date: **\(Date(timestamp: Int64(marriage.timestamp)).formattedDateString("dd.MM.yyyy"))**")
-                                .font(.subheadline)
+                                .font(.system(size: 15))
                                 .foregroundColor(Colors.darkPurple)
                         }
                         .padding(.leading, 20)
@@ -106,6 +109,64 @@ struct MarriageScreen: View {
                 .padding(.top, 32)
                 .padding(.horizontal, 16)
                 
+                if marriage.divorceState == .notRequested, let url = URL(string: meta.httpImageLink())  {
+                    if shareLoading {
+                        WeddingProgress()
+                            .padding(.top, 32)
+                        Text("Loading certificate")
+                            .font(.system(size: 17, weight: .bold))
+                            .foregroundColor(Colors.darkPurple)
+                            .padding(.top, 24)
+                    } else {
+                        Button {
+                            withAnimation {
+                                shareLoading = true
+                            }
+                            DispatchQueue.global(qos: .userInitiated).async {
+                                URLSession.shared.dataTask(with: URL(string: meta.httpImageLink())!) { data, response, error in
+                                    if error != nil {
+                                        DispatchQueue.main.async {
+                                            withAnimation {
+                                                shareLoading = false
+                                            }
+                                        }
+                                        return
+                                    }
+                                    guard let data = data else {
+                                        return
+                                    }
+                                    print("loaded cert image")
+                                    DispatchQueue.main.async {
+                                        withAnimation {
+                                            shareLoading = false
+                                        }
+                                    }
+                                    if let certImage = UIImage(data: data) {
+                                        DispatchQueue.main.async {
+                                            let activityController = UIActivityViewController(activityItems: [certImage], applicationActivities: nil)
+                                            UIApplication.shared.windows.first?.rootViewController!
+                                                .present(activityController, animated: true, completion: nil)
+                                        }
+                                    }
+                                }
+                                .resume()
+                            }
+                        } label: {
+                            Text("Share")
+                                .font(.system(size: 17))
+                                .fontWeight(.bold)
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 44)
+                                .padding(.vertical, 18)
+                                .background(LinearGradient(gradient: Gradient(colors: [Color(hex: "#B20CFC"), Color(hex: "#6E01F0")]),
+                                                           startPoint: .leading,
+                                                           endPoint: .trailing))
+                                .cornerRadius(32)
+                        }
+                        .padding(.top, 32)
+                    }
+                }
+                
                 VStack(spacing: 0) {
                     Spacer()
                     if marriage.divorceState != .notRequested {
@@ -115,13 +176,15 @@ struct MarriageScreen: View {
                             if (isAuthor && marriage.divorceState == .requestedByReceiver) ||
                                 (!isAuthor && marriage.divorceState == .requestedByAuthor) {
                                 Image("ic_warning")
+                                    .renderingMode(.template)
                                     .resizable()
                                     .scaledToFit()
+                                    .foregroundColor(Colors.darkPurple.opacity(0.65))
                                     .frame(width: 48)
                                     .padding(.top, 30)
                                 
                                 Text("The partner initiated the divorce")
-                                    .font(.title2)
+                                    .font(.system(size: 22))
                                     .fontWeight(.bold)
                                     .foregroundColor(Colors.darkPurple)
                                     .padding(.top, 24)
@@ -149,8 +212,10 @@ struct MarriageScreen: View {
                                 let uniDivorceTime = marriage.divorceRequestTimestamp + marriage.divorceTimeout
                                 if curTime > marriage.divorceRequestTimestamp + marriage.divorceTimeout {
                                     Image("ic_warning")
+                                        .renderingMode(.template)
                                         .resizable()
                                         .scaledToFit()
+                                        .foregroundColor(Colors.darkPurple.opacity(0.65))
                                         .frame(width: 42)
                                         .padding(.top, 20)
                                     
@@ -180,13 +245,15 @@ struct MarriageScreen: View {
                                     .padding(.top, 20)
                                 } else {
                                     Image("ic_warning")
+                                        .renderingMode(.template)
                                         .resizable()
                                         .scaledToFit()
+                                        .foregroundColor(Colors.darkPurple.opacity(0.65))
                                         .frame(width: 48)
                                         .padding(.top, 40)
                                     
                                     Text("Divorce in progress")
-                                        .font(.title2)
+                                        .font(.system(size: 22))
                                         .fontWeight(.bold)
                                         .foregroundColor(Colors.darkPurple)
                                         .padding(.top, 24)
@@ -195,7 +262,7 @@ struct MarriageScreen: View {
                                     
                                     Text("You will be able to divorce unilaterally after " +
                                          "\(divorceDate.formattedDateString("HH:mm dd.MM.yyyy"))")
-                                        .font(.body)
+                                        .font(.system(size: 17))
                                         .fontWeight(.regular)
                                         .foregroundColor(Colors.darkPurple)
                                         .multilineTextAlignment(.center)
@@ -207,6 +274,19 @@ struct MarriageScreen: View {
                     Spacer()
                 }
                 .padding(.horizontal, 28)
+            } else {
+                Spacer()
+                
+                //TODO: move loader to center
+                VStack(spacing: 0) {
+                    WeddingProgress()
+                    Text("Loading data")
+                        .font(.system(size: 17, weight: .bold))
+                        .foregroundColor(Colors.darkPurple)
+                        .padding(.top, 24)
+                }
+                
+                Spacer()
             }
         }
     }
@@ -220,7 +300,7 @@ struct PersonCardInfo: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             Text(name)
-                .font(.title3)
+                .font(.system(size: 20))
                 .fontWeight(.bold)
                 .foregroundColor(.white)
             
@@ -238,7 +318,7 @@ struct PersonCardInfo: View {
                     Image("ic_copy")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 20)
+                        .frame(width: 20, height: 20)
                 }
                 .padding(.leading, 10)
             }

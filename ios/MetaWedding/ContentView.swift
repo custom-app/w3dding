@@ -14,9 +14,15 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            MainContainer()
-                .navigationTitle("")
-                .navigationBarHidden(true)
+            if globalViewModel.showingOnboarding {
+                OnboardingContainer()
+                    .navigationTitle("")
+                    .navigationBarHidden(true)
+            } else {
+                MainContainer()
+                    .navigationTitle("")
+                    .navigationBarHidden(true)
+            }
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .environmentObject(globalViewModel)

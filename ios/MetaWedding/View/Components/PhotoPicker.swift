@@ -11,7 +11,7 @@ import SwiftUI
 import PhotosUI
 
 struct PhotoPicker: UIViewControllerRepresentable {
-    var handlePickedImage: (UIImage?, Date?) -> Void
+    var handlePickedImage: (UIImage?) -> Void
     
     static var isAvailable: Bool {
         return true
@@ -34,24 +34,18 @@ struct PhotoPicker: UIViewControllerRepresentable {
     }
     
     class Coordinator: NSObject, PHPickerViewControllerDelegate {
-        var handlePickedImage: (UIImage?, Date?) -> Void
+        var handlePickedImage: (UIImage?) -> Void
 
-        init(handlePickedImage: @escaping (UIImage?, Date?) -> Void) {
+        init(handlePickedImage: @escaping (UIImage?) -> Void) {
             self.handlePickedImage = handlePickedImage
         }
         
         func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
             let found = results.map { $0.itemProvider }.loadObjects(ofType: UIImage.self) { [weak self] image, index in
-                if PHPhotoLibrary.authorizationStatus() == .authorized,
-                   let id = results[index].assetIdentifier {
-                    let assetResults = PHAsset.fetchAssets(withLocalIdentifiers: [id], options: nil)
-                    self?.handlePickedImage(image, assetResults.firstObject?.creationDate)
-                } else {
-                    self?.handlePickedImage(image, nil)
-                }
+                self?.handlePickedImage(image)
             }
             if !found {
-                handlePickedImage(nil, nil)
+                handlePickedImage(nil)
             }
         }
     }

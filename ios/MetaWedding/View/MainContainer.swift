@@ -35,10 +35,6 @@ struct MainContainer: View {
                     }
                 }
                 .padding(.bottom, 140)
-                .sheet(isPresented: $globalViewModel.showConnectSheet) {
-                    ConnectSheet()
-                        .environmentObject(globalViewModel)
-                }
                 
                 VStack(alignment: .center, spacing: 0) {
                     Spacer()
@@ -119,10 +115,6 @@ struct BottomMenu: View {
         .frame(width: 157, height: 50)
         .background(Color.white.opacity(0.5))
         .cornerRadius(30)
-        .overlay(
-            RoundedRectangle(cornerRadius: 30)
-                .stroke(Color.white, lineWidth: 1)
-        )
     }
 }
 

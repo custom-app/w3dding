@@ -9,7 +9,11 @@
 /* Begin PBXBuildFile section */
 		112206F52813679A00AF0315 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112206F42813679A00AF0315 /* Colors.swift */; };
 		112206F928137A6D00AF0315 /* NotConnectedScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112206F828137A6D00AF0315 /* NotConnectedScreen.swift */; };
-		113977DE28049A5A00D6FD57 /* abi.json in Resources */ = {isa = PBXBuildFile; fileRef = 113977DD28049A5A00D6FD57 /* abi.json */; };
+		113977DE28049A5A00D6FD57 /* wedding_abi.json in Resources */ = {isa = PBXBuildFile; fileRef = 113977DD28049A5A00D6FD57 /* wedding_abi.json */; };
+		113F17AA283968B20051E3F1 /* OnboardingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113F17A9283968B20051E3F1 /* OnboardingScreen.swift */; };
+		113F17AD28396AE20051E3F1 /* UserDefaultsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113F17AC28396AE20051E3F1 /* UserDefaultsWorker.swift */; };
+		113F17B1283973A60051E3F1 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113F17B0283973A60051E3F1 /* OnboardingViewModel.swift */; };
+		113F17BA283993130051E3F1 /* marediv.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 113F17B9283993130051E3F1 /* marediv.ttf */; };
 		11481B4B27FA4DF900439106 /* web3swift in Frameworks */ = {isa = PBXBuildFile; productRef = 11481B4A27FA4DF900439106 /* web3swift */; };
 		11481B4D27FA4E9A00439106 /* Web3Worker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11481B4C27FA4E9A00439106 /* Web3Worker.swift */; };
 		11481B4F27FA5BA600439106 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11481B4E27FA5BA600439106 /* Errors.swift */; };
@@ -19,7 +23,6 @@
 		115A657F27F218F0001CBCD2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 115A657E27F218F0001CBCD2 /* Preview Assets.xcassets */; };
 		115A658827F22C3D001CBCD2 /* AuthScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115A658727F22C3D001CBCD2 /* AuthScreen.swift */; };
 		115A658C27F22D93001CBCD2 /* WalletConnect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115A658B27F22D93001CBCD2 /* WalletConnect.swift */; };
-		115A659027F23101001CBCD2 /* WalletConnectSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 115A658F27F23101001CBCD2 /* WalletConnectSwift */; };
 		115A659827F253E8001CBCD2 /* GlobalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115A659727F253E8001CBCD2 /* GlobalViewModel.swift */; };
 		117173E8280CE18800C36A44 /* CertificateMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117173E7280CE18800C36A44 /* CertificateMeta.swift */; };
 		118A951A27F925AE00798141 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118A951927F925AE00798141 /* Constants.swift */; };
@@ -33,6 +36,11 @@
 		11A92D7F2814C08F00B98066 /* ConnectedScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A92D7E2814C08F00B98066 /* ConnectedScreen.swift */; };
 		11A92D812814CFB800B98066 /* WrongChainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A92D802814CFB800B98066 /* WrongChainScreen.swift */; };
 		11AA278027FE372500BC8BCA /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AA277F27FE372500BC8BCA /* Extensions.swift */; };
+		11AB967F2832B22200695117 /* ReceivedProposalAccepted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AB967E2832B22200695117 /* ReceivedProposalAccepted.swift */; };
+		11AB96812832B25200695117 /* ReceivedProposalPending.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AB96802832B25200695117 /* ReceivedProposalPending.swift */; };
+		11AD63C12825292500A91AE0 /* faucet_abi.json in Resources */ = {isa = PBXBuildFile; fileRef = 11AD63C02825292500A91AE0 /* faucet_abi.json */; };
+		11B03EA52836DA3700EA0DAE /* AuthoredProposalPending.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B03EA42836DA3700EA0DAE /* AuthoredProposalPending.swift */; };
+		11B03EA72836DB4600EA0DAE /* AuthoredProposalAccepted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B03EA62836DB4600EA0DAE /* AuthoredProposalAccepted.swift */; };
 		11B4C76D2808CD300058A319 /* SwipeRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B4C76C2808CD300058A319 /* SwipeRefresh.swift */; };
 		11B4C76F2808F2C10058A319 /* HttpRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B4C76E2808F2C10058A319 /* HttpRequester.swift */; };
 		11B4C77128090DEA0058A319 /* NftStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B4C77028090DEA0058A319 /* NftStorage.swift */; };
@@ -40,8 +48,28 @@
 		11B6336F2804CCDA00745730 /* TxWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B6336E2804CCDA00745730 /* TxWorker.swift */; };
 		11B8CE59280DD38C00B25974 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B8CE58280DD38C00B25974 /* Config.swift */; };
 		11B8CE5B280DF43700B25974 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B8CE5A280DF43700B25974 /* WebView.swift */; };
+		11BE8CE32855D7000088F261 /* WalletConnectSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 11BE8CE22855D7000088F261 /* WalletConnectSwift */; };
 		11C356CD27FF82D1007A0E69 /* IdentifiableAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C356CC27FF82D1007A0E69 /* IdentifiableAlert.swift */; };
+		11C610FD28429DBB0068B1B3 /* OnboardingSoundScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C610FC28429DBB0068B1B3 /* OnboardingSoundScreen.swift */; };
+		11C610FF2842A33B0068B1B3 /* OnboardingContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C610FE2842A33B0068B1B3 /* OnboardingContainer.swift */; };
+		11C611012842A8FA0068B1B3 /* w3dding-sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 11C611002842A8FA0068B1B3 /* w3dding-sound.mp3 */; };
+		11C61111284303B60068B1B3 /* cert5.html in Resources */ = {isa = PBXBuildFile; fileRef = 11C61104284303B30068B1B3 /* cert5.html */; };
+		11C61112284303B60068B1B3 /* cert7.html in Resources */ = {isa = PBXBuildFile; fileRef = 11C61105284303B30068B1B3 /* cert7.html */; };
+		11C61113284303B60068B1B3 /* cert6.html in Resources */ = {isa = PBXBuildFile; fileRef = 11C61106284303B40068B1B3 /* cert6.html */; };
+		11C61114284303B60068B1B3 /* cert3.html in Resources */ = {isa = PBXBuildFile; fileRef = 11C61107284303B40068B1B3 /* cert3.html */; };
+		11C61115284303B60068B1B3 /* cert9.html in Resources */ = {isa = PBXBuildFile; fileRef = 11C61108284303B40068B1B3 /* cert9.html */; };
+		11C61116284303B60068B1B3 /* cert8.html in Resources */ = {isa = PBXBuildFile; fileRef = 11C61109284303B40068B1B3 /* cert8.html */; };
+		11C61117284303B60068B1B3 /* cert12.html in Resources */ = {isa = PBXBuildFile; fileRef = 11C6110A284303B50068B1B3 /* cert12.html */; };
+		11C61118284303B60068B1B3 /* cert1.html in Resources */ = {isa = PBXBuildFile; fileRef = 11C6110B284303B50068B1B3 /* cert1.html */; };
+		11C61119284303B60068B1B3 /* cert2.html in Resources */ = {isa = PBXBuildFile; fileRef = 11C6110C284303B50068B1B3 /* cert2.html */; };
+		11C6111A284303B60068B1B3 /* cert11.html in Resources */ = {isa = PBXBuildFile; fileRef = 11C6110D284303B50068B1B3 /* cert11.html */; };
+		11C6111B284303B60068B1B3 /* cert13.html in Resources */ = {isa = PBXBuildFile; fileRef = 11C6110E284303B50068B1B3 /* cert13.html */; };
+		11C6111C284303B60068B1B3 /* cert4.html in Resources */ = {isa = PBXBuildFile; fileRef = 11C6110F284303B50068B1B3 /* cert4.html */; };
+		11C6111D284303B60068B1B3 /* cert10.html in Resources */ = {isa = PBXBuildFile; fileRef = 11C61110284303B60068B1B3 /* cert10.html */; };
+		11C8502B282A7EFD00AFAB82 /* default_photo.txt in Resources */ = {isa = PBXBuildFile; fileRef = 11C8502A282A7EFD00AFAB82 /* default_photo.txt */; };
+		11C8502D282A99D700AFAB82 /* TemplatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C8502C282A99D700AFAB82 /* TemplatePicker.swift */; };
 		11CE717028038ABC004782E5 /* CertificateWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CE716F28038ABC004782E5 /* CertificateWorker.swift */; };
+		11D336EA282EFA5400CD26E0 /* CertificateTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D336E9282EFA5400CD26E0 /* CertificateTemplate.swift */; };
 		11E32C8A2802220B00A540EE /* Proposal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E32C892802220B00A540EE /* Proposal.swift */; };
 		11E32C8C2802243200A540EE /* Marriage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E32C8B2802243200A540EE /* Marriage.swift */; };
 		11E32C8E280224D800A540EE /* DivorceState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E32C8D280224D800A540EE /* DivorceState.swift */; };
@@ -59,7 +87,11 @@
 /* Begin PBXFileReference section */
 		112206F42813679A00AF0315 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		112206F828137A6D00AF0315 /* NotConnectedScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotConnectedScreen.swift; sourceTree = "<group>"; };
-		113977DD28049A5A00D6FD57 /* abi.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = abi.json; sourceTree = "<group>"; };
+		113977DD28049A5A00D6FD57 /* wedding_abi.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = wedding_abi.json; sourceTree = "<group>"; };
+		113F17A9283968B20051E3F1 /* OnboardingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingScreen.swift; sourceTree = "<group>"; };
+		113F17AC28396AE20051E3F1 /* UserDefaultsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWorker.swift; sourceTree = "<group>"; };
+		113F17B0283973A60051E3F1 /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
+		113F17B9283993130051E3F1 /* marediv.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = marediv.ttf; sourceTree = "<group>"; };
 		11481B4C27FA4E9A00439106 /* Web3Worker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Web3Worker.swift; sourceTree = "<group>"; };
 		11481B4E27FA5BA600439106 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		115A657427F218EE001CBCD2 /* MetaWedding.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MetaWedding.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -67,10 +99,8 @@
 		115A657927F218EE001CBCD2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		115A657B27F218F0001CBCD2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		115A657E27F218F0001CBCD2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		115A658627F22B63001CBCD2 /* WalletConnectSwift */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = WalletConnectSwift; path = ../../WalletConnectSwift; sourceTree = "<group>"; };
 		115A658727F22C3D001CBCD2 /* AuthScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthScreen.swift; sourceTree = "<group>"; };
 		115A658B27F22D93001CBCD2 /* WalletConnect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletConnect.swift; sourceTree = "<group>"; };
-		115A658D27F22E2E001CBCD2 /* WalletConnectSwift */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = WalletConnectSwift; path = ../../WalletConnectSwift; sourceTree = "<group>"; };
 		115A659727F253E8001CBCD2 /* GlobalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalViewModel.swift; sourceTree = "<group>"; };
 		115A659927F3CD1B001CBCD2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		117173E7280CE18800C36A44 /* CertificateMeta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificateMeta.swift; sourceTree = "<group>"; };
@@ -85,6 +115,11 @@
 		11A92D7E2814C08F00B98066 /* ConnectedScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectedScreen.swift; sourceTree = "<group>"; };
 		11A92D802814CFB800B98066 /* WrongChainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrongChainScreen.swift; sourceTree = "<group>"; };
 		11AA277F27FE372500BC8BCA /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		11AB967E2832B22200695117 /* ReceivedProposalAccepted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivedProposalAccepted.swift; sourceTree = "<group>"; };
+		11AB96802832B25200695117 /* ReceivedProposalPending.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivedProposalPending.swift; sourceTree = "<group>"; };
+		11AD63C02825292500A91AE0 /* faucet_abi.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = faucet_abi.json; sourceTree = "<group>"; };
+		11B03EA42836DA3700EA0DAE /* AuthoredProposalPending.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthoredProposalPending.swift; sourceTree = "<group>"; };
+		11B03EA62836DB4600EA0DAE /* AuthoredProposalAccepted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthoredProposalAccepted.swift; sourceTree = "<group>"; };
 		11B4C76C2808CD300058A319 /* SwipeRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeRefresh.swift; sourceTree = "<group>"; };
 		11B4C76E2808F2C10058A319 /* HttpRequester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpRequester.swift; sourceTree = "<group>"; };
 		11B4C77028090DEA0058A319 /* NftStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NftStorage.swift; sourceTree = "<group>"; };
@@ -93,7 +128,26 @@
 		11B8CE58280DD38C00B25974 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		11B8CE5A280DF43700B25974 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		11C356CC27FF82D1007A0E69 /* IdentifiableAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifiableAlert.swift; sourceTree = "<group>"; };
+		11C610FC28429DBB0068B1B3 /* OnboardingSoundScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingSoundScreen.swift; sourceTree = "<group>"; };
+		11C610FE2842A33B0068B1B3 /* OnboardingContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingContainer.swift; sourceTree = "<group>"; };
+		11C611002842A8FA0068B1B3 /* w3dding-sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "w3dding-sound.mp3"; sourceTree = "<group>"; };
+		11C61104284303B30068B1B3 /* cert5.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = cert5.html; sourceTree = "<group>"; };
+		11C61105284303B30068B1B3 /* cert7.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = cert7.html; sourceTree = "<group>"; };
+		11C61106284303B40068B1B3 /* cert6.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = cert6.html; sourceTree = "<group>"; };
+		11C61107284303B40068B1B3 /* cert3.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = cert3.html; sourceTree = "<group>"; };
+		11C61108284303B40068B1B3 /* cert9.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = cert9.html; sourceTree = "<group>"; };
+		11C61109284303B40068B1B3 /* cert8.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = cert8.html; sourceTree = "<group>"; };
+		11C6110A284303B50068B1B3 /* cert12.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = cert12.html; sourceTree = "<group>"; };
+		11C6110B284303B50068B1B3 /* cert1.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = cert1.html; sourceTree = "<group>"; };
+		11C6110C284303B50068B1B3 /* cert2.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = cert2.html; sourceTree = "<group>"; };
+		11C6110D284303B50068B1B3 /* cert11.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = cert11.html; sourceTree = "<group>"; };
+		11C6110E284303B50068B1B3 /* cert13.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = cert13.html; sourceTree = "<group>"; };
+		11C6110F284303B50068B1B3 /* cert4.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = cert4.html; sourceTree = "<group>"; };
+		11C61110284303B60068B1B3 /* cert10.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = cert10.html; sourceTree = "<group>"; };
+		11C8502A282A7EFD00AFAB82 /* default_photo.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = default_photo.txt; sourceTree = "<group>"; };
+		11C8502C282A99D700AFAB82 /* TemplatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatePicker.swift; sourceTree = "<group>"; };
 		11CE716F28038ABC004782E5 /* CertificateWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificateWorker.swift; sourceTree = "<group>"; };
+		11D336E9282EFA5400CD26E0 /* CertificateTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificateTemplate.swift; sourceTree = "<group>"; };
 		11E32C892802220B00A540EE /* Proposal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Proposal.swift; sourceTree = "<group>"; };
 		11E32C8B2802243200A540EE /* Marriage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Marriage.swift; sourceTree = "<group>"; };
 		11E32C8D280224D800A540EE /* DivorceState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DivorceState.swift; sourceTree = "<group>"; };
@@ -113,7 +167,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				115A659027F23101001CBCD2 /* WalletConnectSwift in Frameworks */,
+				11BE8CE32855D7000088F261 /* WalletConnectSwift in Frameworks */,
 				11481B4B27FA4DF900439106 /* web3swift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -121,6 +175,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		113F17AB283968B80051E3F1 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				113F17A9283968B20051E3F1 /* OnboardingScreen.swift */,
+				11C610FC28429DBB0068B1B3 /* OnboardingSoundScreen.swift */,
+				11C610FE2842A33B0068B1B3 /* OnboardingContainer.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		113F17B228398C1F0051E3F1 /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				113F17B9283993130051E3F1 /* marediv.ttf */,
+			);
+			path = fonts;
+			sourceTree = "<group>";
+		};
 		115A656B27F218EE001CBCD2 = {
 			isa = PBXGroup;
 			children = (
@@ -142,13 +214,18 @@
 		115A657627F218EE001CBCD2 /* MetaWedding */ = {
 			isa = PBXGroup;
 			children = (
-				113977DD28049A5A00D6FD57 /* abi.json */,
+				113977DD28049A5A00D6FD57 /* wedding_abi.json */,
+				11AD63C02825292500A91AE0 /* faucet_abi.json */,
+				11C611002842A8FA0068B1B3 /* w3dding-sound.mp3 */,
+				11C8502A282A7EFD00AFAB82 /* default_photo.txt */,
 				115A659927F3CD1B001CBCD2 /* Info.plist */,
+				11AD63C42825824F00A91AE0 /* Certificates */,
 				118A951827F925A000798141 /* Util */,
 				11C356CE27FF84E8007A0E69 /* Model */,
 				115A658A27F22D12001CBCD2 /* ViewModel */,
 				115A658927F22CFF001CBCD2 /* View */,
 				115A657727F218EE001CBCD2 /* MetaWeddingApp.swift */,
+				113F17B228398C1F0051E3F1 /* fonts */,
 				115A657927F218EE001CBCD2 /* ContentView.swift */,
 				115A657B27F218F0001CBCD2 /* Assets.xcassets */,
 				115A657D27F218F0001CBCD2 /* Preview Content */,
@@ -167,8 +244,6 @@
 		115A658527F22B63001CBCD2 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				115A658627F22B63001CBCD2 /* WalletConnectSwift */,
-				115A658D27F22E2E001CBCD2 /* WalletConnectSwift */,
 			);
 			name = Packages;
 			sourceTree = "<group>";
@@ -177,10 +252,11 @@
 			isa = PBXGroup;
 			children = (
 				11C356CB27FF82BB007A0E69 /* Components */,
+				113F17AB283968B80051E3F1 /* Onboarding */,
 				11E32C8F2802298C00A540EE /* Auth */,
 				11E32C902802299A00A540EE /* Wedding */,
-				118A952327F935F600798141 /* MainContainer.swift */,
 				11EABE4E281C0BFB003DE322 /* LaunchScreen.storyboard */,
+				118A952327F935F600798141 /* MainContainer.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -191,6 +267,7 @@
 				115A658B27F22D93001CBCD2 /* WalletConnect.swift */,
 				115A659727F253E8001CBCD2 /* GlobalViewModel.swift */,
 				11481B4C27FA4E9A00439106 /* Web3Worker.swift */,
+				113F17B0283973A60051E3F1 /* OnboardingViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -215,8 +292,29 @@
 				11B8CE58280DD38C00B25974 /* Config.swift */,
 				11A484C8280F804600DE5C24 /* BackgroundTasksManager.swift */,
 				112206F42813679A00AF0315 /* Colors.swift */,
+				113F17AC28396AE20051E3F1 /* UserDefaultsWorker.swift */,
 			);
 			path = Util;
+			sourceTree = "<group>";
+		};
+		11AD63C42825824F00A91AE0 /* Certificates */ = {
+			isa = PBXGroup;
+			children = (
+				11C6110B284303B50068B1B3 /* cert1.html */,
+				11C6110C284303B50068B1B3 /* cert2.html */,
+				11C61107284303B40068B1B3 /* cert3.html */,
+				11C6110F284303B50068B1B3 /* cert4.html */,
+				11C61104284303B30068B1B3 /* cert5.html */,
+				11C61106284303B40068B1B3 /* cert6.html */,
+				11C61105284303B30068B1B3 /* cert7.html */,
+				11C61109284303B40068B1B3 /* cert8.html */,
+				11C61108284303B40068B1B3 /* cert9.html */,
+				11C61110284303B60068B1B3 /* cert10.html */,
+				11C6110D284303B50068B1B3 /* cert11.html */,
+				11C6110A284303B50068B1B3 /* cert12.html */,
+				11C6110E284303B50068B1B3 /* cert13.html */,
+			);
+			path = Certificates;
 			sourceTree = "<group>";
 		};
 		11C356CB27FF82BB007A0E69 /* Components */ = {
@@ -241,6 +339,7 @@
 				11E32C8B2802243200A540EE /* Marriage.swift */,
 				11E32C8D280224D800A540EE /* DivorceState.swift */,
 				117173E7280CE18800C36A44 /* CertificateMeta.swift */,
+				11D336E9282EFA5400CD26E0 /* CertificateTemplate.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -274,8 +373,13 @@
 				11E32C9E280236A000A540EE /* ProposalConstructor.swift */,
 				11E32C9528022C4600A540EE /* AuthoredProposalsScreen.swift */,
 				11E32C9C28022D6300A540EE /* AuthoredProposalInfo.swift */,
+				11B03EA62836DB4600EA0DAE /* AuthoredProposalAccepted.swift */,
+				11B03EA42836DA3700EA0DAE /* AuthoredProposalPending.swift */,
 				11E32C9728022C5300A540EE /* ReceivedProposalsScreen.swift */,
 				11E32C9A28022CDA00A540EE /* ReceivedProposalInfo.swift */,
+				11AB967E2832B22200695117 /* ReceivedProposalAccepted.swift */,
+				11AB96802832B25200695117 /* ReceivedProposalPending.swift */,
+				11C8502C282A99D700AFAB82 /* TemplatePicker.swift */,
 			);
 			path = Proposals;
 			sourceTree = "<group>";
@@ -297,8 +401,8 @@
 			);
 			name = MetaWedding;
 			packageProductDependencies = (
-				115A658F27F23101001CBCD2 /* WalletConnectSwift */,
 				11481B4A27FA4DF900439106 /* web3swift */,
+				11BE8CE22855D7000088F261 /* WalletConnectSwift */,
 			);
 			productName = MetaWedding;
 			productReference = 115A657427F218EE001CBCD2 /* MetaWedding.app */;
@@ -330,6 +434,7 @@
 			mainGroup = 115A656B27F218EE001CBCD2;
 			packageReferences = (
 				11481B4927FA4DF900439106 /* XCRemoteSwiftPackageReference "web3swift" */,
+				11BE8CE12855D7000088F261 /* XCRemoteSwiftPackageReference "WalletConnectSwift" */,
 			);
 			productRefGroup = 115A657527F218EE001CBCD2 /* Products */;
 			projectDirPath = "";
@@ -345,10 +450,27 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				113977DE28049A5A00D6FD57 /* abi.json in Resources */,
+				11C61113284303B60068B1B3 /* cert6.html in Resources */,
+				11C6111D284303B60068B1B3 /* cert10.html in Resources */,
+				11C61115284303B60068B1B3 /* cert9.html in Resources */,
+				11AD63C12825292500A91AE0 /* faucet_abi.json in Resources */,
+				11C6111C284303B60068B1B3 /* cert4.html in Resources */,
+				113977DE28049A5A00D6FD57 /* wedding_abi.json in Resources */,
+				11C611012842A8FA0068B1B3 /* w3dding-sound.mp3 in Resources */,
+				11C8502B282A7EFD00AFAB82 /* default_photo.txt in Resources */,
 				11EABE4F281C0BFB003DE322 /* LaunchScreen.storyboard in Resources */,
+				11C61119284303B60068B1B3 /* cert2.html in Resources */,
+				11C61116284303B60068B1B3 /* cert8.html in Resources */,
 				115A657F27F218F0001CBCD2 /* Preview Assets.xcassets in Resources */,
+				11C6111A284303B60068B1B3 /* cert11.html in Resources */,
+				11C61111284303B60068B1B3 /* cert5.html in Resources */,
 				115A657C27F218F0001CBCD2 /* Assets.xcassets in Resources */,
+				11C61112284303B60068B1B3 /* cert7.html in Resources */,
+				11C61118284303B60068B1B3 /* cert1.html in Resources */,
+				11C6111B284303B60068B1B3 /* cert13.html in Resources */,
+				11C61114284303B60068B1B3 /* cert3.html in Resources */,
+				11C61117284303B60068B1B3 /* cert12.html in Resources */,
+				113F17BA283993130051E3F1 /* marediv.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -364,11 +486,15 @@
 				11E32C8C2802243200A540EE /* Marriage.swift in Sources */,
 				11E32C9828022C5300A540EE /* ReceivedProposalsScreen.swift in Sources */,
 				11B4C76D2808CD300058A319 /* SwipeRefresh.swift in Sources */,
+				11D336EA282EFA5400CD26E0 /* CertificateTemplate.swift in Sources */,
 				11A92D812814CFB800B98066 /* WrongChainScreen.swift in Sources */,
 				11CE717028038ABC004782E5 /* CertificateWorker.swift in Sources */,
 				117173E8280CE18800C36A44 /* CertificateMeta.swift in Sources */,
+				11AB967F2832B22200695117 /* ReceivedProposalAccepted.swift in Sources */,
+				11C610FF2842A33B0068B1B3 /* OnboardingContainer.swift in Sources */,
 				11B4C77128090DEA0058A319 /* NftStorage.swift in Sources */,
 				11A484C9280F804600DE5C24 /* BackgroundTasksManager.swift in Sources */,
+				11B03EA72836DB4600EA0DAE /* AuthoredProposalAccepted.swift in Sources */,
 				11C356CD27FF82D1007A0E69 /* IdentifiableAlert.swift in Sources */,
 				118A952427F935F600798141 /* MainContainer.swift in Sources */,
 				112206F928137A6D00AF0315 /* NotConnectedScreen.swift in Sources */,
@@ -376,13 +502,16 @@
 				11E32C9628022C4600A540EE /* AuthoredProposalsScreen.swift in Sources */,
 				11481B4D27FA4E9A00439106 /* Web3Worker.swift in Sources */,
 				11B4C76F2808F2C10058A319 /* HttpRequester.swift in Sources */,
+				113F17AA283968B20051E3F1 /* OnboardingScreen.swift in Sources */,
 				11E32C9F280236A000A540EE /* ProposalConstructor.swift in Sources */,
 				115A658827F22C3D001CBCD2 /* AuthScreen.swift in Sources */,
 				11A92D7D2814AA9300B98066 /* ConnectSheet.swift in Sources */,
+				113F17AD28396AE20051E3F1 /* UserDefaultsWorker.swift in Sources */,
 				11B6336D2804B4BD00745730 /* Tools.swift in Sources */,
 				115A658C27F22D93001CBCD2 /* WalletConnect.swift in Sources */,
 				115A657A27F218EE001CBCD2 /* ContentView.swift in Sources */,
 				115A657827F218EE001CBCD2 /* MetaWeddingApp.swift in Sources */,
+				11AB96812832B25200695117 /* ReceivedProposalPending.swift in Sources */,
 				11B8CE5B280DF43700B25974 /* WebView.swift in Sources */,
 				11AA278027FE372500BC8BCA /* Extensions.swift in Sources */,
 				11E32C9428022BBB00A540EE /* ProposalsScreen.swift in Sources */,
@@ -396,10 +525,14 @@
 				11B6336F2804CCDA00745730 /* TxWorker.swift in Sources */,
 				112206F52813679A00AF0315 /* Colors.swift in Sources */,
 				11B8CE59280DD38C00B25974 /* Config.swift in Sources */,
+				113F17B1283973A60051E3F1 /* OnboardingViewModel.swift in Sources */,
+				11C8502D282A99D700AFAB82 /* TemplatePicker.swift in Sources */,
 				118A951C27F9281E00798141 /* Wallets.swift in Sources */,
 				118A951A27F925AE00798141 /* Constants.swift in Sources */,
+				11C610FD28429DBB0068B1B3 /* OnboardingSoundScreen.swift in Sources */,
 				11A92D7F2814C08F00B98066 /* ConnectedScreen.swift in Sources */,
 				11A92636281A181E00816024 /* WeddingProgress.swift in Sources */,
+				11B03EA52836DA3700EA0DAE /* AuthoredProposalPending.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -528,27 +661,28 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"MetaWedding/Preview Content\"";
-				DEVELOPMENT_TEAM = QP27S8ZPKZ;
+				DEVELOPMENT_TEAM = 7VF24UW9N8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MetaWedding/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = W3dding;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "To use a photo on a certificate";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.crypto.wedding2;
+				MARKETING_VERSION = 1.1.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.crypto.w3dding;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -562,27 +696,28 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"MetaWedding/Preview Content\"";
-				DEVELOPMENT_TEAM = QP27S8ZPKZ;
+				DEVELOPMENT_TEAM = 7VF24UW9N8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MetaWedding/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = W3dding;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "To use a photo on a certificate";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.crypto.wedding2;
+				MARKETING_VERSION = 1.1.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.crypto.w3dding;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -622,6 +757,14 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		11BE8CE12855D7000088F261 /* XCRemoteSwiftPackageReference "WalletConnectSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/penachett/WalletConnectSwift";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -630,8 +773,9 @@
 			package = 11481B4927FA4DF900439106 /* XCRemoteSwiftPackageReference "web3swift" */;
 			productName = web3swift;
 		};
-		115A658F27F23101001CBCD2 /* WalletConnectSwift */ = {
+		11BE8CE22855D7000088F261 /* WalletConnectSwift */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = 11BE8CE12855D7000088F261 /* XCRemoteSwiftPackageReference "WalletConnectSwift" */;
 			productName = WalletConnectSwift;
 		};
 /* End XCSwiftPackageProductDependency section */

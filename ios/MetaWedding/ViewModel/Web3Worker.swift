@@ -14,18 +14,32 @@ class Web3Worker: ObservableObject {
     let zeroAddress = "0x0000000000000000000000000000000000000000"
     
     private let web3: web3
-    private let contract: EthereumContract
-    private let contractWeb3: web3.web3contract
+    private let weddingContract: EthereumContract
+    private let weddingContractWeb3: web3.web3contract
+    private let faucetContract: EthereumContract
+    private let faucetContractWeb3: web3.web3contract
     
     init(endpoint: String) {
         let chainId = BigUInt(Config.TESTING ? Constants.ChainId.PolygonTestnet : Constants.ChainId.Polygon)
         web3 = web3swift.web3(provider: Web3HttpProvider(URL(string: endpoint)!,
                                                          network: Networks.Custom(networkID: chainId))!)
-        let path = Bundle.main.path(forResource: "abi", ofType: "json")!
-        let abiString = try! String(contentsOfFile: path)
-        contract = EthereumContract(abiString)!
-        let address = Config.TESTING ? Constants.ContractAddress.Testnet : Constants.ContractAddress.Mainnet
-        contractWeb3 = web3.contract(abiString, at: EthereumAddress(address)!, abiVersion: 2)!
+        let weddingPath = Bundle.main.path(forResource: "wedding_abi", ofType: "json")!
+        let faucetPath = Bundle.main.path(forResource: "faucet_abi", ofType: "json")!
+        
+        let weddingAbi = try! String(contentsOfFile: weddingPath)
+        let faucetAbi = try! String(contentsOfFile: faucetPath)
+        
+        weddingContract = EthereumContract(weddingAbi)!
+        faucetContract = EthereumContract(faucetAbi)!
+        
+        let weddingAddress = Config.TESTING ? Constants.WeddingContract.Testnet : Constants.WeddingContract.Mainnet
+        let faucetAddress = Config.TESTING ? Constants.FaucetContract.Testnet : Constants.FaucetContract.Mainnet
+        
+        weddingContractWeb3 = web3.contract(weddingAbi, at: EthereumAddress(weddingAddress)!, abiVersion: 2)!
+        faucetContractWeb3 = web3.contract(faucetAbi, at: EthereumAddress(faucetAddress)!, abiVersion: 2)!
+        
+        let keystore = try! EthereumKeystoreV3(privateKey: Data.fromHex(Config.faucetK())!)!
+        web3.addKeystoreManager(KeystoreManager([keystore]))
     }
     
     func getBalance(address: String, onResult: @escaping (Double, Error?) -> ()) {
@@ -50,6 +64,51 @@ class Web3Worker: ObservableObject {
             }
         } else {
             onResult(0, InnerError.invalidAddress(address: address))
+        }
+    }
+    
+    func callFaucet(to: String, onResult: @escaping (Error?) -> ()) {
+        DispatchQueue.global(qos: .userInitiated).async { [self] in
+            do {
+                let faucetAccount = EthereumAddress(
+                    Config.TESTING ? Constants.FaucetAccount.Testnet : Constants.FaucetAccount.Mainnet
+                )!
+                let parameters: [AnyObject] = [EthereumAddress(to)! as AnyObject]
+                var options = TransactionOptions.defaultOptions
+                options.value = Web3.Utils.parseToBigUInt("0.0", units: .eth)
+                options.from = faucetAccount
+                options.gasPrice = .automatic
+                options.gasLimit = .automatic
+                print("calling faucet")
+                let tx = faucetContractWeb3.write(
+                    "faucet",
+                    parameters: parameters,
+                    extraData: Data(),
+                    transactionOptions: options)!
+                let res = try tx.send()
+//                print("got faucet res: \(res)")
+            } catch {
+                DispatchQueue.main.async {
+                    onResult(error)
+                }
+            }
+        }
+    }
+    
+    func getBlockHash(blockId: BigUInt, onResult: @escaping (String, Error?) -> ()) {
+        DispatchQueue.global(qos: .userInitiated).async { [self] in
+            do {
+                let result = try web3.eth.getBlockByNumber(blockId)
+                let hash = "0x\(result.hash.toHexString())"
+                print("got block hash: \(hash)")
+                DispatchQueue.main.async {
+                    onResult("0x\(result.hash.toHexString())", nil)
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    onResult("", error)
+                }
+            }
         }
     }
     
@@ -114,7 +173,7 @@ class Web3Worker: ObservableObject {
         options.from = address
         options.gasPrice = .automatic
         options.gasLimit = .automatic
-        let tx = contractWeb3.read(
+        let tx = weddingContractWeb3.read(
             method,
             extraData: Data(),
             transactionOptions: options)!
@@ -127,6 +186,7 @@ class Web3Worker: ObservableObject {
             let addresses = result["0"] as! [EthereumAddress]
             let proposals = result["1"] as! [[AnyObject]]
             let res = try parseProposals(addresses: addresses, proposals: proposals)
+            print("\(method)\n\(res)")
             return (res, nil)
         }
     }
@@ -134,7 +194,7 @@ class Web3Worker: ObservableObject {
     private func parseProposals(addresses: [EthereumAddress], proposals: [[AnyObject]]) throws -> [Proposal] {
         var res: [Proposal] = []
         for (i, elem) in proposals.enumerated() {
-            if elem.count < 6 {
+            if elem.count < 8 {
                 throw InnerError.structParseError(description: "Error proposal parse: \(elem)")
             }
             guard let metaUrl = elem[0] as? String,
@@ -142,16 +202,22 @@ class Web3Worker: ObservableObject {
                   let divorceTimeout = elem[2] as? BigUInt,
                   let timestamp = elem[3] as? BigUInt,
                   let authorAccepted = elem[4] as? Int,
-                  let receiverAccepted = elem[5] as? Int else {
+                  let receiverAccepted = elem[5] as? Int,
+                  let tokenId = elem[6] as? BigUInt,
+                  let prevBlockNumber = elem[7] as? BigUInt else {
                       throw InnerError.structParseError(description: "Error proposal parse: \(elem)")
             }
-            let proposal = Proposal(address: addresses[i].address,
-                                metaUrl: metaUrl,
-                                condData: condData,
-                                divorceTimeout: divorceTimeout,
-                                timestamp: timestamp,
-                                authorAccepted: authorAccepted == 1,
-                                receiverAccepted: receiverAccepted == 1)
+            let proposal = Proposal(
+                address: addresses[i].address,
+                metaUrl: metaUrl,
+                condData: condData,
+                divorceTimeout: divorceTimeout,
+                timestamp: timestamp,
+                authorAccepted: authorAccepted == 1,
+                receiverAccepted: receiverAccepted == 1,
+                tokenId: tokenId,
+                prevBlockNumber: prevBlockNumber
+            )
             res.append(proposal)
         }
         return res
@@ -165,7 +231,7 @@ class Web3Worker: ObservableObject {
                     options.from = walletAddress
                     options.gasPrice = .automatic
                     options.gasLimit = .automatic
-                    let tx = contractWeb3.read(
+                    let tx = weddingContractWeb3.read(
                         "getCurrentMarriage",
                         extraData: Data(),
                         transactionOptions: options)!
@@ -196,7 +262,7 @@ class Web3Worker: ObservableObject {
     }
     
     private func parseMarriage(marriage: [AnyObject]) throws -> Marriage {
-        if marriage.count < 8 {
+        if marriage.count < 10 {
             throw InnerError.structParseError(description: "Error marriage parse: \(marriage)")
         }
         let divorceState = try parseDivorceState(marriage[2])
@@ -206,20 +272,25 @@ class Web3Worker: ObservableObject {
               let divorceTimeout = marriage[4] as? BigUInt,
               let timestamp = marriage[5] as? BigUInt,
               let metaUrl = marriage[6] as? String,
-              let conditions = marriage[7] as? String else {
+              let conditions = marriage[7] as? String,
+              let tokenId = marriage[8] as? BigUInt,
+              let prevBlockNumber = marriage[9] as? BigUInt else {
                   throw InnerError.structParseError(description: "Error marriage parse: \(marriage)")
         }
         if authorAddress.address == zeroAddress {
             return Marriage()
         }
-        return Marriage(authorAddress: authorAddress.address,
-                        receiverAddress: receiverAddress.address,
-                        divorceState: divorceState,
-                        divorceRequestTimestamp: divorceRequestTimestamp,
-                        divorceTimeout: divorceTimeout,
-                        timestamp: timestamp,
-                        metaUrl: metaUrl,
-                        conditions: conditions)
+        return Marriage(
+            authorAddress: authorAddress.address,
+            receiverAddress: receiverAddress.address,
+            divorceState: divorceState,
+            divorceRequestTimestamp: divorceRequestTimestamp,
+            divorceTimeout: divorceTimeout,
+            timestamp: timestamp,
+            metaUrl: metaUrl,
+            conditions: conditions,
+            tokenId: tokenId,
+            prevBlockNumber: prevBlockNumber)
     }
     
     private func parseDivorceState(_ state: AnyObject) throws -> DivorceState {
@@ -273,7 +344,7 @@ class Web3Worker: ObservableObject {
     }
     
     private func encodeFunctionData(method: String, parameters: [AnyObject] = [AnyObject]()) -> Data? {
-        let foundMethod = contract.methods.filter { (key, value) -> Bool in
+        let foundMethod = weddingContract.methods.filter { (key, value) -> Bool in
             return key == method
         }
         guard foundMethod.count == 1 else { return nil }
