@@ -150,40 +150,49 @@ struct ProposalConstructor: View {
                 WeddingProgress()
                     .padding(.top, 20)
             } else {
-                Button {
-                    guard Tools.isAddressValid(globalViewModel.partnerAddress) else {
-                        globalViewModel.alert = IdentifiableAlert.build(
-                            id: "validation failed",
-                            title: "Validation Failed",
-                            message: "Entered address is not valid. Please enter correct polygon address"
-                        )
-                        return
+                
+                if globalViewModel.connectedAddress == nil || globalViewModel.isAgentAccount {
+                    Button {
+                        guard Tools.isAddressValid(globalViewModel.partnerAddress) else {
+                            globalViewModel.alert = IdentifiableAlert.build(
+                                id: "validation failed",
+                                title: "Validation Failed",
+                                message: "Entered address is not valid. Please enter correct polygon address"
+                            )
+                            return
+                        }
+                        guard !globalViewModel.name.isEmpty else {
+                            globalViewModel.alert = IdentifiableAlert.build(
+                                id: "validation failed",
+                                title: "Validation Failed",
+                                message: "Name can't be empty"
+                            )
+                            return
+                        }
+                        hideKeyboard()
+                        globalViewModel.sendNewProposal(
+                            selfAddress: globalViewModel.walletAccount!,
+                            partnerAddress: globalViewModel.partnerAddress,
+                            selfName: globalViewModel.name,
+                            selfImage: globalViewModel.selfImage)
+                    } label: {
+                        Text("Propose")
+                            .font(.system(size: 17))
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 32)
+                            .padding(.vertical, 16)
+                            .background(Colors.purple)
+                            .cornerRadius(32)
                     }
-                    guard !globalViewModel.name.isEmpty else {
-                        globalViewModel.alert = IdentifiableAlert.build(
-                            id: "validation failed",
-                            title: "Validation Failed",
-                            message: "Name can't be empty"
-                        )
-                        return
-                    }
-                    hideKeyboard()
-                    globalViewModel.sendNewProposal(
-                        selfAddress: globalViewModel.walletAccount!,
-                        partnerAddress: globalViewModel.partnerAddress,
-                        selfName: globalViewModel.name,
-                        selfImage: globalViewModel.selfImage)
-                } label: {
-                    Text("Propose")
-                        .font(.system(size: 17))
+                    .padding(.top, 24)
+                } else {
+                    Text("To make a proposal you need to authorize through wallet")
+                        .font(.system(size: 22))
                         .fontWeight(.bold)
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 32)
-                        .padding(.vertical, 16)
-                        .background(Colors.purple)
-                        .cornerRadius(32)
+                        .foregroundColor(Colors.darkPurple)
+                        .padding(.top, 24)
                 }
-                .padding(.top, 24)
             }
             
             if globalViewModel.isProposalActionPending {

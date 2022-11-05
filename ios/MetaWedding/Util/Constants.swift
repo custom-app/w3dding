@@ -12,7 +12,7 @@ struct Constants {
     static let sessionKey = "sessionKey"
     
     struct Bridges {
-        static let Gnosis = "https://safe-walletconnect.gnosis.io/"
+        static let Gnosis = "https://safe-walletconnect.safe.global"
         static let Wc = "https://bridge.walletconnect.org"
     }
     

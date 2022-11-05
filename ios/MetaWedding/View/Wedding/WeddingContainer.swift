@@ -50,7 +50,7 @@ struct WeddingContainer: View {
                     }
                     Spacer()
                 } else {
-                    if globalViewModel.session != nil {
+                    if globalViewModel.session != nil || globalViewModel.connectedAddress != nil {
                         if globalViewModel.isWrongChain {
                             WrongChainScreen()
                         } else if globalViewModel.allLoaded {

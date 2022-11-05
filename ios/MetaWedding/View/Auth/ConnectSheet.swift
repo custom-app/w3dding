@@ -12,13 +12,12 @@ struct ConnectSheet: View {
     @EnvironmentObject
     var globalViewModel: GlobalViewModel
     
+    @State
+    var showAddressAuthSheet = false
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-//                Image("DefaultBackground")
-//                    .resizable()
-//                    .aspectRatio(contentMode: .fill)
-//                    .edgesIgnoringSafeArea(.all)
                 
                 VStack(spacing: 0) {
                     Rectangle()
@@ -36,7 +35,7 @@ struct ConnectSheet: View {
                     Spacer()
                     
                     ScrollView(showsIndicators: false) {
-                        VStack(spacing: 18) {
+                        VStack(spacing: 15) {
                             ForEach(Wallets.All, id: \.self) { wallet in
                                 Button {
                                     globalViewModel.connect(wallet: wallet)
@@ -65,6 +64,18 @@ struct ConnectSheet: View {
                     
                     Spacer()
                     
+                    Button {
+                        globalViewModel.showConnectSheet = false
+                        globalViewModel.showAddressAuthSheet = true
+                    } label: {
+                        Text("Or you can log in with address")
+                            .font(.system(size: 16))
+                            .fontWeight(.bold)
+                            .underline()
+                            .foregroundColor(Colors.darkPurple)
+                    }
+                    .padding(.bottom, 14)
+                    
                     Image("ic_polygon")
                         .resizable()
                         .scaledToFit()
@@ -77,26 +88,14 @@ struct ConnectSheet: View {
                         .foregroundColor(Colors.darkPurple.opacity(0.65))
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 56)
-                        .padding(.bottom, 18)
+                        .padding(.bottom, 16)
                     
                     Text("*Make sure you have the latest version of the wallet app you are using")
                         .font(.system(size: 13, weight: .bold))
                         .foregroundColor(Colors.darkPurple.opacity(0.65))
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 26)
-                        .padding(.bottom, 12)
-                    
-                    Button {
-                         globalViewModel.showConnectSheet = false
-                     } label: {
-                         Text("Skip for now")
-                             .font(.system(size: 15))
-                             .fontWeight(.bold)
-                             .foregroundColor(Colors.purple)
-                             .multilineTextAlignment(.center)
-                             .padding(.horizontal, 56)
-                             .padding(.bottom, 12)
-                     }
+                        .padding(.bottom, 10)
                 }
                 .frame(width: geometry.size.width)
             }

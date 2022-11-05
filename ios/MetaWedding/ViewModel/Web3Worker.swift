@@ -19,6 +19,9 @@ class Web3Worker: ObservableObject {
     private let faucetContract: EthereumContract
     private let faucetContractWeb3: web3.web3contract
     
+    private let web3Agent: web3
+    private let weddingContractAgent: web3.web3contract
+    
     init(endpoint: String) {
         let chainId = BigUInt(Config.TESTING ? Constants.ChainId.PolygonTestnet : Constants.ChainId.Polygon)
         web3 = web3swift.web3(provider: Web3HttpProvider(URL(string: endpoint)!,
@@ -40,6 +43,12 @@ class Web3Worker: ObservableObject {
         
         let keystore = try! EthereumKeystoreV3(privateKey: Data.fromHex(Config.faucetK())!)!
         web3.addKeystoreManager(KeystoreManager([keystore]))
+        
+        web3Agent = web3swift.web3(provider: Web3HttpProvider(URL(string: endpoint)!,
+                                                         network: Networks.Custom(networkID: chainId))!)
+        let keystoreAgent = try! EthereumKeystoreV3(privateKey: Data.fromHex(Config.agentKey)!)!
+        web3Agent.addKeystoreManager(KeystoreManager([keystore]))
+        weddingContractAgent = web3Agent.contract(weddingAbi, at: EthereumAddress(weddingAddress)!, abiVersion: 2)!
     }
     
     func getBalance(address: String, onResult: @escaping (Double, Error?) -> ()) {
@@ -350,5 +359,87 @@ class Web3Worker: ObservableObject {
         guard foundMethod.count == 1 else { return nil }
         let abiMethod = foundMethod[method]
         return abiMethod?.encodeParameters(parameters)
+    }
+    
+    func proposeAgent(to: String, metaUrl: String, condData: String, onResult: @escaping (Error?) -> ()) {
+        let address = EthereumAddress(to)!
+        DispatchQueue.global(qos: .userInitiated).async { [self] in
+            callMethodByAgent(contract: weddingContractAgent,
+                              method: "propose",
+                              params: [address as AnyObject,
+                                       metaUrl as AnyObject,
+                                       condData as AnyObject],
+                              onResult: onResult)
+        }
+    }
+    
+    func updatePropositionAgent(to: String, metaUrl: String, condData: String, onResult: @escaping (Error?) -> ()) {
+        let address = EthereumAddress(to)!
+        DispatchQueue.global(qos: .userInitiated).async { [self] in
+            callMethodByAgent(contract: weddingContractAgent,
+                              method: "updateProposition",
+                              params: [address as AnyObject,
+                                       metaUrl as AnyObject,
+                                       condData as AnyObject],
+                              onResult: onResult)
+        }
+    }
+    
+    func acceptPropositionAgent(to: String, metaUrl: String, condData: String, onResult: @escaping (Error?) -> ()) {
+        let address = EthereumAddress(to)!
+        let metaUrlHash = Tools.sha256(data: metaUrl.data(using: .utf8)!)
+        let condDataHash = Tools.sha256(data: condData.data(using: .utf8)!)
+        DispatchQueue.global(qos: .userInitiated).async { [self] in
+            callMethodByAgent(contract: weddingContractAgent,
+                              method: "acceptProposition",
+                              params: [address as AnyObject,
+                                       metaUrlHash as AnyObject,
+                                       condDataHash as AnyObject],
+                              onResult: onResult)
+        }
+    }
+    
+    func requestDivorceAgent(onResult: @escaping (Error?) -> ()) {
+        DispatchQueue.global(qos: .userInitiated).async { [self] in
+            callMethodByAgent(contract: weddingContractAgent,
+                              method: "requestDivorce",
+                              params: [],
+                              onResult: onResult)
+        }
+    }
+    
+    func confirmDivorceAgent(onResult: @escaping (Error?) -> ()) {
+        DispatchQueue.global(qos: .userInitiated).async { [self] in
+            callMethodByAgent(contract: weddingContractAgent,
+                              method: "confirmDivorce",
+                              params: [],
+                              onResult: onResult)
+        }
+    }
+    
+    private func callMethodByAgent(contract: web3.web3contract, method: String, params: [AnyObject], onResult: @escaping (Error?) -> ()) {
+        do {
+            let agentAccount = EthereumAddress(Config.agentAddress)!
+            var options = TransactionOptions.defaultOptions
+            options.value = Web3.Utils.parseToBigUInt("0.0", units: .eth)
+            options.from = agentAccount
+            options.gasPrice = .automatic
+            options.gasLimit = .automatic
+            print("calling method by agent: \(method)")
+            let tx = contract.write(
+                method,
+                parameters: params,
+                extraData: Data(),
+                transactionOptions: options)!
+            let res = try tx.send()
+            DispatchQueue.main.async {
+                print(res)
+                onResult(nil)
+            }
+        } catch {
+            DispatchQueue.main.async {
+                onResult(error)
+            }
+        }
     }
 }

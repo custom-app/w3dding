@@ -285,32 +285,40 @@ struct ReceivedProposalPending: View {
                             .padding(.trailing, 30)
                         }
 
-                        Button {
-                            guard !globalViewModel.name.isEmpty else {
-                                globalViewModel.alert = IdentifiableAlert.build(
-                                    id: "validation failed",
-                                    title: "Validation Failed",
-                                    message: "Name can't be empty"
-                                )
-                                return
+                        if globalViewModel.connectedAddress == nil || globalViewModel.isAgentAccount {
+                            Button {
+                                guard !globalViewModel.name.isEmpty else {
+                                    globalViewModel.alert = IdentifiableAlert.build(
+                                        id: "validation failed",
+                                        title: "Validation Failed",
+                                        message: "Name can't be empty"
+                                    )
+                                    return
+                                }
+                                hideKeyboard()
+                                if let properties = proposal.meta?.properties {
+                                    globalViewModel.generateCerificateAndAcceptProposition(proposal: proposal,
+                                                                                           properties: properties,
+                                                                                           name: globalViewModel.name,
+                                                                                           image: globalViewModel.selfImage,
+                                                                                           templateId: globalViewModel.selectedTemplate.id)
+                                }
+                            } label: {
+                                Text("Accept")
+                                    .font(.system(size: 17))
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.white)
+                                    .padding(.horizontal, 32)
+                                    .padding(.vertical, 16)
+                                    .background(Colors.purple)
+                                    .cornerRadius(32)
                             }
-                            hideKeyboard()
-                            if let properties = proposal.meta?.properties {
-                                globalViewModel.generateCerificateAndAcceptProposition(proposal: proposal,
-                                                                                       properties: properties,
-                                                                                       name: globalViewModel.name,
-                                                                                       image: globalViewModel.selfImage,
-                                                                                       templateId: globalViewModel.selectedTemplate.id)
-                            }
-                        } label: {
-                            Text("Accept")
-                                .font(.system(size: 17))
+                        } else {
+                            Text("To accept the proposal you need to authorize through wallet")
+                                .font(.system(size: 22))
                                 .fontWeight(.bold)
-                                .foregroundColor(.white)
-                                .padding(.horizontal, 32)
-                                .padding(.vertical, 16)
-                                .background(Colors.purple)
-                                .cornerRadius(32)
+                                .foregroundColor(Colors.darkPurple)
+                                .padding(.top, 24)
                         }
                         Spacer()
                     }

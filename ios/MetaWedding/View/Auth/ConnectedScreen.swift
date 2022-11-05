@@ -17,7 +17,8 @@ struct ConnectedScreen: View {
         VStack(spacing: 0) {
             
             VStack(alignment: .leading, spacing: 0) {
-                Text("Connected to \(globalViewModel.walletName)")
+                
+                Text(globalViewModel.connectedAddress == nil ? "Connected to \(globalViewModel.walletName)" : "Connected by address")
                     .font(.system(size: 15))
                     .fontWeight(.bold)
                     .foregroundColor(Colors.darkPurple)
@@ -61,7 +62,7 @@ struct ConnectedScreen: View {
             .padding(.horizontal, 32)
             
             
-            if let balance = globalViewModel.balance, balance == 0 {
+            if let balance = globalViewModel.balance, balance == 0 && globalViewModel.connectedAddress == nil {
                 GeometryReader { innerGeometry in
                     ScrollView(showsIndicators: false) {
                         PullToRefreshView(bg: .black.opacity(0), fg: .black) {

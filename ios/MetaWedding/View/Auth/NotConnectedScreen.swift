@@ -65,6 +65,10 @@ struct NotConnectedScreen: View {
             ConnectSheet()
                 .environmentObject(globalViewModel)
         }
+        .sheet(isPresented: $globalViewModel.showAddressAuthSheet) {
+            AddressAuthScreen()
+                .environmentObject(globalViewModel)
+        }
     }
 }
 

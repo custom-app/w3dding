@@ -31,6 +31,8 @@ class GlobalViewModel: ObservableObject {
     @Published
     var showConnectSheet = false
     @Published
+    var showAddressAuthSheet = false
+    @Published
     var selectedMyProposals: Bool = true
     
     @Published
@@ -124,13 +126,23 @@ class GlobalViewModel: ObservableObject {
     @Published
     var showPreviewWebView = false
     
+    @Published
+    var connectedAddress: String? // not nil if authorized throught address
+    @Published
+    var isAgentAccount = false
+    
+    
     var foreverAnimation: Animation {
         Animation.easeInOut(duration: 1.0)
             .repeatForever(autoreverses: false)
     }
 
     var walletAccount: String? {
-        return session?.walletInfo!.accounts[0].lowercased()
+        if let address = connectedAddress {
+            return address
+        } else {
+            return session?.walletInfo!.accounts[0].lowercased()
+        }
     }
     
     var walletName: String {
@@ -179,16 +191,23 @@ class GlobalViewModel: ObservableObject {
     }
     
     func disconnect() {
-        guard let session = session, let walletConnect = walletConnect else { return }
-        try? walletConnect.client?.disconnect(from: session)
-        withAnimation {
-            self.session = nil
+        if connectedAddress != nil {
+            // disconnect if connected by address
+            self.connectedAddress = nil
+        } else {
+            // disconnect if connected by wallet
+            guard let session = session, let walletConnect = walletConnect else { return }
+            try? walletConnect.client?.disconnect(from: session)
+            withAnimation {
+                self.session = nil
+            }
+            UserDefaults.standard.removeObject(forKey: Constants.sessionKey)
         }
-        UserDefaults.standard.removeObject(forKey: Constants.sessionKey)
         isAuthoredProposalsLoaded = false
         isReceivedProposalsLoaded = false
         marriageMeta = nil
         isMarriageLoaded = false
+        isAgentAccount = false
     }
     
     func triggerPendingDeepLink() {
@@ -215,49 +234,89 @@ class GlobalViewModel: ObservableObject {
     }
     
     func propose(to: String, metaUrl: String, condData: String = "") {
-        backgroundManager.finishProposalBackgroundTask()
-        guard let data = web3.proposeData(to: to, metaUrl: metaUrl, condData: condData) else {
-            handleError(InnerError.nilContractMethodData(method: "propose"))
-            return
+        if isAgentAccount {
+            web3.proposeAgent(to: to, metaUrl: metaUrl, condData: condData) { error in
+                if let error = error {
+                    print("err propose: \(error)")
+                }
+            }
+        } else {
+            backgroundManager.finishProposalBackgroundTask()
+            guard let data = web3.proposeData(to: to, metaUrl: metaUrl, condData: condData) else {
+                handleError(InnerError.nilContractMethodData(method: "propose"))
+                return
+            }
+            prepareAndSendTx(data: data, label: proposeId)
         }
-        prepareAndSendTx(data: data, label: proposeId)
     }
     
     func updateProposition(to: String, metaUrl: String, condData: String = "") {
-        guard let data = web3.updatePropositionData(to: to,
-                                                    metaUrl: metaUrl,
-                                                    condData: condData) else {
-            handleError(InnerError.nilContractMethodData(method: "updateProposition"))
-            return
+        if isAgentAccount {
+            web3.updatePropositionAgent(to: to, metaUrl: metaUrl, condData: condData) { error in
+                if let error = error {
+                    print("err update proposition: \(error)")
+                }
+            }
+        } else {
+            guard let data = web3.updatePropositionData(to: to,
+                                                        metaUrl: metaUrl,
+                                                        condData: condData) else {
+                handleError(InnerError.nilContractMethodData(method: "updateProposition"))
+                return
+            }
+            prepareAndSendTx(data: data, label: updateProposalId)
         }
-        prepareAndSendTx(data: data, label: updateProposalId)
         withAnimation {
             self.isProposalActionPending = false
         }
     }
     
     func acceptProposition(to: String, metaUrl: String, condData: String = "") {
-        guard let data = web3.acceptPropositionData(to: to, metaUrl: metaUrl, condData: condData) else {
-            handleError(InnerError.nilContractMethodData(method: "acceptProposition"))
-            return
+        if isAgentAccount {
+            web3.acceptPropositionAgent(to: to, metaUrl: metaUrl, condData: condData) { error in
+                if let error = error {
+                    print("err accept proposition: \(error)")
+                }
+            }
+        } else {
+            guard let data = web3.acceptPropositionData(to: to, metaUrl: metaUrl, condData: condData) else {
+                handleError(InnerError.nilContractMethodData(method: "acceptProposition"))
+                return
+            }
+            prepareAndSendTx(data: data, label: acceptProposalId)
         }
-        prepareAndSendTx(data: data, label: acceptProposalId)
     }
     
     func requestDivorce() {
-        guard let data = web3.requestDivorceData() else {
-            handleError(InnerError.nilContractMethodData(method: "requestDivorce"))
-            return
+        if isAgentAccount {
+            web3.requestDivorceAgent { error in
+                if let error = error {
+                    print("err request divorce: \(error)")
+                }
+            }
+        } else {
+            guard let data = web3.requestDivorceData() else {
+                handleError(InnerError.nilContractMethodData(method: "requestDivorce"))
+                return
+            }
+            prepareAndSendTx(data: data, label: requestDivorceId)
         }
-        prepareAndSendTx(data: data, label: requestDivorceId)
     }
     
     func confirmDivorce() {
-        guard let data = web3.confirmDivorceData() else {
-            handleError(InnerError.nilContractMethodData(method: "confirmDivorce"))
-            return
+        if isAgentAccount {
+            web3.confirmDivorceAgent { error in
+                if let error = error {
+                    print("err confirm divorce: \(error)")
+                }
+            }
+        } else {
+            guard let data = web3.confirmDivorceData() else {
+                handleError(InnerError.nilContractMethodData(method: "confirmDivorce"))
+                return
+            }
+            prepareAndSendTx(data: data, label: confirmDivorceId)
         }
-        prepareAndSendTx(data: data, label: confirmDivorceId)
     }
     
     func prepareAndSendTx(data: String = "", label: String) {
@@ -1142,6 +1201,22 @@ class GlobalViewModel: ObservableObject {
             self.alert = IdentifiableAlert.forError(error: error)
         }
     }
+    
+    //Auth by address logic
+    
+    func authByAddress(_ address: String) {
+        connectedAddress = address.lowercased()
+        if address == Config.agentAddress {
+            isAgentAccount = true
+        }
+        withAnimation {
+            isConnecting = false
+            isReconnecting = false
+        }
+        requestBalance()
+        requestAllInfo()
+    }
+    
 }
 
 extension GlobalViewModel: WalletConnectDelegate {

@@ -48,6 +48,7 @@
 		11B6336F2804CCDA00745730 /* TxWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B6336E2804CCDA00745730 /* TxWorker.swift */; };
 		11B8CE59280DD38C00B25974 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B8CE58280DD38C00B25974 /* Config.swift */; };
 		11B8CE5B280DF43700B25974 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B8CE5A280DF43700B25974 /* WebView.swift */; };
+		11BC6D7D2915CAB100106DD9 /* AddressAuthScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BC6D7C2915CAB100106DD9 /* AddressAuthScreen.swift */; };
 		11BE8CE32855D7000088F261 /* WalletConnectSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 11BE8CE22855D7000088F261 /* WalletConnectSwift */; };
 		11C356CD27FF82D1007A0E69 /* IdentifiableAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C356CC27FF82D1007A0E69 /* IdentifiableAlert.swift */; };
 		11C610FD28429DBB0068B1B3 /* OnboardingSoundScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C610FC28429DBB0068B1B3 /* OnboardingSoundScreen.swift */; };
@@ -127,6 +128,7 @@
 		11B6336E2804CCDA00745730 /* TxWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TxWorker.swift; sourceTree = "<group>"; };
 		11B8CE58280DD38C00B25974 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		11B8CE5A280DF43700B25974 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		11BC6D7C2915CAB100106DD9 /* AddressAuthScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressAuthScreen.swift; sourceTree = "<group>"; };
 		11C356CC27FF82D1007A0E69 /* IdentifiableAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifiableAlert.swift; sourceTree = "<group>"; };
 		11C610FC28429DBB0068B1B3 /* OnboardingSoundScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingSoundScreen.swift; sourceTree = "<group>"; };
 		11C610FE2842A33B0068B1B3 /* OnboardingContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingContainer.swift; sourceTree = "<group>"; };
@@ -352,6 +354,7 @@
 				11A92D7C2814AA9300B98066 /* ConnectSheet.swift */,
 				11A92D7E2814C08F00B98066 /* ConnectedScreen.swift */,
 				11A92D802814CFB800B98066 /* WrongChainScreen.swift */,
+				11BC6D7C2915CAB100106DD9 /* AddressAuthScreen.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -496,6 +499,7 @@
 				11A484C9280F804600DE5C24 /* BackgroundTasksManager.swift in Sources */,
 				11B03EA72836DB4600EA0DAE /* AuthoredProposalAccepted.swift in Sources */,
 				11C356CD27FF82D1007A0E69 /* IdentifiableAlert.swift in Sources */,
+				11BC6D7D2915CAB100106DD9 /* AddressAuthScreen.swift in Sources */,
 				118A952427F935F600798141 /* MainContainer.swift in Sources */,
 				112206F928137A6D00AF0315 /* NotConnectedScreen.swift in Sources */,
 				11E32C8E280224D800A540EE /* DivorceState.swift in Sources */,
@@ -661,7 +665,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_ASSET_PATHS = "\"MetaWedding/Preview Content\"";
 				DEVELOPMENT_TEAM = 7VF24UW9N8;
 				ENABLE_PREVIEWS = YES;
@@ -681,7 +685,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.3;
+				MARKETING_VERSION = 1.1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.crypto.w3dding;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -696,7 +700,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_ASSET_PATHS = "\"MetaWedding/Preview Content\"";
 				DEVELOPMENT_TEAM = 7VF24UW9N8;
 				ENABLE_PREVIEWS = YES;
@@ -716,7 +720,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.3;
+				MARKETING_VERSION = 1.1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.crypto.w3dding;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

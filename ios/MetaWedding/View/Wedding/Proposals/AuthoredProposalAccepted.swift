@@ -87,21 +87,29 @@ struct AuthoredProposalAccepted: View {
                 .padding(.horizontal, 16)
                 
                 if proposal.meta != nil {
-                    Button {
-                        globalViewModel.confirmProposal(to: proposal.address, metaUrl: proposal.metaUrl)
-                    } label: {
-                        Text("MINT!")
-                            .font(.system(size: 17))
+                    if globalViewModel.connectedAddress == nil || globalViewModel.isAgentAccount {
+                        Button {
+                            globalViewModel.confirmProposal(to: proposal.address, metaUrl: proposal.metaUrl)
+                        } label: {
+                            Text("MINT!")
+                                .font(.system(size: 17))
+                                .fontWeight(.bold)
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 44)
+                                .padding(.vertical, 18)
+                                .background(LinearGradient(gradient: Gradient(colors: [Color(hex: "#B20CFC"), Color(hex: "#6E01F0")]),
+                                                           startPoint: .leading,
+                                                           endPoint: .trailing))
+                                .cornerRadius(32)
+                        }
+                        .padding(.top, 24)
+                    } else {
+                        Text("To mint a certificate you need to authorize through wallet")
+                            .font(.system(size: 22))
                             .fontWeight(.bold)
-                            .foregroundColor(.white)
-                            .padding(.horizontal, 44)
-                            .padding(.vertical, 18)
-                            .background(LinearGradient(gradient: Gradient(colors: [Color(hex: "#B20CFC"), Color(hex: "#6E01F0")]),
-                                                       startPoint: .leading,
-                                                       endPoint: .trailing))
-                            .cornerRadius(32)
+                            .foregroundColor(Colors.darkPurple)
+                            .padding(.top, 24)
                     }
-                    .padding(.top, 24)
                 }
                 
                 Text("The best thing in our life is Love")

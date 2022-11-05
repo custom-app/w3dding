@@ -189,23 +189,31 @@ struct MarriageScreen: View {
                                     .foregroundColor(Colors.darkPurple)
                                     .padding(.top, 24)
                                 
-                                Button {
-                                    globalViewModel.confirmDivorce()
-                                } label: {
-                                    Text("Confirm")
-                                        .font(.system(size: 17))
+                                if globalViewModel.connectedAddress == nil || globalViewModel.isAgentAccount {
+                                    Button {
+                                        globalViewModel.confirmDivorce()
+                                    } label: {
+                                        Text("Confirm")
+                                            .font(.system(size: 17))
+                                            .fontWeight(.bold)
+                                            .foregroundColor(Colors.purple)
+                                            .padding(.horizontal, 24)
+                                            .padding(.vertical, 15)
+                                            .background(Color.white.opacity(0.5))
+                                            .cornerRadius(32)
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 32)
+                                                    .stroke(Colors.purple, lineWidth: 2)
+                                            )
+                                    }
+                                    .padding(.top, 24)
+                                } else {
+                                    Text("To confirm the divorce you need to authorize through wallet")
+                                        .font(.system(size: 20))
                                         .fontWeight(.bold)
-                                        .foregroundColor(Colors.purple)
-                                        .padding(.horizontal, 24)
-                                        .padding(.vertical, 15)
-                                        .background(Color.white.opacity(0.5))
-                                        .cornerRadius(32)
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 32)
-                                                .stroke(Colors.purple, lineWidth: 2)
-                                        )
+                                        .foregroundColor(Colors.darkPurple)
+                                        .padding(.top, 24)
                                 }
-                                .padding(.top, 24)
                             } else if (isAuthor && marriage.divorceState == .requestedByAuthor) ||
                                         (!isAuthor && marriage.divorceState == .requestedByReceiver) {
                                 let curTime = Int64((Date().timeIntervalSince1970).rounded())
@@ -225,24 +233,31 @@ struct MarriageScreen: View {
                                         .foregroundColor(Colors.darkPurple)
                                         .multilineTextAlignment(.center)
                                         .padding(.top, 20)
-                                    
-                                    Button {
-                                        globalViewModel.confirmDivorce()
-                                    } label: {
-                                        Text("Divorce")
-                                            .font(.system(size: 17))
+                                    if globalViewModel.connectedAddress == nil || globalViewModel.isAgentAccount {
+                                        Button {
+                                            globalViewModel.confirmDivorce()
+                                        } label: {
+                                            Text("Divorce")
+                                                .font(.system(size: 17))
+                                                .fontWeight(.bold)
+                                                .foregroundColor(Colors.purple)
+                                                .padding(.horizontal, 24)
+                                                .padding(.vertical, 15)
+                                                .background(Color.white.opacity(0.5))
+                                                .cornerRadius(32)
+                                                .overlay(
+                                                    RoundedRectangle(cornerRadius: 32)
+                                                        .stroke(Colors.purple, lineWidth: 2)
+                                                )
+                                        }
+                                        .padding(.top, 20)
+                                    } else {
+                                        Text("To divorce you need to authorize through wallet")
+                                            .font(.system(size: 20))
                                             .fontWeight(.bold)
-                                            .foregroundColor(Colors.purple)
-                                            .padding(.horizontal, 24)
-                                            .padding(.vertical, 15)
-                                            .background(Color.white.opacity(0.5))
-                                            .cornerRadius(32)
-                                            .overlay(
-                                                RoundedRectangle(cornerRadius: 32)
-                                                    .stroke(Colors.purple, lineWidth: 2)
-                                            )
+                                            .foregroundColor(Colors.darkPurple)
+                                            .padding(.top, 24)
                                     }
-                                    .padding(.top, 20)
                                 } else {
                                     Image("ic_warning")
                                         .renderingMode(.template)
